@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class ServiceLocator
 {
@@ -26,17 +27,40 @@ public class ServiceLocator
 
     public void RegisterService<T>(T service)
     {
-        if (service is UnityEngine.Component component && component.transform.root == component.transform)
+        Type serviceType = typeof(T);
+
+        if (services.ContainsKey(serviceType))
         {
-            component.transform.parent = null;
-            UnityEngine.Object.DontDestroyOnLoad(component.gameObject);
-        }
-        else if (service is UnityEngine.GameObject gameObject && gameObject.transform.root == gameObject.transform)
-        {
-            gameObject.transform.parent = null;
-            UnityEngine.Object.DontDestroyOnLoad(gameObject);
+            UnityEngine.Debug.LogWarning($"Service of type {serviceType.Name} is already registered.");
+
+            if (service is UnityEngine.Component existingComponent)
+            {
+                UnityEngine.Object.Destroy(existingComponent.gameObject);
+            }
+            else if (service is UnityEngine.GameObject existingGameObject)
+            {
+                UnityEngine.Object.Destroy(existingGameObject);
+            }
+            return;
         }
 
-        services[typeof(T)] = service;
+        if (service is UnityEngine.Component newComponent)
+        {
+            if (newComponent.transform.parent != null)
+            {
+                newComponent.transform.parent = null;
+                UnityEngine.Object.DontDestroyOnLoad(newComponent.gameObject);
+            }
+        }
+        else if (service is UnityEngine.GameObject newGameObject)
+        {
+            if (newGameObject.transform.parent != null)
+            {
+                newGameObject.transform.parent = null;
+                UnityEngine.Object.DontDestroyOnLoad(newGameObject);
+            }
+        }
+
+        services[serviceType] = service;
     }
 }
