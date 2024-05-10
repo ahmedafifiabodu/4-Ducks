@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService(this);
+        _serviceLocator.RegisterService(this, true);
 
         _playerInput = new InputSystem();
         PlayerActions = _playerInput.Player;
@@ -18,9 +18,5 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable() => _playerInput.Enable();
 
-    private void OnDisable()
-    {
-        _playerInput.Disable();
-        _serviceLocator.GetService<AudioManager>().StopAllAudio();
-    }
+    private void OnDisable() => _playerInput?.Disable();
 }

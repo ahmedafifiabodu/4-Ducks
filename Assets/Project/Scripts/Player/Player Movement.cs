@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -9,54 +11,58 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private int _run = 0;
     private int _jump = 0;
 
+    private Action<InputAction.CallbackContext> _startRunAction;
+    private Action<InputAction.CallbackContext> _stopRunAction;
+    private Action<InputAction.CallbackContext> _jumpAction;
+    private Action<InputAction.CallbackContext> _startMoveAction;
+    private Action<InputAction.CallbackContext> _stopMoveAction;
+
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this);
+        ServiceLocator.Instance.RegisterService(this, false);
     }
 
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
-        _inputManager.PlayerActions.Run.started += _ => StartRun();
-        _inputManager.PlayerActions.Run.canceled += _ => StopRun();
 
-        _inputManager.PlayerActions.Jump.performed += _ => Jump();
+        _startRunAction = _ => StartRun();
+        _inputManager.PlayerActions.Run.started += _startRunAction;
 
-        _inputManager.PlayerActions.Move.started += ctx =>
+        _stopRunAction = _ => StopRun();
+        _inputManager.PlayerActions.Run.canceled += _stopRunAction;
+
+        _jumpAction = _ => Jump();
+        _inputManager.PlayerActions.Jump.performed += _jumpAction;
+
+        _startMoveAction = ctx =>
         {
             if (_moveCoroutine != null)
                 StopCoroutine(_moveCoroutine);
 
-            _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
+            if (this != null)
+                _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
         };
+        _inputManager.PlayerActions.Move.started += _startMoveAction;
 
-        _inputManager.PlayerActions.Move.canceled += _ =>
+        _stopMoveAction = _ =>
         {
             if (_moveCoroutine != null)
                 StopCoroutine(_moveCoroutine);
         };
+        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _inputManager.PlayerActions.Run.started -= _ => StartRun();
-        _inputManager.PlayerActions.Run.canceled -= _ => StopRun();
+        _inputManager.PlayerActions.Run.started -= _startRunAction;
+        _inputManager.PlayerActions.Run.canceled -= _stopRunAction;
+        _inputManager.PlayerActions.Jump.performed -= _jumpAction;
+        _inputManager.PlayerActions.Move.started -= _startMoveAction;
+        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
 
-        _inputManager.PlayerActions.Jump.performed -= _ => Jump();
-
-        _inputManager.PlayerActions.Move.started -= ctx =>
-        {
-            if (_moveCoroutine != null)
-                StopCoroutine(_moveCoroutine);
-
-            _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
-        };
-
-        _inputManager.PlayerActions.Move.canceled -= _ =>
-        {
-            if (_moveCoroutine != null)
-                StopCoroutine(_moveCoroutine);
-        };
+        if (_moveCoroutine != null)
+            StopCoroutine(_moveCoroutine);
     }
 
     private System.Collections.IEnumerator ContinuousMove(Vector2 _input)

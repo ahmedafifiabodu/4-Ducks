@@ -130,6 +130,7 @@ public class DataPersistenceManager : MonoBehaviour
     private void OnSceneLoaded(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         _dataPersistenceObjects = FindAllDataPersistenceObjects();
+
         LoadGame();
 
         if (_autoSaveCoroutine != null)
@@ -146,7 +147,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this);
+        ServiceLocator.Instance.RegisterService(this, true);
 
         if (_disableDataPersistence)
             Logging.LogWarning("Data Persistence is disabled.");

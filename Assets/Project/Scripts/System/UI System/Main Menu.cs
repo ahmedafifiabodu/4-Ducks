@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class HasGameStarted : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button _continueGame;
     [SerializeField] private Button _newGame;
@@ -15,11 +16,26 @@ public class HasGameStarted : MonoBehaviour
         DisableButtonsDependingOnData();
     }
 
-    public void DisableButtonsDependingOnData()
+    private void DisableButtonsDependingOnData()
     {
         bool _hasGameStarted = _serviceLocator.GetService<DataPersistenceManager>().HasGameStarted();
 
         _continueGame.interactable = _hasGameStarted;
         _loadGame.interactable = _hasGameStarted;
     }
+
+    /*public void OnNewGameClicked()
+{
+    _serviceLocator.GetService<DataPersistenceManager>().NewGame();
+
+    SceneManager.LoadSceneAsync(1);
+}*/
+
+    public void OnContiuneGameClicked()
+    {
+        _serviceLocator.GetService<DataPersistenceManager>().SaveGame();
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void OnExitClicked() => Application.Quit();
 }

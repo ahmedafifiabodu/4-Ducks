@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this);
+        ServiceLocator.Instance.RegisterService(this, true);
 
         _masterVolume.volume = PlayerPrefs.GetFloat("MasterVolume", 1);
         _musicSource.volume = PlayerPrefs.GetFloat("MusicVolume", 1);

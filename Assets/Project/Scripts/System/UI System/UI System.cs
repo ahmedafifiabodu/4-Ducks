@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class UISystem : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class UISystem : MonoBehaviour
     private void Start()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService(this);
+        _serviceLocator.RegisterService(this, true);
     }
 
     #region Interaction UI
@@ -28,23 +27,4 @@ public class UISystem : MonoBehaviour
     internal void DisablePromptText() => _prompt.SetActive(false);
 
     #endregion Interaction UI
-
-    #region Main Menu
-
-    /*public void OnNewGameClicked()
-    {
-        _serviceLocator.GetService<DataPersistenceManager>().NewGame();
-
-        SceneManager.LoadSceneAsync(1);
-    }*/
-
-    public void OnContiuneGameClicked()
-    {
-        _serviceLocator.GetService<DataPersistenceManager>().SaveGame();
-        SceneManager.LoadSceneAsync(1);
-    }
-
-    public void OnExitClicked() => Application.Quit();
-
-    #endregion Main Menu
 }

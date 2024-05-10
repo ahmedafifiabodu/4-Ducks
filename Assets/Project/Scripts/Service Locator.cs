@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ServiceLocator
 {
-    private readonly IDictionary<object, object> services = new Dictionary<object, object>();
+    private readonly IDictionary<object, (object service, bool dontDestroyOnLoad)> services = new Dictionary<object, (object service, bool dontDestroyOnLoad)>();
 
     private static ServiceLocator _instance;
 
@@ -18,13 +18,13 @@ public class ServiceLocator
 
     public T GetService<T>()
     {
-        if (services.TryGetValue(typeof(T), out var service))
-            return (T)service;
+        if (services.TryGetValue(typeof(T), out var serviceTuple))
+            return (T)serviceTuple.service;
         else
             throw new ApplicationException("The requested service is not registered");
     }
 
-    public void RegisterService<T>(T service)
+    public void RegisterService<T>(T service, bool dontDestroyOnLoad)
     {
         Type serviceType = typeof(T);
 
@@ -44,7 +44,9 @@ public class ServiceLocator
             if (newComponent.transform.parent != null)
             {
                 newComponent.transform.parent = null;
-                UnityEngine.Object.DontDestroyOnLoad(newComponent.gameObject);
+
+                if (dontDestroyOnLoad)
+                    UnityEngine.Object.DontDestroyOnLoad(newComponent.gameObject);
             }
         }
         else if (service is UnityEngine.GameObject newGameObject)
@@ -52,10 +54,23 @@ public class ServiceLocator
             if (newGameObject.transform.parent != null)
             {
                 newGameObject.transform.parent = null;
-                UnityEngine.Object.DontDestroyOnLoad(newGameObject);
+
+                if (dontDestroyOnLoad)
+                    UnityEngine.Object.DontDestroyOnLoad(newGameObject);
             }
         }
 
-        services[serviceType] = service;
+        services[typeof(T)] = (service, dontDestroyOnLoad);
     }
+
+    private void UnregisterNonPersistentServices()
+    {
+        foreach (var service in new List<object>(services.Keys))
+        {
+            if (!services[service].dontDestroyOnLoad)
+                services.Remove(service);
+        }
+    }
+
+    private ServiceLocator() => UnityEngine.SceneManagement.SceneManager.sceneUnloaded += scene => UnregisterNonPersistentServices();
 }

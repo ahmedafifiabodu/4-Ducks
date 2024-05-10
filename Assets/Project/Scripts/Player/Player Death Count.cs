@@ -40,7 +40,7 @@ public class PlayerDeathCount : MonoBehaviour, IDataPersistence
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadSceneAsync("0");
+            SceneManager.LoadSceneAsync(0);
         }
     }
 }
