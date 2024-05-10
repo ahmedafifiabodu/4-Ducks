@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 public class ServiceLocator
 {
@@ -31,16 +30,12 @@ public class ServiceLocator
 
         if (services.ContainsKey(serviceType))
         {
-            UnityEngine.Debug.LogWarning($"Service of type {serviceType.Name} is already registered.");
+            Logging.LogWarning($"Service of type {serviceType.Name} is already registered.");
 
             if (service is UnityEngine.Component existingComponent)
-            {
                 UnityEngine.Object.Destroy(existingComponent.gameObject);
-            }
             else if (service is UnityEngine.GameObject existingGameObject)
-            {
                 UnityEngine.Object.Destroy(existingGameObject);
-            }
             return;
         }
 

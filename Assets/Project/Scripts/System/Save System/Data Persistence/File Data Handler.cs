@@ -44,7 +44,7 @@ public class FileDataHandler
             {
                 if (_allowRestoreFromBackup)
                 {
-                    Debug.LogWarning("Failed to load data file. Attempting to roll back. \n" + e);
+                    Logging.LogWarning("Failed to load data file. Attempting to roll back. \n" + e);
 
                     bool _rollbackSuccess = AttemptRollback(_fullPath);
                     if (_rollbackSuccess)
@@ -52,7 +52,7 @@ public class FileDataHandler
                 }
                 else
                 {
-                    Debug.LogError("Error loading file: " + _fullPath + " - " + e.Message);
+                    Logging.LogError("Error loading file: " + _fullPath + " - " + e.Message);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class FileDataHandler
         }
         catch (Exception e)
         {
-            Debug.LogError("Error saving file: " + _fullPath + " - " + e.Message);
+            Logging.LogError("Error saving file: " + _fullPath + " - " + e.Message);
         }
     }
 
@@ -106,11 +106,11 @@ public class FileDataHandler
             if (File.Exists(_fullPath))
                 Directory.Delete(Path.GetDirectoryName(_fullPath), true);
             else
-                Debug.LogWarning("No save data found for profile: " + _profileID);
+                Logging.LogWarning("No save data found for profile: " + _profileID);
         }
         catch (Exception e)
         {
-            Debug.LogError("Error deleting file: " + _fullPath + " - " + e.Message);
+            Logging.LogError("Error deleting file: " + _fullPath + " - " + e.Message);
         }
     }
 
@@ -137,7 +137,7 @@ public class FileDataHandler
 
             if (!File.Exists(_fullPath))
             {
-                Debug.LogWarning("No save data found for profile: " + _profileName);
+                Logging.LogWarning("No save data found for profile: " + _profileName);
                 continue;
             }
 
@@ -146,7 +146,7 @@ public class FileDataHandler
             if (_loadData != null)
                 _allProfileData.Add(_profileName, _loadData);
             else
-                Debug.LogError("Error loading save data for profile: " + _profileName);
+                Logging.LogError("Error loading save data for profile: " + _profileName);
         }
 
         return _allProfileData;
@@ -193,7 +193,7 @@ public class FileDataHandler
             {
                 File.Copy(_backupPath, _fullPath, true);
                 _scucess = true;
-                Debug.LogWarning("Rollback successful for file: " + _fullPath);
+                Logging.LogWarning("Rollback successful for file: " + _fullPath);
             }
             else
             {
@@ -202,7 +202,7 @@ public class FileDataHandler
         }
         catch (Exception e)
         {
-            Debug.LogError("Error rolling back file: " + _fullPath + " - " + e.Message);
+            Logging.LogError("Error rolling back file: " + _fullPath + " - " + e.Message);
         }
 
         return _scucess;

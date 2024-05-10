@@ -19,7 +19,8 @@ public abstract class Interactable : MonoBehaviour
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
 
-    public Material[] OriginalMaterials { get; set; }
+    internal Material[] OriginalMaterials { get; private set; }
+    internal Material[] MaterialsWithOutline { get; private set; }
 
     protected virtual string OnLook() => _promptMessage;
 
@@ -51,6 +52,35 @@ public abstract class Interactable : MonoBehaviour
         gameObject.layer = _interactableLayerMask;
     }
 
+    internal void Initialize(Material outlineMaterial)
+    {
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer != null)
+            {
+                OriginalMaterials = renderer.sharedMaterials;
+
+                MaterialsWithOutline = new Material[renderer.sharedMaterials.Length + 1];
+                renderer.sharedMaterials.CopyTo(MaterialsWithOutline, 0);
+                MaterialsWithOutline[^1] = outlineMaterial;
+            }
+        }
+    }
+
+    internal void ApplyOutline()
+    {
+        if (TryGetComponent<Renderer>(out var renderer))
+            renderer.sharedMaterials = MaterialsWithOutline;
+    }
+
+    internal void RemoveOutline()
+    {
+        if (TryGetComponent<Renderer>(out var renderer))
+            renderer.sharedMaterials = OriginalMaterials;
+    }
+
     internal void BaseInteract()
     {
         if (_useEvents)
@@ -62,5 +92,5 @@ public abstract class Interactable : MonoBehaviour
             Interact();
     }
 
-    protected virtual void Interact() => Debug.Log($"(Virtual) Interacting with {gameObject.name}");
+    protected virtual void Interact() => Logging.Log($"(Virtual) Interacting with {gameObject.name}");
 }

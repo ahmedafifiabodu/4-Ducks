@@ -39,6 +39,6 @@ public class AudioManager : MonoBehaviour
         if (_masterVolume != null)
             _masterVolume.Stop();
         else
-            Debug.LogWarning("Master volume AudioSource is null");
+            Logging.LogWarning("Master volume AudioSource is null");
     }
 }
