@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
+    private InputManager _inputManager;
+    private Coroutine _moveCoroutine;
+
     private int _move = 0;
     private int _run = 0;
     private int _jump = 0;
@@ -11,27 +14,75 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         ServiceLocator.Instance.RegisterService(this);
     }
 
-    internal void Move(Vector3 _input)
+    private void Start()
     {
-        _move++;
-        Debug.Log("Moving");
+        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        _inputManager.PlayerActions.Run.started += _ => StartRun();
+        _inputManager.PlayerActions.Run.canceled += _ => StopRun();
+
+        _inputManager.PlayerActions.Jump.performed += _ => Jump();
+
+        _inputManager.PlayerActions.Move.started += ctx =>
+        {
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
+
+            _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
+        };
+
+        _inputManager.PlayerActions.Move.canceled += _ =>
+        {
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
+        };
+    }
+
+    private void OnDestroy()
+    {
+        _inputManager.PlayerActions.Run.started -= _ => StartRun();
+        _inputManager.PlayerActions.Run.canceled -= _ => StopRun();
+
+        _inputManager.PlayerActions.Jump.performed -= _ => Jump();
+
+        _inputManager.PlayerActions.Move.started -= ctx =>
+        {
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
+
+            _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
+        };
+
+        _inputManager.PlayerActions.Move.canceled -= _ =>
+        {
+            if (_moveCoroutine != null)
+                StopCoroutine(_moveCoroutine);
+        };
+    }
+
+    private System.Collections.IEnumerator ContinuousMove(Vector2 _input)
+    {
+        while (true)
+        {
+            Logging.Log("Moving");
+            yield return null;
+        }
     }
 
     internal void StartRun()
     {
         _run++;
-        Debug.Log("Start Running");
+        Logging.Log("Start Running");
     }
 
     internal void StopRun()
     {
-        Debug.Log("Stop Running");
+        Logging.Log("Stop Running");
     }
 
     internal void Jump()
     {
         _jump++;
-        Debug.Log("Jumping");
+        Logging.Log("Jumping");
     }
 
     public void LoadGame(GameData _gameData)

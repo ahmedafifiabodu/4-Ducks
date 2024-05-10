@@ -23,13 +23,61 @@ public class PlayerInteract : MonoBehaviour
         _audioManager = serviceLocator.GetService<AudioManager>();
 
         _playerUI.DisablePromptText();
+
+        _inputManager.PlayerActions.Interact.performed += _ => StartInteraction();
     }
 
-    private void Update()
+    private void OnDestroy() => _inputManager.PlayerActions.Interact.performed -= _ => StartInteraction();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & _interactableLayerMask) != 0)
+        {
+            if (other.TryGetComponent<Interactable>(out var _interactable))
+            {
+                _interactable.Initialize(_outLineMaterial);
+                _interactable.ApplyOutline();
+            }
+
+            currentInteractable = _interactable;
+
+            if (!_interactable.AutoInteract)
+            {
+                _playerUI.UpdatePromptText(_interactable.PromptMessage);
+                StartInteraction();
+            }
+            else
+                StartInteraction();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (((1 << other.gameObject.layer) & _interactableLayerMask) != 0)
+        {
+            hasPlayedInteractSFX = false;
+            SetCurrentInteractableToNull();
+        }
+    }
+
+    public void SetCurrentInteractableToNull()
+    {
+        if (currentInteractable == null)
+            return;
+
+        currentInteractable.RemoveOutline();
+
+        _playerUI.DisablePromptText();
+        currentInteractable = null;
+    }
+
+    private void StartInteraction()
     {
         if (currentInteractable != null)
         {
-            if (currentInteractable.AutoInteract)
+            bool shouldInteract = currentInteractable.AutoInteract || _inputManager.PlayerActions.Interact.triggered;
+
+            if (shouldInteract)
             {
                 if (!hasPlayedInteractSFX)
                 {
@@ -39,77 +87,6 @@ public class PlayerInteract : MonoBehaviour
 
                 currentInteractable.BaseInteract();
             }
-            else
-            {
-                if (_inputManager.PlayerActions.Interact.triggered)
-                {
-                    if (!hasPlayedInteractSFX)
-                    {
-                        _audioManager.PlaySFX(_audioManager._interact);
-                        hasPlayedInteractSFX = true;
-                    }
-
-                    currentInteractable.BaseInteract();
-                }
-            }
         }
-        else
-            hasPlayedInteractSFX = false;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (((1 << other.gameObject.layer) & _interactableLayerMask) != 0)
-        {
-            if (other.TryGetComponent<Interactable>(out var _interactable))
-            {
-                Renderer[] renderers = other.GetComponentsInChildren<Renderer>();
-
-                foreach (Renderer renderer in renderers)
-                {
-                    if (renderer != null)
-                    {
-                        _interactable.OriginalMaterials = renderer.materials;
-
-                        Material[] materialsWithOutline = new Material[renderer.materials.Length + 1];
-                        renderer.materials.CopyTo(materialsWithOutline, 0);
-                        materialsWithOutline[^1] = _outLineMaterial;
-
-                        renderer.materials = materialsWithOutline;
-                    }
-                }
-            }
-
-            if (!_interactable.AutoInteract)
-            {
-                _playerUI.UpdatePromptText(_interactable.PromptMessage);
-                currentInteractable = _interactable;
-            }
-            else
-                currentInteractable = _interactable;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (((1 << other.gameObject.layer) & _interactableLayerMask) != 0)
-            SetCurrentInteractableToNull();
-    }
-
-    public void SetCurrentInteractableToNull()
-    {
-        if (currentInteractable == null)
-            return;
-
-        Renderer[] renderers = currentInteractable.GetComponentsInChildren<Renderer>();
-
-        foreach (Renderer renderer in renderers)
-        {
-            if (renderer != null)
-                renderer.materials = currentInteractable.OriginalMaterials;
-        }
-
-        _playerUI.DisablePromptText();
-        currentInteractable = null;
     }
 }

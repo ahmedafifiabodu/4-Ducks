@@ -34,10 +34,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     #region Save and Load System
 
-    public void NewGame()
-    {
-        _gameData = new GameData();
-    }
+    public void NewGame() => _gameData = new GameData();
 
     public void LoadGame()
     {
@@ -51,7 +48,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         if (_gameData == null)
         {
-            Debug.LogWarning("No save data found.");
+            Logging.LogWarning("No save data found.");
             return;
         }
 
@@ -66,7 +63,7 @@ public class DataPersistenceManager : MonoBehaviour
 
         if (_gameData == null)
         {
-            Debug.LogWarning("No save data found.");
+            Logging.LogWarning("No save data found.");
             return;
         }
 
@@ -114,7 +111,7 @@ public class DataPersistenceManager : MonoBehaviour
         if (_overwriteSelectedProfile)
         {
             _selectedProfileID = _overwriteSelectedProfileID;
-            Debug.LogWarning("Overwriting selected profile with: " + _selectedProfileID);
+            Logging.LogWarning("Overwriting selected profile with: " + _selectedProfileID);
         }
     }
 
@@ -124,7 +121,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             yield return new WaitForSeconds(_autoSaveTimeInSeconds);
             SaveGame();
-            Debug.Log("Auto Save The Game");
+            Logging.Log("Auto Save The Game");
         }
     }
 
@@ -152,7 +149,7 @@ public class DataPersistenceManager : MonoBehaviour
         ServiceLocator.Instance.RegisterService(this);
 
         if (_disableDataPersistence)
-            Debug.LogWarning("Data Persistence is disabled.");
+            Logging.LogWarning("Data Persistence is disabled.");
 
         _fileDataHandler = new FileDataHandler(Application.persistentDataPath, _fileName, _useEncryption);
 
