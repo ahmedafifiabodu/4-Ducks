@@ -1,3 +1,6 @@
+using Fungus;
+using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
@@ -49,6 +52,11 @@ public class PlayerInteract : MonoBehaviour
             else
                 StartInteraction();
         }
+
+    }
+
+    void Test()
+    {
     }
 
     private void OnTriggerExit(Collider other)
