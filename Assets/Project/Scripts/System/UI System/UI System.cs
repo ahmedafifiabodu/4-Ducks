@@ -8,9 +8,12 @@ public class UISystem : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _promptText;
 
+    [Header("Debugging")]
+    [SerializeField] internal TextMeshProUGUI _deathCountText;
+
     private ServiceLocator _serviceLocator;
 
-    private void Start()
+    private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
         _serviceLocator.RegisterService(this, true);
