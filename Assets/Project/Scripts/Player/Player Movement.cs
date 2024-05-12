@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
+    #region Parameters 
     private InputManager _inputManager;
     private Coroutine _moveCoroutine;
 
@@ -13,14 +14,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private int _run = 0;
     private int _jump = 0;
 
-    private Action<InputAction.CallbackContext> _startRunAction;
-    private Action<InputAction.CallbackContext> _stopRunAction;
     private Action<InputAction.CallbackContext> _jumpAction;
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
     public Rigidbody rb;
     [SerializeField] private float Speed = 5f;
+
+    //Animation 
+    private Animator _animator;
+    int RunAnimationId;
+    Vector2 _currentAnimation;
+    Vector2 _AnimationVelocity;
+
+    #endregion
 
     private void Awake()
     {
@@ -31,12 +38,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
-        _startRunAction = _ => StartRun();
-        _inputManager.PlayerActions.Run.started += _startRunAction;
-
-        _stopRunAction = _ => StopRun();
-        _inputManager.PlayerActions.Run.canceled += _stopRunAction;
-
         _jumpAction = _ => Jump();
         _inputManager.PlayerActions.Jump.performed += _jumpAction;
 
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             if (_moveCoroutine != null)
             {
+                
                 StopCoroutine(_moveCoroutine);
             }
             if (this != null)
@@ -56,21 +58,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             if (_moveCoroutine != null)
             {
                 StopCoroutine(_moveCoroutine);
+                _currentAnimation = Vector2.SmoothDamp(_currentAnimation, Vector2.zero, ref _AnimationVelocity, 0.1f);
+                _animator.SetFloat(RunAnimationId, _currentAnimation.y);
+                //_animator.SetFloat(RunAnimationId, 0f);
                 rb.velocity = Vector3.zero;
             }
 
             };
         _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+
+        //Animation
+        _animator = GetComponent<Animator>();
+        RunAnimationId = Animator.StringToHash(GameConstant.Animation.IsRunning);
     }
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Run.started -= _startRunAction;
-        _inputManager.PlayerActions.Run.canceled -= _stopRunAction;
         _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
-
         if (_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);
     }
@@ -79,21 +85,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         while (true)
         {
-            rb.velocity = new Vector3(_input.x * Speed, 0f, _input.y * Speed);
+            _currentAnimation = Vector2.SmoothDamp(_currentAnimation, _input, ref _AnimationVelocity, 0.1f);
+            rb.velocity = new Vector3(_currentAnimation.x * Speed, 0f, _currentAnimation.y * Speed);
             Logging.Log("Moving");
+
+            _animator.SetFloat(RunAnimationId, _currentAnimation.y);
             yield return null;
         }
-    }
-
-    internal void StartRun()
-    {
-        _run++;
-        Logging.Log("Start Running");
-    }
-
-    internal void StopRun()
-    {
-        Logging.Log("Stop Running");
     }
 
     internal void Jump()
