@@ -79,10 +79,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ae5bb554458bfddf28b22acac5b4ef8e110db3a
         _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
@@ -100,7 +96,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             yield return null;
         }
     }
-<<<<<<< HEAD
 
     private System.Collections.IEnumerator StartRunAnimation()
     {
@@ -136,8 +131,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationId, 0);
     }
 
-=======
->>>>>>> 3ae5bb554458bfddf28b22acac5b4ef8e110db3a
     internal void Jump()
     {
         if (isGrounded)
