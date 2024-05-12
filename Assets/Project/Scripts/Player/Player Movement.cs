@@ -1,3 +1,4 @@
+using Fungus;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,8 +18,15 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
+    [Header("Movement")]
     public Rigidbody rb;
     [SerializeField] private float Speed = 5f;
+    private Vector3 forceDirection = Vector3.zero;
+
+    [Header("Jump")]
+    private bool isGrounded =true;
+    [SerializeField] private float jumpForce = 5f;
+
 
     //Animation
     private Animator _animator;
@@ -71,6 +79,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ae5bb554458bfddf28b22acac5b4ef8e110db3a
         _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
@@ -88,6 +100,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             yield return null;
         }
     }
+<<<<<<< HEAD
 
     private System.Collections.IEnumerator StartRunAnimation()
     {
@@ -123,11 +136,25 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationId, 0);
     }
 
+=======
+>>>>>>> 3ae5bb554458bfddf28b22acac5b4ef8e110db3a
     internal void Jump()
     {
-        _jump++;
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
         Logging.Log("Jumping");
     }
+    private void OnCollisionEnter(UnityEngine.Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
 
     public void LoadGame(GameData _gameData)
     {
