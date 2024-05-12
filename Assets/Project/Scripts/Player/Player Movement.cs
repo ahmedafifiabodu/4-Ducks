@@ -1,5 +1,7 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
@@ -16,6 +18,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Action<InputAction.CallbackContext> _jumpAction;
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
+
+    public Rigidbody rb;
+    [SerializeField] private float Speed = 5f;
 
     private void Awake()
     {
@@ -38,18 +43,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _startMoveAction = ctx =>
         {
             if (_moveCoroutine != null)
+            {
                 StopCoroutine(_moveCoroutine);
-
+            }
             if (this != null)
-                _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>()));
+                _moveCoroutine = StartCoroutine(ContinuousMove(ctx.ReadValue<Vector2>().normalized));
         };
         _inputManager.PlayerActions.Move.started += _startMoveAction;
 
         _stopMoveAction = _ =>
         {
             if (_moveCoroutine != null)
+            {
                 StopCoroutine(_moveCoroutine);
-        };
+                rb.velocity = Vector3.zero;
+            }
+
+            };
         _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
     }
 
@@ -69,6 +79,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         while (true)
         {
+            rb.velocity = new Vector3(_input.x * Speed, 0f, _input.y * Speed);
             Logging.Log("Moving");
             yield return null;
         }
