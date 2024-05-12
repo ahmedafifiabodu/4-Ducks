@@ -1,3 +1,4 @@
+using Fungus;
 using System;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -13,14 +14,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private int _run = 0;
     private int _jump = 0;
 
-    private Action<InputAction.CallbackContext> _startRunAction;
-    private Action<InputAction.CallbackContext> _stopRunAction;
     private Action<InputAction.CallbackContext> _jumpAction;
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
+    [Header("Movement")]
     public Rigidbody rb;
     [SerializeField] private float Speed = 5f;
+    private Vector3 forceDirection = Vector3.zero;
+
+    [Header("Jump")]
+    private bool isGrounded =true;
+    [SerializeField] private float jumpForce = 5f;
+
 
     private void Awake()
     {
@@ -30,12 +36,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
-
-        _startRunAction = _ => StartRun();
-        _inputManager.PlayerActions.Run.started += _startRunAction;
-
-        _stopRunAction = _ => StopRun();
-        _inputManager.PlayerActions.Run.canceled += _stopRunAction;
 
         _jumpAction = _ => Jump();
         _inputManager.PlayerActions.Jump.performed += _jumpAction;
@@ -65,8 +65,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Run.started -= _startRunAction;
-        _inputManager.PlayerActions.Run.canceled -= _stopRunAction;
+
         _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
@@ -84,23 +83,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             yield return null;
         }
     }
-
-    internal void StartRun()
-    {
-        _run++;
-        Logging.Log("Start Running");
-    }
-
-    internal void StopRun()
-    {
-        Logging.Log("Stop Running");
-    }
-
     internal void Jump()
     {
-        _jump++;
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
         Logging.Log("Jumping");
     }
+    private void OnCollisionEnter(UnityEngine.Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
 
     public void LoadGame(GameData _gameData)
     {
