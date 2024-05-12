@@ -4,16 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour
 {
-    [SerializeField]
-    private List<Level> levels = new();
+    [SerializeField] private List<Level> levels = new();
 
     private int currentLevel = 1;
     private List<string> levelScenes;
 
-    private void Awake()
-    {
-        ServiceLocator.Instance.RegisterService(this, true);
-    }
+    private void Awake() => ServiceLocator.Instance.RegisterService(this, true);
 
     public void StartLevel(int _targetLevel = -1)
     {
@@ -38,21 +34,15 @@ public class SceneManagement : MonoBehaviour
 
         // Load the rest of the scenes in Additive mode
         for (int i = 1; i < levelScenes.Count; i++)
-        {
             SceneManager.LoadScene(levelScenes[i], LoadSceneMode.Additive);
-        }
     }
 
     private List<string> GetLevelScenes(int levelNumber)
     {
         foreach (Level level in levels)
-        {
             if (level.levelNumber == levelNumber)
-            {
                 return level.scenes;
-            }
-        }
 
-        return null; // or handle this case as you see fit
+        return null;
     }
 }
