@@ -45,7 +45,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             if (_moveCoroutine != null)
             {
-                
                 StopCoroutine(_moveCoroutine);
             }
             if (this != null)
@@ -58,13 +57,19 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             if (_moveCoroutine != null)
             {
                 StopCoroutine(_moveCoroutine);
-                _currentAnimation = Vector2.SmoothDamp(_currentAnimation, Vector2.zero, ref _AnimationVelocity, 0.1f);
-                _animator.SetFloat(RunAnimationId, _currentAnimation.y);
+                for (float i = _currentAnimation.y; i > 0; i--)
+                {
+                    _currentAnimation = Vector2.SmoothDamp(_currentAnimation, Vector2.zero, ref _AnimationVelocity, 0.1f);
+                    Logging.Log(_currentAnimation.y);
+                    _animator.SetFloat(RunAnimationId, _currentAnimation.y);
+
+                }
+                Logging.Log(_currentAnimation.y);
                 //_animator.SetFloat(RunAnimationId, 0f);
                 rb.velocity = Vector3.zero;
             }
 
-            };
+        };
         _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
 
         //Animation
