@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -34,7 +33,9 @@ public class MainMenu : MonoBehaviour
     public void OnContiuneGameClicked()
     {
         _serviceLocator.GetService<DataPersistenceManager>().SaveGame();
-        SceneManager.LoadSceneAsync(1);
+        //SceneManager.LoadSceneAsync(1);
+
+        _serviceLocator.GetService<SceneManagement>().StartLevel();
     }
 
     public void OnExitClicked() => Application.Quit();

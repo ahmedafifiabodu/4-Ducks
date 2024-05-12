@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SaveSlotMenu : MonoBehaviour
 {
@@ -84,7 +83,8 @@ public class SaveSlotMenu : MonoBehaviour
     private void SaveGameAndLoadScene()
     {
         _dataPersistenceManager.SaveGame();
-        SceneManager.LoadSceneAsync(1);
+        //SceneManager.LoadSceneAsync(1);
+        _serviceLocator.GetService<SceneManagement>().StartLevel();
     }
 
     private void DisableMenuButtons()
