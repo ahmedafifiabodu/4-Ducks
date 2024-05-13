@@ -92,10 +92,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         while (true)
         {
             Vector2 input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
-            rb.velocity = new Vector3(input.x * Speed, 0f, input.y * Speed);
+
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+
+            rb.velocity = transform.forward * Speed;
+
             yield return null;
         }
     }
+
+
 
     private System.Collections.IEnumerator StartRunAnimation()
     {
