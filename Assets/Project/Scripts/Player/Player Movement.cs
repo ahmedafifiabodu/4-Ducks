@@ -24,14 +24,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Vector3 forceDirection = Vector3.zero;
 
     [Header("Jump")]
-    private bool isGrounded =true;
+    private bool isGrounded = true;
     [SerializeField] private float jumpForce = 5f;
 
 
     //Animation
     private Animator _animator;
-
     private int RunAnimationId;
+    private int RunAnimationIdY;
+    float p_anim;
+    float p_animVerical;
+    [SerializeField]  float smooth = 2;
 
     #endregion Parameters
 
@@ -41,7 +44,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         //Animation
         _animator = GetComponent<Animator>();
+
+
         RunAnimationId = Animator.StringToHash(GameConstant.Animation.IsRunning);
+        RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.IsRunningY);
     }
 
     private void Start()
@@ -60,7 +66,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             if (this != null)
             {
                 _moveCoroutine = StartCoroutine(ContinuousMove());
-                StartCoroutine(StartRunAnimation());
+                //StartCoroutine(StartRunAnimation());
             }
         };
         _inputManager.PlayerActions.Move.started += _startMoveAction;
@@ -98,29 +104,53 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
 
             rb.velocity = transform.forward * Speed;
+          
+
+            Animate(input);
 
             yield return null;
         }
     }
 
-
-
-    private System.Collections.IEnumerator StartRunAnimation()
+    void Animate(Vector2 input)
     {
-        float elapsedTime = 0f;
-        float duration = 0.2f; // Duration over which to interpolate
 
-        while (elapsedTime < duration)
-        {
-            float value = Mathf.Lerp(0, 1, elapsedTime / duration);
-            _animator.SetFloat(RunAnimationId, value);
+        if (Math.Abs(p_anim - input.x) < 0.1f)
+            p_anim = input.x;
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+        if (p_anim < input.x)
+            p_anim += Time.deltaTime * smooth;
+        else if (p_anim > input.x)
+            p_anim -= Time.deltaTime * smooth;
 
-        _animator.SetFloat(RunAnimationId, 1);
+        if(Math.Abs(p_animVerical - input.y) < 0.1f)
+            p_animVerical = input.y;
+
+        if(p_animVerical < input.y)
+            p_animVerical += Time.deltaTime * smooth;
+        else if (p_animVerical > input.y)
+            p_animVerical -= Time.deltaTime * smooth;
+
+        _animator.SetFloat(RunAnimationId, p_anim);
+        _animator.SetFloat(RunAnimationIdY, p_animVerical);
     }
+
+    //private System.Collections.IEnumerator StartRunAnimation()
+    //{
+    //    float elapsedTime = 0f;
+    //    float duration = 0.2f; // Duration over which to interpolate
+
+    //    while (elapsedTime < duration)
+    //    {
+    //        float value = Mathf.Lerp(0, 1, elapsedTime / duration);
+    //        _animator.SetFloat(RunAnimationId, value);
+
+    //        elapsedTime += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    _animator.SetFloat(RunAnimationId, 1);
+    //}
 
     private System.Collections.IEnumerator StopMoveSmoothly()
     {
@@ -131,12 +161,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             float value = Mathf.Lerp(1, 0, elapsedTime / duration);
             _animator.SetFloat(RunAnimationId, value);
+            _animator.SetFloat(RunAnimationIdY, value);
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         _animator.SetFloat(RunAnimationId, 0);
+        _animator.SetFloat(RunAnimationIdY, 0);
     }
 
     internal void Jump()
