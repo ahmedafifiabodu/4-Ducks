@@ -26,9 +26,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Jump")]
     private bool isGrounded = true;
     [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private AnimationCurve jumpCurve; 
+    [SerializeField] private float jumpDuration = 1f;
 
 
-    //Animation
+    [Header("Animation")]
     private Animator _animator;
     private int RunAnimationId;
     private int RunAnimationIdY;
@@ -175,7 +177,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         if (isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            float normalizedTime = Mathf.Clamp01(jumpCurve.keys[jumpCurve.length - 1].time);
+            float evaluatedJumpForce = jumpCurve.Evaluate(Time.time / normalizedTime) * jumpForce;
+
+            rb.AddForce(Vector3.up * evaluatedJumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
         Logging.Log("Jumping");
