@@ -1,4 +1,3 @@
-using Fungus;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,67 +9,41 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private InputManager _inputManager;
     private Coroutine _moveCoroutine;
 
-    private int _move = 0;
-    private int _run = 0;
-    private int _jump = 0;
-
-    private Action<InputAction.CallbackContext> _jumpAction;
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
     [Header("Movement")]
-    public Rigidbody rb;
     [SerializeField] private float Speed = 5f;
-    private Vector3 forceDirection = Vector3.zero;
 
-    [Header("Jump")]
-    private bool isGrounded = true;
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private AnimationCurve jumpCurve;
-    [SerializeField] private float jumpDuration = 1f;
-    [SerializeField] private int jumpCount = 0;
-
+    private Rigidbody rb;
 
     [Header("Animation")]
+    [SerializeField] private float smooth = 2;
+
     private Animator _animator;
-    private int RunAnimationId;
-    private int RunAnimationIdY;
-    float p_anim;
-    float p_animVerical;
-    [SerializeField] float smooth = 2;
+    private readonly int RunAnimationId;
+    private readonly int RunAnimationIdY;
+    private float p_anim;
+    private float p_animVerical;
 
     #endregion Parameters
 
     private void Awake()
     {
         ServiceLocator.Instance.RegisterService(this, false);
-
-        //Animation
-        _animator = GetComponent<Animator>();
-
-
-        RunAnimationId = Animator.StringToHash(GameConstant.Animation.IsRunning);
-        RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.IsRunningY);
     }
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
-        _jumpAction = _ => Jump();
-        _inputManager.PlayerActions.Jump.performed += _jumpAction;
 
         _startMoveAction = ctx =>
         {
-            if (_moveCoroutine != null)
-            {
-                StopCoroutine(_moveCoroutine);
-            }
-            if (this != null)
-            {
-                _moveCoroutine = StartCoroutine(ContinuousMove());
-                //StartCoroutine(StartRunAnimation());
-            }
+            _moveCoroutine = StartCoroutine(ContinuousMove());
         };
         _inputManager.PlayerActions.Move.started += _startMoveAction;
 
@@ -88,7 +61,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
 
@@ -99,7 +71,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private System.Collections.IEnumerator ContinuousMove()
     {
 
-        while (true && jumpCount == 0)
+        while (true)
         {
             Vector2 input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
 
@@ -107,7 +79,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
 
-            rb.velocity = transform.forward * Speed;
+            Vector3 newVelocity = transform.forward * Speed;
+            newVelocity.y = rb.velocity.y;
+            rb.velocity = newVelocity;
 
             Animate(input);
 
@@ -115,9 +89,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-    void Animate(Vector2 input)
+    private void Animate(Vector2 input)
     {
-
         if (Math.Abs(p_anim - input.x) < 0.1f)
             p_anim = input.x;
 
@@ -138,27 +111,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationIdY, p_animVerical);
     }
 
-    //private System.Collections.IEnumerator StartRunAnimation()
-    //{
-    //    float elapsedTime = 0f;
-    //    float duration = 0.2f; // Duration over which to interpolate
-
-    //    while (elapsedTime < duration)
-    //    {
-    //        float value = Mathf.Lerp(0, 1, elapsedTime / duration);
-    //        _animator.SetFloat(RunAnimationId, value);
-
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    _animator.SetFloat(RunAnimationId, 1);
-    //}
-
     private System.Collections.IEnumerator StopMoveSmoothly()
     {
         float elapsedTime = 0f;
-        float duration = 0.2f; // Duration over which to interpolate
+        float duration = 0.2f;
 
         while (elapsedTime < duration)
         {
@@ -174,43 +130,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationIdY, 0);
     }
 
-    private void Jump()
-    {
-        if (jumpCount < 2)
-        {
-            float normalizedTime = Mathf.Clamp01(jumpCurve.keys[jumpCurve.length - 1].time);
-            float evaluatedJumpForce = jumpCurve.Evaluate(Time.time / normalizedTime) * jumpForce;
-
-            rb.AddForce(Vector3.up * evaluatedJumpForce, ForceMode.Impulse);
-            jumpCount++;
-
-            Logging.Log("Jumping");
-        }
-    }
-    private void OnCollisionEnter(UnityEngine.Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            jumpCount = 0;
-        }
-    }
-
-
     public void LoadGame(GameData _gameData)
     {
-        _move = _gameData._move;
-        _run = _gameData._run;
-        _jump = _gameData._jump;
-
         transform.position = _gameData._playerPosition;
     }
 
     public void SaveGame(GameData _gameData)
     {
-        _gameData._move = _move;
-        _gameData._run = _run;
-        _gameData._jump = _jump;
-
         _gameData._playerPosition = transform.position;
     }
 }
