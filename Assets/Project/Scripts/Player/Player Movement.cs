@@ -6,40 +6,29 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     #region Parameters
 
-    private InputManager _inputManager;
-    private Coroutine _moveCoroutine;
-
-    private Action<InputAction.CallbackContext> _jumpAction;
-    private Action<InputAction.CallbackContext> _startMoveAction;
-    private Action<InputAction.CallbackContext> _stopMoveAction;
+    [Header("Animation")]
+    [SerializeField] private float smooth = 2;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 5f;
 
+    private InputManager _inputManager;
+    private Coroutine _moveCoroutine;
+
     private Rigidbody rb;
-
-    [Header("Jump")]
-    [SerializeField] private float jumpForce = 5f;
-
-    [SerializeField] private AnimationCurve jumpCurve;
-    [SerializeField] private float jumpDuration = 1f;
-    [SerializeField] private int jumpCount = 0;
-
-    [Header("Animation")]
-    [SerializeField] private float smooth = 2;
-
     private Animator _animator;
+
     private readonly int RunAnimationId;
     private readonly int RunAnimationIdY;
     private float p_anim;
     private float p_animVerical;
 
+    private Action<InputAction.CallbackContext> _startMoveAction;
+    private Action<InputAction.CallbackContext> _stopMoveAction;
+
     #endregion Parameters
 
-    private void Awake()
-    {
-        ServiceLocator.Instance.RegisterService(this, false);
-    }
+    private void Awake() => ServiceLocator.Instance.RegisterService(this, false);
 
     private void Start()
     {
@@ -47,9 +36,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator = GetComponent<Animator>();
 
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
-
-        _jumpAction = _ => Jump();
-        _inputManager.PlayerActions.Jump.performed += _jumpAction;
 
         _startMoveAction = ctx =>
         {
@@ -59,7 +45,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         _stopMoveAction = _ =>
         {
-            if (_moveCoroutine != null)
             {
                 StopCoroutine(_moveCoroutine);
                 StartCoroutine(StopMoveSmoothly());
@@ -71,7 +56,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Jump.performed -= _jumpAction;
         _inputManager.PlayerActions.Move.started -= _startMoveAction;
         _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
 
@@ -138,18 +122,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         _animator.SetFloat(RunAnimationId, 0);
         _animator.SetFloat(RunAnimationIdY, 0);
-    }
 
-    private void Jump()
-    {
-        if (jumpCount < 2)
-        {
-            float normalizedTime = Mathf.Clamp01(jumpCurve.keys[jumpCurve.length - 1].time);
-            float evaluatedJumpForce = jumpCurve.Evaluate(Time.time / normalizedTime) * jumpForce;
-
-            rb.AddForce(Vector3.up * evaluatedJumpForce, ForceMode.Impulse);
-            jumpCount++;
-        }
+        _animator.SetFloat(RunAnimationId, p_anim);
+        _animator.SetFloat(RunAnimationIdY, p_animVerical);
     }
 
     public void LoadGame(GameData _gameData)
@@ -160,10 +135,5 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     public void SaveGame(GameData _gameData)
     {
         _gameData._playerPosition = transform.position;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        jumpCount = 0;
     }
 }

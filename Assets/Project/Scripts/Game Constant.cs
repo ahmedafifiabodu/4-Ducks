@@ -30,7 +30,8 @@ public static class GameConstant
 
     public static class Animation
     {
-        public const string IsRunning = "IsRunning";
+        public const string IsRunning = "Horizontal(X)";
+        public const string IsRunningY = "Vertical(Y)";
         public const string IsJumping = "IsJumping";
     }
 
