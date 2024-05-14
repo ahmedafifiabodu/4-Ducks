@@ -26,8 +26,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Jump")]
     private bool isGrounded = true;
     [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private AnimationCurve jumpCurve; 
+    [SerializeField] private AnimationCurve jumpCurve;
     [SerializeField] private float jumpDuration = 1f;
+    [SerializeField] private int jumpCount = 0;
 
 
     [Header("Animation")]
@@ -36,7 +37,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private int RunAnimationIdY;
     float p_anim;
     float p_animVerical;
-    [SerializeField]  float smooth = 2;
+    [SerializeField] float smooth = 2;
 
     #endregion Parameters
 
@@ -97,7 +98,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private System.Collections.IEnumerator ContinuousMove()
     {
-        while (true)
+
+        while (true && jumpCount == 0)
         {
             Vector2 input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
 
@@ -106,7 +108,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
 
             rb.velocity = transform.forward * Speed;
-          
 
             Animate(input);
 
@@ -125,10 +126,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         else if (p_anim > input.x)
             p_anim -= Time.deltaTime * smooth;
 
-        if(Math.Abs(p_animVerical - input.y) < 0.1f)
+        if (Math.Abs(p_animVerical - input.y) < 0.1f)
             p_animVerical = input.y;
 
-        if(p_animVerical < input.y)
+        if (p_animVerical < input.y)
             p_animVerical += Time.deltaTime * smooth;
         else if (p_animVerical > input.y)
             p_animVerical -= Time.deltaTime * smooth;
@@ -173,23 +174,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationIdY, 0);
     }
 
-    internal void Jump()
+    private void Jump()
     {
-        if (isGrounded)
+        if (jumpCount < 2)
         {
             float normalizedTime = Mathf.Clamp01(jumpCurve.keys[jumpCurve.length - 1].time);
             float evaluatedJumpForce = jumpCurve.Evaluate(Time.time / normalizedTime) * jumpForce;
 
             rb.AddForce(Vector3.up * evaluatedJumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            jumpCount++;
+
+            Logging.Log("Jumping");
         }
-        Logging.Log("Jumping");
     }
     private void OnCollisionEnter(UnityEngine.Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+            jumpCount = 0;
         }
     }
 
