@@ -12,7 +12,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [RequiredField]
         public SharedQuaternion storeValue;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

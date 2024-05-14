@@ -11,7 +11,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The rotation of the Rigidbody")]
         public SharedQuaternion rotation;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

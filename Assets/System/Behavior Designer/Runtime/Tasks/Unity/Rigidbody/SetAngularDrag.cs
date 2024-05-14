@@ -11,7 +11,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The angular drag of the Rigidbody")]
         public SharedFloat angularDrag;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

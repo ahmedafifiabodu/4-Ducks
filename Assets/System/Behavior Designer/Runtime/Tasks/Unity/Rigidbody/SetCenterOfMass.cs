@@ -11,7 +11,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The center of mass of the Rigidbody")]
         public SharedVector3 centerOfMass;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

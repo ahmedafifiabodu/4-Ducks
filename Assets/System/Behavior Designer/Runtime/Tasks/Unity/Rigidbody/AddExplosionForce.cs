@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
 {
     [TaskCategory("Unity/Rigidbody")]
-    [TaskDescription("Applies a force to the rigidbody that simulates explosion effects. Returns Success.")]
+    [TaskDescription("Applies a force to the _rigidbody that simulates explosion effects. Returns Success.")]
     public class AddExplosionForce : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
@@ -19,7 +19,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The type of force")]
         public ForceMode forceMode = ForceMode.Force;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

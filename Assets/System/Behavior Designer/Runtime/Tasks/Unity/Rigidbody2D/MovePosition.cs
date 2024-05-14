@@ -11,7 +11,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody2D
         [Tooltip("The new position of the Rigidbody")]
         public SharedVector2 position;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody2D rigidbody2D;
         private GameObject prevGameObject;
 

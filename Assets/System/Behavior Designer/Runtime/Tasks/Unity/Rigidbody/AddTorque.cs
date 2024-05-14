@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
 {
     [TaskCategory("Unity/Rigidbody")]
-    [TaskDescription("Applies a torque to the rigidbody. Returns Success.")]
+    [TaskDescription("Applies a torque to the _rigidbody. Returns Success.")]
     public class AddTorque : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
@@ -13,7 +13,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The type of torque")]
         public ForceMode forceMode = ForceMode.Force;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
 {
     [TaskCategory("Unity/Rigidbody")]
-    [TaskDescription("Applies a force at the specified position to the rigidbody. Returns Success.")]
+    [TaskDescription("Applies a force at the specified position to the _rigidbody. Returns Success.")]
     public class AddForceAtPosition : Action
     {
         [Tooltip("The GameObject that the task operates on. If null the task GameObject is used.")]
@@ -15,7 +15,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityRigidbody
         [Tooltip("The type of force")]
         public ForceMode forceMode = ForceMode.Force;
 
-        // cache the rigidbody component
+        // cache the _rigidbody component
         private Rigidbody rigidbody;
         private GameObject prevGameObject;
 
