@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class ThrowingMechanism : MonoBehaviour
 {
+    #region Parameters
     private InputManager _inputManager;
     private Coroutine _throwCoroutine;
 
@@ -20,6 +21,7 @@ public class ThrowingMechanism : MonoBehaviour
     [SerializeField] protected bool IsCat;
     [SerializeField] protected bool IsGhost;
 
+    #endregion
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
@@ -75,12 +77,21 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void Throw()
     {
-        GameObject ball = Instantiate(_ballObj, transform.position, transform.rotation);
+        GameObject bullet = ObjectPool.SharedInstance.GetPooledObject(1);
+        if (bullet != null)
+        {
+            bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            bullet.SetActive(true);
 
-        //the initial velocity of the ball
+            Vector3 initialVelocity = new Vector3(0, _currentVelocity, _currentVelocity);
+            Rigidbody ballRigidbody = bullet.GetComponent<Rigidbody>();
+            ballRigidbody.velocity = initialVelocity;
+        }
+
+        /*//the initial velocity of the ball
         Vector3 initialVelocity = new Vector3(0, _currentVelocity, _currentVelocity);
         Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
-        ballRigidbody.velocity = initialVelocity;
+        ballRigidbody.velocity = initialVelocity;*/
 
         Logging.Log("Throwing with velocity: " + _currentVelocity);
     }
