@@ -39,7 +39,10 @@ public class PlayerDeathCount : MonoBehaviour, IDataPersistence
         _uiSystem._deathCountText.text = $"Death Count: {_deathCount}";
     }
 
-    public void SaveGame(GameData _gameData) => _gameData._deathCount = _deathCount;
+    public void SaveGame(GameData _gameData)
+    {
+        _gameData._deathCount = _deathCount;
+    }
 
     private void Update()
     {

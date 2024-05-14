@@ -83,10 +83,19 @@ public class DataPersistenceManager : MonoBehaviour
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        IEnumerable<IDataPersistence> dataPersistenceObjects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<IDataPersistence>();
+        List<IDataPersistence> dataPersistenceObjects = new List<IDataPersistence>();
 
-        //return new List<IDataPersistence>(dataPersistenceObjects);
-        return dataPersistenceObjects.ToList();
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            foreach (GameObject rootObject in scene.GetRootGameObjects())
+            {
+                IDataPersistence[] sceneDataPersistenceObjects = rootObject.GetComponentsInChildren<IDataPersistence>();
+                dataPersistenceObjects.AddRange(sceneDataPersistenceObjects);
+            }
+        }
+
+        return dataPersistenceObjects;
     }
 
     public Dictionary<string, GameData> GetAllProfilesGameData() => _fileDataHandler.LoadAllProfile();

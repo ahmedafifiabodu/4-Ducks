@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 8287291873898985600}
   - component: {fileID: 6717060011641658236}
   - component: {fileID: 1730453618962680605}
+  - component: {fileID: 1264466995042497096}
   m_Layer: 8
   m_Name: Cat
   m_TagString: Untagged
@@ -111,8 +112,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5982448, y: 1.3119564, z: 1}
-  m_Center: {x: -0.024505451, y: 0.6713381, z: 0}
+  m_Size: {x: 0.5982448, y: 1.83, z: 1}
+  m_Center: {x: -0.024505451, y: 0.91, z: 0}
 --- !u!54 &6717060011641658236
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -152,8 +153,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67477abc4ebaeac4d8c62577f9076522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 2
+  smooth: 1
   Speed: 5
+--- !u!114 &1264466995042497096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456768661024448939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6abaa55cb4f3b14ba6117d18abd6e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathCount: 0
 --- !u!1 &686816619099586661
 GameObject:
   m_ObjectHideFlags: 0
