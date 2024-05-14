@@ -3,60 +3,57 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ThrowingBall : MonoBehaviour
+public class ThrowingBall : ThrowingMechanism
 {
-    private InputManager _inputManager;
+    [SerializeField] private LineRenderer trajectoryLineRenderer;
+    [SerializeField] private int numPoints = 10;
+    [SerializeField] private float timeBetweenPoints = 0.1f; // Time between points
+    [SerializeField] float pointIncreaseInterval = 0.2f;
 
-    private Action<InputAction.CallbackContext> _startThrowAction;
-    private Action<InputAction.CallbackContext> _endThrowAction;
-
-    [SerializeField] private GameObject _ballObj;
-    [SerializeField] private float _baseVelocity = 10f;
-    [SerializeField] private float _velocityMultiplier = 1.5f;
-    private float _currentVelocity;
-
-
-    private void Start()
+    protected override IEnumerator StartThrow()
     {
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        StartCoroutine(base.StartThrow());
 
-        _startThrowAction = ctx => StartCoroutine(StartThrow());
-        _endThrowAction = ctx => Throw();
+        trajectoryLineRenderer.enabled = true;
+        trajectoryLineRenderer.positionCount = numPoints;
 
-        _inputManager.PlayerActions.Throw.started += _startThrowAction;
-        _inputManager.PlayerActions.Throw.canceled += _endThrowAction;
-    }
-
-    private void OnDisable()
-    {
-        _inputManager.PlayerActions.Throw.started -= _startThrowAction;
-        _inputManager.PlayerActions.Throw.canceled -= _endThrowAction;
-    }
-
-    private IEnumerator StartThrow()
-    {
-        _currentVelocity = _baseVelocity;
+        float timer = 0f;
 
         while (true)
         {
             _currentVelocity += _velocityMultiplier * Time.deltaTime;
+            timer += Time.deltaTime;
+
+            if (timer >= pointIncreaseInterval && numPoints < 50 && _currentVelocity>= 4.5)
+            {
+                numPoints++;
+                timer = 0f;
+            }
+            DrawTrajectory(numPoints);
             yield return null;
         }
     }
 
-    private void Throw()
+    protected override void Throw()
     {
-        GameObject ball = Instantiate(_ballObj, transform.position, transform.rotation);
+        base.Throw();
+        trajectoryLineRenderer.enabled = false;
+        numPoints = 10;
+    }
 
-        //the initial velocity of the ball
-        float velocityX = _currentVelocity * Mathf.Cos(45);
-        float velocityY = _currentVelocity * Mathf.Sin(45);
+    private void DrawTrajectory(int numP)
+    {
+        Logging.Log(numP);
+        Vector3[] points = new Vector3[numP];
+        Vector3 startingPosition = transform.position;
+        Vector3 startingVelocity = new Vector3(0, _currentVelocity, _currentVelocity);
 
-        //the initial velocity of the ball
-        Vector3 initialVelocity = new Vector3(velocityX, velocityY, 0);
-        Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
-        ballRigidbody.velocity = initialVelocity;
-
-        Logging.Log("Throwing with velocity: " + _currentVelocity);
+        for (int i = 0; i < numP; i++)
+        {
+            float time = i * timeBetweenPoints;
+            points[i] = startingPosition + startingVelocity * time + time * time * Physics.gravity / 2f;
+        }
+        trajectoryLineRenderer.positionCount = numP;
+        trajectoryLineRenderer.SetPositions(points);
     }
 }

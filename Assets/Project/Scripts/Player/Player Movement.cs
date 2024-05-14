@@ -40,7 +40,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this, false);
 
         //Animation
         _animator = GetComponent<Animator>();

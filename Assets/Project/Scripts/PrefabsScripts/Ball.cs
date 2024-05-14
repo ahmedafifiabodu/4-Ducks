@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    [SerializeField] private GameObject _Turret;
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (other.CompareTag("Ground"))
         {
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            //Destroy(gameObject);
+
+            GameObject Turret = Instantiate(_Turret, gameObject.transform.position, transform.rotation);
+
+            Destroy(gameObject);
         }
     }
+
 }
