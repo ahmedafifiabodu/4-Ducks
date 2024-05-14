@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,24 +6,19 @@ public class PlayerJump : MonoBehaviour
 {
     #region Parameters
 
+    [Header("Jump")]
+    [SerializeField] private float jumpForce = 5f;
+
+    [SerializeField] private AnimationCurve jumpCurve;
+    [SerializeField] private int jumpCount = 0;
+
     private InputManager _inputManager;
 
     private Action<InputAction.CallbackContext> _jumpAction;
 
     private Rigidbody rb;
 
-    [Header("Jump")]
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private AnimationCurve jumpCurve;
-    [SerializeField] private float jumpDuration = 1f;
-    [SerializeField] private int jumpCount = 0;
-
     #endregion Parameters
-
-    private void Awake()
-    {
-        ServiceLocator.Instance.RegisterService(this, false);
-    }
 
     private void Start()
     {
@@ -35,14 +28,9 @@ public class PlayerJump : MonoBehaviour
 
         _jumpAction = _ => Jump();
         _inputManager.PlayerActions.Jump.performed += _jumpAction;
-
     }
 
-    private void OnDisable()
-    {
-        _inputManager.PlayerActions.Jump.performed -= _jumpAction;
-    }
- 
+    private void OnDisable() => _inputManager.PlayerActions.Jump.performed -= _jumpAction;
 
     private void Jump()
     {
@@ -63,7 +51,6 @@ public class PlayerJump : MonoBehaviour
             jumpCount = 0;
         }
     }
-
 
     public void LoadGame(GameData _gameData)
     {

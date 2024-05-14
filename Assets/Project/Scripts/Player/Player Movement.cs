@@ -28,8 +28,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     #endregion Parameters
 
-    private void Awake() => ServiceLocator.Instance.RegisterService(this, false);
-
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,7 +35,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
-        _startMoveAction = ctx =>
+        _startMoveAction = _ =>
         {
             _moveCoroutine = StartCoroutine(ContinuousMove());
         };
