@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private InputSystem _playerInput;
+    private InputSystem _input;
     internal InputSystem.PlayerActions PlayerActions { get; private set; }
+    internal InputSystem.GhostActions GhostActions { get; private set; }
 
     private ServiceLocator _serviceLocator;
 
@@ -12,11 +13,14 @@ public class InputManager : MonoBehaviour
         _serviceLocator = ServiceLocator.Instance;
         _serviceLocator.RegisterService(this, true);
 
-        _playerInput = new InputSystem();
-        PlayerActions = _playerInput.Player;
+        _input = new InputSystem();
+
+
+        PlayerActions = _input.Player;
+        GhostActions = _input.Ghost;
     }
 
-    private void OnEnable() => _playerInput.Enable();
+    private void OnEnable() => _input.Enable();
 
-    private void OnDisable() => _playerInput?.Disable();
+    private void OnDisable() => _input?.Disable();
 }

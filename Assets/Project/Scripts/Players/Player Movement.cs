@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Rigidbody rb;
     private Animator _animator;
 
-    private readonly int RunAnimationId;
-    private readonly int RunAnimationIdY;
+    private int RunAnimationId;
+    private int RunAnimationIdY;
     private float p_anim;
     private float p_animVerical;
 
@@ -28,11 +28,17 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     #endregion Parameters
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
+        RunAnimationId = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
+        RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
+    }
+
+    private void Start()
+    {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         _startMoveAction = _ =>
@@ -120,9 +126,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         _animator.SetFloat(RunAnimationId, 0);
         _animator.SetFloat(RunAnimationIdY, 0);
-
-        _animator.SetFloat(RunAnimationId, p_anim);
-        _animator.SetFloat(RunAnimationIdY, p_animVerical);
     }
 
     public void LoadGame(GameData _gameData)
