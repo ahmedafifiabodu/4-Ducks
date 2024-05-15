@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -28,6 +29,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     #endregion Parameters
 
+    //Audio
+    private EventInstance PlayerFootSteps;
+    AudioSystemFMOD AudioSystem;
+    FMODEvents FmodSystemn;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -35,14 +40,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         RunAnimationId = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
         RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
+
     }
 
     private void Start()
     {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+
+        PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystemn.PlayerSteps);
 
         _startMoveAction = _ =>
         {
+            //play sfx for steps
+            PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
+            PlayerFootSteps.start();
             _moveCoroutine = StartCoroutine(ContinuousMove());
         };
         _inputManager.PlayerActions.Move.started += _startMoveAction;
@@ -53,6 +67,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 StopCoroutine(_moveCoroutine);
                 StartCoroutine(StopMoveSmoothly());
                 rb.velocity = Vector3.zero;
+                PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
             }
         };
         _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
@@ -69,6 +84,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private System.Collections.IEnumerator ContinuousMove()
     {
+        
         while (true)
         {
             Vector2 input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;

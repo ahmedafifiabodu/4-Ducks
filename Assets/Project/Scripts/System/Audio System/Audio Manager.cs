@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioSystemFmod : MonoBehaviour
 {
     [Header("Audio Source")]
     [SerializeField] private AudioSource _masterVolume;

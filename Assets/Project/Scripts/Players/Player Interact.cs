@@ -11,7 +11,7 @@ public class PlayerInteract : MonoBehaviour
     private ServiceLocator serviceLocator;
     private UISystem _playerUI;
     private InputManager _inputManager;
-    private AudioManager _audioManager;
+    private AudioSystemFmod _audioManager;
 
     private Interactable currentInteractable;
 
@@ -23,7 +23,7 @@ public class PlayerInteract : MonoBehaviour
 
         _playerUI = serviceLocator.GetService<UISystem>();
         _inputManager = serviceLocator.GetService<InputManager>();
-        _audioManager = serviceLocator.GetService<AudioManager>();
+        _audioManager = serviceLocator.GetService<AudioSystemFmod>();
 
         _playerUI.DisablePromptText();
 
