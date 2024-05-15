@@ -20,6 +20,7 @@ public static class GameConstant
         public const string Enemy = "Enemy";
         public const string Interactable = "Interactable";
         public const string Quest = "Quest";
+        public const string Ground = "Ground";
     }
 
     public static class Scene
@@ -30,7 +31,8 @@ public static class GameConstant
 
     public static class Animation
     {
-        public const string IsRunning = "IsRunning";
+        public const string HorizontalMove = "Horizontal(X)";
+        public const string VerticalMove = "Vertical(Y)";
         public const string IsJumping = "IsJumping";
     }
 

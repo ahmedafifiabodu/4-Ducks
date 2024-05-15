@@ -1,18 +1,14 @@
 using Cinemachine;
-using UnityEditor.ShaderGraph.Internal;
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    private CinemachineVirtualCamera _virtualCamera;
-    private CinemachineGroupComposer _groupComposer;
-    private CinemachineTransposer _transposer;
-    private float _lastTargetAverageDistance;
-    private ServiceLocator _serviceLocator;
-
     [Header("Frame Size")]
     [Space(3)]
     [SerializeField] private float _maxDistance;
+
     [SerializeField] private float _minDistance;
     [SerializeField] private CinemachineTargetGroup _targetGroup;
 
@@ -20,40 +16,58 @@ public class CameraControl : MonoBehaviour
     [Space(3)]
     [Header("Body")]
     [SerializeField] private Vector3 _startTransposerOffset;
+
     [SerializeField] private Vector3 _endtransposerendOffset;
+
     [Space(1)]
     [Header("Aim")]
     [SerializeField] private Vector3 _startAim0ffset;
+
     [SerializeField] private Vector3 _endAimEndOffset;
 
+    private ServiceLocator _serviceLocator;
+    private InputManager _inputManager;
 
-    void Start()
+    private CinemachineVirtualCamera _virtualCamera;
+    private CinemachineGroupComposer _groupComposer;
+    private CinemachineTransposer _transposer;
+    private float _lastTargetAverageDistance;
+
+    private Action<InputAction.CallbackContext> _startMoveAction;
+
+    private void Start()
     {
+        _serviceLocator = ServiceLocator.Instance;
+
+        _inputManager = _serviceLocator.GetService<InputManager>();
+
+        _startMoveAction = _ => MoveCamera();
+        _inputManager.PlayerActions.Move.started += _startMoveAction;
+
         _virtualCamera = GetComponent<CinemachineVirtualCamera>();
         _transposer = _virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         _groupComposer = _virtualCamera.GetCinemachineComponent<CinemachineGroupComposer>();
 
         _transposer.m_FollowOffset = _startTransposerOffset;
         _groupComposer.m_TrackedObjectOffset = _startAim0ffset;
-        _serviceLocator = ServiceLocator.Instance;
 
         _lastTargetAverageDistance = CalculateAverageDistance(_targetGroup);
     }
 
-    void MoveCamera()
+    private void MoveCamera()
     {
         float averageDistance = CalculateAverageDistance(_targetGroup);
         float screenHieght = _serviceLocator.GetService<CameraInstance>().ScreenHieghttoWorld();
 
-            float step = Mathf.Clamp((averageDistance - _lastTargetAverageDistance)/ screenHieght, -1.0f , 1.0f);
+        float step = Mathf.Clamp((averageDistance - _lastTargetAverageDistance) / screenHieght, -1.0f, 1.0f);
 
-            _transposer.m_FollowOffset = Vector3.Lerp(_startTransposerOffset, _endtransposerendOffset, step);
-            _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_startAim0ffset, _endAimEndOffset, step);
+        _transposer.m_FollowOffset = Vector3.Lerp(_startTransposerOffset, _endtransposerendOffset, step);
+        _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_startAim0ffset, _endAimEndOffset, step);
 
         _lastTargetAverageDistance = averageDistance;
     }
 
-    float CalculateAverageDistance(CinemachineTargetGroup targetGroup)
+    private float CalculateAverageDistance(CinemachineTargetGroup targetGroup)
     {
         float totalDistance = 0f;
         int count = 0;

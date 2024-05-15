@@ -3,10 +3,6 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public int _move;
-    public int _run;
-    public int _jump;
-
     public long _lastUpdated;
 
     public int _deathCount;
@@ -15,10 +11,6 @@ public class GameData
 
     public GameData()
     {
-        _move = 0;
-        _run = 0;
-        _jump = 0;
-
         _deathCount = 0;
         _playerPosition = Vector3.zero;
         _coinsCollected = new SerializableDictionary<string, bool>();
@@ -31,9 +23,7 @@ public class GameData
         foreach (bool coinCollected in _coinsCollected.Values)
         {
             if (coinCollected)
-            {
                 _totalcoinsCollected++;
-            }
         }
 
         int _precentageComplete = -1;
