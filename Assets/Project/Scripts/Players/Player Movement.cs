@@ -14,8 +14,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [SerializeField] private bool isCat;
 
+    private Action<InputAction.CallbackContext> _startMoveAction;
+    private Action<InputAction.CallbackContext> _stopMoveAction;
+
     private InputManager _inputManager;
-    private Coroutine _moveCoroutine;
 
     private Rigidbody rb;
     private Animator _animator;
@@ -25,8 +27,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private float p_anim;
     private float p_animVerical;
 
-    private Action<InputAction.CallbackContext> _startMoveAction;
-    private Action<InputAction.CallbackContext> _stopMoveAction;
+    private Vector2 input;
+    private bool isMoving;
 
     #endregion Parameters
 
@@ -39,7 +41,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
@@ -47,37 +49,31 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             _startMoveAction = _ =>
             {
-                _moveCoroutine = StartCoroutine(ContinuousMove());
+                isMoving = true;
             };
             _inputManager.PlayerActions.Move.started += _startMoveAction;
 
             _stopMoveAction = _ =>
             {
-                {
-                    StopCoroutine(_moveCoroutine);
-                    StartCoroutine(StopMoveSmoothly());
-                    rb.velocity = Vector3.zero;
-                }
+                isMoving = false;
+                StartCoroutine(StopMoveSmoothly());
+                rb.velocity = Vector3.zero;
             };
             _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
         }
         else
         {
-            Logging.Log("Ghost Movement");
-
             _startMoveAction = _ =>
             {
-                _moveCoroutine = StartCoroutine(ContinuousMove());
+                isMoving = true;
             };
             _inputManager.GhostActions.Move.started += _startMoveAction;
 
             _stopMoveAction = _ =>
             {
-                {
-                    StopCoroutine(_moveCoroutine);
-                    StartCoroutine(StopMoveSmoothly());
-                    rb.velocity = Vector3.zero;
-                }
+                isMoving = false;
+                StartCoroutine(StopMoveSmoothly());
+                rb.velocity = Vector3.zero;
             };
             _inputManager.GhostActions.Move.canceled += _stopMoveAction;
         }
@@ -95,29 +91,34 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             _inputManager.GhostActions.Move.started -= _startMoveAction;
             _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
         }
-
-        if (_moveCoroutine != null)
-            StopCoroutine(_moveCoroutine);
     }
 
-    private System.Collections.IEnumerator ContinuousMove()
+    private void Update()
     {
-        while (true)
+        if (isMoving)
         {
-            Vector2 input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
+            if (isCat)
+                input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
+            else
+                input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
 
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
-
-            Vector3 newVelocity = transform.forward * Speed;
-            newVelocity.y = rb.velocity.y;
-            rb.velocity = newVelocity;
-
-            Animate(input);
-
-            yield return null;
+            Move();
         }
+    }
+
+    private void Move()
+    {
+        Logging.Log("Move");
+
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+
+        Vector3 newVelocity = transform.forward * Speed;
+        newVelocity.y = rb.velocity.y;
+        rb.velocity = newVelocity;
+
+        Animate(input);
     }
 
     private void Animate(Vector2 input)

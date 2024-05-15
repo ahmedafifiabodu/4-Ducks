@@ -8,16 +8,28 @@ public class InteractableEditor : Editor
     {
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
+
+        SerializedProperty possessableProperty = so.FindProperty("_possessable");
+        SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
         SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
         SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
 
-        EditorGUILayout.PropertyField(autoInteractProperty);
-        EditorGUILayout.PropertyField(useEventsProperty);
+        EditorGUILayout.PropertyField(possessableProperty);
+
+        if (possessableProperty.boolValue)
+        {
+            EditorGUILayout.PropertyField(possessableScriptProperty);
+            autoInteractProperty.boolValue = false;
+            useEventsProperty.boolValue = false;
+        }
+        else
+        {
+            EditorGUILayout.PropertyField(autoInteractProperty);
+            EditorGUILayout.PropertyField(useEventsProperty);
+        }
 
         if (_interactable.gameObject.TryGetComponent<Collider>(out var collider))
-        {
             collider.isTrigger = true;
-        }
         else
         {
             collider = _interactable.gameObject.AddComponent<BoxCollider>();

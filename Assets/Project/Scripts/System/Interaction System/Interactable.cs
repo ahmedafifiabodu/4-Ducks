@@ -4,7 +4,10 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] private LayerMask _interactableLayerMask = 6;
-    [SerializeField] private bool _autoInteract = false;
+
+    [SerializeField] private MonoBehaviour _possessableScript;
+    [SerializeField] private bool _possessable;
+    [SerializeField] private bool _autoInteract;
     [SerializeField] private bool _useEvents;
     [SerializeField] private string _promptMessage;
 
@@ -16,8 +19,16 @@ public abstract class Interactable : MonoBehaviour
     public string PromptMessage
     { get => _promptMessage; set { _promptMessage = value; } }
 
+    public bool Possessable
+    { get => _possessable; set { _possessable = value; } }
+
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
+
+    internal IPossessable PossessableScript
+    {
+        get => _possessableScript as IPossessable;
+    }
 
     internal Material[] OriginalMaterials { get; private set; }
     internal Material[] MaterialsWithOutline { get; private set; }
@@ -81,7 +92,7 @@ public abstract class Interactable : MonoBehaviour
             renderer.sharedMaterials = OriginalMaterials;
     }
 
-    internal void BaseInteract()
+    internal void BaseInteract(PlayerType _playerType)
     {
         if (_useEvents)
         {
@@ -89,8 +100,16 @@ public abstract class Interactable : MonoBehaviour
                 _events.onInteract.Invoke();
         }
         else
-            Interact();
+            Interact(_playerType);
     }
 
-    protected virtual void Interact() => Logging.Log($"(Virtual) Interacting with {gameObject.name}");
+    private void Interact(PlayerType _playerType)
+    {
+        if (_playerType.Ghost != null)
+        {
+            PossessableScript.Possess();
+        }
+        else
+            Logging.Log($"(Virtual) Interacting with {gameObject.name}");
+    }
 }

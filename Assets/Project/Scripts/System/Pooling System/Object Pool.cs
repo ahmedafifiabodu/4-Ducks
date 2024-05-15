@@ -47,7 +47,7 @@ public class ObjectPool : MonoBehaviour
         Pool pool = null;
         for (int i = 0; i < pools.Count; i++)
         {
-            if (pools[i].tag == tag && tag != 2)   // tag != 2 to disable extend for turret
+            if (pools[i].tag == tag && tag != 2)   // tag != 2 to disable extend for Turret
             {
                 pool = pools[i];
                 break; // Exit the loop once the matching pool is found

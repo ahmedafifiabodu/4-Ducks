@@ -12,7 +12,10 @@ GameObject:
   - component: {fileID: 6853365054851909490}
   - component: {fileID: 2925459572257816497}
   - component: {fileID: 9002396020440096372}
-  m_Layer: 0
+  - component: {fileID: 3584316700325776677}
+  - component: {fileID: 663346122851318750}
+  - component: {fileID: 8434930370435785186}
+  m_Layer: 6
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,12 +53,12 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.49
-  m_Height: 2.4
+  m_Radius: 0.53
+  m_Height: 2.25
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0.99, z: -0.00000008940697}
 --- !u!54 &2925459572257816497
@@ -97,6 +100,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e76912e8de20b4e80f019b650666d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timer: 5
+--- !u!135 &3584316700325776677
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652303538517176246}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.64
+  m_Center: {x: 0, y: 0.98, z: 0}
+--- !u!114 &663346122851318750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652303538517176246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactableLayerMask:
+    serializedVersion: 2
+    m_Bits: 6
+  _autoInteract: 0
+  _useEvents: 1
+  _promptMessage: Press E
+--- !u!114 &8434930370435785186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652303538517176246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14f62889ae475e448470ed1fae5adfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9002396020440096372}
+        m_TargetAssemblyTypeName: Turret, Assembly-CSharp
+        m_MethodName: Possess
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2769962916617205186
 GameObject:
   m_ObjectHideFlags: 0
