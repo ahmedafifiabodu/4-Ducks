@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Movement")]
     [SerializeField] private float Speed = 5f;
 
+    [SerializeField] private bool isCat;
+
     private InputManager _inputManager;
     private Coroutine _moveCoroutine;
 
@@ -41,27 +43,58 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
-        _startMoveAction = _ =>
+        if (isCat)
         {
-            _moveCoroutine = StartCoroutine(ContinuousMove());
-        };
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-
-        _stopMoveAction = _ =>
-        {
+            _startMoveAction = _ =>
             {
-                StopCoroutine(_moveCoroutine);
-                StartCoroutine(StopMoveSmoothly());
-                rb.velocity = Vector3.zero;
-            }
-        };
-        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+                _moveCoroutine = StartCoroutine(ContinuousMove());
+            };
+            _inputManager.PlayerActions.Move.started += _startMoveAction;
+
+            _stopMoveAction = _ =>
+            {
+                {
+                    StopCoroutine(_moveCoroutine);
+                    StartCoroutine(StopMoveSmoothly());
+                    rb.velocity = Vector3.zero;
+                }
+            };
+            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+        }
+        else
+        {
+            Logging.Log("Ghost Movement");
+
+            _startMoveAction = _ =>
+            {
+                _moveCoroutine = StartCoroutine(ContinuousMove());
+            };
+            _inputManager.GhostActions.Move.started += _startMoveAction;
+
+            _stopMoveAction = _ =>
+            {
+                {
+                    StopCoroutine(_moveCoroutine);
+                    StartCoroutine(StopMoveSmoothly());
+                    rb.velocity = Vector3.zero;
+                }
+            };
+            _inputManager.GhostActions.Move.canceled += _stopMoveAction;
+        }
     }
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Move.started -= _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+        if (isCat)
+        {
+            _inputManager.PlayerActions.Move.started -= _startMoveAction;
+            _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+        }
+        else
+        {
+            _inputManager.GhostActions.Move.started -= _startMoveAction;
+            _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
+        }
 
         if (_moveCoroutine != null)
             StopCoroutine(_moveCoroutine);

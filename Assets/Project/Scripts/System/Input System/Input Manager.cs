@@ -5,6 +5,8 @@ public class InputManager : MonoBehaviour
     private InputSystem _input;
     internal InputSystem.PlayerActions PlayerActions { get; private set; }
     internal InputSystem.GhostActions GhostActions { get; private set; }
+    internal InputSystem.TurretActions TurretActions { get; private set; }
+    internal InputSystem.MovableObjectActions MovableObjectActions { get; private set; }
 
     private ServiceLocator _serviceLocator;
 
@@ -15,9 +17,10 @@ public class InputManager : MonoBehaviour
 
         _input = new InputSystem();
 
-
         PlayerActions = _input.Player;
         GhostActions = _input.Ghost;
+        TurretActions = _input.Turret;
+        MovableObjectActions = _input.MovableObject;
     }
 
     private void OnEnable() => _input.Enable();
