@@ -84,9 +84,10 @@ public class CameraControl : MonoBehaviour
         //        count++;
         //    }
         //}
+        // return count > 0 ? totalDistance / count : 0f;
         float Distamce = Vector3.Distance(_serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[0].target.position)
                     , _serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[1].target.position));
-        // return count > 0 ? totalDistance / count : 0f;
+
         return Distamce;
     }
 }

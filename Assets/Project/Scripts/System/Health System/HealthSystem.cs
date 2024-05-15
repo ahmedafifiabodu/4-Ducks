@@ -6,9 +6,9 @@ using UnityEngine.Events;
 [System.Serializable]
 public class HealthSystem 
 {
-    public UnityEvent OnDamaged;
-    public UnityEvent OnHealed;
-    public UnityEvent OnDeath;
+    public UnityEvent _damageEvent;
+    public UnityEvent _healEvent;
+    public UnityEvent _deathEvent;
 
     private float _health;
     private float _healthMax;
@@ -25,14 +25,14 @@ public class HealthSystem
         if( _health <= 0 ) 
         {
             _health = 0;
-            OnDeath?.Invoke();
+            _deathEvent?.Invoke();
         }
-        OnDamaged?.Invoke();
+        _damageEvent?.Invoke();
     }
     public void Heal(float healAmount)
     {
         _health += healAmount;
         if (_health >= _healthMax) _health = _healthMax;
-        OnHealed.Invoke();
+        _healEvent.Invoke();
     }
 }
