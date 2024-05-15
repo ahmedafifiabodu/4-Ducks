@@ -1,31 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: 6998485220100937243}
-  - {fileID: 2928282456344543019}
-  - {fileID: 8382426243743645428}
-  EditorEvents:
-  - {fileID: 8913452483674194778}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: 2928282456344543019}
-  StringsBanks:
-  - {fileID: 6998485220100937243}
-  cacheTime: 638513756548766595
-  cacheVersion: 131618
---- !u!114 &2928282456344543019
+--- !u!114 &-5990111621357721744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
+  m_Name: bank:/SFX.bank
   m_EditorClassIdentifier: 
-  Path: ../../../Desktop/Fmod project/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 638513756548530371
+  Path: ../../../Desktop/Fmod project/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638513756548766595
   FileSizes:
   - Name: Desktop
-    Value: 1036
+    Value: 14336
   Exists: 1
---- !u!114 &6998485220100937243
+--- !u!114 &-5948511695473468730
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +40,32 @@ MonoBehaviour:
   - Name: Desktop
     Value: 806
   Exists: 1
---- !u!114 &8382426243743645428
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -5948511695473468730}
+  - {fileID: 7160261724100495914}
+  - {fileID: -5990111621357721744}
+  EditorEvents:
+  - {fileID: 8913452483674194778}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: 7160261724100495914}
+  StringsBanks:
+  - {fileID: -5948511695473468730}
+  cacheTime: 638513756548766595
+  cacheVersion: 131618
+--- !u!114 &7160261724100495914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,15 +75,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
+  m_Name: bank:/Master.bank
   m_EditorClassIdentifier: 
-  Path: ../../../Desktop/Fmod project/Build/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 638513756548766595
+  Path: ../../../Desktop/Fmod project/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638513756548530371
   FileSizes:
   - Name: Desktop
-    Value: 14336
+    Value: 1036
   Exists: 1
 --- !u!114 &8913452483674194778
 MonoBehaviour:
@@ -104,7 +104,7 @@ MonoBehaviour:
     Data3: -602505543
     Data4: -543533670
   Banks:
-  - {fileID: 8382426243743645428}
+  - {fileID: -5990111621357721744}
   IsStream: 0
   Is3D: 1
   IsOneShot: 0

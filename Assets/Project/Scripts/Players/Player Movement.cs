@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
 
     }
-
     private void Start()
     {
         AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
