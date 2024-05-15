@@ -139,8 +139,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             yield return null;
         }
 
-        _animator.SetFloat(RunAnimationId, 0);
-        _animator.SetFloat(RunAnimationIdY, 0);
+        _animator.SetFloat(RunAnimationId, -0.5f);
+        _animator.SetFloat(RunAnimationIdY, -0.5f);
     }
 
     public void LoadGame(GameData _gameData)
