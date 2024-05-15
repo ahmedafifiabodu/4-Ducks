@@ -913,6 +913,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""7ae64566-d1c6-4e43-936b-8bd438abe6ad"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1025,6 +1034,39 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe4a7f65-3949-43a7-8052-87e9a004bd49"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7fb5bdf-4418-43f6-8f50-f13fdf4f07a1"",
+                    ""path"": ""<XRController>/{Primary2DAxis}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec9802a9-bb85-4d14-8fe1-bead64e85a53"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1058,6 +1100,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Ghost_Fire = m_Ghost.FindAction("Fire", throwIfNotFound: true);
         m_Ghost_Run = m_Ghost.FindAction("Run", throwIfNotFound: true);
         m_Ghost_Throw = m_Ghost.FindAction("Throw", throwIfNotFound: true);
+        m_Ghost_Move = m_Ghost.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1335,6 +1378,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ghost_Fire;
     private readonly InputAction m_Ghost_Run;
     private readonly InputAction m_Ghost_Throw;
+    private readonly InputAction m_Ghost_Move;
     public struct GhostActions
     {
         private @InputSystem m_Wrapper;
@@ -1343,6 +1387,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Ghost_Fire;
         public InputAction @Run => m_Wrapper.m_Ghost_Run;
         public InputAction @Throw => m_Wrapper.m_Ghost_Throw;
+        public InputAction @Move => m_Wrapper.m_Ghost_Move;
         public InputActionMap Get() { return m_Wrapper.m_Ghost; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1364,6 +1409,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
+            @Move.started += instance.OnMove;
+            @Move.performed += instance.OnMove;
+            @Move.canceled += instance.OnMove;
         }
 
         private void UnregisterCallbacks(IGhostActions instance)
@@ -1380,6 +1428,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
+            @Move.started -= instance.OnMove;
+            @Move.performed -= instance.OnMove;
+            @Move.canceled -= instance.OnMove;
         }
 
         public void RemoveCallbacks(IGhostActions instance)
@@ -1426,5 +1477,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }

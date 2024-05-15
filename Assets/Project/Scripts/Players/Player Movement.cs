@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
+    [SerializeField] private bool isCat;
     #endregion Parameters
 
     private void Awake()
@@ -41,21 +42,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
-        _startMoveAction = _ =>
+        if (isCat)
         {
-            _moveCoroutine = StartCoroutine(ContinuousMove());
-        };
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-
-        _stopMoveAction = _ =>
-        {
+            _startMoveAction = _ =>
             {
-                StopCoroutine(_moveCoroutine);
-                StartCoroutine(StopMoveSmoothly());
-                rb.velocity = Vector3.zero;
-            }
-        };
-        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+                _moveCoroutine = StartCoroutine(ContinuousMove());
+            };
+            _inputManager.PlayerActions.Move.started += _startMoveAction;
+
+            _stopMoveAction = _ =>
+            {
+                {
+                    StopCoroutine(_moveCoroutine);
+                    StartCoroutine(StopMoveSmoothly());
+                    rb.velocity = Vector3.zero;
+                }
+            };
+            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+        }
     }
 
     private void OnDisable()

@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityVector2;
 using Cinemachine;
 using System;
 using UnityEngine;
@@ -57,9 +58,11 @@ public class CameraControl : MonoBehaviour
     private void MoveCamera()
     {
         float averageDistance = CalculateAverageDistance(_targetGroup);
-        float screenHieght = _serviceLocator.GetService<CameraInstance>().ScreenHieghttoWorld();
+        float screenHieght = Screen.height;
 
         float step = Mathf.Clamp((averageDistance - _lastTargetAverageDistance) / screenHieght, -1.0f, 1.0f);
+        
+        Logging.Log($"Average Distance {averageDistance} /n Last AD {_lastTargetAverageDistance} /n Screen hieght{screenHieght} /n Step{step}");
 
         _transposer.m_FollowOffset = Vector3.Lerp(_startTransposerOffset, _endtransposerendOffset, step);
         _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_startAim0ffset, _endAimEndOffset, step);
@@ -69,17 +72,21 @@ public class CameraControl : MonoBehaviour
 
     private float CalculateAverageDistance(CinemachineTargetGroup targetGroup)
     {
-        float totalDistance = 0f;
-        int count = 0;
+        //float totalDistance = 0f;
+        //int count = 0;
 
-        for (int i = 0; i < targetGroup.m_Targets.Length; i++)
-        {
-            for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
-            {
-                totalDistance += Vector3.Distance(targetGroup.m_Targets[i].target.position, targetGroup.m_Targets[j].target.position);
-                count++;
-            }
-        }
-        return count > 0 ? totalDistance / count : 0f;
+        //for (int i = 0; i < targetGroup.m_Targets.Length; i++)
+        //{
+        //    for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
+        //    {
+        //        totalDistance += Vector3.Distance(_serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[i].target.position)
+        //            , _serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[j].target.position));
+        //        count++;
+        //    }
+        //}
+        float Distamce = Vector3.Distance(_serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[0].target.position)
+                    , _serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[1].target.position));
+        // return count > 0 ? totalDistance / count : 0f;
+        return Distamce;
     }
 }
