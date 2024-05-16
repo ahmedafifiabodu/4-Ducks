@@ -108,17 +108,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             p_anim = input.x;
 
         if (p_anim < input.x)
+        {
             p_anim += Time.deltaTime * smooth;
+            
+        }
+
         else if (p_anim > input.x)
             p_anim -= Time.deltaTime * smooth;
 
         if (Math.Abs(p_animVerical - input.y) < 0.1f)
             p_animVerical = input.y;
 
-        if (p_animVerical < input.y)
+        if (p_animVerical <= input.y)
+        {
             p_animVerical += Time.deltaTime * smooth;
-        else if (p_animVerical > input.y)
+            Logging.Log("Forward ?? ");
+        }
+        /*else if (p_animVerical > input.y)
+        {
             p_animVerical -= Time.deltaTime * smooth;
+            Logging.Log("BackWard !!!! ");
+        }*/
 
         _animator.SetFloat(RunAnimationId, p_anim);
         _animator.SetFloat(RunAnimationIdY, p_animVerical);
@@ -139,8 +149,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             yield return null;
         }
 
-        _animator.SetFloat(RunAnimationId, -0.5f);
-        _animator.SetFloat(RunAnimationIdY, -0.5f);
+        _animator.SetFloat(RunAnimationId, 0);
+        _animator.SetFloat(RunAnimationIdY, 0);
     }
 
     public void LoadGame(GameData _gameData)
