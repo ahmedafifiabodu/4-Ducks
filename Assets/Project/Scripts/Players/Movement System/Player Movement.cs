@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Animation")]
     [SerializeField] private float smooth = 2;
 
-    [Header("Movement")]
+    [Header("PlayerMoveSystem")]
     [SerializeField] private float Speed = 5f;
 
     [SerializeField] private bool isCat;

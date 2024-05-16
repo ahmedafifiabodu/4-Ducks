@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3584316700325776677}
   - component: {fileID: 663346122851318750}
   - component: {fileID: 8434930370435785186}
+  - component: {fileID: 587150757562330328}
   m_Layer: 6
   m_Name: Turret
   m_TagString: Untagged
@@ -137,6 +138,8 @@ MonoBehaviour:
   _interactableLayerMask:
     serializedVersion: 2
     m_Bits: 6
+  _possessableScript: {fileID: 0}
+  _possessable: 0
   _autoInteract: 0
   _useEvents: 1
   _promptMessage: Press E
@@ -155,7 +158,7 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9002396020440096372}
+      - m_Target: {fileID: 587150757562330328}
         m_TargetAssemblyTypeName: Turret, Assembly-CSharp
         m_MethodName: Possess
         m_Mode: 1
@@ -167,6 +170,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &587150757562330328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652303538517176246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffaed31a167fac04591418c34cd43deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2769962916617205186
 GameObject:
   m_ObjectHideFlags: 0

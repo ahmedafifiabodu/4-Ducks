@@ -256,6 +256,61 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""9b4f0f21-c804-4a00-bb69-8b722865349a"",
+                    ""path"": ""Dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""473b18dd-775f-4b37-b1d6-f1d0f20a1097"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""d4349467-869a-4065-8105-620e4ba56f82"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ce622f76-2407-4821-9504-0f981b4263e4"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1e5f7c58-7c16-4784-bb58-7e4d1005212b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -271,6 +326,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""75477df4-2025-46d2-b25f-68ddd89e7821"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Interact"",
@@ -412,31 +476,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""4f366622-460b-4d9a-a204-69d5dc77d717"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""down"",
                     ""id"": ""cb3865ce-d97a-4182-9c1f-23693cbd30e8"",
                     ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""377b3ab8-b837-4818-b169-9095471a5d31"",
-                    ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -456,17 +498,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""d314fb0b-d34a-46a4-a652-98633499ef6a"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": ""right"",
                     ""id"": ""cb538b22-4ae9-40d5-8457-c50792bf34aa"",
                     ""path"": ""<Keyboard>/d"",
@@ -478,15 +509,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""a6ab9e74-5870-4712-8d48-4ad4f244d146"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""name"": """",
+                    ""id"": ""75c7af0f-92fd-40d4-9545-b936b2e8b46b"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -594,6 +625,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""44a29319-1454-4196-b859-226bfa2264e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -726,6 +766,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""430f6346-29bc-433e-91e8-c28c95ec0251"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1262,6 +1313,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // Ghost
         m_Ghost = asset.FindActionMap("Ghost", throwIfNotFound: true);
         m_Ghost_Move = m_Ghost.FindAction("Move", throwIfNotFound: true);
+        m_Ghost_Jump = m_Ghost.FindAction("Jump", throwIfNotFound: true);
         m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
         m_Ghost_Look = m_Ghost.FindAction("Look", throwIfNotFound: true);
         m_Ghost_Throw = m_Ghost.FindAction("Throw", throwIfNotFound: true);
@@ -1272,6 +1324,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         // Movable Object
         m_MovableObject = asset.FindActionMap("Movable Object", throwIfNotFound: true);
         m_MovableObject_Move = m_MovableObject.FindAction("Move", throwIfNotFound: true);
+        m_MovableObject_Interact = m_MovableObject.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1440,6 +1493,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Ghost;
     private List<IGhostActions> m_GhostActionsCallbackInterfaces = new List<IGhostActions>();
     private readonly InputAction m_Ghost_Move;
+    private readonly InputAction m_Ghost_Jump;
     private readonly InputAction m_Ghost_Interact;
     private readonly InputAction m_Ghost_Look;
     private readonly InputAction m_Ghost_Throw;
@@ -1448,6 +1502,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         private @InputSystem m_Wrapper;
         public GhostActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Ghost_Move;
+        public InputAction @Jump => m_Wrapper.m_Ghost_Jump;
         public InputAction @Interact => m_Wrapper.m_Ghost_Interact;
         public InputAction @Look => m_Wrapper.m_Ghost_Look;
         public InputAction @Throw => m_Wrapper.m_Ghost_Throw;
@@ -1463,6 +1518,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -1479,6 +1537,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -1564,11 +1625,13 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_MovableObject;
     private List<IMovableObjectActions> m_MovableObjectActionsCallbackInterfaces = new List<IMovableObjectActions>();
     private readonly InputAction m_MovableObject_Move;
+    private readonly InputAction m_MovableObject_Interact;
     public struct MovableObjectActions
     {
         private @InputSystem m_Wrapper;
         public MovableObjectActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_MovableObject_Move;
+        public InputAction @Interact => m_Wrapper.m_MovableObject_Interact;
         public InputActionMap Get() { return m_Wrapper.m_MovableObject; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1581,6 +1644,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IMovableObjectActions instance)
@@ -1588,6 +1654,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IMovableObjectActions instance)
@@ -1736,6 +1805,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface IGhostActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
@@ -1748,6 +1818,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     public interface IMovableObjectActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

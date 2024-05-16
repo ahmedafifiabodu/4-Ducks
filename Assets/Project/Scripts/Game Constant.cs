@@ -38,7 +38,7 @@ public static class GameConstant
 
     public static class Input
     {
-        public const string Movement = "Movement";
+        public const string Movement = "PlayerMoveSystem";
         public const string Run = "Run";
         public const string Jump = "Jump";
         public const string Quest = "Quest";
