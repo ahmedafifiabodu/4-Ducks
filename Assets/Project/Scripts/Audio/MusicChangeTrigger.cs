@@ -22,4 +22,12 @@ public class MusicChangeTrigger : MonoBehaviour
             _audioSystem.SetMusicArea(area);
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+
+        }
+    }
 }
