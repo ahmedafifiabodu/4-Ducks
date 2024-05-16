@@ -22,6 +22,16 @@ public class PlayerJump : MonoBehaviour
     private Action<InputAction.CallbackContext> _jumpAction;
     private Rigidbody rb;
 
+    private Animator _animator;
+    private int JumpAnimationId;
+    [SerializeField] private float animationPlayTransition = 0.15f;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        JumpAnimationId = Animator.StringToHash(GameConstant.Animation.IsJumping);
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -38,6 +48,7 @@ public class PlayerJump : MonoBehaviour
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
+            _animator.CrossFade(JumpAnimationId, animationPlayTransition);
             jumpCount++;
         }
     }

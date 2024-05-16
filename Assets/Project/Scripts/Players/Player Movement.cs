@@ -17,8 +17,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Coroutine _moveCoroutine;
 
     private Rigidbody rb;
-    private Animator _animator;
 
+    private Animator _animator;
+    //Animation
     private int RunAnimationId;
     private int RunAnimationIdY;
     private float p_anim;
@@ -27,12 +28,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
-    #endregion Parameters
-
     //Audio
     private EventInstance PlayerFootSteps;
     AudioSystemFMOD AudioSystem;
     FMODEvents FmodSystemn;
+
+    #endregion Parameters
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -107,28 +109,23 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (Math.Abs(p_anim - input.x) < 0.1f)
             p_anim = input.x;
 
-        if (p_anim < input.x)
+        if (p_anim < input.x || p_anim >= input.x)
         {
             p_anim += Time.deltaTime * smooth;
-            
         }
-
-        else if (p_anim > input.x)
-            p_anim -= Time.deltaTime * smooth;
 
         if (Math.Abs(p_animVerical - input.y) < 0.1f)
             p_animVerical = input.y;
 
-        if (p_animVerical <= input.y)
+        if (p_animVerical < input.y || p_animVerical >= input.y)
         {
             p_animVerical += Time.deltaTime * smooth;
             Logging.Log("Forward ?? ");
         }
-        /*else if (p_animVerical > input.y)
-        {
-            p_animVerical -= Time.deltaTime * smooth;
-            Logging.Log("BackWard !!!! ");
-        }*/
+
+        // Clamp p_anim to be between 0 and 0.5
+        p_anim = Mathf.Clamp(p_anim, 0.0f, 0.5f);
+        p_animVerical = Mathf.Clamp(p_animVerical, 0.0f, 0.5f);
 
         _animator.SetFloat(RunAnimationId, p_anim);
         _animator.SetFloat(RunAnimationIdY, p_animVerical);
@@ -151,6 +148,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         _animator.SetFloat(RunAnimationId, 0);
         _animator.SetFloat(RunAnimationIdY, 0);
+        p_anim = 0;
+        p_animVerical = 0;
+
     }
 
     public void LoadGame(GameData _gameData)
