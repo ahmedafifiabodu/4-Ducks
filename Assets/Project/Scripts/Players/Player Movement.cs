@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
     [SerializeField] private bool isCat;
-    [SerializeField] private HealthSystem healthSystem;
     #endregion Parameters
 
     private void Awake()
