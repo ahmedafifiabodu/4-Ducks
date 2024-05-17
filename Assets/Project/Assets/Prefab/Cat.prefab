@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8287291873898985600}
   - component: {fileID: 6717060011641658236}
   - component: {fileID: 1730453618962680605}
-  - component: {fileID: 1264466995042497096}
+  - component: {fileID: 6245643345245871029}
   m_Layer: 8
   m_Name: Cat
   m_TagString: Untagged
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 1
   Speed: 5
---- !u!114 &1264466995042497096
+--- !u!114 &6245643345245871029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,10 +164,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 456768661024448939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6abaa55cb4f3b14ba6117d18abd6e75, type: 3}
+  m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deathCount: 0
+  jumpForce: 5
+  jumpHeight: 1
+  jumpDuration: 1
+  gravity: 20
+  maxVelocity: 10
+  maxForce: 20
+  animationPlayTransition: 0.001
 --- !u!1 &686816619099586661
 GameObject:
   m_ObjectHideFlags: 0

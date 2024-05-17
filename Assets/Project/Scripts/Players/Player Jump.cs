@@ -24,7 +24,7 @@ public class PlayerJump : MonoBehaviour
 
     private Animator _animator;
     private int JumpAnimationId;
-    [SerializeField] private float animationPlayTransition = 0.15f;
+    [SerializeField] private float animationPlayTransition = 0.001f;
 
     private void Awake()
     {
