@@ -45,8 +45,6 @@ public class EnergySystem : MonoBehaviour
     }
     private void OnDisable()
     {
-        EnergyCrystal.OnCrystalCollected.RemoveListener
-            (GainEnergy);
-
+        EnergyCrystal.OnCrystalCollected.RemoveListener(GainEnergy);
     }
 }
