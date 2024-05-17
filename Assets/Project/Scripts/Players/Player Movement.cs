@@ -8,10 +8,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     #region Parameters
 
     [Header("Animation")]
-    [SerializeField] private float smooth = 2;
+    [SerializeField] private float smooth = 5;
 
     [Header("Movement")]
-    [SerializeField] private float Speed = 5f;
+    [SerializeField] private float Speed = 8f;
 
     private InputManager _inputManager;
     private Coroutine _moveCoroutine;
