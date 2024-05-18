@@ -9,6 +9,7 @@ public class HealthSystem : MonoBehaviour ,IDamagable
     [SerializeField] private float _healthMax;
     private float _health;
     public float Health => _health;
+    public float HealthMax => _healthMax;
     public float HealthPrecentage => (_health / _healthMax);
 
     private void Awake()

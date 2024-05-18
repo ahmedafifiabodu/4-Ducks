@@ -9,6 +9,9 @@ public class HealthBar : MonoBehaviour
     private void OnEnable()
     {
         _healthSystem.OnHealthChanged.AddListener(UpdateHealthBar);
+    }
+    private void Start()
+    {
         _image.fillAmount = _healthSystem.HealthPrecentage;
     }
 
