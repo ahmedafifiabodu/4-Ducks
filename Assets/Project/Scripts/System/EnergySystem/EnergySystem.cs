@@ -21,7 +21,7 @@ public class EnergySystem : MonoBehaviour
     
     private void OnEnable()
     {
-        EnergyCrystal.OnCrystalCollected.AddListener(GainEnergy);
+        EnergyCrystal.OnEnergyCrystalCollected.AddListener(GainEnergy);
     }
     public void GainEnergy(float energyAmount)
     {
@@ -45,6 +45,6 @@ public class EnergySystem : MonoBehaviour
     }
     private void OnDisable()
     {
-        EnergyCrystal.OnCrystalCollected.RemoveListener(GainEnergy);
+        EnergyCrystal.OnEnergyCrystalCollected.RemoveListener(GainEnergy);
     }
 }

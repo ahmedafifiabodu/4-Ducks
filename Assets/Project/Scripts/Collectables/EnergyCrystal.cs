@@ -6,15 +6,18 @@ using UnityEngine.Events;
 
 public class EnergyCrystal : Crystal
 {
+    public static UnityEvent<float> OnEnergyCrystalCollected = new UnityEvent<float>();
+
     [SerializeField] private float _energyAmount;
     public float EnergyAmount => _energyAmount;
     public override void Ability()
     {
         throw new System.NotImplementedException();
     }
-    protected override float GetEnergyAmount()
+    public override void Collect()
     {
-       return _energyAmount;
+        base.Collect();
+        OnEnergyCrystalCollected?.Invoke(_energyAmount);
     }
     private void OnTriggerEnter(Collider other)
     {

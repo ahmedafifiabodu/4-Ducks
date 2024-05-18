@@ -5,18 +5,14 @@ using UnityEngine.Events;
 
 public abstract class Crystal : MonoBehaviour, ICollectable
 {
-    public static UnityEvent<float> OnCrystalCollected = new UnityEvent<float>();
-
     [SerializeField] private string _crystalId;
     private bool isCollected = false;
     public abstract void Ability();
     public virtual void Collect()
     {
-        OnCrystalCollected?.Invoke(GetEnergyAmount());
         gameObject.SetActive(false);
         isCollected = true;
     }
-    protected abstract float GetEnergyAmount();
 
     [ContextMenu("Generate guid for ID")]
     private void GenerateID()
