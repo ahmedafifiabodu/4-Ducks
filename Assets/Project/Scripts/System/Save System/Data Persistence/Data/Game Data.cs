@@ -8,12 +8,14 @@ public class GameData
     public int _deathCount;
     public Vector3 _playerPosition;
     public SerializableDictionary<string, bool> _coinsCollected;
+    public SerializableDictionary<string, bool> _crystalsCollected;
 
     public GameData()
     {
         _deathCount = 0;
         _playerPosition = Vector3.zero;
         _coinsCollected = new SerializableDictionary<string, bool>();
+        _crystalsCollected = new SerializableDictionary<string, bool>();
     }
 
     public int PercentageComplete()
