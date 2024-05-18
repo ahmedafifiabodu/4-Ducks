@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthSystem : MonoBehaviour
+public class HealthSystem : MonoBehaviour ,IDamagable
 {
     public UnityEvent OnHealthChanged;
     public UnityEvent OnDeath;
@@ -30,5 +30,10 @@ public class HealthSystem : MonoBehaviour
         _health += healAmount;
         if (_health >= _healthMax) _health = _healthMax;
         OnHealthChanged?.Invoke();
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }
