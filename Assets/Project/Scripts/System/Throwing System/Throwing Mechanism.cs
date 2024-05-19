@@ -16,6 +16,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected float _currentVelocity;
 
+    private ObjectPool _objectPool;
     private InputManager _inputManager;
     private Coroutine _throwCoroutine;
 
@@ -27,6 +28,7 @@ public class ThrowingMechanism : MonoBehaviour
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
         _startThrowAction = _ => _throwCoroutine = StartCoroutine(StartThrow());
         _endThrowAction = _ =>
@@ -75,7 +77,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void Throw()
     {
-        GameObject bullet = ObjectPool.SharedInstance.GetPooledObject(1);
+        GameObject bullet = _objectPool.GetPooledObject(1);
 
         if (bullet != null)
         {

@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    public static ObjectPool SharedInstance;
-
-    public List<Pool> pools;
-    public Dictionary<int, List<GameObject>> poolDictionary;
+    [SerializeField] internal List<Pool> pools;
+    [SerializeField] internal Dictionary<int, List<GameObject>> poolDictionary;
 
     private void Awake()
     {
-        SharedInstance = this;
+        ServiceLocator.Instance.RegisterService(this, true);
         poolDictionary = new Dictionary<int, List<GameObject>>();
 
         foreach (Pool pool in pools)
@@ -28,7 +26,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    public GameObject GetPooledObject(int tag)
+    internal GameObject GetPooledObject(int tag)
     {
         if (!poolDictionary.ContainsKey(tag))
             return null;
@@ -65,5 +63,21 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
-    public void ReturnToPool(int _, GameObject objectToReturn) => objectToReturn.SetActive(false);
+    internal void ReturnToPool(int _, GameObject objectToReturn) => objectToReturn.SetActive(false);
+
+    internal int GetPoolSize(int tag)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+            return -1;
+
+        return poolDictionary[tag].Count;
+    }
+
+    internal List<GameObject> GetPooledObjects(int tag)
+    {
+        if (!poolDictionary.ContainsKey(tag))
+            return null;
+
+        return poolDictionary[tag];
+    }
 }
