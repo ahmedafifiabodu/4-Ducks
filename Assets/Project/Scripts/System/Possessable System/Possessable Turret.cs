@@ -10,6 +10,11 @@ public class PossessableTurret : MonoBehaviour, IPossessable
     private Action<InputAction.CallbackContext> _unpossess;
     private Action<InputAction.CallbackContext> _shoot;
 
+    private void Start()
+    {
+        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+    }
+
     private void OnEnable()
     {
         _unpossess = _ => Unpossess();
