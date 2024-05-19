@@ -23,7 +23,7 @@ public class CM_CameraControl : MonoBehaviour
     [SerializeField] private Vector3 _startAim0ffset;
     [SerializeField] private Vector3 _endAimEndOffset;
 
-    [Range(0, 1)][SerializeField] private float duration = 2.0f;
+    [Range(0, 10)][SerializeField] private float duration = 2.0f;
     [Range(0, 1)][SerializeField] private float _elapsedTime = 0.0f;
 
     void Start()
@@ -46,15 +46,15 @@ public class CM_CameraControl : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
-            _transposer.m_FollowOffset = Vector3.Lerp(_startTransposerOffset, _endtransposerendOffset, t);
-            _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_startAim0ffset, _endAimEndOffset, t);
+            _transposer.m_FollowOffset = Vector3.Slerp(_startTransposerOffset, _endtransposerendOffset, t);
+            _groupComposer.m_TrackedObjectOffset = Vector3.Slerp(_startAim0ffset, _endAimEndOffset, t);
         }
         if (averageDistance < _minDistance)
         {
             _elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
-            _transposer.m_FollowOffset = Vector3.Lerp(_endtransposerendOffset, _startTransposerOffset, t);
-            _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_endAimEndOffset, _startAim0ffset, t);
+            _transposer.m_FollowOffset = Vector3.Slerp(_endtransposerendOffset, _startTransposerOffset, t);
+            _groupComposer.m_TrackedObjectOffset = Vector3.Slerp(_endAimEndOffset, _startAim0ffset, t);
         }
     }
     float CalculateAverageDistance(CinemachineTargetGroup targetGroup)
