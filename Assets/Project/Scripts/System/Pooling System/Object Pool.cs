@@ -13,6 +13,11 @@ public class ObjectPool : MonoBehaviour
         SharedInstance = this;
         poolDictionary = new Dictionary<int, List<GameObject>>();
 
+        InitializeList();
+    }
+
+    private void InitializeList()
+    {
         foreach (Pool pool in pools)
         {
             List<GameObject> objectPool = new();
@@ -43,6 +48,13 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
+        ExtendObjects(tag);
+
+        return null;
+    }
+
+    private GameObject ExtendObjects(int tag)
+    {
         //extend the size
         Pool pool = null;
         for (int i = 0; i < pools.Count; i++)
@@ -50,7 +62,7 @@ public class ObjectPool : MonoBehaviour
             if (pools[i].tag == tag && tag != 2)   // tag != 2 to disable extend for turret
             {
                 pool = pools[i];
-                break; // Exit the loop once the matching pool is found
+                break; //Exit the loop once the matching pool is found
             }
         }
 
@@ -58,7 +70,8 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject obj = Instantiate(pool.prefab);
             obj.SetActive(true);
-            pool.pooledObjects.Add(obj); // Add the new object to the pool
+            pool.pooledObjects.Add(obj); //Add the new object to the pool 
+            poolDictionary[tag].Add(obj);
             return obj;
         }
 
