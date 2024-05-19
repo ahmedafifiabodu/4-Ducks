@@ -45,7 +45,8 @@ public class ThrowingBall : ThrowingMechanism
     {
         Vector3[] points = new Vector3[numP];
         Vector3 startingPosition = transform.position;
-        Vector3 startingVelocity = new(0, _currentVelocity, _currentVelocity);
+        //Vector3 startingVelocity = new Vector3(0, _currentVelocity, _currentVelocity);
+        Vector3 startingVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
 
         for (int i = 0; i < numP; i++)
         {

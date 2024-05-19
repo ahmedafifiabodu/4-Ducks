@@ -84,7 +84,7 @@ public class ThrowingMechanism : MonoBehaviour
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.SetActive(true);
 
-            Vector3 initialVelocity = new(0, _currentVelocity, _currentVelocity);
+            Vector3 initialVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
             Rigidbody ballRigidbody = bullet.GetComponent<Rigidbody>();
             ballRigidbody.velocity = initialVelocity;
         }

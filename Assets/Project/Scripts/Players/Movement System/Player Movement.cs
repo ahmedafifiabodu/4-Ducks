@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     #region Parameters
 
     [Header("Animation")]
-    [SerializeField] private float smooth = 2;
+    [SerializeField] private float smooth = 5;
 
-    [Header("PlayerMoveSystem")]
-    [SerializeField] private float Speed = 5f;
+    [Header("Movement")]
+    [SerializeField] private float Speed = 8f;
 
     [SerializeField] private bool isCat;
 
@@ -20,15 +21,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private InputManager _inputManager;
 
     private Rigidbody rb;
+
     private Animator _animator;
 
+    //Animation
     private int RunAnimationId;
+
     private int RunAnimationIdY;
     private float p_anim;
     private float p_animVerical;
 
     private Vector2 input;
     private bool isMoving;
+
+    //Audio
+    private EventInstance PlayerFootSteps;
+
+    private AudioSystemFMOD AudioSystem;
+    private FMODEvents FmodSystemn;
 
     #endregion Parameters
 
@@ -43,12 +53,18 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         if (isCat)
         {
             _startMoveAction = _ =>
             {
+                //play sfx for steps
+                PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
+                PlayerFootSteps.start();
                 isMoving = true;
             };
             _inputManager.PlayerActions.Move.started += _startMoveAction;
@@ -74,6 +90,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 isMoving = false;
                 StartCoroutine(StopMoveSmoothly());
                 rb.velocity = Vector3.zero;
+                PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
             };
             _inputManager.GhostActions.Move.canceled += _stopMoveAction;
         }

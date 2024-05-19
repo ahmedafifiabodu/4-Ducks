@@ -1,14 +1,18 @@
+using Fungus;
+using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private Material _outLineMaterial;
     [SerializeField] private LayerMask _interactableLayerMask;
-    [SerializeField] private PlayerType _playerType;
 
     private ServiceLocator serviceLocator;
     private UISystem _playerUI;
     private InputManager _inputManager;
+    private AudioSystemFmod _audioManager;
+
     private Interactable currentInteractable;
 
     private bool hasPlayedInteractSFX = false;
@@ -19,22 +23,14 @@ public class PlayerInteract : MonoBehaviour
 
         _playerUI = serviceLocator.GetService<UISystem>();
         _inputManager = serviceLocator.GetService<InputManager>();
+        _audioManager = serviceLocator.GetService<AudioSystemFmod>();
 
         _playerUI.DisablePromptText();
 
-        if (_playerType.Cat)
-            _inputManager.PlayerActions.Interact.performed += _ => StartInteraction();
-        else if (_playerType.Ghost)
-            _inputManager.GhostActions.Interact.performed += _ => StartInteraction();
+        _inputManager.PlayerActions.Interact.performed += _ => StartInteraction();
     }
 
-    private void OnDestroy()
-    {
-        if (_playerType.Cat)
-            _inputManager.PlayerActions.Interact.performed -= _ => StartInteraction();
-        else if (_playerType.Ghost)
-            _inputManager.GhostActions.Interact.performed -= _ => StartInteraction();
-    }
+    private void OnDestroy() => _inputManager.PlayerActions.Interact.performed -= _ => StartInteraction();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -51,10 +47,16 @@ public class PlayerInteract : MonoBehaviour
             if (!_interactable.AutoInteract)
             {
                 _playerUI.UpdatePromptText(_interactable.PromptMessage);
+                StartInteraction();
             }
             else
                 StartInteraction();
         }
+
+    }
+
+    void Test()
+    {
     }
 
     private void OnTriggerExit(Collider other)
@@ -81,18 +83,17 @@ public class PlayerInteract : MonoBehaviour
     {
         if (currentInteractable != null)
         {
-            currentInteractable.RemoveOutline();
             bool shouldInteract = currentInteractable.AutoInteract || _inputManager.PlayerActions.Interact.triggered;
 
             if (shouldInteract)
             {
                 if (!hasPlayedInteractSFX)
                 {
-                    //_audioManager.PlaySFX(_audioManager._interact);
+                    _audioManager.PlaySFX(_audioManager._interact);
                     hasPlayedInteractSFX = true;
                 }
 
-                currentInteractable.BaseInteract(_playerType);
+                currentInteractable.BaseInteract();
             }
         }
     }
