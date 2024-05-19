@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HealthSystem : MonoBehaviour ,IDamagable
+public class HealthSystem : MonoBehaviour, IDamageable
 {
     public UnityEvent OnHealthChanged;
     public UnityEvent OnDeath;
@@ -16,16 +16,18 @@ public class HealthSystem : MonoBehaviour ,IDamagable
     {
         _health = _healthMax;
     }
-    public void TakeDamage(float damageAmount)
+
+    public void TakeDamage(int damageAmount)
     {
         _health -= damageAmount;
-        if( _health <= 0 ) 
+        if (_health <= 0)
         {
             _health = 0;
             OnDeath?.Invoke();
         }
         OnHealthChanged?.Invoke();
     }
+
     public void Heal(float healAmount)
     {
         _health += healAmount;
