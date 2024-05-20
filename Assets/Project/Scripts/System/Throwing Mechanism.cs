@@ -20,15 +20,25 @@ public class ThrowingMechanism : MonoBehaviour
     private Coroutine _throwCoroutine;
 
     private Action<InputAction.CallbackContext> _startThrowAction;
+    private Action<InputAction.CallbackContext> _startThrow;
     private Action<InputAction.CallbackContext> _endThrowAction;
 
     #endregion Parameters
 
+    bool _test = false;
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         _startThrowAction = _ => _throwCoroutine = StartCoroutine(StartThrow());
+
+        _startThrow = _ =>
+        {
+           _currentVelocity = _baseVelocity * 15;
+            _test = true;
+            Throw();
+        };
+
         _endThrowAction = _ =>
         {
             if (_throwCoroutine != null)
@@ -45,6 +55,8 @@ public class ThrowingMechanism : MonoBehaviour
         }
         else if (IsGhost)
         {
+            _inputManager.GhostActions.Fire.performed += _startThrow;
+
             _inputManager.GhostActions.Throw.started += _startThrowAction;
             _inputManager.GhostActions.Throw.canceled += _endThrowAction;
         }
@@ -59,8 +71,11 @@ public class ThrowingMechanism : MonoBehaviour
         }
         else if (IsGhost)
         {
-            _inputManager.GhostActions.Throw.started -= _startThrowAction;
+            _inputManager.GhostActions.Fire.performed -= _startThrow;
+
+            _inputManager.GhostActions.Throw.started -= _startThrow;
             _inputManager.GhostActions.Throw.canceled -= _endThrowAction;
+            _test = false;
         }
 
         if (_throwCoroutine != null)
@@ -81,10 +96,19 @@ public class ThrowingMechanism : MonoBehaviour
         {
             bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
             bullet.SetActive(true);
-
-            Vector3 initialVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
+            Vector3 initialVelocity;
+            if (_test) 
+            {
+               initialVelocity = transform.forward * _currentVelocity;
+            }
+            else
+            {
+               initialVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
+            }
+            
             Rigidbody ballRigidbody = bullet.GetComponent<Rigidbody>();
             ballRigidbody.velocity = initialVelocity;
+            _test = false;
         }
 
         /*//the initial velocity of the ball
@@ -92,4 +116,5 @@ public class ThrowingMechanism : MonoBehaviour
         Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
         ballRigidbody.velocity = initialVelocity;*/
     }
+
 }
