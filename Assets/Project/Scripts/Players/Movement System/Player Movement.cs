@@ -53,9 +53,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
-        //AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        //FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
-
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         if (isCat)
@@ -96,6 +93,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
+    private void Start()
+    {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+    }
+
     private void OnDisable()
     {
         if (isCat)
@@ -110,9 +113,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
-    void OnStartMove()
+    private void OnStartMove()
     {
-
     }
 
     private void Update()

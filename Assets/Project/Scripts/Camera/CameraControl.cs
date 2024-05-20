@@ -1,93 +1,65 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityVector2;
 using Cinemachine;
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    [Header("Frame Size")]
+    [Header("start and End Values")]
     [Space(3)]
-    [SerializeField] private float _maxDistance;
+    [SerializeField] private float _startFOV;
 
-    [SerializeField] private float _minDistance;
+    [SerializeField] private float _endFOV;
+
+    [SerializeField] private Quaternion _startXRotation;
+    [SerializeField] private Quaternion _endXRotation;
+
+    [SerializeField] private float _maxDistance = 10.0f;
+    [SerializeField] private float _minDistance = 10.0f;
+
     [SerializeField] private CinemachineTargetGroup _targetGroup;
+    [SerializeField] private Camera _camera;
 
-    [Header("Start And End Positions")]
-    [Space(3)]
-    [Header("Body")]
-    [SerializeField] private Vector3 _startTransposerOffset;
+    [Range(0, 10)][SerializeField] private float duration = 2.0f;
+    [Range(0, 1)][SerializeField] private float _elapsedTime = 0.0f;
 
-    [SerializeField] private Vector3 _endtransposerendOffset;
-
-    [Space(1)]
-    [Header("Aim")]
-    [SerializeField] private Vector3 _startAim0ffset;
-
-    [SerializeField] private Vector3 _endAimEndOffset;
-
-    private ServiceLocator _serviceLocator;
-    private InputManager _inputManager;
-
-    private CinemachineVirtualCamera _virtualCamera;
-    private CinemachineGroupComposer _groupComposer;
-    private CinemachineTransposer _transposer;
-    private float _lastTargetAverageDistance;
-
-    private Action<InputAction.CallbackContext> _startMoveAction;
-
-    private void Start()
-    {
-        _serviceLocator = ServiceLocator.Instance;
-
-        _inputManager = _serviceLocator.GetService<InputManager>();
-
-        _startMoveAction = _ => MoveCamera();
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-
-        _virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        _transposer = _virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-        _groupComposer = _virtualCamera.GetCinemachineComponent<CinemachineGroupComposer>();
-
-        _transposer.m_FollowOffset = _startTransposerOffset;
-        _groupComposer.m_TrackedObjectOffset = _startAim0ffset;
-
-        _lastTargetAverageDistance = CalculateAverageDistance(_targetGroup);
-    }
+    private void LateUpdate() => MoveCamera();
 
     private void MoveCamera()
     {
         float averageDistance = CalculateAverageDistance(_targetGroup);
-        float screenHieght = Screen.height;
+        if (averageDistance >= _minDistance && averageDistance < _maxDistance)
+        {
+            _elapsedTime += Time.deltaTime;
 
-        float step = Mathf.Clamp((averageDistance - _lastTargetAverageDistance) / screenHieght, -1.0f, 1.0f);
-        
-        Logging.Log($"Average Distance {averageDistance} /n Last AD {_lastTargetAverageDistance} /n Screen hieght{screenHieght} /n Step{step}");
+            // Lerp Factor
+            float step = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
+            _camera.fieldOfView = Mathf.Lerp(_startFOV, _endFOV, step);
+            transform.rotation = Quaternion.Lerp(
+                 _startXRotation, _endXRotation, step);
+        }
+        if (averageDistance < _minDistance)
+        {
+            _elapsedTime += Time.deltaTime;
 
-        _transposer.m_FollowOffset = Vector3.Lerp(_startTransposerOffset, _endtransposerendOffset, step);
-        _groupComposer.m_TrackedObjectOffset = Vector3.Lerp(_startAim0ffset, _endAimEndOffset, step);
-
-        _lastTargetAverageDistance = averageDistance;
+            float step = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
+            _camera.fieldOfView = Mathf.Lerp(_endFOV, _startFOV, step);
+            transform.rotation = Quaternion.Slerp(
+                 _endXRotation, _startXRotation, step);
+        }
     }
 
     private float CalculateAverageDistance(CinemachineTargetGroup targetGroup)
     {
-        //float totalDistance = 0f;
-        //int count = 0;
-
-        //for (int i = 0; i < targetGroup.m_Targets.Length; i++)
-        //{
-        //    for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
-        //    {
-        //        totalDistance += Vector3.Distance(_serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[i].target.position)
-        //            , _serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[j].target.position));
-        //        count++;
-        //    }
-        //}
-        // return count > 0 ? totalDistance / count : 0f;
-        float Distamce = Vector3.Distance(_serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[0].target.position)
-                    , _serviceLocator.GetService<CameraInstance>().GetComponent<Camera>().WorldToScreenPoint(targetGroup.m_Targets[1].target.position));
-
-        return Distamce;
+        float totalDistance = 0f;
+        int count = 0;
+        for (int i = 0; i < targetGroup.m_Targets.Length; i++)
+        {
+            for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
+            {
+                totalDistance += Vector3.Distance(targetGroup.m_Targets[i].target.position, targetGroup.m_Targets[j].target.position);
+                count++;
+            }
+        }
+        return count > 0 ? totalDistance / count : 0f;
     }
 }
