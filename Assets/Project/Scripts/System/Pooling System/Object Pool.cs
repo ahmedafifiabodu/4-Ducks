@@ -10,7 +10,10 @@ public class ObjectPool : MonoBehaviour
     {
         ServiceLocator.Instance.RegisterService(this, true);
         poolDictionary = new Dictionary<int, List<GameObject>>();
+    }
 
+    private void Start()
+    {
         foreach (Pool pool in pools)
         {
             List<GameObject> objectPool = new();

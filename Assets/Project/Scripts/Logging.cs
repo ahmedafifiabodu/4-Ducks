@@ -34,4 +34,17 @@ public static class Logging
 
         Debug.DrawLine(pos, lastPos, color, 2.0f);
     }
+
+    [System.Diagnostics.Conditional("ENABLE_LOG")]
+    internal static void PrintLayerMask(LayerMask layerMask)
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            if ((layerMask.value & (1 << i)) != 0)
+            {
+                string layerName = LayerMask.LayerToName(i);
+                Log($"Layer {i}: {layerName}");
+            }
+        }
+    }
 }

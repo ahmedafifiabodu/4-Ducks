@@ -12,6 +12,15 @@ public class EnemyScriptableObject : ScriptableObject
     [SerializeField] private int _health = 100;
     [SerializeField] private float _AIUpdateInvterval = 0.1f;
 
+    [Header("Enemy States")]
+    [SerializeField] private EnemyStates _defaultState;
+
+    [SerializeField] private float _idleLocationRadius = 4f;
+    [SerializeField] private float _idleMovingSpeedMultiplier = 0.5f;
+    [SerializeField][Range(2, 10)] private int _wayPoints = 4;
+    [SerializeField] private float _fieldOfView = 90f;
+    [SerializeField] private float _lineOfSightRange = 6f;
+
     [Header("Navmesh Agent")]
     [SerializeField] private float _acceleration = 8;
 
@@ -55,6 +64,14 @@ public class EnemyScriptableObject : ScriptableObject
         _attackingConfiguration.SetupEnemy(enemy);
 
         enemy.NavmeshEnemyMovment.UpdateSpeed = AIUpdateInvterval;
+        enemy.NavmeshEnemyMovment.DefaultState = _defaultState;
+        enemy.NavmeshEnemyMovment.IdleLocationRadius = _idleLocationRadius;
+        enemy.NavmeshEnemyMovment.IdleMovingSpeedMultiplier = _idleMovingSpeedMultiplier;
+        enemy.NavmeshEnemyMovment.WayPointsIndex = new Vector3[_wayPoints];
+
+        enemy.NavmeshEnemyMovment.LineOfSightChecker.FieldOfView = _fieldOfView;
+        enemy.NavmeshEnemyMovment.LineOfSightChecker.ColliderRadius = _lineOfSightRange;
+        enemy.NavmeshEnemyMovment.LineOfSightChecker.LineOfSightLayers = AttackingConfiguration.LineOfSightLayers;
 
         enemy.NavMeshAgent.acceleration = Acceleration;
         enemy.NavMeshAgent.angularSpeed = AngularSpeed;

@@ -1,7 +1,7 @@
+using FMOD.Studio;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -53,8 +53,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
-        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+        //AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        //FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
 
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
@@ -108,6 +108,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             _inputManager.GhostActions.Move.started -= _startMoveAction;
             _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
         }
+    }
+
+    void OnStartMove()
+    {
+
     }
 
     private void Update()

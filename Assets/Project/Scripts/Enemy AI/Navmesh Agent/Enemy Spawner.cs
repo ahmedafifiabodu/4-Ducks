@@ -75,7 +75,8 @@ public class EnemySpawner : MonoBehaviour
                 _enemy.NavMeshAgent.Warp(spawnPosition);
                 _enemy.NavMeshAgent.enabled = true;
                 _enemy.gameObject.SetActive(true);
-                _enemy.NavmeshEnemyMovment.StartChasing();
+                _enemy.NavmeshEnemyMovment._navMeshTriangulation = _navMeshTriangulation;
+                _enemy.NavmeshEnemyMovment.Spawn();
             }
             else
                 Logging.LogError("Failed to sample position");

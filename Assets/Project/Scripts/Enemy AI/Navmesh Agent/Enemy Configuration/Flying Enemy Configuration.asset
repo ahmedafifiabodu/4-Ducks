@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 926cda205af828e4ea32fd502f1e89bd, type: 3}
-  m_Name: Ranged Enemy Configuration
+  m_Name: Flying Enemy Configuration
   m_EditorClassIdentifier: 
-  _attackingConfiguration: {fileID: 11400000, guid: f5ae494da3bbf47458752d74c7d538ab,
+  _attackingConfiguration: {fileID: 11400000, guid: 4159013506e63a748882fab95cbb7161,
     type: 2}
   _health: 50
   _AIUpdateInvterval: 0.1
@@ -21,14 +21,14 @@ MonoBehaviour:
   _idleMovingSpeedMultiplier: 0.5
   _wayPoints: 4
   _fieldOfView: 90
-  _lineOfSightRange: 7.5
-  _acceleration: 8
+  _lineOfSightRange: 10
+  _acceleration: 12
   _angularSpeed: 120
   _areamask: -1
   _avoidancePriority: 50
-  _baseOffset: 0
-  _height: 2
-  _obstacleAvoidanceType: 1
-  _radius: 0.33
-  _speed: 4
+  _baseOffset: 2
+  _height: 2.75
+  _obstacleAvoidanceType: 0
+  _radius: 0.25
+  _speed: 2
   _stoppingDistance: 10
