@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    [SerializeField] private Material _outLineMaterial;
     [SerializeField] private LayerMask _interactableLayerMask;
     [SerializeField] private PlayerType _playerType;
 
@@ -12,6 +11,7 @@ public class PlayerInteract : MonoBehaviour
     private Interactable currentInteractable;
 
     private bool hasPlayedInteractSFX = false;
+    private bool _outlineEnabled = true;
 
     private void Start()
     {
@@ -42,11 +42,10 @@ public class PlayerInteract : MonoBehaviour
         {
             if (other.TryGetComponent<Interactable>(out var _interactable))
             {
-                _interactable.Initialize(_outLineMaterial);
-                _interactable.ApplyOutline();
+                currentInteractable = _interactable;
+                _outlineEnabled = true;
+                currentInteractable.ApplyOutline(_outlineEnabled);
             }
-
-            currentInteractable = _interactable;
 
             if (!_interactable.AutoInteract)
             {
@@ -61,6 +60,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if (((1 << other.gameObject.layer) & _interactableLayerMask) != 0)
         {
+            _outlineEnabled = false;
+            if (currentInteractable != null)
+            {
+                currentInteractable.ApplyOutline(_outlineEnabled);
+            }
             hasPlayedInteractSFX = false;
             SetCurrentInteractableToNull();
         }

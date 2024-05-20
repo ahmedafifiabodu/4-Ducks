@@ -93,9 +93,6 @@ public class RangedAttackRadius : AttackRadius
         Vector3 origin = _transform.position + _bulletSpawnOffset;
         Vector3 direction = (_target.position + _bulletSpawnOffset - origin).normalized;
 
-        Debug.DrawRay(origin, 2 * SphereColliderAttackRadius * direction, Color.magenta);
-        PrintLayerMask(_layerMask);
-
         if (Physics.SphereCast(origin, _sphereCastRadius, direction, out _hit, SphereColliderAttackRadius * 2, _layerMask))
             if (_hit.transform.TryGetComponent(out IDamageable damageable))
                 return damageable.GetTransform() == _target;
@@ -109,17 +106,5 @@ public class RangedAttackRadius : AttackRadius
 
         if (_attackCoroutine == null)
             _navMeshAgent.enabled = true;
-    }
-
-    private void PrintLayerMask(LayerMask layerMask)
-    {
-        for (int i = 0; i < 32; i++)
-        {
-            if ((layerMask.value & (1 << i)) != 0)
-            {
-                string layerName = LayerMask.LayerToName(i);
-                Logging.Log($"Layer {i}: {layerName}");
-            }
-        }
     }
 }

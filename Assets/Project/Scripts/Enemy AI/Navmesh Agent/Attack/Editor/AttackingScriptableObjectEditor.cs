@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class AttackingScriptableObjectEditor : Editor
         script.Damage = EditorGUILayout.IntField("Damage", script.Damage);
         script.AttackRadius = EditorGUILayout.FloatField("Attack Radius", script.AttackRadius);
         script.AttackDelay = EditorGUILayout.FloatField("Attack Delay", script.AttackDelay);
+        script.LineOfSightLayers = LayerMaskField(new GUIContent("Layer Mask"), script.LineOfSightLayers);
 
         EditorGUILayout.LabelField("Ranged Configuration", EditorStyles.boldLabel);
         script.IsRanged = EditorGUILayout.Toggle("Is Ranged", script.IsRanged);
@@ -28,7 +30,6 @@ public class AttackingScriptableObjectEditor : Editor
                 Bullet selectedBullet = (Bullet)EditorGUILayout.ObjectField("Bullet Prefab", script.BulletPrefab, typeof(Bullet), false);
                 if (selectedBullet != null && selectedBullet.GetType() != typeof(Bullet))
                 {
-                    // If a HomingBullet is selected, clear the field and display a warning
                     selectedBullet = null;
                     EditorGUILayout.HelpBox("Only Bullet can be selected.", MessageType.Warning);
                 }
@@ -36,7 +37,6 @@ public class AttackingScriptableObjectEditor : Editor
             }
 
             script.BulletSpawnOffset = EditorGUILayout.Vector3Field("Bullet Spawn Offset", script.BulletSpawnOffset);
-            script.LineOfSightLayers = LayerMaskField("Layer Mask", script.LineOfSightLayers);
         }
 
         if (GUI.changed)
@@ -46,12 +46,52 @@ public class AttackingScriptableObjectEditor : Editor
         }
     }
 
-    private LayerMask LayerMaskField(string label, LayerMask layerMask)
+    private List<string> GetAllLayers()
     {
-        var layers = UnityEditorInternal.InternalEditorUtility.layers;
+        List<string> layers = new List<string>();
+        for (int i = 0; i < 32; i++)
+        {
+            string layerName = LayerMask.LayerToName(i);
+            if (!string.IsNullOrEmpty(layerName))
+            {
+                layers.Add(layerName);
+            }
+        }
+        return layers;
+    }
 
-        layerMask.value = EditorGUILayout.MaskField(label, layerMask.value, layers);
+    private LayerMask LayerMaskField(GUIContent label, LayerMask layerMask)
+    {
+        var layers = GetAllLayers();
 
-        return layerMask;
+        List<int> layerNumbers = new List<int>();
+        for (int i = 0; i < layers.Count; i++)
+        {
+            int layerNumber = LayerMask.NameToLayer(layers[i]);
+            if (layerMask == (layerMask | (1 << layerNumber)))
+            {
+                layerNumbers.Add(i);
+            }
+        }
+
+        int mask = 0;
+        foreach (var number in layerNumbers)
+        {
+            mask |= (1 << number);
+        }
+
+        mask = EditorGUILayout.MaskField(label, mask, layers.ToArray());
+
+        LayerMask correctedMask = 0;
+        for (int i = 0; i < layers.Count; i++)
+        {
+            if ((mask & (1 << i)) != 0)
+            {
+                int layerIndex = LayerMask.NameToLayer(layers[i]);
+                correctedMask |= (1 << layerIndex);
+            }
+        }
+
+        return correctedMask;
     }
 }

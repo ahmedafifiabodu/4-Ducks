@@ -1,7 +1,7 @@
+using FMOD.Studio;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -53,9 +53,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
-        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
-
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         if (isCat)
@@ -96,6 +93,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
+    private void Start()
+    {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+    }
+
     private void OnDisable()
     {
         if (isCat)
@@ -108,6 +111,10 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             _inputManager.GhostActions.Move.started -= _startMoveAction;
             _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
         }
+    }
+
+    private void OnStartMove()
+    {
     }
 
     private void Update()

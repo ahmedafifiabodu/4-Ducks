@@ -1,17 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] private LayerMask _interactableLayerMask = 6;
+    [SerializeField] private Material _outlineMaterial;
 
-    [SerializeField] private MonoBehaviour _possessableScript;
-    [SerializeField] private bool _possessable;
     [SerializeField] private bool _autoInteract;
     [SerializeField] private bool _useEvents;
     [SerializeField] private string _promptMessage;
+    [SerializeField] private bool _possessable;
+    [SerializeField] private MonoBehaviour _possessableScript;
 
     private int? _pendingLayerChange = null;
+    private Renderer _renderer;
+
+    public Material OutlineMaterial
+    { get => _outlineMaterial; set { _outlineMaterial = value; } }
 
     public bool AutoInteract
     { get => _autoInteract; set { _autoInteract = value; } }
@@ -19,11 +25,11 @@ public abstract class Interactable : MonoBehaviour
     public string PromptMessage
     { get => _promptMessage; set { _promptMessage = value; } }
 
-    public bool Possessable
-    { get => _possessable; set { _possessable = value; } }
-
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
+
+    public bool Possessable
+    { get => _possessable; set { _possessable = value; } }
 
     internal IPossessable PossessableScript
     {
@@ -35,10 +41,14 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual string OnLook() => _promptMessage;
 
+    private void Awake() => Initialize(_outlineMaterial);
+
     private void OnValidate()
     {
         if (!Application.isPlaying)
         {
+            Initialize(_outlineMaterial);
+
             if (gameObject.activeInHierarchy)
                 StartCoroutine(DelayedLayerChange());
             else
@@ -73,24 +83,32 @@ public abstract class Interactable : MonoBehaviour
             {
                 OriginalMaterials = renderer.sharedMaterials;
 
-                MaterialsWithOutline = new Material[renderer.sharedMaterials.Length + 1];
-                renderer.sharedMaterials.CopyTo(MaterialsWithOutline, 0);
+                List<Material> materialsWithoutDuplicates = new(renderer.sharedMaterials);
+                materialsWithoutDuplicates.RemoveAll(material => material == outlineMaterial);
+
+                MaterialsWithOutline = new Material[materialsWithoutDuplicates.Count + 1];
+                materialsWithoutDuplicates.CopyTo(MaterialsWithOutline, 0);
                 MaterialsWithOutline[^1] = outlineMaterial;
+
+                _renderer = renderer;
+                break;
             }
         }
     }
 
-    internal void ApplyOutline()
+    internal void ApplyOutline(bool _outlineEnabled)
     {
-        if (TryGetComponent<Renderer>(out var renderer))
-            renderer.sharedMaterials = MaterialsWithOutline;
+        if (_outlineEnabled && _renderer != null) // Check if the outline is enabled and _renderer is not null
+        {
+            // Check if the outline material is already applied
+            if (_outlineMaterial != null && !System.Array.Exists(_renderer.sharedMaterials, material => material == _outlineMaterial))
+                _renderer.sharedMaterials = MaterialsWithOutline;
+        }
+        else if (!_outlineEnabled)
+            RemoveOutline();
     }
 
-    internal void RemoveOutline()
-    {
-        if (TryGetComponent<Renderer>(out var renderer))
-            renderer.sharedMaterials = OriginalMaterials;
-    }
+    internal void RemoveOutline() => _renderer.sharedMaterials = OriginalMaterials;
 
     internal void BaseInteract(PlayerType _playerType)
     {

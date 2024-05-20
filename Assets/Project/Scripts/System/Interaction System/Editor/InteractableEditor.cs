@@ -9,10 +9,13 @@ public class InteractableEditor : Editor
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
 
-        SerializedProperty possessableProperty = so.FindProperty("_possessable");
-        SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
+        SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
+        EditorGUILayout.PropertyField(outlineMaterialProperty);
+
         SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
         SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
+        SerializedProperty possessableProperty = so.FindProperty("_possessable");
+        SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
 
         EditorGUILayout.PropertyField(possessableProperty);
 
