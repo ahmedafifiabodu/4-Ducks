@@ -7,12 +7,16 @@ public class ThrowingMechanism : MonoBehaviour
 {
     #region Parameters
 
+    [Header("Throwing Mechanism")]
     [SerializeField] private GameObject _ballObj;
+
     [SerializeField] private float _baseVelocity = 10f;
     [SerializeField] protected float _velocityMultiplier = 1.5f;
 
+    [Header("Player Type")]
     [SerializeField] protected bool IsCat;
-    [SerializeField] protected bool IsGhost;
+
+    [SerializeField] protected bool IsTurret;
 
     protected float _currentVelocity;
 
@@ -45,10 +49,11 @@ public class ThrowingMechanism : MonoBehaviour
             _inputManager.PlayerActions.Throw.started += _startThrowAction;
             _inputManager.PlayerActions.Throw.canceled += _endThrowAction;
         }
-        else if (IsGhost)
+        else if (IsTurret)
         {
-            _inputManager.GhostActions.Throw.started += _startThrowAction;
-            _inputManager.GhostActions.Throw.canceled += _endThrowAction;
+            _inputManager.TurretActions.Fire.started += _startThrowAction;
+            _inputManager.TurretActions.Fire.canceled += _endThrowAction;
+            _inputManager.TurretActions.Disable();
         }
     }
 
@@ -59,10 +64,10 @@ public class ThrowingMechanism : MonoBehaviour
             _inputManager.PlayerActions.Throw.started -= _startThrowAction;
             _inputManager.PlayerActions.Throw.canceled -= _endThrowAction;
         }
-        else if (IsGhost)
+        else if (IsTurret)
         {
-            _inputManager.GhostActions.Throw.started -= _startThrowAction;
-            _inputManager.GhostActions.Throw.canceled -= _endThrowAction;
+            _inputManager.TurretActions.Fire.started -= _startThrowAction;
+            _inputManager.TurretActions.Fire.canceled -= _endThrowAction;
         }
 
         if (_throwCoroutine != null)
@@ -77,7 +82,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void Throw()
     {
-        GameObject bullet = _objectPool.GetPooledObject(1);
+        GameObject bullet = _objectPool.GetPooledObject(10);
 
         if (bullet != null)
         {
@@ -88,6 +93,8 @@ public class ThrowingMechanism : MonoBehaviour
             Rigidbody ballRigidbody = bullet.GetComponent<Rigidbody>();
             ballRigidbody.velocity = initialVelocity;
         }
+
+        _currentVelocity = 0;
 
         /*//the initial velocity of the ball
         Vector3 initialVelocity = new Vector3(0, _currentVelocity, _currentVelocity);

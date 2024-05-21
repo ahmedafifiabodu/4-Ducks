@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class ThrowingBall : ThrowingMechanism
 {
+    [Header("Trajectory Line Renderer")]
     [SerializeField] private LineRenderer trajectoryLineRenderer;
+
     [SerializeField] private int numPoints = 10;
     [SerializeField] private float timeBetweenPoints = 0.1f; // Time between points
     [SerializeField] private float pointIncreaseInterval = 0.2f;
