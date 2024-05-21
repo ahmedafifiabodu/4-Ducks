@@ -531,6 +531,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fire And Hold"",
+                    ""type"": ""Button"",
+                    ""id"": ""e4bbeca3-5259-4f3b-8e8d-af1d4939959d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -718,6 +727,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6df4a030-29a0-45f6-9a95-b5baf42121c7"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire And Hold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1431,6 +1451,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Turret_Fire = m_Turret.FindAction("Fire", throwIfNotFound: true);
         m_Turret_Look = m_Turret.FindAction("Look", throwIfNotFound: true);
         m_Turret_Interact = m_Turret.FindAction("Interact", throwIfNotFound: true);
+        m_Turret_FireAndHold = m_Turret.FindAction("Fire And Hold", throwIfNotFound: true);
         // Movable Object
         m_MovableObject = asset.FindActionMap("Movable Object", throwIfNotFound: true);
         m_MovableObject_Move = m_MovableObject.FindAction("Move", throwIfNotFound: true);
@@ -1675,6 +1696,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Turret_Fire;
     private readonly InputAction m_Turret_Look;
     private readonly InputAction m_Turret_Interact;
+    private readonly InputAction m_Turret_FireAndHold;
     public struct TurretActions
     {
         private @InputSystem m_Wrapper;
@@ -1682,6 +1704,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Turret_Fire;
         public InputAction @Look => m_Wrapper.m_Turret_Look;
         public InputAction @Interact => m_Wrapper.m_Turret_Interact;
+        public InputAction @FireAndHold => m_Wrapper.m_Turret_FireAndHold;
         public InputActionMap Get() { return m_Wrapper.m_Turret; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1700,6 +1723,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @FireAndHold.started += instance.OnFireAndHold;
+            @FireAndHold.performed += instance.OnFireAndHold;
+            @FireAndHold.canceled += instance.OnFireAndHold;
         }
 
         private void UnregisterCallbacks(ITurretActions instance)
@@ -1713,6 +1739,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @FireAndHold.started -= instance.OnFireAndHold;
+            @FireAndHold.performed -= instance.OnFireAndHold;
+            @FireAndHold.canceled -= instance.OnFireAndHold;
         }
 
         public void RemoveCallbacks(ITurretActions instance)
@@ -1924,6 +1953,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnFireAndHold(InputAction.CallbackContext context);
     }
     public interface IMovableObjectActions
     {
