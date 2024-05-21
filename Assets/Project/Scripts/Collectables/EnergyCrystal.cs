@@ -19,9 +19,4 @@ public class EnergyCrystal : Crystal
         base.Collect();
         OnEnergyCrystalCollected?.Invoke(_energyAmount);
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        Collect();
-    }
-
 }
