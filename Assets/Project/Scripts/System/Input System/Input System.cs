@@ -353,29 +353,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Throw"",
-                    ""type"": ""Button"",
-                    ""id"": ""9a57ddf5-8e75-474b-945e-dc2cd0e99e42"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""c9c11366-5cff-484a-9514-6b4a5c884b05"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Throw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""eed0b880-3ba6-423f-8c4e-0c99fef11eb0"",
@@ -535,6 +515,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""66cea762-0ab8-4fa4-af38-e640c293ec2a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""aaad8c83-e6dd-460a-a30f-3b6c6241ad1d"",
@@ -608,6 +597,127 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""0325a7a9-91be-4a30-a11e-c9ccfdc52b6c"",
+                    ""path"": ""Dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""5d81b167-a0f5-4b4c-a780-f2bfc8509230"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""096b93f3-beff-4481-ab5a-f81773cd17ed"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""dbcfd6db-2ea8-4365-9ba1-9919b58ed536"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""5b091f3e-22b2-4111-8801-9b4761b821fc"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""11701d84-de72-4809-8c2a-0c6452017846"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ad99bb79-a1d0-4e36-9b4b-b1c7016067f7"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""70d51ef3-a98b-4411-97fa-c0966326dc6b"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4eaea974-1a6b-4172-b7f6-5ef2e49b8813"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63498b9a-1d03-48a8-82aa-ac39e7e04e44"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5b1c854-0208-484f-9d28-009237fd1db1"",
+                    ""path"": ""<Joystick>/{Hatswitch}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1316,10 +1426,10 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Ghost_Jump = m_Ghost.FindAction("Jump", throwIfNotFound: true);
         m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
         m_Ghost_Look = m_Ghost.FindAction("Look", throwIfNotFound: true);
-        m_Ghost_Throw = m_Ghost.FindAction("Throw", throwIfNotFound: true);
         // Turret
         m_Turret = asset.FindActionMap("Turret", throwIfNotFound: true);
         m_Turret_Fire = m_Turret.FindAction("Fire", throwIfNotFound: true);
+        m_Turret_Look = m_Turret.FindAction("Look", throwIfNotFound: true);
         m_Turret_Interact = m_Turret.FindAction("Interact", throwIfNotFound: true);
         // Movable Object
         m_MovableObject = asset.FindActionMap("Movable Object", throwIfNotFound: true);
@@ -1496,7 +1606,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ghost_Jump;
     private readonly InputAction m_Ghost_Interact;
     private readonly InputAction m_Ghost_Look;
-    private readonly InputAction m_Ghost_Throw;
     public struct GhostActions
     {
         private @InputSystem m_Wrapper;
@@ -1505,7 +1614,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Ghost_Jump;
         public InputAction @Interact => m_Wrapper.m_Ghost_Interact;
         public InputAction @Look => m_Wrapper.m_Ghost_Look;
-        public InputAction @Throw => m_Wrapper.m_Ghost_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Ghost; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1527,9 +1635,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
-            @Throw.started += instance.OnThrow;
-            @Throw.performed += instance.OnThrow;
-            @Throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(IGhostActions instance)
@@ -1546,9 +1651,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
-            @Throw.started -= instance.OnThrow;
-            @Throw.performed -= instance.OnThrow;
-            @Throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(IGhostActions instance)
@@ -1571,12 +1673,14 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Turret;
     private List<ITurretActions> m_TurretActionsCallbackInterfaces = new List<ITurretActions>();
     private readonly InputAction m_Turret_Fire;
+    private readonly InputAction m_Turret_Look;
     private readonly InputAction m_Turret_Interact;
     public struct TurretActions
     {
         private @InputSystem m_Wrapper;
         public TurretActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @Fire => m_Wrapper.m_Turret_Fire;
+        public InputAction @Look => m_Wrapper.m_Turret_Look;
         public InputAction @Interact => m_Wrapper.m_Turret_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Turret; }
         public void Enable() { Get().Enable(); }
@@ -1590,6 +1694,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -1600,6 +1707,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -1808,11 +1918,11 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnThrow(InputAction.CallbackContext context);
     }
     public interface ITurretActions
     {
         void OnFire(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
     public interface IMovableObjectActions

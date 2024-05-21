@@ -16,6 +16,9 @@ public abstract class Interactable : MonoBehaviour
     private int? _pendingLayerChange = null;
     private Renderer _renderer;
 
+    public LayerMask InteractableLayerMask
+    { get => _interactableLayerMask; set { _interactableLayerMask = value; } }
+
     public Material OutlineMaterial
     { get => _outlineMaterial; set { _outlineMaterial = value; } }
 
@@ -58,13 +61,31 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_pendingLayerChange.HasValue)
+        int layer = _pendingLayerChange ?? LayerMaskToLayerNumber(_interactableLayerMask);
+
+        if (layer >= 0 && layer <= 31)
         {
-            gameObject.layer = _pendingLayerChange.Value;
+            gameObject.layer = layer;
             _pendingLayerChange = null;
         }
         else
-            gameObject.layer = _interactableLayerMask;
+        {
+            Logging.LogError("Invalid layer value: " + layer);
+        }
+    }
+
+    private int LayerMaskToLayerNumber(LayerMask layerMask)
+    {
+        int layerNumber = 0;
+        int mask = layerMask.value;
+
+        while (mask > 0)
+        {
+            mask >>= 1;
+            layerNumber++;
+        }
+
+        return layerNumber - 1;
     }
 
     private IEnumerator DelayedLayerChange()

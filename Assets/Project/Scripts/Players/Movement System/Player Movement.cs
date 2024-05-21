@@ -53,42 +53,35 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void OnEnable()
     {
+        _startMoveAction = _ =>
+        {
+            if (isCat)
+            {
+                PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
+                PlayerFootSteps.start();
+            }
+
+            isMoving = true;
+        };
+
+        _stopMoveAction = _ =>
+        {
+            isMoving = false;
+            StartCoroutine(StopMoveSmoothly());
+            rb.velocity = Vector3.zero;
+            PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
+        };
+
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
         if (isCat)
         {
-            _startMoveAction = _ =>
-            {
-                //play sfx for steps
-                PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
-                PlayerFootSteps.start();
-                isMoving = true;
-            };
             _inputManager.PlayerActions.Move.started += _startMoveAction;
-
-            _stopMoveAction = _ =>
-            {
-                isMoving = false;
-                StartCoroutine(StopMoveSmoothly());
-                rb.velocity = Vector3.zero;
-            };
             _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
         }
         else
         {
-            _startMoveAction = _ =>
-            {
-                isMoving = true;
-            };
             _inputManager.GhostActions.Move.started += _startMoveAction;
-
-            _stopMoveAction = _ =>
-            {
-                isMoving = false;
-                StartCoroutine(StopMoveSmoothly());
-                rb.velocity = Vector3.zero;
-                PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
-            };
             _inputManager.GhostActions.Move.canceled += _stopMoveAction;
         }
     }

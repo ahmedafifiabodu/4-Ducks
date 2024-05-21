@@ -1,4 +1,3 @@
-using BehaviorDesigner.Runtime;
 using UnityEngine;
 
 public class Ghost : MonoBehaviour
