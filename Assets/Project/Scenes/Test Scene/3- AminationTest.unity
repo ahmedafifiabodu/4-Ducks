@@ -190,8 +190,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1520072199}
+    - targetCorrespondingSourceObject: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1520072198}
   m_SourcePrefab: {fileID: 100100000, guid: 775219347a7c666428d798eb576623bd, type: 3}
+--- !u!1 &335981919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 456768661024448939, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+    type: 3}
+  m_PrefabInstance: {fileID: 8168015680894978548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &335981927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335981919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 5
+  jumpHeight: 1
+  jumpDuration: 1
+  gravity: 20
+  maxVelocity: 10
+  maxForce: 20
+  animationPlayTransition: 0.001
 --- !u!1 &586672059
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +240,7 @@ GameObject:
   - component: {fileID: 586672064}
   - component: {fileID: 586672065}
   - component: {fileID: 586672066}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +469,7 @@ GameObject:
   - component: {fileID: 835977095}
   - component: {fileID: 835977101}
   - component: {fileID: 835977102}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Moveable Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,6 +632,42 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1520072190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 82741040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1520072198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520072190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0fcfa93f58ad845acf529f9f705e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectWall:
+    serializedVersion: 2
+    m_Bits: 16384
+  dashSpeed: 10
+  dashCooldown: 1
+--- !u!114 &1520072199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520072190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3504434d1dda33b4d95df05a58c07692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ascendingSpeed: 5
 --- !u!1 &1648332350
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +1016,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 456768661024448939, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 335981927}
   m_SourcePrefab: {fileID: 100100000, guid: 830685bdf7c7cbf489edb1b2866d7d11, type: 3}
 --- !u!1001 &9124822060672316439
 PrefabInstance:
