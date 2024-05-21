@@ -17,7 +17,6 @@ public class RangedAttackRadius : AttackRadius
 
     private IDamageable _targetDamageable;
     private Bullet _bullet;
-    private Transform _transform;
 
     #region Setters
 
@@ -39,7 +38,6 @@ public class RangedAttackRadius : AttackRadius
 
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
         _attackDelayWaitForSeconds = new WaitForSeconds(AttackDelay);
-        _transform = transform;
     }
 
     protected override System.Collections.IEnumerator Attack()
