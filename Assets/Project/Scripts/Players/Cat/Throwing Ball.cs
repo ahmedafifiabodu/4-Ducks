@@ -10,6 +10,17 @@ public class ThrowingBall : ThrowingMechanism
     [SerializeField] private float timeBetweenPoints = 0.1f; // Time between points
     [SerializeField] private float pointIncreaseInterval = 0.2f;
 
+
+    [SerializeField] private Animator _animator;
+    private int AttackAnimationId;
+    [SerializeField] private float animationPlayTransition = 0.001f;
+
+    private void Awake()
+    {
+        //_animator = GetComponent<Animator>();
+        AttackAnimationId = Animator.StringToHash(GameConstant.Animation.Attacking);
+    }
+
     protected override IEnumerator StartThrow()
     {
         StartCoroutine(base.StartThrow());
@@ -38,6 +49,8 @@ public class ThrowingBall : ThrowingMechanism
     protected override void Throw()
     {
         base.Throw();
+
+        _animator.CrossFade(AttackAnimationId, animationPlayTransition);
 
         trajectoryLineRenderer.enabled = false;
         numPoints = 10;

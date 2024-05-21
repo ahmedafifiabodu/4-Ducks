@@ -99,7 +99,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void Throw()
     {
-        GameObject bullet = _objectPool.GetPooledObject(10);
+        GameObject bullet = _objectPool.GetPooledObject(1);
 
         if (bullet != null)
         {
