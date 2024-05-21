@@ -9,6 +9,8 @@ public class InteractableEditor : Editor
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
 
+        _interactable.InteractableLayerMask = EditorGUILayout.MaskField("Interactable Layer Mask", _interactable.InteractableLayerMask, UnityEditorInternal.InternalEditorUtility.layers);
+
         SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
         EditorGUILayout.PropertyField(outlineMaterialProperty);
 

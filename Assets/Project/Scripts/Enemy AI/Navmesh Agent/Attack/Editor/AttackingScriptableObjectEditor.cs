@@ -48,7 +48,7 @@ public class AttackingScriptableObjectEditor : Editor
 
     private List<string> GetAllLayers()
     {
-        List<string> layers = new List<string>();
+        List<string> layers = new();
         for (int i = 0; i < 32; i++)
         {
             string layerName = LayerMask.LayerToName(i);
@@ -64,7 +64,7 @@ public class AttackingScriptableObjectEditor : Editor
     {
         var layers = GetAllLayers();
 
-        List<int> layerNumbers = new List<int>();
+        List<int> layerNumbers = new();
         for (int i = 0; i < layers.Count; i++)
         {
             int layerNumber = LayerMask.NameToLayer(layers[i]);

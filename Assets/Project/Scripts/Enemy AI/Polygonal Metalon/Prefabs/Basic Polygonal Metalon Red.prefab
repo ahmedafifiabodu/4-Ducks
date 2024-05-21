@@ -203,14 +203,13 @@ MonoBehaviour:
       variableStartIndex: 
       JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"PlayerTarget","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Arrive
         Distance","IsShared":true,"SinglemValue":1.5},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Flee
-        Target","IsShared":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":10},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AngularSpeed","IsShared":true,"SinglemValue":1000}]}'
+        Target","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Speed","IsShared":true,"SinglemValue":10},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"AngularSpeed","IsShared":true,"SinglemValue":1000}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
         startIndex: 
         dataPosition: 
-        unityObjects:
-        - {fileID: 0}
+        unityObjects: []
         byteData: 
         byteDataArray: 
       Version: 1.7.9
@@ -252,10 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineOfSightChecker: {fileID: 3973059577281527745}
   _updateSpeed: 0.1
-  _defaultState: 2
-  _idleLocaitonRadius: 50
-  _idleMovingSpeedMultiplier: 0.5
-  _wayPointIndex: 0
 --- !u!114 &6413700608027960051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1897,7 +1892,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 2498287570795864401}
-  _fieldOfView: 90
-  _lineOfSightLayers:
-    serializedVersion: 2
-    m_Bits: 8388609
