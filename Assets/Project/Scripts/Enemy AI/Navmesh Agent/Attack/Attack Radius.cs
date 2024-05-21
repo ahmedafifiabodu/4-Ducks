@@ -11,8 +11,8 @@ public class AttackRadius : MonoBehaviour
     protected internal bool useHomingBullet;
     protected readonly List<IDamageable> _damageables = new();
     protected Coroutine _attackCoroutine;
+    protected Transform _transform;
     private WaitForSeconds _wait;
-    private Transform _transform;
 
     public event AtackEvent OnAttack;
 

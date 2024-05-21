@@ -91,7 +91,7 @@ public abstract class Interactable : MonoBehaviour
     private IEnumerator DelayedLayerChange()
     {
         yield return null;
-        gameObject.layer = _interactableLayerMask;
+        gameObject.layer = LayerMaskToLayerNumber(_interactableLayerMask);
     }
 
     internal void Initialize(Material outlineMaterial)
