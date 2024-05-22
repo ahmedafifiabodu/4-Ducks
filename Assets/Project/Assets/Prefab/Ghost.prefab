@@ -8160,7 +8160,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5596266191763100717, guid: 8c860ea64c3d4534c91056f2f91850dc, type: 3}
+  - {fileID: 2100000, guid: 152a8e6e1651af54d9bb0951731ed962, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17759,6 +17759,8 @@ GameObject:
   - component: {fileID: 4859994441570182612}
   - component: {fileID: 5985173026195919134}
   - component: {fileID: 4457511591145742709}
+  - component: {fileID: 1802519147524682067}
+  - component: {fileID: 5528372631712257886}
   m_Layer: 23
   m_Name: Ghost
   m_TagString: Untagged
@@ -17898,6 +17900,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1802519147524682067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6969748958586297785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3504434d1dda33b4d95df05a58c07692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ascendingSpeed: 5
+--- !u!114 &5528372631712257886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6969748958586297785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0fcfa93f58ad845acf529f9f705e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectWall:
+    serializedVersion: 2
+    m_Bits: 1
+  dashSpeed: 10
+  dashCooldown: 1
 --- !u!1 &6978716604035877350
 GameObject:
   m_ObjectHideFlags: 0
@@ -19141,7 +19173,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3851116416357707348, guid: 8c860ea64c3d4534c91056f2f91850dc, type: 3}
+  - {fileID: 2100000, guid: 12d6224a8bd0b404f9352b4fce7de244, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -21384,8 +21416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7deb5b1195ac546bbe10374379cf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ballObj: {fileID: 7636507714296715182, guid: d4b35430f9a61114681db047c2171e6b,
-    type: 3}
+  _ballPrefab: {fileID: 0}
   _baseVelocity: 2
   _velocityMultiplier: 2
   IsCat: 0

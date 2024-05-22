@@ -238,6 +238,24 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""c89aea8d-5493-4b48-9051-0fe103e1b4e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fly"",
+                    ""type"": ""Button"",
+                    ""id"": ""7eee0446-e06b-44d5-ba27-e22d8d15cb6d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -348,6 +366,28 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de69e245-9b83-4a8e-ad35-ff5e1b6cb2f6"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e43be0a3-c704-4592-850c-5737d8e0252a"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fly"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1365,6 +1405,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Ghost_Move = m_Ghost.FindAction("Move", throwIfNotFound: true);
         m_Ghost_Jump = m_Ghost.FindAction("Jump", throwIfNotFound: true);
         m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
+        m_Ghost_Dash = m_Ghost.FindAction("Dash", throwIfNotFound: true);
+        m_Ghost_Fly = m_Ghost.FindAction("Fly", throwIfNotFound: true);
         // Turret
         m_Turret = asset.FindActionMap("Turret", throwIfNotFound: true);
         m_Turret_Fire = m_Turret.FindAction("Fire", throwIfNotFound: true);
@@ -1533,6 +1575,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ghost_Move;
     private readonly InputAction m_Ghost_Jump;
     private readonly InputAction m_Ghost_Interact;
+    private readonly InputAction m_Ghost_Dash;
+    private readonly InputAction m_Ghost_Fly;
     public struct GhostActions
     {
         private @InputSystem m_Wrapper;
@@ -1540,6 +1584,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Ghost_Move;
         public InputAction @Jump => m_Wrapper.m_Ghost_Jump;
         public InputAction @Interact => m_Wrapper.m_Ghost_Interact;
+        public InputAction @Dash => m_Wrapper.m_Ghost_Dash;
+        public InputAction @Fly => m_Wrapper.m_Ghost_Fly;
         public InputActionMap Get() { return m_Wrapper.m_Ghost; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1558,6 +1604,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
+            @Fly.started += instance.OnFly;
+            @Fly.performed += instance.OnFly;
+            @Fly.canceled += instance.OnFly;
         }
 
         private void UnregisterCallbacks(IGhostActions instance)
@@ -1571,6 +1623,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
+            @Fly.started -= instance.OnFly;
+            @Fly.performed -= instance.OnFly;
+            @Fly.canceled -= instance.OnFly;
         }
 
         public void RemoveCallbacks(IGhostActions instance)
@@ -1897,6 +1955,8 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnFly(InputAction.CallbackContext context);
     }
     public interface ITurretActions
     {
