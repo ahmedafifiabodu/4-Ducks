@@ -62,9 +62,9 @@ public class RangedAttackRadius : AttackRadius
             if (_targetDamageable != null)
             {
                 if (useHomingBullet)
-                    _bullet = _objectPool.GetPooledObject(4).GetComponent<HomingBullet>();
+                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
                 else
-                    _bullet = _objectPool.GetPooledObject(3).GetComponent<Bullet>();
+                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
 
                 _bullet.Damage = Damage;
                 _bullet.transform.SetPositionAndRotation(_transform.position + _bulletSpawnOffset, _navMeshAgent.transform.rotation);

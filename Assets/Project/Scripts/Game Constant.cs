@@ -34,6 +34,7 @@ public static class GameConstant
         public const string HorizontalMove = "Horizontal(X)";
         public const string VerticalMove = "Vertical(Y)";
         public const string IsJumping = "CatJump";
+        public const string Attacking = "CatAttack";
     }
 
     public static class Input

@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator = GetComponent<Animator>();
 
         RunAnimationId = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
-        RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
+        //RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
     }
 
     private void OnEnable()
@@ -90,6 +90,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
         FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+
+        PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystemn.PlayerSteps);
     }
 
     private void OnDisable()
@@ -128,6 +130,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;
         rb.velocity = newVelocity;
+
+        PLAYBACK_STATE playState;
 
         Animate(input);
     }
@@ -168,7 +172,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             float value = Mathf.Lerp(1, 0, elapsedTime / duration);
             _animator.SetFloat(RunAnimationId, value);
-            _animator.SetFloat(RunAnimationIdY, value);
+            //_animator.SetFloat(RunAnimationIdY, value);
 
             elapsedTime += Time.deltaTime;
             yield return null;

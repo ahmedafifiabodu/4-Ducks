@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private List<int> _enemyTags;
+    [SerializeField] private List<GameObject> _enemiesPrefabs;
     [SerializeField] private float _spawnDelay = 1f;
     [SerializeField] private SpawnMethod _spawnMethod = SpawnMethod.RoundRobin;
 
@@ -24,10 +24,10 @@ public class EnemySpawner : MonoBehaviour
         _spawnDelayWaitForSeconds = new WaitForSeconds(_spawnDelay);
         _enemiesPrefab = new List<GameObject>();
 
-        foreach (int tag in _enemyTags)
+        foreach (GameObject _enemyPrefab in _enemiesPrefabs)
         {
-            _numberOfEnemiesToSpawn += _objectPool.GetPoolSize(tag);
-            _enemiesPrefab.AddRange(_objectPool.GetPooledObjects(tag));
+            _numberOfEnemiesToSpawn += _objectPool.GetPoolSize(_enemyPrefab);
+            _enemiesPrefab.AddRange(_objectPool.GetPooledObjects(_enemyPrefab));
         }
 
         _navMeshTriangulation = NavMesh.CalculateTriangulation();

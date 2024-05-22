@@ -6,6 +6,7 @@ public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] private LayerMask _interactableLayerMask = 6;
     [SerializeField] private Material _outlineMaterial;
+    [SerializeField] private Renderer[] renderers;
 
     [SerializeField] private bool _autoInteract;
     [SerializeField] private bool _useEvents;
@@ -96,8 +97,6 @@ public abstract class Interactable : MonoBehaviour
 
     internal void Initialize(Material outlineMaterial)
     {
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-
         foreach (Renderer renderer in renderers)
         {
             if (renderer != null)
@@ -146,6 +145,7 @@ public abstract class Interactable : MonoBehaviour
     {
         if (_playerType.Ghost != null)
         {
+            _playerType.Ghost.gameObject.SetActive(false);
             PossessableScript.Possess();
         }
         else

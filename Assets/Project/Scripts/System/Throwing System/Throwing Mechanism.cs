@@ -8,7 +8,7 @@ public class ThrowingMechanism : MonoBehaviour
     #region Parameters
 
     [Header("Throwing Mechanism")]
-    [SerializeField] private GameObject _ballObj;
+    [SerializeField] private GameObject _ballPrefab;
 
     [SerializeField] private float _baseVelocity = 10f;
     [SerializeField] protected float _velocityMultiplier = 1.5f;
@@ -73,6 +73,9 @@ public class ThrowingMechanism : MonoBehaviour
 
     private void OnDisable()
     {
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+
         if (IsCat)
         {
             _inputManager.PlayerActions.Throw.started -= _startThrowAction;
@@ -99,7 +102,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void Throw()
     {
-        GameObject bullet = _objectPool.GetPooledObject(10);
+        GameObject bullet = _objectPool.GetPooledObject(_ballPrefab);
 
         if (bullet != null)
         {

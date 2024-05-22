@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class ThrowingBallToCreateTurret : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private GameObject _turretPrefab;
     private ObjectPool objectPool;
+    private Rigidbody rb;
 
-    private void Start() => objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+    private void Start()
+    {
+        objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(GameConstant.Tag.Ground))
+        if (((1 << other.gameObject.layer) & _layerMask) != 0)
         {
-            Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
@@ -22,7 +28,7 @@ public class ThrowingBallToCreateTurret : MonoBehaviour
 
     private void InstantiateTurret()
     {
-        GameObject Turret = objectPool.GetPooledObject(2);
+        GameObject Turret = objectPool.GetPooledObject(_turretPrefab);
 
         if (Turret != null)
         {

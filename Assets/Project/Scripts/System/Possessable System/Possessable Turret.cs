@@ -4,38 +4,34 @@ using UnityEngine.InputSystem;
 
 public class PossessableTurret : MonoBehaviour, IPossessable
 {
-    [SerializeField] private float rotationSpeed = 5f; // Adjust this value to control the speed of rotation
-    [SerializeField] private ThrowingBall _throwingBall;
+    [SerializeField] private float rotationSpeed = 5f;
     [SerializeField] private Vector2 _angleLimitForRotation;
 
     private Vector2 _inputVector;
+    private Vector3 currentRotation;
 
-    private Ghost _ghost;
     private InputManager _inputManager;
-
     private Action<InputAction.CallbackContext> _unpossess;
 
-    private void Start()
-    {
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
-    }
+    private void Start() => _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
     private void OnEnable()
     {
         _unpossess = _ => Unpossess();
 
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+
         _inputManager.TurretActions.Disable();
     }
 
-    private void OnDisable()
-    {
-        _inputManager.TurretActions.Disable();
-    }
+    private void OnDisable() => _inputManager.TurretActions.Disable();
 
     public void Possess()
     {
-        _ghost.gameObject.SetActive(false);
+        _inputManager.TurretActions.Unpossess.performed += _unpossess;
+        _inputManager.TurretActions.Look.performed += ctx => { _inputVector = ctx.ReadValue<Vector2>(); };
+        _inputManager.TurretActions.Look.canceled += ctx => { _inputVector = Vector2.zero; };
 
         _inputManager.GhostActions.Disable();
         _inputManager.TurretActions.Enable();
@@ -43,17 +39,13 @@ public class PossessableTurret : MonoBehaviour, IPossessable
 
     public void Unpossess()
     {
-        _ghost.gameObject.SetActive(true);
-
-        _inputManager.TurretActions.Interact.performed -= _unpossess;
+        _inputManager.TurretActions.Unpossess.performed -= _unpossess;
         _inputManager.TurretActions.Look.performed -= ctx => { _inputVector = Vector2.zero; };
         _inputManager.TurretActions.Look.canceled -= ctx => { _inputVector = Vector2.zero; };
 
         _inputManager.GhostActions.Enable();
         _inputManager.TurretActions.Disable();
     }
-
-    private Vector3 currentRotation;
 
     private void Update()
     {
@@ -71,18 +63,6 @@ public class PossessableTurret : MonoBehaviour, IPossessable
 
             // Apply the rotation to the turret
             transform.rotation = Quaternion.Euler(currentRotation);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Ghost _ghost))
-        {
-            this._ghost = _ghost;
-
-            _inputManager.TurretActions.Interact.performed += _unpossess;
-            _inputManager.TurretActions.Look.performed += ctx => { _inputVector = ctx.ReadValue<Vector2>(); };
-            _inputManager.TurretActions.Look.canceled += ctx => { _inputVector = Vector2.zero; };
         }
     }
 }

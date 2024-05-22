@@ -14,6 +14,12 @@ public class InteractableEditor : Editor
         SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
         EditorGUILayout.PropertyField(outlineMaterialProperty);
 
+        if (outlineMaterialProperty.objectReferenceValue != null)
+        {
+            SerializedProperty renderersProperty = so.FindProperty("renderers");
+            EditorGUILayout.PropertyField(renderersProperty, true);
+        }
+
         SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
         SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
         SerializedProperty possessableProperty = so.FindProperty("_possessable");

@@ -4,12 +4,12 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] internal List<Pool> pools;
-    [SerializeField] internal Dictionary<int, List<GameObject>> poolDictionary;
+    [SerializeField] internal Dictionary<GameObject, List<GameObject>> poolDictionary;
 
     private void Awake()
     {
         ServiceLocator.Instance.RegisterService(this, true);
-        poolDictionary = new Dictionary<int, List<GameObject>>();
+        poolDictionary = new();
     }
 
     private void Start() => InitializeList();
@@ -27,17 +27,17 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Add(obj);
             }
 
-            poolDictionary.Add(pool.tag, objectPool);
+            poolDictionary.Add(pool.prefab, objectPool);
         }
     }
 
-    internal GameObject GetPooledObject(int tag)
+    internal GameObject GetPooledObject(GameObject prefab)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!poolDictionary.ContainsKey(prefab))
             return null;
 
         // Find an inactive object in the pool
-        foreach (GameObject obj in poolDictionary[tag])
+        foreach (GameObject obj in poolDictionary[prefab])
         {
             if (!obj.activeInHierarchy)
             {
@@ -47,7 +47,7 @@ public class ObjectPool : MonoBehaviour
         }
 
         // If no inactive object is found, create a new one
-        GameObject newObj = ExtendObjects(tag);
+        GameObject newObj = ExtendObjects(prefab);
         if (newObj != null)
         {
             newObj.SetActive(true);
@@ -57,13 +57,13 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
-    private GameObject ExtendObjects(int tag)
+    private GameObject ExtendObjects(GameObject prefab)
     {
         //extend the size
         Pool pool = null;
         for (int i = 0; i < pools.Count; i++)
         {
-            if (pools[i].tag == tag && tag != 2)   // tag != 2 to disable extend for Turret
+            if (pools[i].prefab == prefab)   // replace turretPrefab with your turret GameObject
             {
                 pool = pools[i];
                 break; //Exit the loop once the matching pool is found
@@ -75,7 +75,7 @@ public class ObjectPool : MonoBehaviour
             GameObject obj = Instantiate(pool.prefab);
             obj.SetActive(false);
             pool.pooledObjects.Add(obj); //Add the new object to the pool
-            poolDictionary[tag].Add(obj);
+            poolDictionary[prefab].Add(obj);
             return obj;
         }
 
@@ -84,19 +84,19 @@ public class ObjectPool : MonoBehaviour
 
     internal void ReturnToPool(int _, GameObject objectToReturn) => objectToReturn.SetActive(false);
 
-    internal int GetPoolSize(int tag)
+    internal int GetPoolSize(GameObject prefab)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!poolDictionary.ContainsKey(prefab))
             return -1;
 
-        return poolDictionary[tag].Count;
+        return poolDictionary[prefab].Count;
     }
 
-    internal List<GameObject> GetPooledObjects(int tag)
+    internal List<GameObject> GetPooledObjects(GameObject prefab)
     {
-        if (!poolDictionary.ContainsKey(tag))
+        if (!poolDictionary.ContainsKey(prefab))
             return null;
 
-        return poolDictionary[tag];
+        return poolDictionary[prefab];
     }
 }

@@ -53,7 +53,6 @@ public class AudioSystemFMOD : MonoBehaviour
     {
         musicEventInstance = RuntimeManager.CreateInstance(musicEventReference);
         musicEventInstance.start();
-        Logging.Log("Test Music");
     }
 
     internal void SetMusicArea(MusicArea area) => musicEventInstance.setParameterByName("area", (float)area);
