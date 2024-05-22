@@ -16,9 +16,11 @@ public class GhostDash : MonoBehaviour
 
     [Header("Dashing Properties")]
     [SerializeField] private float dashSpeed = 10f;
+    [SerializeField] private float dashDistance = 10f;
     [SerializeField] private float dashCooldown = 1f;
     private bool canDash = true;
     private bool isDashing = false;
+    private float dashTime;
 
     #endregion
 
@@ -62,17 +64,19 @@ public class GhostDash : MonoBehaviour
 
         if (_playerMovement != null)
         {
-            _playerMovement.enabled = false;
+             _playerMovement.enabled = false;
+           // _playerMovement.isMoving = false;
         }
 
-        if (Physics.Raycast(transform.position, transform.forward, out ishit, Mathf.Infinity, detectWall))
+        if (Physics.Raycast(transform.position, transform.forward, out ishit, dashDistance, detectWall))
         {
             SetWallTrigger(ishit.collider, true);
         }
 
-        rb.velocity = transform.forward * dashSpeed * 6;
+        rb.velocity = transform.forward * dashSpeed;
+        dashTime = dashDistance / dashSpeed;
 
-        yield return new WaitForSeconds(dashCooldown);
+        yield return new WaitForSeconds(dashTime);
 
         rb.velocity = Vector3.zero;
         isDashing = false;
@@ -85,6 +89,7 @@ public class GhostDash : MonoBehaviour
         if (_playerMovement != null)
         {
             _playerMovement.enabled = true;
+          // _playerMovement.isMoving = true;
         }
 
         canDash = true;

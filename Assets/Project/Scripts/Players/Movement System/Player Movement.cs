@@ -7,36 +7,29 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     #region Parameters
 
-    [Header("Animation")]
-    [SerializeField] private float smooth = 5;
-
-    [Header("Movement")]
-    [SerializeField] private float Speed = 8f;
-
-    [SerializeField] private bool isCat;
 
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
     private InputManager _inputManager;
-
     private Rigidbody rb;
-
     private Animator _animator;
+    [SerializeField] private bool isCat;
 
-    //Animation
+    [Header("Animation")]
+    [SerializeField] private float smooth = 5;
     private int RunAnimationId;
-
     private int RunAnimationIdY;
     private float p_anim;
     private float p_animVerical;
 
+    [Header("Movement")]
+    [SerializeField] private float Speed = 8f;
     private Vector2 input;
-    private bool isMoving;
+    public bool isMoving;
 
-    //Audio
+    [Header("Audio")]
     private EventInstance PlayerFootSteps;
-
     private AudioSystemFMOD AudioSystem;
     private FMODEvents FmodSystemn;
 
