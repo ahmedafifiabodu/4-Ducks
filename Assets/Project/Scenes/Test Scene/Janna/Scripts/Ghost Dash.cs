@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class GhostDash : MonoBehaviour
 {
     #region Parameters
-
     private InputManager _inputManager;
     private PlayerMovement _playerMovement;
     private Action<InputAction.CallbackContext> _dashAction;
@@ -17,12 +16,11 @@ public class GhostDash : MonoBehaviour
 
     [Header("Dashing Properties")]
     [SerializeField] private float dashSpeed = 10f;
-
     [SerializeField] private float dashCooldown = 1f;
     private bool canDash = true;
     private bool isDashing = false;
 
-    #endregion Parameters
+    #endregion
 
     private void Awake()
     {
@@ -72,7 +70,7 @@ public class GhostDash : MonoBehaviour
             SetWallTrigger(ishit.collider, true);
         }
 
-        rb.velocity = 6 * dashSpeed * transform.forward;
+        rb.velocity = transform.forward * dashSpeed * 6;
 
         yield return new WaitForSeconds(dashCooldown);
 
@@ -96,7 +94,7 @@ public class GhostDash : MonoBehaviour
     {
         if (wallCollider != null)
         {
-            wallCollider.enabled = isTrigger;
+            wallCollider.isTrigger = isTrigger;
         }
     }
 }

@@ -249,6 +249,15 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Ascend"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e21182a-d562-42f0-96b2-03efd54eb3d8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Fly"",
                     ""type"": ""Button"",
                     ""id"": ""7eee0446-e06b-44d5-ba27-e22d8d15cb6d"",
@@ -388,6 +397,17 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fly"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b21327b-362b-4148-b404-dfae819e5093"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ascend"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1406,6 +1426,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Ghost_Jump = m_Ghost.FindAction("Jump", throwIfNotFound: true);
         m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
         m_Ghost_Dash = m_Ghost.FindAction("Dash", throwIfNotFound: true);
+        m_Ghost_Ascend = m_Ghost.FindAction("Ascend", throwIfNotFound: true);
         m_Ghost_Fly = m_Ghost.FindAction("Fly", throwIfNotFound: true);
         // Turret
         m_Turret = asset.FindActionMap("Turret", throwIfNotFound: true);
@@ -1576,6 +1597,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ghost_Jump;
     private readonly InputAction m_Ghost_Interact;
     private readonly InputAction m_Ghost_Dash;
+    private readonly InputAction m_Ghost_Ascend;
     private readonly InputAction m_Ghost_Fly;
     public struct GhostActions
     {
@@ -1585,6 +1607,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Ghost_Jump;
         public InputAction @Interact => m_Wrapper.m_Ghost_Interact;
         public InputAction @Dash => m_Wrapper.m_Ghost_Dash;
+        public InputAction @Ascend => m_Wrapper.m_Ghost_Ascend;
         public InputAction @Fly => m_Wrapper.m_Ghost_Fly;
         public InputActionMap Get() { return m_Wrapper.m_Ghost; }
         public void Enable() { Get().Enable(); }
@@ -1607,6 +1630,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Ascend.started += instance.OnAscend;
+            @Ascend.performed += instance.OnAscend;
+            @Ascend.canceled += instance.OnAscend;
             @Fly.started += instance.OnFly;
             @Fly.performed += instance.OnFly;
             @Fly.canceled += instance.OnFly;
@@ -1626,6 +1652,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Ascend.started -= instance.OnAscend;
+            @Ascend.performed -= instance.OnAscend;
+            @Ascend.canceled -= instance.OnAscend;
             @Fly.started -= instance.OnFly;
             @Fly.performed -= instance.OnFly;
             @Fly.canceled -= instance.OnFly;
@@ -1956,6 +1985,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnAscend(InputAction.CallbackContext context);
         void OnFly(InputAction.CallbackContext context);
     }
     public interface ITurretActions
