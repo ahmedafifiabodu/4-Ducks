@@ -31,29 +31,39 @@ public class ThrowingMechanism : MonoBehaviour
     #endregion Parameters
 
     private bool _checkingPlayerInput = false;
+    private float _holdTime = 0f; // Timer to track how long the fire key is held
+    private bool _isFireKeyPressed = false; // Flag to check if the fire key is being pressed
 
     private void Start()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
-        _startThrowAction = _ => _throwCoroutine = StartCoroutine(StartThrow());
-
-        _startThrow = _ =>
+        _startThrowAction = context =>
         {
-            _currentVelocity = _baseVelocity * 15;
-            _checkingPlayerInput = true;
-
-            Throw();
+            if (context.phase == InputActionPhase.Started)
+            {
+                _isFireKeyPressed = true;
+                _holdTime = 0f;
+            }
         };
 
-        _endThrowAction = _ =>
+        _endThrowAction = context =>
         {
+            _isFireKeyPressed = false;
+            Logging.Log("Throw");
             if (_throwCoroutine != null)
             {
                 StopCoroutine(_throwCoroutine);
-                Throw();
+                _throwCoroutine = null;
             }
+
+            if (_holdTime <= 1.0f)
+            {
+                _currentVelocity = _baseVelocity * 15;
+                _checkingPlayerInput = true;
+            }
+            Throw();
         };
 
         if (IsCat)
@@ -65,11 +75,26 @@ public class ThrowingMechanism : MonoBehaviour
         {
             _inputManager.TurretActions.Fire.started += _startThrowAction;
             _inputManager.TurretActions.Fire.canceled += _endThrowAction;
-            _inputManager.TurretActions.FireAndHold.canceled += _startThrow;
 
-            _inputManager.TurretActions.Disable();
+            //_inputManager.TurretActions.FireAndHold.canceled += _startThrow;
+
+            //_inputManager.TurretActions.Disable();
         }
     }
+
+    private void Update()
+    {
+        if (_isFireKeyPressed)
+        {
+            _holdTime += Time.deltaTime;
+            if (_holdTime > 1f)
+            {
+                _isFireKeyPressed = false;
+                _throwCoroutine = StartCoroutine(StartThrow());
+            }
+        }
+    }
+
 
     private void OnDisable()
     {
@@ -85,7 +110,7 @@ public class ThrowingMechanism : MonoBehaviour
         {
             _inputManager.TurretActions.Fire.started -= _startThrowAction;
             _inputManager.TurretActions.Fire.canceled -= _endThrowAction;
-            _inputManager.TurretActions.FireAndHold.canceled -= _startThrow;
+            //_inputManager.TurretActions.FireAndHold.canceled -= _startThrow;
 
             _checkingPlayerInput = false;
         }
