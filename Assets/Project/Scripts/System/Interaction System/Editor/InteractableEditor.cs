@@ -20,23 +20,51 @@ public class InteractableEditor : Editor
             EditorGUILayout.PropertyField(renderersProperty, true);
         }
 
+        SerializedProperty interactProperty = so.FindProperty("_interact");
         SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
         SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
         SerializedProperty possessableProperty = so.FindProperty("_possessable");
         SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
 
-        EditorGUILayout.PropertyField(possessableProperty);
+        if (!autoInteractProperty.boolValue && !interactProperty.boolValue)
+        {
+            EditorGUILayout.PropertyField(possessableProperty);
+        }
+
+        if (possessableProperty.boolValue)
+        {
+            _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
+        }
 
         if (possessableProperty.boolValue)
         {
             EditorGUILayout.PropertyField(possessableScriptProperty);
+
+            if (possessableScriptProperty.objectReferenceValue is not IPossessable)
+            {
+                EditorGUILayout.HelpBox("The assigned script does not implement the IPossessable interface!", MessageType.Error);
+                possessableScriptProperty.objectReferenceValue = null;
+            }
+
             autoInteractProperty.boolValue = false;
             useEventsProperty.boolValue = false;
+            interactProperty.boolValue = false;
         }
         else
         {
-            EditorGUILayout.PropertyField(autoInteractProperty);
-            EditorGUILayout.PropertyField(useEventsProperty);
+            possessableScriptProperty.objectReferenceValue = null;
+
+            if (!interactProperty.boolValue)
+                EditorGUILayout.PropertyField(autoInteractProperty);
+
+            if (!autoInteractProperty.boolValue)
+                EditorGUILayout.PropertyField(interactProperty);
+
+            if (autoInteractProperty.boolValue || interactProperty.boolValue)
+            {
+                possessableProperty.boolValue = false;
+                EditorGUILayout.PropertyField(useEventsProperty);
+            }
         }
 
         if (_interactable.gameObject.TryGetComponent<Collider>(out var collider))
@@ -47,14 +75,8 @@ public class InteractableEditor : Editor
             collider.isTrigger = true;
         }
 
-        if (!autoInteractProperty.boolValue)
-        {
-            if (target.GetType() == typeof(EventOnlyInteractables))
-            {
-                _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
-                EditorGUILayout.HelpBox("This interactable will only use events.", MessageType.Info);
-            }
-        }
+        if (interactProperty.boolValue)
+            _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
 
         if (_interactable.UseEvents)
         {

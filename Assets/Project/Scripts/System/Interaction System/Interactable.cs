@@ -8,6 +8,7 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private Material _outlineMaterial;
     [SerializeField] private Renderer[] renderers;
 
+    [SerializeField] private bool _interact;
     [SerializeField] private bool _autoInteract;
     [SerializeField] private bool _useEvents;
     [SerializeField] private string _promptMessage;
@@ -22,6 +23,9 @@ public abstract class Interactable : MonoBehaviour
 
     public Material OutlineMaterial
     { get => _outlineMaterial; set { _outlineMaterial = value; } }
+
+    public bool Interact
+    { get => _interact; set { _interact = value; } }
 
     public bool AutoInteract
     { get => _autoInteract; set { _autoInteract = value; } }
@@ -97,6 +101,12 @@ public abstract class Interactable : MonoBehaviour
 
     internal void Initialize(Material outlineMaterial)
     {
+        if (outlineMaterial == null)
+        {
+            Logging.LogError("outlineMaterial is null");
+            return;
+        }
+
         foreach (Renderer renderer in renderers)
         {
             if (renderer != null)
@@ -138,10 +148,10 @@ public abstract class Interactable : MonoBehaviour
                 _events.onInteract.Invoke();
         }
         else
-            Interact(_playerType);
+            InteractPlayerType(_playerType);
     }
 
-    private void Interact(PlayerType _playerType)
+    private void InteractPlayerType(PlayerType _playerType)
     {
         if (_playerType.Ghost != null)
         {
