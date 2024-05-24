@@ -17,7 +17,7 @@ public class ThrowingBall : ThrowingMechanism
     private void Awake()
     {
         //_animator = GetComponent<Animator>();
-        AttackAnimationId = Animator.StringToHash(GameConstant.Animation.Attacking);
+        AttackAnimationId = Animator.StringToHash(GameConstant.Animation.CatAttacking);
     }
 
     protected override IEnumerator StartThrow()
