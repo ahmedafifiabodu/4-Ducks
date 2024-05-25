@@ -3,14 +3,15 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
+public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterController
 {
     #region Parameters
 
     [Header("Movement")]
-    [SerializeField] private float _maxMovementSpeed = 10f;
+    [SerializeField] private AnimationCurve movementCurve;
 
-    [SerializeField] private float _speedAcceleration = 5f;
+    [SerializeField] private float _maxMovementSpeed = 10f;
+    //[SerializeField] private float _speedAcceleration = 5f;
     [SerializeField] private float _speedDeceleration = 10f;
 
     [Header("Air Movement")]
@@ -52,6 +53,7 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
     private int IsFallingAnimationID;
 
     private bool isMoving;
+    private float _totalMovementTime = 0f;
     private Vector2 _inputVector;
     private Vector3 _moveInputVector;
 
@@ -117,6 +119,7 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
         {
             _inputVector = _inputManager.PlayerActions.Move.ReadValue<Vector2>();
             _moveInputVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+            _totalMovementTime += Time.deltaTime;
         }
         else
         {
@@ -124,6 +127,8 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
 
             if (_inputVector.magnitude < 0.01f)
                 _inputVector = Vector2.zero;
+
+            _totalMovementTime = 0f;
         }
 
         _animator.SetFloat(RunAnimationID, _inputVector.magnitude);
@@ -195,13 +200,26 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
 
         if (_motor.GroundingStatus.IsStableOnGround)
         {
-            // Momement Logic
+            // Movement Logic
             Vector3 inputDirection = new Vector3(_moveInputVector.x, 0, _moveInputVector.z).normalized;
-            targetMovementVelocity = inputDirection * _maxMovementSpeed;
+            float targetMovementSpeed = _maxMovementSpeed * movementCurve.Evaluate(_totalMovementTime);
+            targetMovementVelocity = inputDirection * targetMovementSpeed;
 
-            float speedChange = isMoving ? _speedAcceleration : _speedDeceleration;
+            if (isMoving)
+                currentVelocity = targetMovementVelocity;
+            else
+            {
+                // Deceleration Logic
+                float speedChange = _speedDeceleration;
+                currentVelocity = Vector3.MoveTowards(currentVelocity, targetMovementVelocity, speedChange * deltaTime);
+            }
 
-            currentVelocity = Vector3.MoveTowards(currentVelocity, targetMovementVelocity, speedChange * deltaTime);
+            // Acceleration and Deceleration Logic
+            //float speedChange = isMoving ? _speedAcceleration : _speedDeceleration;
+            //currentVelocity = Vector3.MoveTowards(currentVelocity, targetMovementVelocity, speedChange * deltaTime);
+
+            // Basic Movement
+            //currentVelocity = targetMovementVelocity;
 
             _animator.SetBool(OnGroundAnimationID, true);
             _animator.SetBool(IsFallingAnimationID, false);

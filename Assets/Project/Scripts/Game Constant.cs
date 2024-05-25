@@ -39,6 +39,7 @@ public static class GameConstant
     public static class AnimationTest
     {
         public const string CatJumping = "Cat Jumping";
+        public const string CatDoubleJumping = "Cat Double Jumping";
         public const string CatOnGround = "Cat On Ground";
         public const string CatFalling = "Cat Is Falling";
     }

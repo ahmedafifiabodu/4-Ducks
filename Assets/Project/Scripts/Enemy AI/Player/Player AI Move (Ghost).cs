@@ -17,6 +17,11 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
     [Header("Floating")]
     [SerializeField] private float _floatingHeight = 1f;
 
+    [Header("Dash")]
+    [SerializeField] private float _dashSpeed = 50f;
+
+    [SerializeField] private float _dashDuration = 0.2f;
+
     [Header("Misc")]
     [SerializeField] private Vector3 Gravity = new(0, 0, 0);
 
@@ -30,10 +35,15 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
     private Action<InputAction.CallbackContext> _stopMoveAction;
     private Action<InputAction.CallbackContext> _startFlyAction;
     private Action<InputAction.CallbackContext> _stopFlyAction;
+    private Action<InputAction.CallbackContext> _dashAction;
 
     private bool _isMoving;
     private bool _isFlying;
     private int _runAnimationId;
+
+    private bool _isDashing;
+    private Vector3 _dashDirection;
+    private float _dashTimer;
 
     private Vector2 _inputVector;
     private Vector3 _moveInputVector;
@@ -73,10 +83,25 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
             _isFlying = false;
         };
 
+        _dashAction = _ =>
+        {
+            if (!_isDashing)
+            {
+                _isDashing = true;
+                _dashDirection = _moveInputVector.normalized;
+
+                if (_dashDirection == Vector3.zero)
+                    _dashDirection = transform.forward;
+
+                _dashTimer = _dashDuration;
+            }
+        };
+
         _inputManager.GhostActions.Move.started += _startMoveAction;
         _inputManager.GhostActions.Move.canceled += _stopMoveAction;
         _inputManager.GhostActions.Fly.started += _startFlyAction;
         _inputManager.GhostActions.Fly.canceled += _stopFlyAction;
+        _inputManager.GhostActions.Dash.started += _dashAction;
     }
 
     private void Start() => _motor.CharacterController = this;
@@ -181,23 +206,34 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
 
     public void UpdateVelocity(ref Vector3 _currentVelocity, float _deltaTime)
     {
-        Vector3 _targetMovementVelocity;
-
-        if (_moveInputVector.sqrMagnitude > 0f)
+        if (_isDashing)
         {
-            _targetMovementVelocity = _moveInputVector * _maxAirMoveSpeed;
+            _currentVelocity = _dashDirection * _dashSpeed;
+            _dashTimer -= _deltaTime;
 
-            Vector3 velocityDiff = Vector3.ProjectOnPlane(_targetMovementVelocity - _currentVelocity, Gravity);
-            _currentVelocity += _airAccelerationSpeed * _deltaTime * velocityDiff;
+            if (_dashTimer <= 0)
+                _isDashing = false;
         }
         else
-            _currentVelocity = Vector3.MoveTowards(_currentVelocity, Vector3.zero, _airDecelerationSpeed * _deltaTime);
+        {
+            Vector3 _targetMovementVelocity;
 
-        // Gravity
-        _currentVelocity += _deltaTime * Gravity;
+            if (_moveInputVector.sqrMagnitude > 0f)
+            {
+                _targetMovementVelocity = _moveInputVector * _maxAirMoveSpeed;
 
-        // Air resistance
-        _currentVelocity *= (1f - _drag * _deltaTime);
+                Vector3 velocityDiff = Vector3.ProjectOnPlane(_targetMovementVelocity - _currentVelocity, Gravity);
+                _currentVelocity += _airAccelerationSpeed * _deltaTime * velocityDiff;
+            }
+            else
+                _currentVelocity = Vector3.MoveTowards(_currentVelocity, Vector3.zero, _airDecelerationSpeed * _deltaTime);
+
+            // Gravity
+            _currentVelocity += _deltaTime * Gravity;
+
+            // Air resistance
+            _currentVelocity *= (1f - _drag * _deltaTime);
+        }
     }
 
     #endregion ICharacterController

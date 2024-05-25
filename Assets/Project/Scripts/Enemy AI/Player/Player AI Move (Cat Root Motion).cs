@@ -31,13 +31,10 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
     [SerializeField] private bool AllowDoubleJump = true;
 
     [SerializeField] private float _doubleJumpForce = 10f;
-    private bool _doubleJumpAllowed = false;
-    private bool _doubleJumpConsumed = false;
 
     [Header("Misc")]
-    [SerializeField] private bool isCat;
-
     [SerializeField] private Vector3 Gravity = new(0, -30f, 0);
+
     [SerializeField] private Transform MeshRoot;
     [SerializeField] private float _animationSmooth = 2;
 
@@ -52,7 +49,6 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
     #region Animation Parameters
 
     private int RunAnimationId;
-    private int RunAnimationIdY;
 
     private Vector3 _rootMotionPositionDelta;
     private Quaternion _rootMotionRotationDelta;
@@ -75,6 +71,9 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
     private bool _jumpConsumed = false;
     private float _timeSinceJumpRequested = Mathf.Infinity;
     private float _timeSinceLastAbleToJump = 0f;
+
+    private bool _doubleJumpAllowed = false;
+    private bool _doubleJumpConsumed = false;
 
     #endregion Jumping
 
@@ -118,18 +117,9 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
             _timeSinceJumpRequested = 0f;
         };
 
-        if (isCat)
-        {
-            _inputManager.PlayerActions.Move.started += _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
-            _inputManager.PlayerActions.Jump.started += _jumpAction;
-        }
-        else
-        {
-            _inputManager.GhostActions.Move.started += _startMoveAction;
-            _inputManager.GhostActions.Move.canceled += _stopMoveAction;
-            _inputManager.GhostActions.Jump.started += _jumpAction;
-        }
+        _inputManager.PlayerActions.Move.started += _startMoveAction;
+        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+        _inputManager.PlayerActions.Jump.started += _jumpAction;
 
         #endregion Input Actions
     }
@@ -138,55 +128,23 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 
     private void OnDisable()
     {
-        if (isCat)
-        {
-            _inputManager.PlayerActions.Move.started -= _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
-        }
-        else
-        {
-            _inputManager.GhostActions.Move.started -= _startMoveAction;
-            _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
-        }
+        _inputManager.PlayerActions.Move.started -= _startMoveAction;
+        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
     }
 
     private void Update()
     {
-        if (isMoving)
-        {
-            Vector2 inputVector = isCat ? _inputManager.PlayerActions.Move.ReadValue<Vector2>()
-                                        : _inputManager.GhostActions.Move.ReadValue<Vector2>();
+        Vector2 inputVector = _inputManager.PlayerActions.Move.ReadValue<Vector2>();
 
-            _forwardAxis = inputVector.x;
-            _rightAxis = inputVector.y;
+        _forwardAxis = inputVector.y; // Use the y component for forward/backward movement
+        _rightAxis = inputVector.x; // Use the x component for left/right movement
 
-            _animator.SetFloat(RunAnimationId, _forwardAxis);
-            _animator.SetFloat(RunAnimationIdY, _rightAxis);
-            //_animator.SetBool("OnGround", _motor.GroundingStatus.IsStableOnGround);
-        }
-    }
-
-    private System.Collections.IEnumerator StopMoveSmoothly()
-    {
-        float elapsedTime = 0f;
-        float duration = 0.2f;
-
-        while (elapsedTime < duration)
-        {
-            float value = Mathf.Lerp(1, 0, elapsedTime / duration);
-            _animator.SetFloat(RunAnimationId, value);
-            _animator.SetFloat(RunAnimationIdY, value);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        _animator.SetFloat(RunAnimationId, 0);
-        _animator.SetFloat(RunAnimationIdY, 0);
+        _animator.SetFloat(RunAnimationId, inputVector.magnitude);
     }
 
     private void OnAnimatorMove()
     {
+        Logging.Log("OnAnimatorMove called, deltaPosition: " + _animator.deltaPosition);
         _rootMotionPositionDelta += _animator.deltaPosition;
         _rootMotionRotationDelta = _animator.deltaRotation * _rootMotionRotationDelta;
     }
@@ -249,20 +207,6 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 
     public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
     {
-        if (isMoving)
-        {
-            Vector2 inputVector = isCat ? _inputManager.PlayerActions.Move.ReadValue<Vector2>()
-                                        : _inputManager.GhostActions.Move.ReadValue<Vector2>();
-
-            // Calculate the new rotation direction based on input
-            Vector3 direction = new(inputVector.x, 0, inputVector.y);
-            if (direction != Vector3.zero)
-            {
-                Quaternion toRotation = Quaternion.LookRotation(direction, Vector3.up);
-                currentRotation = Quaternion.Lerp(currentRotation, toRotation, _animationSmooth * deltaTime);
-            }
-        }
-
         currentRotation = _rootMotionRotationDelta * currentRotation;
     }
 
@@ -284,14 +228,18 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
         }
         else
         {
-            Vector3 targetMovementVelocity = (_forwardAxis * _motor.CharacterForward + _rightAxis * _motor.CharacterRight) * MaxAirMoveSpeed;
-            Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, Gravity);
-            currentVelocity += AirAccelerationSpeed * deltaTime * velocityDiff;
+            if (_forwardAxis > 0f)
+            {
+                // If we want to move, add an acceleration to the velocity
+                Vector3 targetMovementVelocity = _motor.CharacterForward * _forwardAxis * MaxAirMoveSpeed;
+                Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, Gravity);
+                currentVelocity += AirAccelerationSpeed * deltaTime * velocityDiff;
+            }
 
             // Gravity
             currentVelocity += Gravity * deltaTime;
 
-            // _drag
+            // Drag
             currentVelocity *= (1f / (1f + (Drag * deltaTime)));
         }
     }
