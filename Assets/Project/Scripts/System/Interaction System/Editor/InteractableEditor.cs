@@ -4,6 +4,10 @@ using UnityEngine;
 [CustomEditor(typeof(Interactable), true)]
 public class InteractableEditor : Editor
 {
+    private SerializedProperty autoInteractProperty;
+    private SerializedProperty interactProperty;
+    private SerializedProperty useEventsProperty;
+
     public override void OnInspectorGUI()
     {
         Interactable _interactable = (Interactable)target;
@@ -11,60 +15,35 @@ public class InteractableEditor : Editor
 
         _interactable.InteractableLayerMask = EditorGUILayout.MaskField("Interactable Layer Mask", _interactable.InteractableLayerMask, UnityEditorInternal.InternalEditorUtility.layers);
 
-        SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
-        EditorGUILayout.PropertyField(outlineMaterialProperty);
+        autoInteractProperty = so.FindProperty("_autoInteract");
+        interactProperty = so.FindProperty("_interact");
+        useEventsProperty = so.FindProperty("_useEvents");
 
-        if (outlineMaterialProperty.objectReferenceValue != null)
+        if (!autoInteractProperty.boolValue)
+            EditorGUILayout.PropertyField(interactProperty);
+
+        if (!interactProperty.boolValue)
+            EditorGUILayout.PropertyField(autoInteractProperty);
+
+        if (autoInteractProperty.boolValue || interactProperty.boolValue)
         {
-            SerializedProperty renderersProperty = so.FindProperty("renderers");
-            EditorGUILayout.PropertyField(renderersProperty, true);
-        }
-
-        SerializedProperty interactProperty = so.FindProperty("_interact");
-        SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
-        SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
-        SerializedProperty possessableProperty = so.FindProperty("_possessable");
-        SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
-
-        if (!autoInteractProperty.boolValue && !interactProperty.boolValue)
-        {
-            EditorGUILayout.PropertyField(possessableProperty);
-        }
-
-        if (possessableProperty.boolValue)
-        {
-            _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
-        }
-
-        if (possessableProperty.boolValue)
-        {
-            EditorGUILayout.PropertyField(possessableScriptProperty);
-
-            if (possessableScriptProperty.objectReferenceValue is not IPossessable)
+            if (interactProperty.boolValue)
             {
-                EditorGUILayout.HelpBox("The assigned script does not implement the IPossessable interface!", MessageType.Error);
-                possessableScriptProperty.objectReferenceValue = null;
+                SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
+                EditorGUILayout.PropertyField(outlineMaterialProperty);
+
+                if (outlineMaterialProperty.objectReferenceValue != null)
+                {
+                    SerializedProperty renderersProperty = so.FindProperty("renderers");
+                    EditorGUILayout.PropertyField(renderersProperty, true);
+                }
             }
 
-            autoInteractProperty.boolValue = false;
+            EditorGUILayout.PropertyField(useEventsProperty);
+        }
+        else if (!autoInteractProperty.boolValue && !interactProperty.boolValue)
+        {
             useEventsProperty.boolValue = false;
-            interactProperty.boolValue = false;
-        }
-        else
-        {
-            possessableScriptProperty.objectReferenceValue = null;
-
-            if (!interactProperty.boolValue)
-                EditorGUILayout.PropertyField(autoInteractProperty);
-
-            if (!autoInteractProperty.boolValue)
-                EditorGUILayout.PropertyField(interactProperty);
-
-            if (autoInteractProperty.boolValue || interactProperty.boolValue)
-            {
-                possessableProperty.boolValue = false;
-                EditorGUILayout.PropertyField(useEventsProperty);
-            }
         }
 
         if (_interactable.gameObject.TryGetComponent<Collider>(out var collider))
