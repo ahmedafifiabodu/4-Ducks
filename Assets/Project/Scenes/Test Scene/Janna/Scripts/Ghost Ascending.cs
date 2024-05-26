@@ -28,14 +28,14 @@ public class GhostAscending : MonoBehaviour
         _startAscendAction = context => StartAscend();
         _stopAscendAction = context => StopAscend();
 
-        _inputManager.GhostActions.Fly.started += _startAscendAction;
-        _inputManager.GhostActions.Fly.canceled += _stopAscendAction;
+        _inputManager.GhostActions.Ascend.started += _startAscendAction;
+        _inputManager.GhostActions.Ascend.canceled += _stopAscendAction;
     }
 
     private void OnDisable()
     {
-        _inputManager.GhostActions.Fly.started -= _startAscendAction;
-        _inputManager.GhostActions.Fly.canceled -= _stopAscendAction;
+        _inputManager.GhostActions.Ascend.started -= _startAscendAction;
+        _inputManager.GhostActions.Ascend.canceled -= _stopAscendAction;
     }
 
     private void Update()
