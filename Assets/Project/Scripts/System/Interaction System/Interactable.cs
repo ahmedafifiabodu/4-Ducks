@@ -53,10 +53,10 @@ public abstract class Interactable : MonoBehaviour
         {
             Initialize(_outlineMaterial);
 
-            if (gameObject.activeInHierarchy)
-                StartCoroutine(DelayedLayerChange());
-            else
-                _pendingLayerChange = _interactableLayerMask;
+            //if (gameObject.activeInHierarchy)
+            //    StartCoroutine(DelayedLayerChange());
+            //else
+            //    _pendingLayerChange = _interactableLayerMask;
         }
     }
 
