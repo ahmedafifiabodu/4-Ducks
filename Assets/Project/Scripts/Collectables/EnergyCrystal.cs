@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class EnergyCrystal : Crystal
 {
-    public static UnityEvent<float> OnEnergyCrystalCollected = new UnityEvent<float>();
+    public static UnityEvent<float, PlayerType> OnEnergyCrystalCollected = new UnityEvent<float, PlayerType>();
 
     [SerializeField] private float _energyAmount;
     public float EnergyAmount => _energyAmount;
@@ -14,9 +14,9 @@ public class EnergyCrystal : Crystal
     {
         throw new System.NotImplementedException();
     }
-    public override void Collect()
+    protected override void Collect(PlayerType _playerType)
     {
-        base.Collect();
-        OnEnergyCrystalCollected?.Invoke(_energyAmount);
+        base.Collect(_playerType);
+        OnEnergyCrystalCollected?.Invoke(_energyAmount, _playerType);
     }
 }

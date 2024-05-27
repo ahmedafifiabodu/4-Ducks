@@ -24,7 +24,7 @@ public class EnergyManager : MonoBehaviour
         EnergyCrystal.OnEnergyCrystalCollected.AddListener(GainEnergy);
     }
 
-    private void GainEnergy(float _energyAmount)
+    private void GainEnergy(float _energyAmount, PlayerType _playerType)
     {
         if(_isCombined)
         {
@@ -37,7 +37,6 @@ public class EnergyManager : MonoBehaviour
             //    case { Cat: Cat cat }:
             //        L
             //        break;
-
             //}
         }
     }
