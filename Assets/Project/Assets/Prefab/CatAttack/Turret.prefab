@@ -233,7 +233,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6775452678800041023}
-  - component: {fileID: 613925949535409620}
+  - component: {fileID: 5450497696555940410}
   - component: {fileID: 2009029519282501483}
   m_Layer: 0
   m_Name: Pivot
@@ -257,7 +257,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3083025663263358672}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &613925949535409620
+--- !u!114 &5450497696555940410
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -266,21 +266,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3426380814091662589}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7deb5b1195ac546bbe10374379cf9f, type: 3}
+  m_Script: {fileID: 11500000, guid: ee8df59926a9e894e897753aa04ac9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _ballPrefab: {fileID: 7636507714296715182, guid: 1269d5acd262a184eadfd971e43cbe8d,
     type: 3}
   _baseVelocity: 2
   _velocityMultiplier: 2
-  IsCat: 0
-  IsTurret: 1
   trajectoryLineRenderer: {fileID: 2009029519282501483}
   numPoints: 10
   timeBetweenPoints: 0.1
-  pointIncreaseInterval: 0.12
-  _animator: {fileID: 0}
-  animationPlayTransition: 0.001
+  pointIncreaseInterval: 0.2
 --- !u!120 &2009029519282501483
 LineRenderer:
   serializedVersion: 2

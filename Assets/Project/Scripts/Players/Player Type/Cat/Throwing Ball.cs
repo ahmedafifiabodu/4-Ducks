@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class ThrowingBall : ThrowingMechanism
+/*public class ThrowingBall : ThrowingMechanism
 {
     [Header("Trajectory Line Renderer")]
     [SerializeField] private LineRenderer trajectoryLineRenderer;
@@ -72,4 +72,4 @@ public class ThrowingBall : ThrowingMechanism
         trajectoryLineRenderer.positionCount = numP;
         trajectoryLineRenderer.SetPositions(points);
     }
-}
+}*/
