@@ -58,7 +58,7 @@ public abstract class Interactable : MonoBehaviour
                     // Check if the collider's game object is on the player layer
                     if (results[i].gameObject.layer == LayerMask.NameToLayer("Player")) // Replace "Player" with your player layer name
                     {
-                        if (results[i].gameObject.TryGetComponent<PlayerInteract>(out var playerInteract))
+                        if (results[i].gameObject.TryGetComponent<Interact>(out var playerInteract))
                         {
                             // Capture the gameObject in a local variable
                             var localGameObject = gameObject;

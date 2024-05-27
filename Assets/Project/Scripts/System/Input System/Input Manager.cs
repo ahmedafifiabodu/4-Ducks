@@ -9,12 +9,10 @@ public class InputManager : MonoBehaviour
     internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
 
     private InputSystem _input;
-    private ServiceLocator _serviceLocator;
 
     private void Awake()
     {
-        _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService(this, true);
+        ServiceLocator.Instance.RegisterService(this, true);
 
         _input = new InputSystem();
 
