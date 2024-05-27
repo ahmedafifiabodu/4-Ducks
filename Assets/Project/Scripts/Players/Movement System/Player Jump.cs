@@ -29,7 +29,7 @@ public class PlayerJump : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        JumpAnimationId = Animator.StringToHash(GameConstant.Animation.IsJumping);
+        JumpAnimationId = Animator.StringToHash(GameConstant.Animation.CatJumping);
     }
 
     private void Start()

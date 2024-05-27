@@ -3,15 +3,20 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     [SerializeField] private LayerMask _interactableLayerMask;
-    [SerializeField] private PlayerType _playerType;
+
+    private InputManager _inputManager;
+    private UISystem _playerUI;
+    private Interactable currentInteractable;
+    private PlayerType _playerType;
 
     private ServiceLocator serviceLocator;
-    private UISystem _playerUI;
-    private InputManager _inputManager;
-    private Interactable currentInteractable;
 
     private bool hasPlayedInteractSFX = false;
     private bool _outlineEnabled = true;
+
+    internal LayerMask InteractableLayerMask => _interactableLayerMask;
+
+    private void Awake() => _playerType = GetComponent<PlayerType>();
 
     private void Start()
     {
@@ -22,18 +27,26 @@ public class PlayerInteract : MonoBehaviour
 
         _playerUI.DisablePromptText();
 
-        if (_playerType.Cat)
+        // Check Player Type
+
+        if (_playerType.IsPlayerCat)
             _inputManager.PlayerActions.Interact.performed += _ => StartInteraction();
-        else if (_playerType.Ghost)
+        else if (_playerType.IsPlayerGhost)
             _inputManager.GhostActions.Interact.performed += _ => StartInteraction();
+        else
+            Logging.LogError("Player Type not set!");
     }
 
     private void OnDestroy()
     {
-        if (_playerType.Cat)
+        // Check Player Type
+
+        if (_playerType.IsPlayerCat)
             _inputManager.PlayerActions.Interact.performed -= _ => StartInteraction();
-        else if (_playerType.Ghost)
+        else if (_playerType.IsPlayerGhost)
             _inputManager.GhostActions.Interact.performed -= _ => StartInteraction();
+        else
+            Logging.LogError("Player Type not set!");
     }
 
     private void OnTriggerEnter(Collider other)

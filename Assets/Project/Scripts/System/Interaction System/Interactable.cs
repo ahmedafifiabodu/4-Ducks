@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +7,11 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private Material _outlineMaterial;
     [SerializeField] private Renderer[] renderers;
 
+    [SerializeField] private bool _interact;
     [SerializeField] private bool _autoInteract;
     [SerializeField] private bool _useEvents;
     [SerializeField] private string _promptMessage;
-    [SerializeField] private bool _possessable;
-    [SerializeField] private MonoBehaviour _possessableScript;
 
-    private int? _pendingLayerChange = null;
     private Renderer _renderer;
 
     public LayerMask InteractableLayerMask
@@ -22,6 +19,9 @@ public abstract class Interactable : MonoBehaviour
 
     public Material OutlineMaterial
     { get => _outlineMaterial; set { _outlineMaterial = value; } }
+
+    public bool InteractProperty
+    { get => _interact; set { _interact = value; } }
 
     public bool AutoInteract
     { get => _autoInteract; set { _autoInteract = value; } }
@@ -32,14 +32,6 @@ public abstract class Interactable : MonoBehaviour
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
 
-    public bool Possessable
-    { get => _possessable; set { _possessable = value; } }
-
-    internal IPossessable PossessableScript
-    {
-        get => _possessableScript as IPossessable;
-    }
-
     internal Material[] OriginalMaterials { get; private set; }
     internal Material[] MaterialsWithOutline { get; private set; }
 
@@ -49,29 +41,41 @@ public abstract class Interactable : MonoBehaviour
 
     private void OnValidate()
     {
-        if (!Application.isPlaying)
+        if (this != null)
         {
-            Initialize(_outlineMaterial);
+            if (!Application.isPlaying)
+            {
+                Initialize(_outlineMaterial);
 
-            //if (gameObject.activeInHierarchy)
-            //    StartCoroutine(DelayedLayerChange());
-            //else
-            //    _pendingLayerChange = _interactableLayerMask;
-        }
-    }
+                // Create an array to store the results
+                Collider[] results = new Collider[100]; // Adjust the size as needed
 
-    private void OnEnable()
-    {
-        int layer = _pendingLayerChange ?? LayerMaskToLayerNumber(_interactableLayerMask);
+                // Get all colliders within a large sphere
+                int numResults = Physics.OverlapSphereNonAlloc(transform.position, 10000f, results); // Set the radius to a large enough value
 
-        if (layer >= 0 && layer <= 31)
-        {
-            gameObject.layer = layer;
-            _pendingLayerChange = null;
-        }
-        else
-        {
-            Logging.LogError("Invalid layer value: " + layer);
+                for (int i = 0; i < numResults; i++)
+                {
+                    // Check if the collider's game object is on the player layer
+                    if (results[i].gameObject.layer == LayerMask.NameToLayer("Player")) // Replace "Player" with your player layer name
+                    {
+                        if (results[i].gameObject.TryGetComponent<PlayerInteract>(out var playerInteract))
+                        {
+                            // Capture the gameObject in a local variable
+                            var localGameObject = gameObject;
+
+                            // Delay the layer change until after OnValidate has finished
+                            UnityEditor.EditorApplication.delayCall += () =>
+                            {
+                                if (localGameObject != null) // Check if the GameObject is not null
+                                {
+                                    localGameObject.layer = LayerMaskToLayerNumber(playerInteract.InteractableLayerMask);
+                                }
+                            };
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -89,14 +93,17 @@ public abstract class Interactable : MonoBehaviour
         return layerNumber - 1;
     }
 
-    private IEnumerator DelayedLayerChange()
-    {
-        yield return null;
-        gameObject.layer = LayerMaskToLayerNumber(_interactableLayerMask);
-    }
-
     internal void Initialize(Material outlineMaterial)
     {
+        if (AutoInteract || !AutoInteract || !InteractProperty)
+            return;
+
+        if (outlineMaterial == null)
+        {
+            Logging.LogError("outlineMaterial is null");
+            return;
+        }
+
         foreach (Renderer renderer in renderers)
         {
             if (renderer != null)
@@ -118,6 +125,9 @@ public abstract class Interactable : MonoBehaviour
 
     internal void ApplyOutline(bool _outlineEnabled)
     {
+        if (_autoInteract)
+            return;
+
         if (_outlineEnabled && _renderer != null) // Check if the outline is enabled and _renderer is not null
         {
             // Check if the outline material is already applied
@@ -128,27 +138,20 @@ public abstract class Interactable : MonoBehaviour
             RemoveOutline();
     }
 
-    internal void RemoveOutline() => _renderer.sharedMaterials = OriginalMaterials;
+    internal void RemoveOutline()
+    {
+        if (!AutoInteract)
+            _renderer.sharedMaterials = OriginalMaterials;
+    }
 
-    internal void BaseInteract(PlayerType _playerType)
+    internal void BaseInteract(PlayerType _playerType) => Interact(_playerType);
+
+    protected virtual void Interact(PlayerType _playerType)
     {
         if (_useEvents)
         {
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
                 _events.onInteract.Invoke();
         }
-        else
-            Interact(_playerType);
-    }
-
-    private void Interact(PlayerType _playerType)
-    {
-        if (_playerType.Ghost != null)
-        {
-            _playerType.Ghost.gameObject.SetActive(false);
-            PossessableScript.Possess();
-        }
-        else
-            Logging.Log($"(Virtual) Interacting with {gameObject.name}");
     }
 }

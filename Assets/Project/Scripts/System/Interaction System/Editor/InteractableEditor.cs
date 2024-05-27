@@ -4,6 +4,10 @@ using UnityEngine;
 [CustomEditor(typeof(Interactable), true)]
 public class InteractableEditor : Editor
 {
+    private SerializedProperty autoInteractProperty;
+    private SerializedProperty interactProperty;
+    private SerializedProperty useEventsProperty;
+
     public override void OnInspectorGUI()
     {
         Interactable _interactable = (Interactable)target;
@@ -11,32 +15,35 @@ public class InteractableEditor : Editor
 
         _interactable.InteractableLayerMask = EditorGUILayout.MaskField("Interactable Layer Mask", _interactable.InteractableLayerMask, UnityEditorInternal.InternalEditorUtility.layers);
 
-        SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
-        EditorGUILayout.PropertyField(outlineMaterialProperty);
+        autoInteractProperty = so.FindProperty("_autoInteract");
+        interactProperty = so.FindProperty("_interact");
+        useEventsProperty = so.FindProperty("_useEvents");
 
-        if (outlineMaterialProperty.objectReferenceValue != null)
-        {
-            SerializedProperty renderersProperty = so.FindProperty("renderers");
-            EditorGUILayout.PropertyField(renderersProperty, true);
-        }
+        if (!autoInteractProperty.boolValue)
+            EditorGUILayout.PropertyField(interactProperty);
 
-        SerializedProperty autoInteractProperty = so.FindProperty("_autoInteract");
-        SerializedProperty useEventsProperty = so.FindProperty("_useEvents");
-        SerializedProperty possessableProperty = so.FindProperty("_possessable");
-        SerializedProperty possessableScriptProperty = so.FindProperty("_possessableScript");
-
-        EditorGUILayout.PropertyField(possessableProperty);
-
-        if (possessableProperty.boolValue)
-        {
-            EditorGUILayout.PropertyField(possessableScriptProperty);
-            autoInteractProperty.boolValue = false;
-            useEventsProperty.boolValue = false;
-        }
-        else
-        {
+        if (!interactProperty.boolValue)
             EditorGUILayout.PropertyField(autoInteractProperty);
+
+        if (autoInteractProperty.boolValue || interactProperty.boolValue)
+        {
+            if (interactProperty.boolValue)
+            {
+                SerializedProperty outlineMaterialProperty = so.FindProperty("_outlineMaterial");
+                EditorGUILayout.PropertyField(outlineMaterialProperty);
+
+                if (outlineMaterialProperty.objectReferenceValue != null)
+                {
+                    SerializedProperty renderersProperty = so.FindProperty("renderers");
+                    EditorGUILayout.PropertyField(renderersProperty, true);
+                }
+            }
+
             EditorGUILayout.PropertyField(useEventsProperty);
+        }
+        else if (!autoInteractProperty.boolValue && !interactProperty.boolValue)
+        {
+            useEventsProperty.boolValue = false;
         }
 
         if (_interactable.gameObject.TryGetComponent<Collider>(out var collider))
@@ -47,14 +54,8 @@ public class InteractableEditor : Editor
             collider.isTrigger = true;
         }
 
-        if (!autoInteractProperty.boolValue)
-        {
-            if (target.GetType() == typeof(EventOnlyInteractables))
-            {
-                _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
-                EditorGUILayout.HelpBox("This interactable will only use events.", MessageType.Info);
-            }
-        }
+        if (interactProperty.boolValue)
+            _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
 
         if (_interactable.UseEvents)
         {
