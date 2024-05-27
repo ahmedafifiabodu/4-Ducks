@@ -14,7 +14,7 @@ public class Possess : Interactable
                     _events.onInteract.Invoke();
             }
 
-            _playerType.gameObject.SetActive(false);
+            _possessableScript.GetComponent<IPossessable>().GhostPlayer = _playerType.gameObject;
             _possessableScript.GetComponent<IPossessable>().Possess();
         }
     }

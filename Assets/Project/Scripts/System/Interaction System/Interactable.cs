@@ -125,7 +125,7 @@ public abstract class Interactable : MonoBehaviour
 
     internal void ApplyOutline(bool _outlineEnabled)
     {
-        if (_autoInteract)
+        if (AutoInteract)
             return;
 
         if (_outlineEnabled && _renderer != null) // Check if the outline is enabled and _renderer is not null
@@ -140,7 +140,10 @@ public abstract class Interactable : MonoBehaviour
 
     internal void RemoveOutline()
     {
-        if (!AutoInteract)
+        if (AutoInteract)
+            return;
+
+        if (_renderer != null)
             _renderer.sharedMaterials = OriginalMaterials;
     }
 

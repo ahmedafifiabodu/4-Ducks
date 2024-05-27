@@ -2,7 +2,7 @@
     "name": "Input System",
     "maps": [
         {
-            "name": "Player",
+            "name": "Cat",
             "id": "698302c8-4e72-429a-8356-daf0c41f9a3e",
             "actions": [
                 {
@@ -13,15 +13,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "ef8e48a3-fac2-4d00-9814-36f2a80f1b3a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
@@ -82,17 +73,6 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fa9d60f2-65ea-42eb-a233-cc6fe9111fe6",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -372,7 +352,55 @@
             ]
         },
         {
-            "name": "Turret",
+            "name": "Possess Cat",
+            "id": "92104d25-6763-451c-a157-ec465727391a",
+            "actions": [
+                {
+                    "name": "Invisibility",
+                    "type": "Button",
+                    "id": "21a95bc5-5522-4047-94db-bb3a8a8c477d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Unpossess",
+                    "type": "Button",
+                    "id": "3789d51e-4c8e-4bd7-b37f-7c3628667a9f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fc8b3176-ab3e-41f4-973d-cdfe4c374c51",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Invisibility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7162ef2-7cc1-4bab-bcbe-bb27b1991763",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpossess",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Possess Turret",
             "id": "6094e622-e14a-408a-ac53-75777a229e2b",
             "actions": [
                 {
@@ -570,7 +598,7 @@
             ]
         },
         {
-            "name": "Movable Object",
+            "name": "Possess Movable Object",
             "id": "aa8b4e21-76d8-45c3-b29e-35342337c0f3",
             "actions": [
                 {
@@ -583,9 +611,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Interact",
+                    "name": "Unpossess",
                     "type": "Button",
-                    "id": "44a29319-1454-4196-b859-226bfa2264e2",
+                    "id": "4f414bb4-f58c-4f4c-b879-ea1367436af2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -727,12 +755,12 @@
                 },
                 {
                     "name": "",
-                    "id": "430f6346-29bc-433e-91e8-c28c95ec0251",
+                    "id": "d7f3472a-b7c4-4047-9a8e-1d43a3ce902a",
                     "path": "<Keyboard>/o",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Unpossess",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

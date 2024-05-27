@@ -71,9 +71,9 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
         {
         };
 
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
-        _inputManager.PlayerActions.Jump.started += _jumpAction;
+        _inputManager.CatActions.Move.started += _startMoveAction;
+        _inputManager.CatActions.Move.canceled += _stopMoveAction;
+        _inputManager.CatActions.Jump.started += _jumpAction;
 
         #endregion Input Actions
     }
@@ -82,13 +82,13 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Move.started -= _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+        _inputManager.CatActions.Move.started -= _startMoveAction;
+        _inputManager.CatActions.Move.canceled -= _stopMoveAction;
     }
 
     private void Update()
     {
-        Vector2 inputVector = _inputManager.PlayerActions.Move.ReadValue<Vector2>();
+        Vector2 inputVector = _inputManager.CatActions.Move.ReadValue<Vector2>();
 
         _forwardAxis = inputVector.y; // Use the y component for forward/backward movement
 

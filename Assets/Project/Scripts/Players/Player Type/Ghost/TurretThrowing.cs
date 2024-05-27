@@ -1,26 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TurretThrowing : ThrowingMechanism
 {
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
-        _inputManager.TurretActions.Fire.started += _startThrowAction;
-        _inputManager.TurretActions.Fire.canceled += _endThrowAction;
+        base.OnEnable();
+
+        _inputManager.PossessTurretActions.Fire.started += _startThrowAction;
+        _inputManager.PossessTurretActions.Fire.canceled += _endThrowAction;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        _inputManager.TurretActions.Fire.started -= _startThrowAction;
-        _inputManager.TurretActions.Fire.canceled -= _endThrowAction;
+
+        _inputManager.PossessTurretActions.Fire.started -= _startThrowAction;
+        _inputManager.PossessTurretActions.Fire.canceled -= _endThrowAction;
     }
 
     protected override void Throw()
     {
-       initialVelocity = transform.forward * _currentVelocity;
+        initialVelocity = transform.forward * _currentVelocity;
         base.Throw();
     }
 

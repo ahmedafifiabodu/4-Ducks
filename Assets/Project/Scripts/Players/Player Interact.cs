@@ -30,7 +30,7 @@ public class PlayerInteract : MonoBehaviour
         // Check Player Type
 
         if (_playerType.IsPlayerCat)
-            _inputManager.PlayerActions.Interact.performed += _ => StartInteraction();
+            _inputManager.CatActions.Interact.performed += _ => StartInteraction();
         else if (_playerType.IsPlayerGhost)
             _inputManager.GhostActions.Interact.performed += _ => StartInteraction();
         else
@@ -42,7 +42,7 @@ public class PlayerInteract : MonoBehaviour
         // Check Player Type
 
         if (_playerType.IsPlayerCat)
-            _inputManager.PlayerActions.Interact.performed -= _ => StartInteraction();
+            _inputManager.CatActions.Interact.performed -= _ => StartInteraction();
         else if (_playerType.IsPlayerGhost)
             _inputManager.GhostActions.Interact.performed -= _ => StartInteraction();
         else
@@ -99,7 +99,7 @@ public class PlayerInteract : MonoBehaviour
         if (currentInteractable != null)
         {
             currentInteractable.RemoveOutline();
-            bool shouldInteract = currentInteractable.AutoInteract || _inputManager.PlayerActions.Interact.triggered;
+            bool shouldInteract = currentInteractable.AutoInteract || _inputManager.CatActions.Interact.triggered;
 
             if (shouldInteract)
             {

@@ -66,17 +66,17 @@ using UnityEngine.InputSystem;
 
         if (IsCat)
         {
-            _inputManager.PlayerActions.Throw.started += _startThrowAction;
-            _inputManager.PlayerActions.Throw.canceled += _endThrowAction;
+            _inputManager.CatActions.Throw.started += _startThrowAction;
+            _inputManager.CatActions.Throw.canceled += _endThrowAction;
         }
         else if (IsTurret)
         {
-            _inputManager.TurretActions.Fire.started += _startThrowAction;
-            _inputManager.TurretActions.Fire.canceled += _endThrowAction;
+            _inputManager.PossessTurretActions.Fire.started += _startThrowAction;
+            _inputManager.PossessTurretActions.Fire.canceled += _endThrowAction;
 
-            //_inputManager.TurretActions.FireAndHold.canceled += _startThrow;
+            //_inputManager.PossessTurretActions.FireAndHold.canceled += _startThrow;
 
-            //_inputManager.TurretActions.Disable();
+            //_inputManager.PossessTurretActions.Disable();
         }
     }
 
@@ -101,14 +101,14 @@ using UnityEngine.InputSystem;
 
         if (IsCat)
         {
-            _inputManager.PlayerActions.Throw.started -= _startThrowAction;
-            _inputManager.PlayerActions.Throw.canceled -= _endThrowAction;
+            _inputManager.CatActions.Throw.started -= _startThrowAction;
+            _inputManager.CatActions.Throw.canceled -= _endThrowAction;
         }
         else if (IsTurret)
         {
-            _inputManager.TurretActions.Fire.started -= _startThrowAction;
-            _inputManager.TurretActions.Fire.canceled -= _endThrowAction;
-            //_inputManager.TurretActions.FireAndHold.canceled -= _startThrow;
+            _inputManager.PossessTurretActions.Fire.started -= _startThrowAction;
+            _inputManager.PossessTurretActions.Fire.canceled -= _endThrowAction;
+            //_inputManager.PossessTurretActions.FireAndHold.canceled -= _startThrow;
 
             _checkingPlayerInput = false;
         }
@@ -188,7 +188,7 @@ public class ThrowingMechanism : MonoBehaviour
     protected Vector3 startingVelocity;
     #endregion Parameters
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
@@ -241,14 +241,14 @@ public class ThrowingMechanism : MonoBehaviour
 
         /*if (IsCat)
         {
-            _inputManager.PlayerActions.Throw.started -= _startThrowAction;
-            _inputManager.PlayerActions.Throw.canceled -= _endThrowAction;
+            _inputManager.CatActions.Throw.started -= _startThrowAction;
+            _inputManager.CatActions.Throw.canceled -= _endThrowAction;
         }
         else if (IsTurret)
         {
-            _inputManager.TurretActions.Fire.started -= _startThrowAction;
-            _inputManager.TurretActions.Fire.canceled -= _endThrowAction;
-            //_inputManager.TurretActions.FireAndHold.canceled -= _startThrow;
+            _inputManager.PossessTurretActions.Fire.started -= _startThrowAction;
+            _inputManager.PossessTurretActions.Fire.canceled -= _endThrowAction;
+            //_inputManager.PossessTurretActions.FireAndHold.canceled -= _startThrow;
 
             _checkingPlayerInput = false;
         }*/

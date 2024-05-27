@@ -37,10 +37,10 @@ public class PlayerJump : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _jumpAction = _ => Jump();
-        _inputManager.PlayerActions.Jump.performed += _jumpAction;
+        _inputManager.CatActions.Jump.performed += _jumpAction;
     }
 
-    private void OnDisable() => _inputManager.PlayerActions.Jump.performed -= _jumpAction;
+    private void OnDisable() => _inputManager.CatActions.Jump.performed -= _jumpAction;
 
     private void Jump()
     {

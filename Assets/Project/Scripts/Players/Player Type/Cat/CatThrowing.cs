@@ -1,32 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CatThrowing : ThrowingMechanism
 {
     [Header("Cat Specific")]
     [SerializeField] private Animator _animator;
+
     private int AttackAnimationId;
     private float animationPlayTransition = 0.001f;
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
-        AttackAnimationId = Animator.StringToHash(GameConstant.Animation.Attacking);
+        base.OnEnable();
 
-        _inputManager.PlayerActions.Throw.started += _startThrowAction;
-        _inputManager.PlayerActions.Throw.canceled += _endThrowAction;
+        AttackAnimationId = Animator.StringToHash(GameConstant.Animation.CatAttacking);
+
+        _inputManager.CatActions.Throw.started += _startThrowAction;
+        _inputManager.CatActions.Throw.canceled += _endThrowAction;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        _inputManager.PlayerActions.Throw.started -= _startThrowAction;
-        _inputManager.PlayerActions.Throw.canceled -= _endThrowAction;
+        _inputManager.CatActions.Throw.started -= _startThrowAction;
+        _inputManager.CatActions.Throw.canceled -= _endThrowAction;
     }
+
     protected override void Throw()
     {
-
         if (_checkingPlayerInput)
             initialVelocity = transform.forward * _currentVelocity;
         else
@@ -36,7 +36,6 @@ public class CatThrowing : ThrowingMechanism
 
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);
     }
-
 
     protected override void DrawTrajectory(int numP)
     {
@@ -55,5 +54,4 @@ public class CatThrowing : ThrowingMechanism
         trajectoryLineRenderer.positionCount = numP;
         trajectoryLineRenderer.SetPositions(points);
     }
-
 }
