@@ -32,8 +32,8 @@ public static class GameConstant
     public static class Animation
     {
         public const string HorizontalMove = "Horizontal(X)";
-        public const string CatJumping = "Cat Jump";
-        public const string CatAttacking = "Cat Attack";
+        public const string CatJumping = "CatJump";
+        public const string CatAttacking = "CatAttack";
     }
 
     public static class AnimationTest
