@@ -49,7 +49,7 @@ public class CatThrowing : ThrowingMechanism
         {
             float time = i * timeBetweenPoints;
             points[i] = startingPosition + startingVelocity * time + time * time * Physics.gravity / 2f;
-            Logging.Log($"Point {i}: {points[i]}");
+            //Logging.Log($"Point {i}: {points[i]}");
         }
 
         trajectoryLineRenderer.positionCount = numP;

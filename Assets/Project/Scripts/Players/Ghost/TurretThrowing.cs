@@ -20,7 +20,7 @@ public class TurretThrowing : ThrowingMechanism
 
     protected override void Throw()
     {
-       initialVelocity = transform.forward * _currentVelocity;
+       initialVelocity = _currentVelocity * 2 * transform.forward;
         base.Throw();
     }
 
@@ -35,7 +35,7 @@ public class TurretThrowing : ThrowingMechanism
         {
             float time = i * timeBetweenPoints;
             points[i] = startingPosition + startingVelocity * time;
-            Logging.Log($"Turret Point {i}: {points[i]}");
+            //Logging.Log($"Turret Point {i}: {points[i]}");
         }
 
         trajectoryLineRenderer.positionCount = numP;

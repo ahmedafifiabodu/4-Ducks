@@ -156,7 +156,7 @@ public class ThrowingMechanism : MonoBehaviour
     [Header("Throwing Mechanism")]
     [SerializeField] private GameObject _ballPrefab;
 
-    [SerializeField] private float _baseVelocity = 2f;
+    [SerializeField] protected float _baseVelocity = 2f;
     [SerializeField] protected float _velocityMultiplier = 2f;
 
     /*[Header("Player Type")]
@@ -202,7 +202,7 @@ public class ThrowingMechanism : MonoBehaviour
         _endThrowAction = context =>
         {
             _isFireKeyPressed = false;
-            Logging.Log("Throw");
+            //Logging.Log("Throw");
 
             if (_throwCoroutine != null)
             {
@@ -269,14 +269,16 @@ public class ThrowingMechanism : MonoBehaviour
         while (true)
         {
             _currentVelocity += _velocityMultiplier * Time.deltaTime;
+            Logging.Log("Current velocity = " +  _currentVelocity);
             timer += Time.deltaTime;
 
             if (timer >= pointIncreaseInterval && numPoints < 50 && _currentVelocity >= 4.5)
             {
-                Logging.Log("Draw Line");
                 numPoints++;
                 timer = 0f;
             }
+
+            Logging.Log("Draw Line");
 
             DrawTrajectory(numPoints);
             yield return null;
@@ -286,20 +288,7 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected virtual void DrawTrajectory(int numP)
     {
-       /* Vector3[] points = new Vector3[numP];
-        Vector3 startingPosition = transform.position;
-        //Vector3 startingVelocity = new Vector3(0, _currentVelocity, _currentVelocity);
-        //Vector3 startingVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
-
-        for (int i = 0; i < numP; i++)
-        {
-            float time = i * timeBetweenPoints;
-            points[i] = startingPosition + startingVelocity * time + time * time * Physics.gravity / 2f;
-            Logging.Log($"Point {i}: {points[i]}");
-        }
-
-        trajectoryLineRenderer.positionCount = numP;
-        trajectoryLineRenderer.SetPositions(points);*/
+       
     }
 
     protected Vector3 initialVelocity;
