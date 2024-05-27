@@ -76,8 +76,8 @@ public class PlayerMovement1 : MonoBehaviour, IDataPersistence
 
         if (isCat)
         {
-            _inputManager.PlayerActions.Move.started += _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+            _inputManager.CatActions.Move.started += _startMoveAction;
+            _inputManager.CatActions.Move.canceled += _stopMoveAction;
         }
         else
         {
@@ -98,8 +98,8 @@ public class PlayerMovement1 : MonoBehaviour, IDataPersistence
     {
         if (isCat)
         {
-            _inputManager.PlayerActions.Move.started -= _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+            _inputManager.CatActions.Move.started -= _startMoveAction;
+            _inputManager.CatActions.Move.canceled -= _stopMoveAction;
         }
         else
         {
@@ -113,7 +113,7 @@ public class PlayerMovement1 : MonoBehaviour, IDataPersistence
         if (isMoving)
         {
             if (isCat)
-                input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
+                input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
             else
                 input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
 
