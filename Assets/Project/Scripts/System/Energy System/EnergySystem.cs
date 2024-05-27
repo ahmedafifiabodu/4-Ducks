@@ -18,11 +18,6 @@ public class EnergySystem : MonoBehaviour
     {
         _energy = 0;
     }
-    
-    private void OnEnable()
-    {
-        EnergyCrystal.OnEnergyCrystalCollected.AddListener(GainEnergy);
-    }
     public void GainEnergy(float energyAmount)
     {
         _energy += energyAmount;
@@ -31,7 +26,6 @@ public class EnergySystem : MonoBehaviour
             _energy = _maxEnergy;
             OnMaxEnergy?.Invoke();
         }
-        Logging.Log("EnergyCollected");
         OnEnergyChanged?.Invoke();
     }
     public void LoseEnergy(float energyAmount)
@@ -42,9 +36,5 @@ public class EnergySystem : MonoBehaviour
             OnLowEnergy?.Invoke();
         }
         OnEnergyChanged?.Invoke();
-    }
-    private void OnDisable()
-    {
-        EnergyCrystal.OnEnergyCrystalCollected.RemoveListener(GainEnergy);
     }
 }

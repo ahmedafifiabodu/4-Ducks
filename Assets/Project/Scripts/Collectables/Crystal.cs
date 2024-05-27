@@ -11,6 +11,7 @@ public abstract class Crystal : MonoBehaviour, ICollectable
     public virtual void Collect()
     {
         gameObject.SetActive(false);
+        Logging.Log("Collected");
         isCollected = true;
     }
 
