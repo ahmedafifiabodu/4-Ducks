@@ -24,7 +24,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ""name"": ""Input System"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""Cat"",
             ""id"": ""698302c8-4e72-429a-8356-daf0c41f9a3e"",
             ""actions"": [
                 {
@@ -35,15 +35,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""ef8e48a3-fac2-4d00-9814-36f2a80f1b3a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Jump"",
@@ -104,17 +95,6 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fa9d60f2-65ea-42eb-a233-cc6fe9111fe6"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -394,7 +374,55 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Turret"",
+            ""name"": ""Possess Cat"",
+            ""id"": ""92104d25-6763-451c-a157-ec465727391a"",
+            ""actions"": [
+                {
+                    ""name"": ""Invisibility"",
+                    ""type"": ""Button"",
+                    ""id"": ""21a95bc5-5522-4047-94db-bb3a8a8c477d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Unpossess"",
+                    ""type"": ""Button"",
+                    ""id"": ""3789d51e-4c8e-4bd7-b37f-7c3628667a9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fc8b3176-ab3e-41f4-973d-cdfe4c374c51"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invisibility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7162ef2-7cc1-4bab-bcbe-bb27b1991763"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unpossess"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Possess Turret"",
             ""id"": ""6094e622-e14a-408a-ac53-75777a229e2b"",
             ""actions"": [
                 {
@@ -592,7 +620,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Movable Object"",
+            ""name"": ""Possess Movable Object"",
             ""id"": ""aa8b4e21-76d8-45c3-b29e-35342337c0f3"",
             ""actions"": [
                 {
@@ -605,9 +633,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""Unpossess"",
                     ""type"": ""Button"",
-                    ""id"": ""44a29319-1454-4196-b859-226bfa2264e2"",
+                    ""id"": ""4f414bb4-f58c-4f4c-b879-ea1367436af2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -749,12 +777,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""430f6346-29bc-433e-91e8-c28c95ec0251"",
+                    ""id"": ""d7f3472a-b7c4-4047-9a8e-1d43a3ce902a"",
                     ""path"": ""<Keyboard>/o"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interact"",
+                    ""action"": ""Unpossess"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1393,13 +1421,12 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
+        // Cat
+        m_Cat = asset.FindActionMap("Cat", throwIfNotFound: true);
+        m_Cat_Move = m_Cat.FindAction("Move", throwIfNotFound: true);
+        m_Cat_Jump = m_Cat.FindAction("Jump", throwIfNotFound: true);
+        m_Cat_Interact = m_Cat.FindAction("Interact", throwIfNotFound: true);
+        m_Cat_Throw = m_Cat.FindAction("Throw", throwIfNotFound: true);
         // Ghost
         m_Ghost = asset.FindActionMap("Ghost", throwIfNotFound: true);
         m_Ghost_Move = m_Ghost.FindAction("Move", throwIfNotFound: true);
@@ -1407,16 +1434,20 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_Ghost_Interact = m_Ghost.FindAction("Interact", throwIfNotFound: true);
         m_Ghost_Dash = m_Ghost.FindAction("Dash", throwIfNotFound: true);
         m_Ghost_Fly = m_Ghost.FindAction("Fly", throwIfNotFound: true);
-        // Turret
-        m_Turret = asset.FindActionMap("Turret", throwIfNotFound: true);
-        m_Turret_Fire = m_Turret.FindAction("Fire", throwIfNotFound: true);
-        m_Turret_FireAndHold = m_Turret.FindAction("Fire And Hold", throwIfNotFound: true);
-        m_Turret_Look = m_Turret.FindAction("Look", throwIfNotFound: true);
-        m_Turret_Unpossess = m_Turret.FindAction("Unpossess", throwIfNotFound: true);
-        // Movable Object
-        m_MovableObject = asset.FindActionMap("Movable Object", throwIfNotFound: true);
-        m_MovableObject_Move = m_MovableObject.FindAction("Move", throwIfNotFound: true);
-        m_MovableObject_Interact = m_MovableObject.FindAction("Interact", throwIfNotFound: true);
+        // Possess Cat
+        m_PossessCat = asset.FindActionMap("Possess Cat", throwIfNotFound: true);
+        m_PossessCat_Invisibility = m_PossessCat.FindAction("Invisibility", throwIfNotFound: true);
+        m_PossessCat_Unpossess = m_PossessCat.FindAction("Unpossess", throwIfNotFound: true);
+        // Possess Turret
+        m_PossessTurret = asset.FindActionMap("Possess Turret", throwIfNotFound: true);
+        m_PossessTurret_Fire = m_PossessTurret.FindAction("Fire", throwIfNotFound: true);
+        m_PossessTurret_FireAndHold = m_PossessTurret.FindAction("Fire And Hold", throwIfNotFound: true);
+        m_PossessTurret_Look = m_PossessTurret.FindAction("Look", throwIfNotFound: true);
+        m_PossessTurret_Unpossess = m_PossessTurret.FindAction("Unpossess", throwIfNotFound: true);
+        // Possess Movable Object
+        m_PossessMovableObject = asset.FindActionMap("Possess Movable Object", throwIfNotFound: true);
+        m_PossessMovableObject_Move = m_PossessMovableObject.FindAction("Move", throwIfNotFound: true);
+        m_PossessMovableObject_Unpossess = m_PossessMovableObject.FindAction("Unpossess", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Look = m_Test.FindAction("Look", throwIfNotFound: true);
@@ -1491,38 +1522,33 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Run;
-    private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Throw;
-    public struct PlayerActions
+    // Cat
+    private readonly InputActionMap m_Cat;
+    private List<ICatActions> m_CatActionsCallbackInterfaces = new List<ICatActions>();
+    private readonly InputAction m_Cat_Move;
+    private readonly InputAction m_Cat_Jump;
+    private readonly InputAction m_Cat_Interact;
+    private readonly InputAction m_Cat_Throw;
+    public struct CatActions
     {
         private @InputSystem m_Wrapper;
-        public PlayerActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Run => m_Wrapper.m_Player_Run;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @Throw => m_Wrapper.m_Player_Throw;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public CatActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Cat_Move;
+        public InputAction @Jump => m_Wrapper.m_Cat_Jump;
+        public InputAction @Interact => m_Wrapper.m_Cat_Interact;
+        public InputAction @Throw => m_Wrapper.m_Cat_Throw;
+        public InputActionMap Get() { return m_Wrapper.m_Cat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(CatActions set) { return set.Get(); }
+        public void AddCallbacks(ICatActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_CatActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CatActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Run.started += instance.OnRun;
-            @Run.performed += instance.OnRun;
-            @Run.canceled += instance.OnRun;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -1534,14 +1560,11 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Throw.canceled += instance.OnThrow;
         }
 
-        private void UnregisterCallbacks(IPlayerActions instance)
+        private void UnregisterCallbacks(ICatActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Run.started -= instance.OnRun;
-            @Run.performed -= instance.OnRun;
-            @Run.canceled -= instance.OnRun;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -1553,21 +1576,21 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Throw.canceled -= instance.OnThrow;
         }
 
-        public void RemoveCallbacks(IPlayerActions instance)
+        public void RemoveCallbacks(ICatActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_CatActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerActions instance)
+        public void SetCallbacks(ICatActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_CatActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_CatActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public CatActions @Cat => new CatActions(this);
 
     // Ghost
     private readonly InputActionMap m_Ghost;
@@ -1647,30 +1670,84 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     }
     public GhostActions @Ghost => new GhostActions(this);
 
-    // Turret
-    private readonly InputActionMap m_Turret;
-    private List<ITurretActions> m_TurretActionsCallbackInterfaces = new List<ITurretActions>();
-    private readonly InputAction m_Turret_Fire;
-    private readonly InputAction m_Turret_FireAndHold;
-    private readonly InputAction m_Turret_Look;
-    private readonly InputAction m_Turret_Unpossess;
-    public struct TurretActions
+    // Possess Cat
+    private readonly InputActionMap m_PossessCat;
+    private List<IPossessCatActions> m_PossessCatActionsCallbackInterfaces = new List<IPossessCatActions>();
+    private readonly InputAction m_PossessCat_Invisibility;
+    private readonly InputAction m_PossessCat_Unpossess;
+    public struct PossessCatActions
     {
         private @InputSystem m_Wrapper;
-        public TurretActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Fire => m_Wrapper.m_Turret_Fire;
-        public InputAction @FireAndHold => m_Wrapper.m_Turret_FireAndHold;
-        public InputAction @Look => m_Wrapper.m_Turret_Look;
-        public InputAction @Unpossess => m_Wrapper.m_Turret_Unpossess;
-        public InputActionMap Get() { return m_Wrapper.m_Turret; }
+        public PossessCatActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Invisibility => m_Wrapper.m_PossessCat_Invisibility;
+        public InputAction @Unpossess => m_Wrapper.m_PossessCat_Unpossess;
+        public InputActionMap Get() { return m_Wrapper.m_PossessCat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(TurretActions set) { return set.Get(); }
-        public void AddCallbacks(ITurretActions instance)
+        public static implicit operator InputActionMap(PossessCatActions set) { return set.Get(); }
+        public void AddCallbacks(IPossessCatActions instance)
         {
-            if (instance == null || m_Wrapper.m_TurretActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TurretActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PossessCatActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PossessCatActionsCallbackInterfaces.Add(instance);
+            @Invisibility.started += instance.OnInvisibility;
+            @Invisibility.performed += instance.OnInvisibility;
+            @Invisibility.canceled += instance.OnInvisibility;
+            @Unpossess.started += instance.OnUnpossess;
+            @Unpossess.performed += instance.OnUnpossess;
+            @Unpossess.canceled += instance.OnUnpossess;
+        }
+
+        private void UnregisterCallbacks(IPossessCatActions instance)
+        {
+            @Invisibility.started -= instance.OnInvisibility;
+            @Invisibility.performed -= instance.OnInvisibility;
+            @Invisibility.canceled -= instance.OnInvisibility;
+            @Unpossess.started -= instance.OnUnpossess;
+            @Unpossess.performed -= instance.OnUnpossess;
+            @Unpossess.canceled -= instance.OnUnpossess;
+        }
+
+        public void RemoveCallbacks(IPossessCatActions instance)
+        {
+            if (m_Wrapper.m_PossessCatActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPossessCatActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PossessCatActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PossessCatActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PossessCatActions @PossessCat => new PossessCatActions(this);
+
+    // Possess Turret
+    private readonly InputActionMap m_PossessTurret;
+    private List<IPossessTurretActions> m_PossessTurretActionsCallbackInterfaces = new List<IPossessTurretActions>();
+    private readonly InputAction m_PossessTurret_Fire;
+    private readonly InputAction m_PossessTurret_FireAndHold;
+    private readonly InputAction m_PossessTurret_Look;
+    private readonly InputAction m_PossessTurret_Unpossess;
+    public struct PossessTurretActions
+    {
+        private @InputSystem m_Wrapper;
+        public PossessTurretActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Fire => m_Wrapper.m_PossessTurret_Fire;
+        public InputAction @FireAndHold => m_Wrapper.m_PossessTurret_FireAndHold;
+        public InputAction @Look => m_Wrapper.m_PossessTurret_Look;
+        public InputAction @Unpossess => m_Wrapper.m_PossessTurret_Unpossess;
+        public InputActionMap Get() { return m_Wrapper.m_PossessTurret; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PossessTurretActions set) { return set.Get(); }
+        public void AddCallbacks(IPossessTurretActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PossessTurretActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PossessTurretActionsCallbackInterfaces.Add(instance);
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
@@ -1685,7 +1762,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Unpossess.canceled += instance.OnUnpossess;
         }
 
-        private void UnregisterCallbacks(ITurretActions instance)
+        private void UnregisterCallbacks(IPossessTurretActions instance)
         {
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
@@ -1701,75 +1778,75 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             @Unpossess.canceled -= instance.OnUnpossess;
         }
 
-        public void RemoveCallbacks(ITurretActions instance)
+        public void RemoveCallbacks(IPossessTurretActions instance)
         {
-            if (m_Wrapper.m_TurretActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PossessTurretActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ITurretActions instance)
+        public void SetCallbacks(IPossessTurretActions instance)
         {
-            foreach (var item in m_Wrapper.m_TurretActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PossessTurretActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_TurretActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PossessTurretActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public TurretActions @Turret => new TurretActions(this);
+    public PossessTurretActions @PossessTurret => new PossessTurretActions(this);
 
-    // Movable Object
-    private readonly InputActionMap m_MovableObject;
-    private List<IMovableObjectActions> m_MovableObjectActionsCallbackInterfaces = new List<IMovableObjectActions>();
-    private readonly InputAction m_MovableObject_Move;
-    private readonly InputAction m_MovableObject_Interact;
-    public struct MovableObjectActions
+    // Possess Movable Object
+    private readonly InputActionMap m_PossessMovableObject;
+    private List<IPossessMovableObjectActions> m_PossessMovableObjectActionsCallbackInterfaces = new List<IPossessMovableObjectActions>();
+    private readonly InputAction m_PossessMovableObject_Move;
+    private readonly InputAction m_PossessMovableObject_Unpossess;
+    public struct PossessMovableObjectActions
     {
         private @InputSystem m_Wrapper;
-        public MovableObjectActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_MovableObject_Move;
-        public InputAction @Interact => m_Wrapper.m_MovableObject_Interact;
-        public InputActionMap Get() { return m_Wrapper.m_MovableObject; }
+        public PossessMovableObjectActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_PossessMovableObject_Move;
+        public InputAction @Unpossess => m_Wrapper.m_PossessMovableObject_Unpossess;
+        public InputActionMap Get() { return m_Wrapper.m_PossessMovableObject; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MovableObjectActions set) { return set.Get(); }
-        public void AddCallbacks(IMovableObjectActions instance)
+        public static implicit operator InputActionMap(PossessMovableObjectActions set) { return set.Get(); }
+        public void AddCallbacks(IPossessMovableObjectActions instance)
         {
-            if (instance == null || m_Wrapper.m_MovableObjectActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MovableObjectActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PossessMovableObjectActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PossessMovableObjectActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
+            @Unpossess.started += instance.OnUnpossess;
+            @Unpossess.performed += instance.OnUnpossess;
+            @Unpossess.canceled += instance.OnUnpossess;
         }
 
-        private void UnregisterCallbacks(IMovableObjectActions instance)
+        private void UnregisterCallbacks(IPossessMovableObjectActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
+            @Unpossess.started -= instance.OnUnpossess;
+            @Unpossess.performed -= instance.OnUnpossess;
+            @Unpossess.canceled -= instance.OnUnpossess;
         }
 
-        public void RemoveCallbacks(IMovableObjectActions instance)
+        public void RemoveCallbacks(IPossessMovableObjectActions instance)
         {
-            if (m_Wrapper.m_MovableObjectActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PossessMovableObjectActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IMovableObjectActions instance)
+        public void SetCallbacks(IPossessMovableObjectActions instance)
         {
-            foreach (var item in m_Wrapper.m_MovableObjectActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PossessMovableObjectActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_MovableObjectActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PossessMovableObjectActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public MovableObjectActions @MovableObject => new MovableObjectActions(this);
+    public PossessMovableObjectActions @PossessMovableObject => new PossessMovableObjectActions(this);
 
     // Test
     private readonly InputActionMap m_Test;
@@ -1942,10 +2019,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
-    public interface IPlayerActions
+    public interface ICatActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
@@ -1958,17 +2034,22 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnFly(InputAction.CallbackContext context);
     }
-    public interface ITurretActions
+    public interface IPossessCatActions
+    {
+        void OnInvisibility(InputAction.CallbackContext context);
+        void OnUnpossess(InputAction.CallbackContext context);
+    }
+    public interface IPossessTurretActions
     {
         void OnFire(InputAction.CallbackContext context);
         void OnFireAndHold(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnUnpossess(InputAction.CallbackContext context);
     }
-    public interface IMovableObjectActions
+    public interface IPossessMovableObjectActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
+        void OnUnpossess(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

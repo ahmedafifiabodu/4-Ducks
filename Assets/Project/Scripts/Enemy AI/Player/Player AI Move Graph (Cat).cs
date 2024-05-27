@@ -100,24 +100,24 @@ public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterControlle
             _timeSinceJumpRequested = 0f;
         };
 
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
-        _inputManager.PlayerActions.Jump.started += _jumpAction;
+        _inputManager.CatActions.Move.started += _startMoveAction;
+        _inputManager.CatActions.Move.canceled += _stopMoveAction;
+        _inputManager.CatActions.Jump.started += _jumpAction;
     }
 
     private void Start() => _motor.CharacterController = this;
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Move.started -= _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+        _inputManager.CatActions.Move.started -= _startMoveAction;
+        _inputManager.CatActions.Move.canceled -= _stopMoveAction;
     }
 
     private void Update()
     {
         if (isMoving)
         {
-            _inputVector = _inputManager.PlayerActions.Move.ReadValue<Vector2>();
+            _inputVector = _inputManager.CatActions.Move.ReadValue<Vector2>();
             _moveInputVector = new Vector3(_inputVector.x, 0, _inputVector.y);
             _totalMovementTime += Time.deltaTime;
         }
