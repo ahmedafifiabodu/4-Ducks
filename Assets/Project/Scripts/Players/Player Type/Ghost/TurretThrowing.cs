@@ -20,7 +20,7 @@ public class TurretThrowing : ThrowingMechanism
 
     protected override void Throw()
     {
-        initialVelocity = _currentVelocity * 2 * transform.forward;
+        initialVelocity = _currentVelocity * 4 * transform.forward;
         base.Throw();
     }
 

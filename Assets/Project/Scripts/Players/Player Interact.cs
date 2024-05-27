@@ -28,25 +28,29 @@ public class PlayerInteract : MonoBehaviour
         _playerUI.DisablePromptText();
 
         // Check Player Type
-
-        if (_playerType.IsPlayerCat)
-            _inputManager.CatActions.Interact.performed += _ => StartInteraction();
-        else if (_playerType.IsPlayerGhost)
-            _inputManager.GhostActions.Interact.performed += _ => StartInteraction();
-        else
-            Logging.LogError("Player Type not set!");
+        if (_playerType != null)
+        {
+            if (_playerType.IsPlayerCat)
+                _inputManager.CatActions.Interact.performed += _ => StartInteraction();
+            else if (_playerType.IsPlayerGhost)
+                _inputManager.GhostActions.Interact.performed += _ => StartInteraction();
+            else
+                Logging.LogError("Player Type not set!");
+        }
     }
 
     private void OnDestroy()
     {
         // Check Player Type
-
-        if (_playerType.IsPlayerCat)
-            _inputManager.CatActions.Interact.performed -= _ => StartInteraction();
-        else if (_playerType.IsPlayerGhost)
-            _inputManager.GhostActions.Interact.performed -= _ => StartInteraction();
-        else
-            Logging.LogError("Player Type not set!");
+        if (_playerType != null)
+        {
+            if (_playerType.IsPlayerCat)
+                _inputManager.CatActions.Interact.performed -= _ => StartInteraction();
+            else if (_playerType.IsPlayerGhost)
+                _inputManager.GhostActions.Interact.performed -= _ => StartInteraction();
+            else
+                Logging.LogError("Player Type not set!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
