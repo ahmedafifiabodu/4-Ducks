@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Movement")]
     [SerializeField] private float Speed = 8f;
+    [SerializeField] private float rotationSpeed = 8f;
     private Vector2 input;
     private bool isMoving;
 
@@ -114,20 +115,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
+
     private void Move()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        Vector3 inputDirection = (right * input.x + forward * input.y).normalized;
+
+        if (inputDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
 
         Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;
         rb.velocity = newVelocity;
 
-        PLAYBACK_STATE playState;
-
         Animate(input);
     }
+
 
     private void Animate(Vector2 input)
     {

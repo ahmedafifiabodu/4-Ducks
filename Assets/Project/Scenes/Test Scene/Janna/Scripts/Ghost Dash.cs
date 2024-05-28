@@ -17,7 +17,7 @@ public class GhostDash : MonoBehaviour
     [Header("Dashing Properties")]
     [SerializeField] private float dashSpeed = 10f;
     [SerializeField] private float dashDistance = 10f;
-    [SerializeField] private float dashCooldown = 1f;
+    //[SerializeField] private float dashCooldown = 1f;
     private bool canDash = true;
     private bool isDashing = false;
     private float dashTime;
