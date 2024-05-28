@@ -591,6 +591,7 @@ GameObject:
   - component: {fileID: 6029460376718385939}
   - component: {fileID: 6270036292430799609}
   - component: {fileID: 553898824703700182}
+  - component: {fileID: 6081779893639782550}
   - component: {fileID: 1519892360421401789}
   - component: {fileID: 8550535525187700254}
   m_Layer: 23
@@ -655,9 +656,6 @@ MonoBehaviour:
   _interactableLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _playerType:
-    Cat: {fileID: 6270036292430799609}
-    Ghost: {fileID: 0}
 --- !u!114 &6270036292430799609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,6 +698,38 @@ MonoBehaviour:
   _doubleJumpForce: 10
   Gravity: {x: 0, y: -30, z: 0}
   MeshRoot: {fileID: 7046003192005060324}
+--- !u!114 &6081779893639782550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b65b6b7688df2b4b86fcce1930a2655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _maxMovementSpeed: 10
+  _speedDeceleration: 10
+  _maxAirMovementSpeed: 10
+  _airAccelerationSpeed: 5
+  Drag: 0.1
+  _jumpForce: 10
+  _upwardsGravityMultiplier: 0.5
+  _downwardsGravityMultiplier: 1.5
+  JumpPreGroundingGraceTime: 0
+  JumpPostGroundingGraceTime: 0
+  AllowDoubleJump: 1
+  _doubleJumpForce: 10
+  Gravity: {x: 0, y: -30, z: 0}
+  MeshRoot: {fileID: 0}
 --- !u!136 &1519892360421401789
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -17666,8 +17696,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1310102527955023202}
-  - component: {fileID: 8049850531917835126}
   - component: {fileID: 5253115941403746246}
+  - component: {fileID: 2986748727228341086}
   m_Layer: 0
   m_Name: pivot
   m_TagString: Untagged
@@ -17690,30 +17720,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7046003192005060324}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8049850531917835126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7087374577171111197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7deb5b1195ac546bbe10374379cf9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ballPrefab: {fileID: 7636507714296715182, guid: d4b35430f9a61114681db047c2171e6b,
-    type: 3}
-  _baseVelocity: 2
-  _velocityMultiplier: 2
-  IsCat: 1
-  IsTurret: 0
-  trajectoryLineRenderer: {fileID: 5253115941403746246}
-  numPoints: 10
-  timeBetweenPoints: 0.1
-  pointIncreaseInterval: 0.12
-  _animator: {fileID: 5912106208788131342}
-  animationPlayTransition: 0.001
 --- !u!120 &5253115941403746246
 LineRenderer:
   serializedVersion: 2
@@ -17828,6 +17834,27 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &2986748727228341086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087374577171111197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d875e418bb75247b50c3e659ac7815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ballPrefab: {fileID: 7636507714296715182, guid: d4b35430f9a61114681db047c2171e6b,
+    type: 3}
+  _baseVelocity: 2
+  _velocityMultiplier: 2
+  trajectoryLineRenderer: {fileID: 5253115941403746246}
+  numPoints: 10
+  timeBetweenPoints: 0.1
+  pointIncreaseInterval: 0.2
+  _animator: {fileID: 5912106208788131342}
 --- !u!1 &7112617834644646047
 GameObject:
   m_ObjectHideFlags: 0

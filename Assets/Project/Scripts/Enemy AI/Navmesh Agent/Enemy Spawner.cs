@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemiesPrefabs;
+    [SerializeField] private NavMeshSurface _navMeshSurface;
     [SerializeField] private float _spawnDelay = 1f;
     [SerializeField] private SpawnMethod _spawnMethod = SpawnMethod.RoundRobin;
 
@@ -87,10 +89,19 @@ public class EnemySpawner : MonoBehaviour
 
     private Vector3 SampleNavMeshPosition()
     {
-        int _vertexIndex = Random.Range(0, _navMeshVerticesLength);
+        // Define a range for the random position
+        float range = 100f;
 
-        if (NavMesh.SamplePosition(_navMeshTriangulation.vertices[_vertexIndex], out NavMeshHit _navMeshHit, 2.0f, -1))
-            return _navMeshHit.position;
+        // Generate a random position within the range
+        Vector3 randomPosition = new(
+            Random.Range(-range, range),
+            0,
+            Random.Range(-range, range)
+        );
+
+        // Try to sample a position on the NavMesh
+        if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, range, NavMesh.AllAreas))
+            return hit.position;
 
         return Vector3.zero;
     }

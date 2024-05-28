@@ -7,36 +7,16 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 {
     #region Parameters
 
-    [Header("Stable Movement")]
-    [SerializeField] private float MaxStableMoveSpeed = 10f;
-
-    [SerializeField] private float Acceleration = 5f;
-    [SerializeField] private float Deceleration = 10f;
-
     [Header("Air Movement")]
     [SerializeField] private float MaxAirMoveSpeed = 10f;
 
     [SerializeField] private float AirAccelerationSpeed = 5f;
     [SerializeField] private float Drag = 0.1f;
 
-    [Header("Jumping")]
-    [SerializeField] private float _jumpForce = 10f;
-
-    [SerializeField] private float _upwardsGravityMultiplier = 0.5f;
-    [SerializeField] private float _downwardsGravityMultiplier = 1.5f;
-    [SerializeField] private float JumpPreGroundingGraceTime = 0f;
-    [SerializeField] private float JumpPostGroundingGraceTime = 0f;
-
-    [Header("Double Jumping")]
-    [SerializeField] private bool AllowDoubleJump = true;
-
-    [SerializeField] private float _doubleJumpForce = 10f;
-
     [Header("Misc")]
     [SerializeField] private Vector3 Gravity = new(0, -30f, 0);
 
     [SerializeField] private Transform MeshRoot;
-    [SerializeField] private float _animationSmooth = 2;
 
     private Animator _animator;
     private KinematicCharacterMotor _motor;
@@ -55,27 +35,7 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 
     #endregion Animation Parameters
 
-    #region Movement Parameters
-
-    private bool isMoving;
-    private Vector3 _moveInputVector;
-
     private float _forwardAxis;
-    private float _rightAxis;
-
-    #endregion Movement Parameters
-
-    #region Jumping
-
-    private bool _jumpRequested = false;
-    private bool _jumpConsumed = false;
-    private float _timeSinceJumpRequested = Mathf.Infinity;
-    private float _timeSinceLastAbleToJump = 0f;
-
-    private bool _doubleJumpAllowed = false;
-    private bool _doubleJumpConsumed = false;
-
-    #endregion Jumping
 
     #endregion Parameters
 
@@ -101,20 +61,14 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
 
         _startMoveAction = _ =>
         {
-            isMoving = true;
         };
 
         _stopMoveAction = _ =>
         {
-            isMoving = false;
-            _moveInputVector = Vector3.zero;
-            //StartCoroutine(StopMoveSmoothly());
         };
 
         _jumpAction = _ =>
         {
-            _jumpRequested = true;
-            _timeSinceJumpRequested = 0f;
         };
 
         _inputManager.CatActions.Move.started += _startMoveAction;
@@ -136,9 +90,6 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
     {
         Vector2 inputVector = _inputManager.CatActions.Move.ReadValue<Vector2>();
 
-        _forwardAxis = inputVector.y; // Use the y component for forward/backward movement
-        _rightAxis = inputVector.x; // Use the x component for left/right movement
-
         _animator.SetFloat(RunAnimationId, inputVector.magnitude);
     }
 
@@ -155,25 +106,6 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
     {
         _rootMotionPositionDelta = Vector3.zero;
         _rootMotionRotationDelta = Quaternion.identity;
-
-        #region Jumping
-
-        if (_jumpRequested && _timeSinceJumpRequested > JumpPreGroundingGraceTime)
-            _jumpRequested = false;
-
-        if (_motor.GroundingStatus.IsStableOnGround)
-        {
-            _jumpConsumed = false;
-            _doubleJumpAllowed = true;
-            _doubleJumpConsumed = false;
-            _timeSinceLastAbleToJump = 0f;
-        }
-        else
-            _timeSinceLastAbleToJump += deltaTime;
-
-        _timeSinceLastAbleToJump += deltaTime;
-
-        #endregion Jumping
     }
 
     public void BeforeCharacterUpdate(float deltaTime)
@@ -231,7 +163,7 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
             if (_forwardAxis > 0f)
             {
                 // If we want to move, add an acceleration to the velocity
-                Vector3 targetMovementVelocity = _motor.CharacterForward * _forwardAxis * MaxAirMoveSpeed;
+                Vector3 targetMovementVelocity = _forwardAxis * MaxAirMoveSpeed * _motor.CharacterForward;
                 Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, Gravity);
                 currentVelocity += AirAccelerationSpeed * deltaTime * velocityDiff;
             }

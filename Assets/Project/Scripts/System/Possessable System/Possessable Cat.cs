@@ -78,11 +78,11 @@ public class PossessableCat : MonoBehaviour, IPossessable
 
     private void StartInvisibility()
     {
-        Logging.Log("Invisibility");
+        Logging.Log("Invisibility" + _invisibilityAbility);
     }
 
     private void StopInvisibility()
     {
-        Logging.Log("Stop Invisibility");
+        Logging.Log("Stop Invisibility" + _invisibilityAbility);
     }
 }
