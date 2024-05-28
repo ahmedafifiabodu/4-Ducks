@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [Header("Movement")]
     [SerializeField] private float Speed = 8f;
     private Vector2 input;
-    public bool isMoving;
+    private bool isMoving;
 
     [Header("Audio")]
     private EventInstance PlayerFootSteps;
