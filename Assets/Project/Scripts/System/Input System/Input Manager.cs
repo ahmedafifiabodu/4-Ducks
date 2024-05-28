@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    internal InputSystem.CatActions CatActions { get; private set; }
-    internal InputSystem.GhostActions GhostActions { get; private set; }
-    internal InputSystem.PossessTurretActions PossessTurretActions { get; private set; }
-    internal InputSystem.PossessMovableObjectActions PosssessMovableObjectActions { get; private set; }
-    internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
-
     private InputSystem _input;
+    internal InputSystem.PlayerActions PlayerActions { get; private set; }
+    internal InputSystem.GhostActions GhostActions { get; private set; }
+    internal InputSystem.TurretActions TurretActions { get; private set; }
+    internal InputSystem.MovableObjectActions MovableObjectActions { get; private set; }
+
+    private ServiceLocator _serviceLocator;
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this, true);
+        _serviceLocator = ServiceLocator.Instance;
+        _serviceLocator.RegisterService(this, true);
 
         _input = new InputSystem();
 
-        CatActions = _input.Cat;
+        PlayerActions = _input.Player;
         GhostActions = _input.Ghost;
-        PossessTurretActions = _input.PossessTurret;
-        PosssessMovableObjectActions = _input.PossessMovableObject;
-        PossessCatActions = _input.PossessCat;
+        TurretActions = _input.Turret;
+        MovableObjectActions = _input.MovableObject;
     }
 
     private void OnEnable() => _input.Enable();

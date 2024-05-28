@@ -7,36 +7,30 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     #region Parameters
 
-    [Header("Animation")]
-    [SerializeField] private float smooth = 5;
-
-    [Header("Movement")]
-    [SerializeField] private float Speed = 8f;
-
-    [SerializeField] private bool isCat;
 
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
     private InputManager _inputManager;
-
     private Rigidbody rb;
-
     private Animator _animator;
+    [SerializeField] private bool isCat;
 
-    //Animation
+    [Header("Animation")]
+    [SerializeField] private float smooth = 5;
     private int RunAnimationId;
-
     private int RunAnimationIdY;
     private float p_anim;
     private float p_animVerical;
 
+    [Header("Movement")]
+    [SerializeField] private float Speed = 8f;
+    [SerializeField] private float rotationSpeed = 8f;
     private Vector2 input;
     private bool isMoving;
 
-    //Audio
+    [Header("Audio")]
     private EventInstance PlayerFootSteps;
-
     private AudioSystemFMOD AudioSystem;
     private FMODEvents FmodSystemn;
 
@@ -76,8 +70,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         if (isCat)
         {
-            _inputManager.CatActions.Move.started += _startMoveAction;
-            _inputManager.CatActions.Move.canceled += _stopMoveAction;
+            _inputManager.PlayerActions.Move.started += _startMoveAction;
+            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
         }
         else
         {
@@ -98,8 +92,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         if (isCat)
         {
-            _inputManager.CatActions.Move.started -= _startMoveAction;
-            _inputManager.CatActions.Move.canceled -= _stopMoveAction;
+            _inputManager.PlayerActions.Move.started -= _startMoveAction;
+            _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
         }
         else
         {
@@ -113,7 +107,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (isMoving)
         {
             if (isCat)
-                input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
+                input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
             else
                 input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
 
@@ -121,20 +115,27 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         }
     }
 
+
     private void Move()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+        Vector3 forward = transform.forward;
+        Vector3 right = transform.right;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        Vector3 inputDirection = (right * input.x + forward * input.y).normalized;
+
+        if (inputDirection.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
 
         Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;
         rb.velocity = newVelocity;
 
-        PLAYBACK_STATE playState;
-
         Animate(input);
     }
+
 
     private void Animate(Vector2 input)
     {

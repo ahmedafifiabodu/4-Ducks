@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CatAttacking Configuration", menuName = "Enemy Scriptable Object/CatAttacking Configuration")]
+[CreateAssetMenu(fileName = "Attacking Configuration", menuName = "Enemy Scriptable Object/Attacking Configuration")]
 public class AttackingScriptableObject : ScriptableObject
 {
     [Header("Attack Configuration")]

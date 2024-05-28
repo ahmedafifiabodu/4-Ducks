@@ -8,11 +8,6 @@ public class RangedAttackRadius : AttackRadius
 
     [SerializeField] private float _sphereCastRadius = 0.1f;
 
-    [Header("Bullet Settings")]
-    [SerializeField] private Bullet _bullet;
-
-    [SerializeField] private HomingBullet _homingBullet;
-
     private Vector3 _bulletSpawnOffset;
     private LayerMask _layerMask;
 
@@ -21,6 +16,7 @@ public class RangedAttackRadius : AttackRadius
     private RaycastHit _hit;
 
     private IDamageable _targetDamageable;
+    private Bullet _bullet;
 
     #region Setters
 
@@ -65,13 +61,8 @@ public class RangedAttackRadius : AttackRadius
 
             if (_targetDamageable != null)
             {
-                if (_homingBullet == null)
-                {
-                    Debug.LogError("_homingBullet is null");
-                }
-
                 if (useHomingBullet)
-                    _bullet = _objectPool.GetPooledObject(_homingBullet.gameObject).GetComponent<HomingBullet>();
+                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
                 else
                     _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
 

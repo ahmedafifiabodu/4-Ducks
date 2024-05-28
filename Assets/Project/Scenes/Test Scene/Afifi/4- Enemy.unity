@@ -199,9 +199,7 @@ GameObject:
   - component: {fileID: 2097319760}
   - component: {fileID: 2097319759}
   - component: {fileID: 2097319758}
-  - component: {fileID: 2097319762}
-  - component: {fileID: 2097319761}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: Flee Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +236,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -296,42 +294,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097319756}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2097319761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097319756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffaed31a167fac04591418c34cd43deb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 5
-  _angleLimitForRotation: {x: 0, y: 0}
---- !u!114 &2097319762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097319756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8392357c60935b942a620ffbc8f816ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _outlineMaterial: {fileID: 0}
-  renderers: []
-  _interact: 0
-  _autoInteract: 1
-  _useEvents: 0
-  _promptMessage: 
-  _possessableScript: {fileID: 2097319761}
 --- !u!1001 &2230026848125093302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -394,11 +356,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4887514376003123270, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

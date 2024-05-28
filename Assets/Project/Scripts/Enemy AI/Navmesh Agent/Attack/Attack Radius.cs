@@ -5,11 +5,10 @@ using UnityEngine;
 public class AttackRadius : MonoBehaviour
 {
     [SerializeField] private SphereCollider _sphereCollider;
-
-    protected internal bool useHomingBullet;
     private int _damage = 10;
     private float _attackDelay = 0.5f;
 
+    protected internal bool useHomingBullet;
     protected readonly List<IDamageable> _damageables = new();
     protected Coroutine _attackCoroutine;
     protected Transform _transform;
