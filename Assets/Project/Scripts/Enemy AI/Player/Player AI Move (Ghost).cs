@@ -55,7 +55,7 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
         _motor = GetComponent<KinematicCharacterMotor>();
         _animator = GetComponent<Animator>();
 
-        _runAnimationId = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
+        _runAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
     }
 
     private void OnEnable()

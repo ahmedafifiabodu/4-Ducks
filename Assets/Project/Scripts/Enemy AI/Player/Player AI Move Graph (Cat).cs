@@ -11,6 +11,7 @@ public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterControlle
     [SerializeField] private AnimationCurve movementCurve;
 
     [SerializeField] private float _maxMovementSpeed = 10f;
+
     //[SerializeField] private float _speedAcceleration = 5f;
     [SerializeField] private float _speedDeceleration = 10f;
 
@@ -72,7 +73,7 @@ public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterControlle
         _motor = GetComponent<KinematicCharacterMotor>();
         _animator = GetComponent<Animator>();
 
-        RunAnimationID = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
+        RunAnimationID = Animator.StringToHash(GameConstant.AnimationTest.HorizontalMove);
         JumpAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatJumping);
         OnGroundAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatOnGround);
         IsFallingAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatFalling);
@@ -100,24 +101,24 @@ public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterControlle
             _timeSinceJumpRequested = 0f;
         };
 
-        _inputManager.PlayerActions.Move.started += _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
-        _inputManager.PlayerActions.Jump.started += _jumpAction;
+        _inputManager.CatActions.Move.started += _startMoveAction;
+        _inputManager.CatActions.Move.canceled += _stopMoveAction;
+        _inputManager.CatActions.Jump.started += _jumpAction;
     }
 
     private void Start() => _motor.CharacterController = this;
 
     private void OnDisable()
     {
-        _inputManager.PlayerActions.Move.started -= _startMoveAction;
-        _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+        _inputManager.CatActions.Move.started -= _startMoveAction;
+        _inputManager.CatActions.Move.canceled -= _stopMoveAction;
     }
 
     private void Update()
     {
         if (isMoving)
         {
-            _inputVector = _inputManager.PlayerActions.Move.ReadValue<Vector2>();
+            _inputVector = _inputManager.CatActions.Move.ReadValue<Vector2>();
             _moveInputVector = new Vector3(_inputVector.x, 0, _inputVector.y);
             _totalMovementTime += Time.deltaTime;
         }

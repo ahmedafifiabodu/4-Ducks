@@ -37,6 +37,15 @@ public static class GameConstant
         public const string Attacking = "CatAttack";
     }
 
+    public static class AnimationTest
+    {
+        public const string HorizontalMove = "Horizontal(X)";
+        public const string CatJumping = "Vertical(Y)";
+        public const string CatOnGround = "CatJump";
+        public const string CatFalling = "CatAttack";
+        public const string CatDoubleJumping = "CatAttack";
+    }
+
     public static class Input
     {
         public const string Movement = "PlayerMoveSystem";

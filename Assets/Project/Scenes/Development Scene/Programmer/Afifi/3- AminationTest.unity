@@ -127,6 +127,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4842590109669333137, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
         type: 3}
       propertyPath: m_Name
@@ -312,11 +317,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _outlineMaterial: {fileID: 2100000, guid: d392407e6ce02c24fa383a1ac8c47dde, type: 2}
+  renderers: []
+  _interact: 0
   _autoInteract: 0
   _useEvents: 0
   _promptMessage: Press E
-  _possessable: 1
-  _possessableScript: {fileID: 835977101}
 --- !u!65 &835977097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -418,6 +423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+  _delayAfterUnpossess: 3
+  _collider: {fileID: 0}
 --- !u!65 &835977102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -538,7 +545,7 @@ PrefabInstance:
     - target: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.6
+      value: 42.15
       objectReference: {fileID: 0}
     - target: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
@@ -548,7 +555,7 @@ PrefabInstance:
     - target: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.11
+      value: -1.23
       objectReference: {fileID: 0}
     - target: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
