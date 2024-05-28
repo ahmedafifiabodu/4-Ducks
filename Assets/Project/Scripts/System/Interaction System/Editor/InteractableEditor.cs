@@ -10,7 +10,6 @@ public class InteractableEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
 

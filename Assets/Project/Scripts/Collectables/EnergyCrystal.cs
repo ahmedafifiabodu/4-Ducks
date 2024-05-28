@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
 public class EnergyCrystal : Crystal
 {
     public static UnityEvent<float, PlayerType> OnEnergyCrystalCollected = new UnityEvent<float, PlayerType>();
