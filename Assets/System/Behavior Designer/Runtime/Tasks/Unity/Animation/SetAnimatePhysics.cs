@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimation
 {
-    [TaskCategory("Unity/Animation")]
+    [TaskCategory("Unity/CatAnimation")]
     [TaskDescription("Sets animate physics to the specified value. Returns Success.")]
     public class SetAnimatePhysics : Action
     {
@@ -27,7 +27,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimation
         public override TaskStatus OnUpdate()
         {
             if (animation == null) {
-                Debug.LogWarning("Animation is null");
+                Debug.LogWarning("CatAnimation is null");
                 return TaskStatus.Failure;
             }
 

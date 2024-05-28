@@ -29,7 +29,7 @@ public static class GameConstant
         public const string Game = "Game";
     }
 
-    public static class Animation
+    public static class CatAnimation
     {
         public const string HorizontalMove = "Horizontal(X)";
         public const string VerticalMove = "Vertical(Y)";

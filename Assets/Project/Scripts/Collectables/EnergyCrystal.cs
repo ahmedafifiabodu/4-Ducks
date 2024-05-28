@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class EnergyCrystal : Crystal
 {
-    public static UnityEvent<float, PlayerType> OnEnergyCrystalCollected = new UnityEvent<float, PlayerType>();
-
     [SerializeField] private float _energyAmount;
+
+    [SerializeField] internal static UnityEvent<float, PlayerType> OnEnergyCrystalCollected = new();
+
     public float EnergyAmount => _energyAmount;
-    public override void Ability()
-    {
-        //Nothing for now
-    }
+
     protected override void Collect(PlayerType _playerType)
     {
         base.Collect(_playerType);

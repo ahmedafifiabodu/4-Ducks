@@ -22,7 +22,7 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private float maxForce = 20f;
     private float VelocityNode;
 
-    [Header("Animation")]
+    [Header("CatAnimation")]
     [SerializeField] private float animationPlayTransition = 0.001f;
     private Animator _animator;
     private int JumpAnimationId;
@@ -36,7 +36,7 @@ public class PlayerJump : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        JumpAnimationId = Animator.StringToHash(GameConstant.Animation.IsJumping);
+        JumpAnimationId = Animator.StringToHash(GameConstant.CatAnimation.IsJumping);
     }
 
     private void Start()
@@ -44,10 +44,10 @@ public class PlayerJump : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _jumpAction = _ => Jump();
-        _inputManager.PlayerActions.Jump.performed += _jumpAction;
+        _inputManager.CatActions.Jump.performed += _jumpAction;
     }
 
-    private void OnDisable() => _inputManager.PlayerActions.Jump.performed -= _jumpAction;
+    private void OnDisable() => _inputManager.CatActions.Jump.performed -= _jumpAction;
 
     private void FixedUpdate()
     {

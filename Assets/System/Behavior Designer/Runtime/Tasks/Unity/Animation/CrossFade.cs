@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimation
 {
-    [TaskCategory("Unity/Animation")]
+    [TaskCategory("Unity/CatAnimation")]
     [TaskDescription("Fades the animation over a period of time and fades other animations out. Returns Success.")]
     public class CrossFade : Action
     {
@@ -33,7 +33,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimation
         public override TaskStatus OnUpdate()
         {
             if (animation == null) {
-                Debug.LogWarning("Animation is null");
+                Debug.LogWarning("CatAnimation is null");
                 return TaskStatus.Failure;
             }
 

@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private Animator _animator;
     [SerializeField] private bool isCat;
 
-    [Header("Animation")]
+    [Header("CatAnimation")]
     [SerializeField] private float smooth = 5;
     private int RunAnimationId;
     private int RunAnimationIdY;
@@ -41,8 +41,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        RunAnimationId = Animator.StringToHash(GameConstant.Animation.HorizontalMove);
-        //RunAnimationIdY = Animator.StringToHash(GameConstant.Animation.VerticalMove);
+        RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
+        //RunAnimationIdY = Animator.StringToHash(GameConstant.CatAnimation.VerticalMove);
     }
 
     private void OnEnable()
@@ -70,8 +70,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         if (isCat)
         {
-            _inputManager.PlayerActions.Move.started += _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled += _stopMoveAction;
+            _inputManager.CatActions.Move.started += _startMoveAction;
+            _inputManager.CatActions.Move.canceled += _stopMoveAction;
         }
         else
         {
@@ -92,8 +92,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     {
         if (isCat)
         {
-            _inputManager.PlayerActions.Move.started -= _startMoveAction;
-            _inputManager.PlayerActions.Move.canceled -= _stopMoveAction;
+            _inputManager.CatActions.Move.started -= _startMoveAction;
+            _inputManager.CatActions.Move.canceled -= _stopMoveAction;
         }
         else
         {
@@ -107,7 +107,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         if (isMoving)
         {
             if (isCat)
-                input = _inputManager.PlayerActions.Move.ReadValue<Vector2>().normalized;
+                input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
             else
                 input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
 
