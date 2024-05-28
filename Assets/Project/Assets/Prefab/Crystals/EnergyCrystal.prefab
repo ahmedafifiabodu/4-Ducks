@@ -26,17 +26,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c33d458aa03675246af93d935148489b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -13.801
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c33d458aa03675246af93d935148489b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.058
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c33d458aa03675246af93d935148489b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 10.175
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c33d458aa03675246af93d935148489b,
         type: 3}
@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c33d458aa03675246af93d935148489b,
         type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -105,14 +105,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6531614774329865664}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c33d458aa03675246af93d935148489b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8992348417186202980}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c33d458aa03675246af93d935148489b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8430565176090069844}
   m_SourcePrefab: {fileID: 100100000, guid: c33d458aa03675246af93d935148489b, type: 3}
 --- !u!1 &3361901250006332457 stripped
 GameObject:
@@ -153,53 +145,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be46d340d685cd14991d63cfcfb2dfb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _crystalId: 
-  _energyAmount: 10
---- !u!114 &8992348417186202980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3361901250006332457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _interactableLayerMask:
     serializedVersion: 2
     m_Bits: 6
   _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 0
   _autoInteract: 1
-  _useEvents: 1
+  _useEvents: 0
   _promptMessage: 
-  _possessable: 0
-  _possessableScript: {fileID: 0}
---- !u!114 &8430565176090069844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3361901250006332457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a14f62889ae475e448470ed1fae5adfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6531614774329865664}
-        m_TargetAssemblyTypeName: EnergyCrystal, Assembly-CSharp
-        m_MethodName: Collect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _crystalId: 
+  _energyAmount: 10

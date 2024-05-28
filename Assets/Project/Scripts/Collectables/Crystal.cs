@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Crystal : MonoBehaviour, ICollectable
+public abstract class Crystal : Interactable
 {
     [SerializeField] private string _crystalId;
     private bool isCollected = false;
     public abstract void Ability();
-    public virtual void Collect()
+    protected virtual void Collect(PlayerType _playerType)
     {
-        gameObject.SetActive(false);
         isCollected = true;
+        Logging.Log("Collected");
+    }
+    protected override void Interact(PlayerType _playerType)
+    {
+        base.Interact(_playerType);
+        Collect(_playerType);
+        gameObject.SetActive(false);
+        Ability();
     }
 
     [ContextMenu("Generate guid for ID")]
@@ -19,7 +26,6 @@ public abstract class Crystal : MonoBehaviour, ICollectable
     {
         _crystalId = System.Guid.NewGuid().ToString();
     }
-
     public void LoadGame(GameData _gameData)
     {
         _gameData._crystalsCollected.TryGetValue(_crystalId, out isCollected);
@@ -27,7 +33,6 @@ public abstract class Crystal : MonoBehaviour, ICollectable
         if (isCollected)
             gameObject.SetActive(false);
     }
-
     public void SaveGame(GameData _gameData)
     {
         if (_gameData._crystalsCollected.ContainsKey(_crystalId))

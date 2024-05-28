@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
 public class EnergyCrystal : Crystal
 {
-    public static UnityEvent<float> OnEnergyCrystalCollected = new UnityEvent<float>();
+    public static UnityEvent<float, PlayerType> OnEnergyCrystalCollected = new UnityEvent<float, PlayerType>();
 
     [SerializeField] private float _energyAmount;
     public float EnergyAmount => _energyAmount;
     public override void Ability()
     {
-        throw new System.NotImplementedException();
+        //Nothing for now
     }
-    public override void Collect()
+    protected override void Collect(PlayerType _playerType)
     {
-        base.Collect();
-        OnEnergyCrystalCollected?.Invoke(_energyAmount);
+        base.Collect(_playerType);
+        OnEnergyCrystalCollected?.Invoke(_energyAmount, _playerType);
     }
 }
