@@ -12,7 +12,7 @@ public class EnergyCrystal : Crystal
     public float EnergyAmount => _energyAmount;
     public override void Ability()
     {
-        throw new System.NotImplementedException();
+        //Nothing for now
     }
     protected override void Collect(PlayerType _playerType)
     {

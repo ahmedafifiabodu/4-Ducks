@@ -8,11 +8,15 @@ public class EnergyManager : MonoBehaviour
     private ServiceLocator _serviceLocator;
 
     [SerializeField] private bool _isCombined;
-    public bool IsCombined => _isCombined;
 
     [SerializeField] private EnergySystem _catEenergySystem;
     [SerializeField] private EnergySystem _ghostEnergySystem;
     [SerializeField] private EnergySystem _combinedEnergySystem;
+
+    public bool IsCombined => _isCombined;
+    public EnergySystem CatEnergySystem => _catEenergySystem;
+    public EnergySystem GhostEnergySystem => _ghostEnergySystem;
+    public EnergySystem CombinedEnergySystem => _combinedEnergySystem;
 
     private void Awake()
     {
@@ -23,8 +27,7 @@ public class EnergyManager : MonoBehaviour
     {
         EnergyCrystal.OnEnergyCrystalCollected.AddListener(GainEnergy);
     }
-
-    private void GainEnergy(float _energyAmount, PlayerType _playerType)
+    public void GainEnergy(float _energyAmount, PlayerType _playerType)
     {
         if(_isCombined)
         {
@@ -32,13 +35,37 @@ public class EnergyManager : MonoBehaviour
         }
         else 
         {
-            //switch(_playerType)
-            //{
-            //    case { Cat: Cat cat }:
-            //        L
-            //        break;
-            //}
+            if (_playerType.IsPlayerCat)
+            {
+                _catEenergySystem.GainEnergy(_energyAmount);
+            }
+            if(_playerType.IsPlayerGhost)
+            {
+                _ghostEnergySystem.GainEnergy(_energyAmount);
+            }
         }
+    }
+    public void LoseEnergy(float _energyAmount, PlayerType _playerType)
+    {
+        if (_isCombined)
+        {
+            _combinedEnergySystem.LoseEnergy(_energyAmount);
+        }
+        else
+        {
+            if (_playerType.IsPlayerCat)
+            {
+                _catEenergySystem.LoseEnergy(_energyAmount);
+            }
+            if (_playerType.IsPlayerGhost)
+            {
+                _ghostEnergySystem.LoseEnergy(_energyAmount);
+            }
+        }
+    }
+    public void EditCombinedState(bool isCombined)
+    {
+        _isCombined = isCombined;
     }
     private void OnDisable()
     {

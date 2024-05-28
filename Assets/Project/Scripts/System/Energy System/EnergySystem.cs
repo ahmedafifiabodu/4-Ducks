@@ -5,7 +5,11 @@ public class EnergySystem : MonoBehaviour
 {
     public UnityEvent OnEnergyChanged;
     public UnityEvent OnMaxEnergy;
-    public UnityEvent OnLowEnergy;
+    public UnityEvent OnNoEnergy;
+
+    public UnityEvent OnGainEnergy;
+    public UnityEvent OnLoseEnergy;
+//    public UnityEvent OnLowEnergy;  //if needed.
 
     [SerializeField] private float _maxEnergy;
     [SerializeField] private float _minEnergyRange;
@@ -27,14 +31,25 @@ public class EnergySystem : MonoBehaviour
             OnMaxEnergy?.Invoke();
         }
         OnEnergyChanged?.Invoke();
+        OnGainEnergy?.Invoke();
     }
     public void LoseEnergy(float energyAmount)
     {
         _energy -= energyAmount;
-        if (_energy <= _minEnergyRange)
+        if (_energy <= 0)
         {
-            OnLowEnergy?.Invoke();
+            _energy = 0;
+            OnNoEnergy?.Invoke();
         }
+
+        // To apply effect on low energy can be used later? Note: Still needs alittle edit to be used.
+
+        //if (_energy <= _minEnergyRange)
+        //{
+        //    OnLowEnergy?.Invoke();
+        //}
+
         OnEnergyChanged?.Invoke();
+        OnLoseEnergy?.Invoke();
     }
 }
