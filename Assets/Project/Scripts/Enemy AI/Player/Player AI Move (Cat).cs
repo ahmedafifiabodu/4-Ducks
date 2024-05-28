@@ -70,7 +70,7 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
         _motor = GetComponent<KinematicCharacterMotor>();
         _animator = GetComponent<Animator>();
 
-        RunAnimationID = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
+        RunAnimationID = Animator.StringToHash(GameConstant.AnimationTest.HorizontalMove);
         JumpAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatJumping);
         OnGroundAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatOnGround);
         IsFallingAnimationID = Animator.StringToHash(GameConstant.AnimationTest.CatFalling);

@@ -40,10 +40,10 @@ public static class GameConstant
     public static class AnimationTest
     {
         public const string HorizontalMove = "Horizontal(X)";
-        public const string CatJumping = "Vertical(Y)";
-        public const string CatOnGround = "CatJump";
-        public const string CatFalling = "CatAttack";
-        public const string CatDoubleJumping = "CatAttack";
+        public const string CatJumping = "Cat Jumping";
+        public const string CatDoubleJumping = "Cat Double Jumping";
+        public const string CatOnGround = "Cat On Ground";
+        public const string CatFalling = "Cat Is Falling";
     }
 
     public static class Input

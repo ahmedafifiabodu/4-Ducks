@@ -84,7 +84,7 @@ public class PlayerNewMovmentSystemRootMotion : MonoBehaviour, ICharacterControl
         _motor = GetComponent<KinematicCharacterMotor>();
         _animator = GetComponent<Animator>();
 
-        RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
+        RunAnimationId = Animator.StringToHash(GameConstant.AnimationTest.HorizontalMove);
 
         _rootMotionPositionDelta = Vector3.zero;
         _rootMotionRotationDelta = Quaternion.identity;

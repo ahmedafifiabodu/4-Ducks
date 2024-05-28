@@ -11,7 +11,6 @@ public class PlayerNewMovmentSystemGraphCat : MonoBehaviour, ICharacterControlle
     [SerializeField] private AnimationCurve movementCurve;
 
     [SerializeField] private float _maxMovementSpeed = 10f;
-
     //[SerializeField] private float _speedAcceleration = 5f;
     [SerializeField] private float _speedDeceleration = 10f;
 
