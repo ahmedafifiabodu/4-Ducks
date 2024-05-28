@@ -6,7 +6,7 @@ public class Possess : Interactable
 
     protected override void Interact(PlayerType _playerType)
     {
-        if (_playerType.IsPlayerGhost)
+        if (_playerType != null && _playerType.IsPlayerGhost)
         {
             if (UseEvents)
             {
