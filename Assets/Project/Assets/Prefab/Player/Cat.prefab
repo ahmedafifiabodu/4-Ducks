@@ -13382,6 +13382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2013065915486841149}
   - component: {fileID: 6855850053981197908}
+  - component: {fileID: 6831699639932995553}
   m_Layer: 0
   m_Name: pivot
   m_TagString: Untagged
@@ -13518,6 +13519,27 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &6831699639932995553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184009154878193608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8d875e418bb75247b50c3e659ac7815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ballPrefab: {fileID: 7636507714296715182, guid: d4b35430f9a61114681db047c2171e6b,
+    type: 3}
+  _baseVelocity: 2
+  _velocityMultiplier: 2
+  trajectoryLineRenderer: {fileID: 6855850053981197908}
+  numPoints: 10
+  timeBetweenPoints: 0.1
+  pointIncreaseInterval: 0.2
+  _animator: {fileID: 1165600015829764446}
 --- !u!1 &5191034818666977291
 GameObject:
   m_ObjectHideFlags: 0
@@ -15298,7 +15320,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4612395883374773429}
