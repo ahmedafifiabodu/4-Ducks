@@ -369,7 +369,7 @@ PrefabInstance:
     - target: {fileID: 456768661024448939, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1165600015829764446, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
@@ -454,12 +454,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
   jumpHeight: 1
   jumpDuration: 1
   gravity: 9.8
   maxVelocity: 10
   maxForce: 20
+  animationPlayTransition: 0.001
+  groundCheckDistanceNormal: 1
+  groundCheckDistanceDoubleJump: 2
 --- !u!1 &1602952983
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,12 +968,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
   jumpHeight: 1
   jumpDuration: 1
   gravity: 9.8
   maxVelocity: 10
   maxForce: 20
+  animationPlayTransition: 0.001
+  groundCheckDistanceNormal: 1
+  groundCheckDistanceDoubleJump: 2
 --- !u!114 &1813413998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,8 +988,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67477abc4ebaeac4d8c62577f9076522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCat: 1
   smooth: 2
   Speed: 5
+  rotationSpeed: 8
 --- !u!95 &1813413999
 Animator:
   serializedVersion: 7
