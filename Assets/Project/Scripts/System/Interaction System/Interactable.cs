@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layersNotToBeInteractedWith;
     [SerializeField] private Material _outlineMaterial;
     [SerializeField] private Renderer[] renderers;
 
@@ -12,6 +13,9 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private string _promptMessage;
 
     private Renderer _renderer;
+
+    public LayerMask LayersNotToBeInteractedWith
+    { get => _layersNotToBeInteractedWith; set { _layersNotToBeInteractedWith = value; } }
 
     public bool InteractProperty
     { get => _interact; set { _interact = value; } }
@@ -28,13 +32,30 @@ public abstract class Interactable : MonoBehaviour
     internal Material[] OriginalMaterials { get; private set; }
     internal Material[] MaterialsWithOutline { get; private set; }
 
-    private void Awake() => Initialize(_outlineMaterial);
+    private void Awake()
+    {
+        Initialize(_outlineMaterial);
+    }
 
     private void OnValidate()
     {
         if (this != null)
             if (!Application.isPlaying)
                 Initialize(_outlineMaterial);
+    }
+
+    private int LayerMaskToLayerNumber(LayerMask layerMask)
+    {
+        int layerNumber = 0;
+        int mask = layerMask.value;
+
+        while (mask > 0)
+        {
+            mask >>= 1;
+            layerNumber++;
+        }
+
+        return layerNumber - 1;
     }
 
     internal void Initialize(Material outlineMaterial)
@@ -91,7 +112,24 @@ public abstract class Interactable : MonoBehaviour
             _renderer.sharedMaterials = OriginalMaterials;
     }
 
-    internal void BaseInteract(PlayerType _playerType) => Interact(_playerType);
+    internal void BaseInteract(PlayerType _playerType)
+    {
+        if (_playerType != null)
+        {
+            Logging.Log($"LayersNotToBeInteractedWith at interaction: {LayersNotToBeInteractedWith.value}");
+            Logging.Log($"Player's layer: {_playerType.gameObject.layer}");
+            int playerLayerMask = 1 << _playerType.gameObject.layer;
+            Logging.Log($"Bitwise operation result: {(LayersNotToBeInteractedWith.value & playerLayerMask)}");
+
+            // If LayersNotToBeInteractedWith is set (i.e., it's not zero), and the player's layer is in LayersNotToBeInteractedWith
+            if (LayersNotToBeInteractedWith != 0 && (LayersNotToBeInteractedWith.value & playerLayerMask) == playerLayerMask)
+            {
+                return;
+            }
+        }
+
+        Interact(_playerType);
+    }
 
     protected virtual void Interact(PlayerType _playerType)
     {
