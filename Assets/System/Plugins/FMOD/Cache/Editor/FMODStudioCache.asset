@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3466679965991932531
+--- !u!114 &-7589747754299298899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,25 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/PlayerFoot
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: event:/PlayerFoot
-  Guid:
-    Data1: -1937212137
-    Data2: 1314372975
-    Data3: -602505543
-    Data4: -543533670
-  Banks:
-  - {fileID: 7821983916489609373}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 9.6
-  Length: 370
---- !u!114 &-2989768683499677266
+  Path: Assets/Fmod project/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638525413159734332
+  FileSizes:
+  - Name: Desktop
+    Value: 1018
+  Exists: 1
+--- !u!114 &-5902892226055268923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,39 +35,12 @@ MonoBehaviour:
   Path: Assets/Fmod project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638525306603723240
+  lastModified: 638525413159734332
   FileSizes:
   - Name: Desktop
     Value: 1340
   Exists: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: 5428576221483634668}
-  - {fileID: 1866061340564626381}
-  - {fileID: -2989768683499677266}
-  - {fileID: 7821983916489609373}
-  EditorEvents:
-  - {fileID: 4032066633592080007}
-  - {fileID: -3466679965991932531}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -2989768683499677266}
-  StringsBanks:
-  - {fileID: 5428576221483634668}
-  cacheTime: 638525306603749260
-  cacheVersion: 131618
---- !u!114 &1866061340564626381
+--- !u!114 &-5194928241305067651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,17 +50,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Level1.bank
+  m_Name: bank:/SFX.bank
   m_EditorClassIdentifier: 
-  Path: Assets/Fmod project/Build/Desktop/Level1.bank
-  Name: Level1
-  StudioPath: bank:/Level1
-  lastModified: 638525306603723240
+  Path: Assets/Fmod project/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638525413159734332
   FileSizes:
   - Name: Desktop
-    Value: 1509024
+    Value: 14336
   Exists: 1
---- !u!114 &4032066633592080007
+--- !u!114 &-4961287288705389167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,36 +79,16 @@ MonoBehaviour:
     Data3: -1028794721
     Data4: -516365968
   Banks:
-  - {fileID: 1866061340564626381}
+  - {fileID: -3382640607499813427}
   IsStream: 1
   Is3D: 1
   IsOneShot: 0
   Parameters:
-  - {fileID: 7301372927831473827}
+  - {fileID: -4909214411363795634}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
---- !u!114 &5428576221483634668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/Fmod project/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 638525306603737287
-  FileSizes:
-  - Name: Desktop
-    Value: 1018
-  Exists: 1
---- !u!114 &7301372927831473827
+--- !u!114 &-4909214411363795634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +114,7 @@ MonoBehaviour:
   - Level1
   - enemyArea
   Exists: 1
---- !u!114 &7821983916489609373
+--- !u!114 &-3382640607499813427
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,13 +124,67 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
+  m_Name: bank:/Level1.bank
   m_EditorClassIdentifier: 
-  Path: Assets/Fmod project/Build/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 638525306603749260
+  Path: Assets/Fmod project/Build/Desktop/Level1.bank
+  Name: Level1
+  StudioPath: bank:/Level1
+  lastModified: 638525413159734332
   FileSizes:
   - Name: Desktop
-    Value: 14336
+    Value: 1509024
   Exists: 1
+--- !u!114 &-3145674223342038146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerFoot
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerFoot
+  Guid:
+    Data1: -1937212137
+    Data2: 1314372975
+    Data3: -602505543
+    Data4: -543533670
+  Banks:
+  - {fileID: -5194928241305067651}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 9.6
+  Length: 370
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -7589747754299298899}
+  - {fileID: -3382640607499813427}
+  - {fileID: -5902892226055268923}
+  - {fileID: -5194928241305067651}
+  EditorEvents:
+  - {fileID: -4961287288705389167}
+  - {fileID: -3145674223342038146}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -5902892226055268923}
+  StringsBanks:
+  - {fileID: -7589747754299298899}
+  cacheTime: 638525413159734332
+  cacheVersion: 131618
