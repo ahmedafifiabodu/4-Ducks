@@ -103,7 +103,7 @@ public class Interact : MonoBehaviour
         if (currentInteractable != null)
         {
             currentInteractable.RemoveOutline();
-            bool shouldInteract = currentInteractable.AutoInteract || _inputManager.CatActions.Interact.triggered;
+            bool shouldInteract = currentInteractable.AutoInteract || _inputManager.CatActions.Interact.triggered || _inputManager.GhostActions.Interact.triggered;
 
             if (shouldInteract)
             {

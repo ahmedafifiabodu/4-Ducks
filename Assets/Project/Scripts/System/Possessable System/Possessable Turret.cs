@@ -58,7 +58,7 @@ public class PossessableTurret : MonoBehaviour, IPossessable
 
         _inputManager.PossessTurretActions.Unpossess.performed += _unpossess;
         _inputManager.PossessTurretActions.Look.performed += ctx => { _inputVector = ctx.ReadValue<Vector2>(); };
-        _inputManager.PossessTurretActions.Look.canceled += ctx => { _inputVector = Vector2.zero; };
+        _inputManager.PossessTurretActions.Look.canceled += _ => { _inputVector = Vector2.zero; };
 
         _inputManager.GhostActions.Disable();
         _inputManager.PossessTurretActions.Enable();
@@ -71,8 +71,8 @@ public class PossessableTurret : MonoBehaviour, IPossessable
         ((IPossessable)this).GhostPlayer.SetActive(true);
 
         _inputManager.PossessTurretActions.Unpossess.performed -= _unpossess;
-        _inputManager.PossessTurretActions.Look.performed -= ctx => { _inputVector = Vector2.zero; };
-        _inputManager.PossessTurretActions.Look.canceled -= ctx => { _inputVector = Vector2.zero; };
+        _inputManager.PossessTurretActions.Look.performed -= ctx => { _inputVector = ctx.ReadValue<Vector2>(); };
+        _inputManager.PossessTurretActions.Look.canceled -= _ => { _inputVector = Vector2.zero; };
 
         _inputManager.GhostActions.Enable();
         _inputManager.PossessTurretActions.Disable();
