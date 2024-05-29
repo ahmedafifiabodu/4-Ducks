@@ -13,8 +13,6 @@ public class InteractableEditor : Editor
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
 
-        _interactable.InteractableLayerMask = EditorGUILayout.MaskField("Interactable Layer Mask", _interactable.InteractableLayerMask, UnityEditorInternal.InternalEditorUtility.layers);
-
         autoInteractProperty = so.FindProperty("_autoInteract");
         interactProperty = so.FindProperty("_interact");
         useEventsProperty = so.FindProperty("_useEvents");
