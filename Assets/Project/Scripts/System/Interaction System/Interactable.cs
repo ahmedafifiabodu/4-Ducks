@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] private LayerMask _interactableLayerMask = 6;
     [SerializeField] private Material _outlineMaterial;
     [SerializeField] private Renderer[] renderers;
 
@@ -13,12 +12,6 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private string _promptMessage;
 
     private Renderer _renderer;
-
-    public LayerMask InteractableLayerMask
-    { get => _interactableLayerMask; set { _interactableLayerMask = value; } }
-
-    public Material OutlineMaterial
-    { get => _outlineMaterial; set { _outlineMaterial = value; } }
 
     public bool InteractProperty
     { get => _interact; set { _interact = value; } }
@@ -35,62 +28,13 @@ public abstract class Interactable : MonoBehaviour
     internal Material[] OriginalMaterials { get; private set; }
     internal Material[] MaterialsWithOutline { get; private set; }
 
-    protected virtual string OnLook() => _promptMessage;
-
     private void Awake() => Initialize(_outlineMaterial);
 
     private void OnValidate()
     {
         if (this != null)
-        {
             if (!Application.isPlaying)
-            {
                 Initialize(_outlineMaterial);
-
-                // Create an array to store the results
-                Collider[] results = new Collider[100]; // Adjust the size as needed
-
-                // Get all colliders within a large sphere
-                int numResults = Physics.OverlapSphereNonAlloc(transform.position, 10000f, results); // Set the radius to a large enough value
-
-                for (int i = 0; i < numResults; i++)
-                {
-                    // Check if the collider's game object is on the player layer
-                    if (results[i].gameObject.layer == LayerMask.NameToLayer("Player")) // Replace "Player" with your player layer name
-                    {
-                        if (results[i].gameObject.TryGetComponent<Interact>(out var playerInteract))
-                        {
-                            // Capture the gameObject in a local variable
-                            var localGameObject = gameObject;
-
-                            // Delay the layer change until after OnValidate has finished
-                            UnityEditor.EditorApplication.delayCall += () =>
-                            {
-                                if (localGameObject != null) // Check if the GameObject is not null
-                                {
-                                    localGameObject.layer = LayerMaskToLayerNumber(playerInteract.InteractableLayerMask);
-                                }
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private int LayerMaskToLayerNumber(LayerMask layerMask)
-    {
-        int layerNumber = 0;
-        int mask = layerMask.value;
-
-        while (mask > 0)
-        {
-            mask >>= 1;
-            layerNumber++;
-        }
-
-        return layerNumber - 1;
     }
 
     internal void Initialize(Material outlineMaterial)
