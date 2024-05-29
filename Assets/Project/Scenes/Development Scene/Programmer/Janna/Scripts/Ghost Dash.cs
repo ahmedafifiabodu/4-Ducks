@@ -15,8 +15,8 @@ public class GhostDash : MonoBehaviour
     [SerializeField] private LayerMask detectWall;
 
     [Header("Dashing Properties")]
-    [SerializeField] private float dashSpeed = 10f;
-    [SerializeField] private float dashDistance = 10f;
+    [SerializeField] private float dashSpeed = 50f;
+    [SerializeField] private float dashDistance = 5f;
     //[SerializeField] private float dashCooldown = 1f;
     private bool canDash = true;
     private bool isDashing = false;

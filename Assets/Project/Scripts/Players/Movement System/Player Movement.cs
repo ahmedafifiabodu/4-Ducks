@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Movement")]
     [SerializeField] private float Speed = 8f;
-    [SerializeField] private float rotationSpeed = 8f;
+  //[SerializeField] private float rotationSpeed = 8f;
     private Vector2 input;
     private bool isMoving;
 
@@ -114,20 +114,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             Move();
         }
     }
-
-
     private void Move()
     {
-        Vector3 forward = transform.forward;
-        Vector3 right = transform.right;
+        Logging.Log("Move");
 
-        Vector3 inputDirection = (right * input.x + forward * input.y).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
 
-        if (inputDirection.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(inputDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
 
         Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;
@@ -135,8 +128,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         Animate(input);
     }
-
-
     private void Animate(Vector2 input)
     {
         /*if (Math.Abs(p_anim - input.x) < 0.1f)

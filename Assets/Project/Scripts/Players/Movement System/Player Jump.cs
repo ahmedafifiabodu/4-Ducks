@@ -14,7 +14,7 @@ public class PlayerJump : MonoBehaviour
     // [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float jumpDuration = 1f;
-    private int jumpCount = 0;
+    private bool canJump = true;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
@@ -29,9 +29,7 @@ public class PlayerJump : MonoBehaviour
 
     [Header("Ground Detection")]
     [SerializeField] private float groundCheckDistanceNormal = 1f;
-    [SerializeField] private float groundCheckDistanceDoubleJump = 2f;
     private float checkDistance;
-
 
     private void Awake()
     {
@@ -55,17 +53,19 @@ public class PlayerJump : MonoBehaviour
         LimitVelocity();
         GroundDetection();
     }
+
     private void Jump()
     {
-        if (jumpCount < 2)
+        if (canJump)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);
-            jumpCount++;
+            canJump = false;
             Logging.Log("Jumping");
         }
     }
+
     private void ApplyGravity()
     {
         rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
@@ -85,12 +85,12 @@ public class PlayerJump : MonoBehaviour
 
     private void GroundDetection()
     {
-        checkDistance = (jumpCount < 1) ? groundCheckDistanceDoubleJump : groundCheckDistanceNormal;
+        checkDistance = groundCheckDistanceNormal;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, checkDistance))
         {
             if (hit.distance < checkDistance)
             {
-                jumpCount = 0;
+                canJump = true;
             }
         }
     }
