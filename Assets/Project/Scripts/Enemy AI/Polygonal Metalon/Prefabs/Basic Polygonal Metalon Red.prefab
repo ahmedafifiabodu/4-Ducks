@@ -1835,10 +1835,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7494110923781077461}
-  - component: {fileID: 5804134744698184248}
   - component: {fileID: 2099157769453718540}
+  - component: {fileID: 5804134744698184248}
   - component: {fileID: 4453481052885398038}
-  m_Layer: 25
+  m_Layer: 6
   m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1860,27 +1860,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4444695180855720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5804134744698184248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2771866023486285601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _outlineMaterial: {fileID: 0}
-  renderers: []
-  _interact: 0
-  _autoInteract: 1
-  _useEvents: 1
-  _promptMessage: 
 --- !u!65 &2099157769453718540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1902,6 +1881,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.36, y: 2.18, z: 5.09}
   m_Center: {x: 0, y: 0.63, z: 0}
+--- !u!114 &5804134744698184248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2771866023486285601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 128
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 0
+  _autoInteract: 1
+  _useEvents: 1
+  _promptMessage: 
 --- !u!114 &4453481052885398038
 MonoBehaviour:
   m_ObjectHideFlags: 0

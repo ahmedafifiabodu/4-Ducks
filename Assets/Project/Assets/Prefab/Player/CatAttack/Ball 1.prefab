@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 1786235101431748000}
   - component: {fileID: 8790678224176833689}
   - component: {fileID: 5616957309937986045}
-  - component: {fileID: 5682634545700396193}
   - component: {fileID: 3251323919521727947}
+  - component: {fileID: 3659625126005686778}
+  - component: {fileID: 5541871831857909689}
   m_Layer: 7
   m_Name: Ball 1
   m_TagString: Untagged
@@ -137,7 +138,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5682634545700396193
+--- !u!114 &3251323919521727947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636507714296715182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0692edf89cba16346ae255400302b1d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3659625126005686778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,8 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactableLayerMask:
     serializedVersion: 2
-    m_Bits: 33554496
---- !u!114 &3251323919521727947
+    m_Bits: 64
+--- !u!114 &5541871831857909689
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,6 +174,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7636507714296715182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0692edf89cba16346ae255400302b1d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 30316ea8a17a94d4297f08a7409338a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCat: 0
+  isGhost: 0
+  isObject: 1

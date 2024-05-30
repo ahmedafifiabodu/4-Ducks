@@ -19,30 +19,30 @@ public class EnergyManager : MonoBehaviour
 
     private void OnDisable() => EnergyCrystal.OnEnergyCrystalCollected.RemoveListener(GainEnergy);
 
-    private void GainEnergy(float _energyAmount, PlayerType _playerType)
+    private void GainEnergy(float _energyAmount, ObjectType _playerType)
     {
         if (_isCombined)
             _combinedEnergySystem.GainEnergy(_energyAmount);
         else
         {
-            if (_playerType.IsPlayerCat)
+            if (_playerType.IsCat)
                 _catEenergySystem.GainEnergy(_energyAmount);
 
-            if (_playerType.IsPlayerGhost)
+            if (_playerType.IsGhost)
                 _ghostEnergySystem.GainEnergy(_energyAmount);
         }
     }
 
-    private void LoseEnergy(float _energyAmount, PlayerType _playerType)
+    private void LoseEnergy(float _energyAmount, ObjectType _playerType)
     {
         if (_isCombined)
             _combinedEnergySystem.LoseEnergy(_energyAmount);
         else
         {
-            if (_playerType.IsPlayerCat)
+            if (_playerType.IsCat)
                 _catEenergySystem.LoseEnergy(_energyAmount);
 
-            if (_playerType.IsPlayerGhost)
+            if (_playerType.IsGhost)
                 _ghostEnergySystem.LoseEnergy(_energyAmount);
         }
     }
