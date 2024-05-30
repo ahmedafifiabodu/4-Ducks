@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 2322303112148871340}
   - component: {fileID: 5859899078174532234}
   - component: {fileID: 7042915589073507512}
-  - component: {fileID: 1613172257832660336}
   - component: {fileID: 3078412761740632373}
   - component: {fileID: 4112492961784258815}
+  - component: {fileID: 5320967364006773234}
   m_Layer: 23
   m_Name: Ghost AI
   m_TagString: Untagged
@@ -94,7 +94,7 @@ MonoBehaviour:
   _airDecelerationSpeed: 20
   _maxAirMoveSpeed: 10
   _drag: 1
-  _floatingHeight: 0.1
+  _floatingHeight: 0
   _dashSpeed: 50
   _dashDuration: 0.2
   Gravity: {x: 0, y: 0, z: 0}
@@ -176,20 +176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30316ea8a17a94d4297f08a7409338a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerCat: 0
-  isPlayerGhost: 1
---- !u!114 &1613172257832660336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 186486286600302502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4637d17138467c948b27e2faf7b5f0b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  isCat: 0
+  isGhost: 1
+  isBullet: 0
+  isObject: 0
 --- !u!65 &3078412761740632373
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -233,11 +223,23 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5320967364006773234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186486286600302502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4637d17138467c948b27e2faf7b5f0b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &234772266177278980
 GameObject:
   m_ObjectHideFlags: 0
