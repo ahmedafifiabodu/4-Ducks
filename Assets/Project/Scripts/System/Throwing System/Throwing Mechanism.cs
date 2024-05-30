@@ -5,43 +5,43 @@ using UnityEngine.InputSystem;
 
 public class ThrowingMechanism : MonoBehaviour
 {
-    #region Parameters
-
+    // Serialized fields that can be set in the Unity editor
     [Header("Throwing Mechanism")]
-    [SerializeField] private GameObject _ballPrefab;
+    [SerializeField] private GameObject _ballPrefab; // Prefab for the ball
 
-    [SerializeField] protected float _baseVelocity = 2f;
-    [SerializeField] protected float _velocityMultiplier = 2f;
+    [SerializeField] protected float _baseVelocity = 2f; // Base velocity for the throw
+    [SerializeField] protected float _velocityMultiplier = 2f; // Velocity multiplier for the throw
 
     [Header("Trajectory Line Renderer")]
-    [SerializeField] protected LineRenderer trajectoryLineRenderer;
+    [SerializeField] protected LineRenderer trajectoryLineRenderer; // Line renderer for the trajectory
 
-    [SerializeField] protected int numPoints = 10;
-    [SerializeField] protected float timeBetweenPoints = 0.1f; // Time between points
-    [SerializeField] protected float pointIncreaseInterval = 0.2f;
+    [SerializeField] protected int numPoints = 10; // Number of points in the trajectory
+    [SerializeField] protected float timeBetweenPoints = 0.1f; // Time between points in the trajectory
+    [SerializeField] protected float pointIncreaseInterval = 0.2f; // Interval to increase the points in the trajectory
 
-    private ObjectPool _objectPool;
-    protected InputManager _inputManager;
-    private Coroutine _throwCoroutine;
+    private ObjectPool _objectPool; // Reference to the ObjectPool
+    protected InputManager _inputManager; // Reference to the InputManager
+    private Coroutine _throwCoroutine; // Coroutine for the throw
 
-    protected Action<InputAction.CallbackContext> _startThrowAction;
-    protected Action<InputAction.CallbackContext> _endThrowAction;
+    protected Action<InputAction.CallbackContext> _startThrowAction; // Action to start the throw
+    protected Action<InputAction.CallbackContext> _endThrowAction; // Action to end the throw
 
-    protected Vector3 initialVelocity;
-    private float _holdTime = 0f;
-    protected float _currentVelocity;
-    internal bool _checkingPlayerInput = false;
-    private bool _isFireKeyPressed = false; //check if the fire key is being pressed
+    protected Vector3 initialVelocity; // Initial velocity for the throw
+    private float _holdTime = 0f; // Time the throw button is held
+    protected float _currentVelocity; // Current velocity for the throw
+    internal bool _checkingPlayerInput = false; // Flag to check if the player input is being checked
+    private bool _isFireKeyPressed = false; // Flag to check if the fire key is being pressed
 
-    protected Vector3 startingVelocity;
+    protected Vector3 startingVelocity; // Starting velocity for the throw
 
-    #endregion Parameters
-
+    // Called when the object is enabled
     protected virtual void OnEnable()
     {
+        // Get the InputManager and ObjectPool from the ServiceLocator
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
+        // Initialize the actions
         _startThrowAction = context =>
         {
             _isFireKeyPressed = true;
@@ -68,6 +68,7 @@ public class ThrowingMechanism : MonoBehaviour
         };
     }
 
+    // Called every frame
     protected virtual void Update()
     {
         if (_isFireKeyPressed)
@@ -81,6 +82,7 @@ public class ThrowingMechanism : MonoBehaviour
         }
     }
 
+    // Called when the object is disabled
     protected virtual void OnDisable()
     {
         if (_inputManager == null)
@@ -90,6 +92,7 @@ public class ThrowingMechanism : MonoBehaviour
             StopCoroutine(_throwCoroutine);
     }
 
+    // Start the throw
     protected virtual IEnumerator StartThrow()
     {
         _currentVelocity = _baseVelocity;
@@ -115,10 +118,12 @@ public class ThrowingMechanism : MonoBehaviour
         }
     }
 
+    // Draw the trajectory
     protected virtual void DrawTrajectory(int numP)
     {
     }
 
+    // Throw the ball
     protected virtual void Throw()
     {
         GameObject bullet = _objectPool.GetPooledObject(_ballPrefab);
