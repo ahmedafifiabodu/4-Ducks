@@ -958,9 +958,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67477abc4ebaeac4d8c62577f9076522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCat: 0
   smooth: 5
   Speed: 8
-  isCat: 0
+  rotationSpeed: 8
 --- !u!114 &1230739755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,13 +974,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
   jumpHeight: 1
   jumpDuration: 1
   gravity: 20
   maxVelocity: 10
   maxForce: 20
   animationPlayTransition: 0.001
+  groundCheckDistanceNormal: 1
+  groundCheckDistanceDoubleJump: 2
 --- !u!4 &1230739757 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5b4331976b77e3d448877659d2d81816,
@@ -1150,9 +1152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67477abc4ebaeac4d8c62577f9076522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCat: 1
   smooth: 5
   Speed: 8
-  isCat: 1
+  rotationSpeed: 8
 --- !u!114 &1480309590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,13 +1168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
   jumpHeight: 1
   jumpDuration: 1
   gravity: 20
   maxVelocity: 10
   maxForce: 20
   animationPlayTransition: 0.001
+  groundCheckDistanceNormal: 1
+  groundCheckDistanceDoubleJump: 2
 --- !u!95 &1480309591 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 248284bbc1a20d54db2b262ee154c88b,
