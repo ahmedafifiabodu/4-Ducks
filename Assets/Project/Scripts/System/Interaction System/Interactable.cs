@@ -3,22 +3,22 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] private LayerMask _interactableLayerMask = 6;
-    [SerializeField] private Material _outlineMaterial;
-    [SerializeField] private Renderer[] renderers;
+    // Serialized fields are private variables that can be set in the Unity editor
+    [SerializeField] private LayerMask _layersInteractedWith; // Layers that cannot interact with this object
 
-    [SerializeField] private bool _interact;
-    [SerializeField] private bool _autoInteract;
-    [SerializeField] private bool _useEvents;
-    [SerializeField] private string _promptMessage;
+    [SerializeField] private Material _outlineMaterial; // Material used for the outline effect
+    [SerializeField] private Renderer[] renderers; // Array of renderers used for the outline effect
 
-    private Renderer _renderer;
+    [SerializeField] private bool _interact; // Determines if the object can be interacted with
+    [SerializeField] private bool _autoInteract; // Determines if the object interacts automatically
+    [SerializeField] private bool _useEvents; // Determines if the object uses events for interaction
+    [SerializeField] private string _promptMessage; // Message displayed when the object can be interacted with
 
-    public LayerMask InteractableLayerMask
-    { get => _interactableLayerMask; set { _interactableLayerMask = value; } }
+    private Renderer _renderer; // Renderer used for the outline effect
 
-    public Material OutlineMaterial
-    { get => _outlineMaterial; set { _outlineMaterial = value; } }
+    // Public properties for private variables
+    public LayerMask LayersInteractedWith
+    { get => _layersInteractedWith; set { _layersInteractedWith = value; } }
 
     public bool InteractProperty
     { get => _interact; set { _interact = value; } }
@@ -32,128 +32,112 @@ public abstract class Interactable : MonoBehaviour
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
 
+    // Properties for the original and outline materials
     internal Material[] OriginalMaterials { get; private set; }
+
     internal Material[] MaterialsWithOutline { get; private set; }
 
-    protected virtual string OnLook() => _promptMessage;
-
+    // Called when the object is first initialized
     private void Awake() => Initialize(_outlineMaterial);
 
+    // Called when a value is changed in the Unity editor
     private void OnValidate()
     {
         if (this != null)
-        {
             if (!Application.isPlaying)
-            {
                 Initialize(_outlineMaterial);
-
-                // Create an array to store the results
-                Collider[] results = new Collider[100]; // Adjust the size as needed
-
-                // Get all colliders within a large sphere
-                int numResults = Physics.OverlapSphereNonAlloc(transform.position, 10000f, results); // Set the radius to a large enough value
-
-                for (int i = 0; i < numResults; i++)
-                {
-                    // Check if the collider's game object is on the player layer
-                    if (results[i].gameObject.layer == LayerMask.NameToLayer("Player")) // Replace "Player" with your player layer name
-                    {
-                        if (results[i].gameObject.TryGetComponent<Interact>(out var playerInteract))
-                        {
-                            // Capture the gameObject in a local variable
-                            var localGameObject = gameObject;
-
-                            // Delay the layer change until after OnValidate has finished
-                            UnityEditor.EditorApplication.delayCall += () =>
-                            {
-                                if (localGameObject != null) // Check if the GameObject is not null
-                                {
-                                    localGameObject.layer = LayerMaskToLayerNumber(playerInteract.InteractableLayerMask);
-                                }
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
 
-    private int LayerMaskToLayerNumber(LayerMask layerMask)
-    {
-        int layerNumber = 0;
-        int mask = layerMask.value;
-
-        while (mask > 0)
-        {
-            mask >>= 1;
-            layerNumber++;
-        }
-
-        return layerNumber - 1;
-    }
-
+    // Initializes the outline effect
     internal void Initialize(Material outlineMaterial)
     {
+        // If the object cannot be interacted with, return
         if (AutoInteract || !AutoInteract || !InteractProperty)
             return;
 
+        // If the outline material is null, log an error and return
         if (outlineMaterial == null)
         {
             Logging.LogError("outlineMaterial is null");
             return;
         }
 
+        // For each renderer in the renderers array
         foreach (Renderer renderer in renderers)
         {
+            // If the renderer is not null
             if (renderer != null)
             {
+                // Store the original materials
                 OriginalMaterials = renderer.sharedMaterials;
 
+                // Create a list of materials without duplicates
                 List<Material> materialsWithoutDuplicates = new(renderer.sharedMaterials);
                 materialsWithoutDuplicates.RemoveAll(material => material == outlineMaterial);
 
+                // Create an array of materials with the outline material
                 MaterialsWithOutline = new Material[materialsWithoutDuplicates.Count + 1];
                 materialsWithoutDuplicates.CopyTo(MaterialsWithOutline, 0);
                 MaterialsWithOutline[^1] = outlineMaterial;
 
+                // Store the renderer
                 _renderer = renderer;
                 break;
             }
         }
     }
 
+    // Applies the outline effect
     internal void ApplyOutline(bool _outlineEnabled)
     {
+        // If the object interacts automatically, return
         if (AutoInteract)
             return;
 
-        if (_outlineEnabled && _renderer != null) // Check if the outline is enabled and _renderer is not null
+        // If the outline is enabled and _renderer is not null
+        if (_outlineEnabled && _renderer != null)
         {
-            // Check if the outline material is already applied
+            // If the outline material is not already applied
             if (_outlineMaterial != null && !System.Array.Exists(_renderer.sharedMaterials, material => material == _outlineMaterial))
+                // Apply the outline material
                 _renderer.sharedMaterials = MaterialsWithOutline;
         }
         else if (!_outlineEnabled)
+            // Remove the outline effect
             RemoveOutline();
     }
 
+    // Removes the outline effect
     internal void RemoveOutline()
     {
+        // If the object interacts automatically, return
         if (AutoInteract)
             return;
 
+        // If _renderer is not null, remove the outline material
         if (_renderer != null)
             _renderer.sharedMaterials = OriginalMaterials;
     }
 
-    internal void BaseInteract(PlayerType _playerType) => Interact(_playerType);
-
-    protected virtual void Interact(PlayerType _playerType)
+    internal void BaseInteract(ObjectType _objectType)
     {
+        // Check if the object's layer is included in the layers that can interact with this object
+        if (((1 << _objectType.gameObject.layer) & _layersInteractedWith) != 0)
+            Interact(_objectType);
+        else
+            // Log a warning message if the object's layer is not included in the layers that can interact with this object
+            Logging.LogWarning($"Object {_objectType.name} is not interactable");
+    }
+
+    // Handles interaction with the object
+    protected virtual void Interact(ObjectType _objectType)
+    {
+        // Check if the object uses events for interaction
         if (_useEvents)
         {
+            // Try to get the InteractableEvents component attached to the object
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
+                // Invoke the onInteract event of the InteractableEvents component
                 _events.onInteract.Invoke();
         }
     }

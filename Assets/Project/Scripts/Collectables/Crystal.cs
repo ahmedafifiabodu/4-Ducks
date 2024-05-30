@@ -5,9 +5,9 @@ public class Crystal : Interactable
     [SerializeField] private string _crystalId;
     private bool isCollected = false;
 
-    protected virtual void Collect(PlayerType _playerType) => isCollected = true;
+    protected virtual void Collect(ObjectType _playerType) => isCollected = true;
 
-    protected override void Interact(PlayerType _playerType)
+    protected override void Interact(ObjectType _playerType)
     {
         base.Interact(_playerType);
 

@@ -3,23 +3,31 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] internal List<Pool> pools;
-    [SerializeField] internal Dictionary<GameObject, List<GameObject>> poolDictionary;
+    // Serialized fields that can be set in the Unity editor
+    [SerializeField] internal List<Pool> pools; // List of pools
 
+    [SerializeField] internal Dictionary<GameObject, List<GameObject>> poolDictionary; // Dictionary of pools
+
+    // Called when the object is first initialized
     private void Awake()
     {
+        // Register the ObjectPool as a service
         ServiceLocator.Instance.RegisterService(this, true);
+        // Initialize the pool dictionary
         poolDictionary = new();
     }
 
+    // Called before the first frame update
     private void Start() => InitializeList();
 
+    // Initialize the list of pools
     private void InitializeList()
     {
         foreach (Pool pool in pools)
         {
             List<GameObject> objectPool = new();
 
+            // Instantiate the objects in the pool
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
@@ -27,10 +35,12 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Add(obj);
             }
 
+            // Add the pool to the pool dictionary
             poolDictionary.Add(pool.prefab, objectPool);
         }
     }
 
+    // Get a pooled object
     internal GameObject GetPooledObject(GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -57,24 +67,26 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
+    // Extend the objects in the pool
     private GameObject ExtendObjects(GameObject prefab)
     {
-        //extend the size
+        // Find the pool for the prefab
         Pool pool = null;
         for (int i = 0; i < pools.Count; i++)
         {
-            if (pools[i].prefab == prefab)   // replace turretPrefab with your turret GameObject
+            if (pools[i].prefab == prefab)
             {
                 pool = pools[i];
-                break; //Exit the loop once the matching pool is found
+                break;
             }
         }
 
+        // If the pool is found, instantiate a new object and add it to the pool
         if (pool != null)
         {
             GameObject obj = Instantiate(pool.prefab);
             obj.SetActive(false);
-            pool.pooledObjects.Add(obj); //Add the new object to the pool
+            pool.pooledObjects.Add(obj);
             poolDictionary[prefab].Add(obj);
             return obj;
         }
@@ -82,8 +94,10 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
+    // Return an object to the pool
     internal void ReturnToPool(int _, GameObject objectToReturn) => objectToReturn.SetActive(false);
 
+    // Get the size of a pool
     internal int GetPoolSize(GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -92,6 +106,7 @@ public class ObjectPool : MonoBehaviour
         return poolDictionary[prefab].Count;
     }
 
+    // Get the pooled objects for a prefab
     internal List<GameObject> GetPooledObjects(GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(prefab))

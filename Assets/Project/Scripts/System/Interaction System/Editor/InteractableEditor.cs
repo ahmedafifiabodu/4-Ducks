@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,12 @@ public class InteractableEditor : Editor
         Interactable _interactable = (Interactable)target;
         SerializedObject so = new(target);
 
-        _interactable.InteractableLayerMask = EditorGUILayout.MaskField("Interactable Layer Mask", _interactable.InteractableLayerMask, UnityEditorInternal.InternalEditorUtility.layers);
+        LayerMask newLayerMask = LayerMaskField(new GUIContent("Layers Interacted With"), _interactable.LayersInteractedWith);
+        if (_interactable.LayersInteractedWith != newLayerMask)
+        {
+            _interactable.LayersInteractedWith = newLayerMask;
+            EditorUtility.SetDirty(_interactable);
+        }
 
         autoInteractProperty = so.FindProperty("_autoInteract");
         interactProperty = so.FindProperty("_interact");
@@ -69,5 +75,54 @@ public class InteractableEditor : Editor
         }
 
         so.ApplyModifiedProperties();
+    }
+
+    private List<string> GetAllLayers()
+    {
+        List<string> layers = new();
+        for (int i = 0; i < 32; i++)
+        {
+            string layerName = LayerMask.LayerToName(i);
+            if (!string.IsNullOrEmpty(layerName))
+            {
+                layers.Add(layerName);
+            }
+        }
+        return layers;
+    }
+
+    private LayerMask LayerMaskField(GUIContent label, LayerMask layerMask)
+    {
+        var layers = GetAllLayers();
+
+        List<int> layerNumbers = new();
+        for (int i = 0; i < layers.Count; i++)
+        {
+            int layerNumber = LayerMask.NameToLayer(layers[i]);
+            if (layerMask == (layerMask | (1 << layerNumber)))
+            {
+                layerNumbers.Add(i);
+            }
+        }
+
+        int mask = 0;
+        foreach (var number in layerNumbers)
+        {
+            mask |= (1 << number);
+        }
+
+        mask = EditorGUILayout.MaskField(label, mask, layers.ToArray());
+
+        LayerMask correctedMask = 0;
+        for (int i = 0; i < layers.Count; i++)
+        {
+            if ((mask & (1 << i)) != 0)
+            {
+                int layerIndex = LayerMask.NameToLayer(layers[i]);
+                correctedMask |= (1 << layerIndex);
+            }
+        }
+
+        return correctedMask;
     }
 }
