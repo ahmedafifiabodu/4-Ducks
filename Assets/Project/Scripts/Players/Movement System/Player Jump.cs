@@ -8,13 +8,11 @@ public class PlayerJump : MonoBehaviour
     private Action<InputAction.CallbackContext> _jumpAction;
 
     private Rigidbody rb;
-    public RaycastHit hit;
+    private int jumpCount = 0;
 
     [Header("Jump")]
-    // [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float jumpDuration = 1f;
-    private bool canJump = true;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
@@ -29,7 +27,6 @@ public class PlayerJump : MonoBehaviour
 
     [Header("Ground Detection")]
     [SerializeField] private float groundCheckDistanceNormal = 1f;
-    private float checkDistance;
 
     private void Awake()
     {
@@ -51,17 +48,16 @@ public class PlayerJump : MonoBehaviour
     {
         ApplyGravity();
         LimitVelocity();
-        GroundDetection();
     }
 
     private void Jump()
     {
-        if (canJump)
+        if (jumpCount < 2)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);
-            canJump = false;
+            jumpCount++;
             Logging.Log("Jumping");
         }
     }
@@ -83,15 +79,11 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
-    private void GroundDetection()
+    private void OnCollisionEnter(Collision collision)
     {
-        checkDistance = groundCheckDistanceNormal;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, checkDistance))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            if (hit.distance < checkDistance)
-            {
-                canJump = true;
-            }
+            jumpCount = 0;
         }
     }
 
