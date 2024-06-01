@@ -89,10 +89,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &3078412761740632373
 BoxCollider:
@@ -147,6 +147,9 @@ MonoBehaviour:
   _maxAirMoveSpeed: 10
   _drag: 1
   _floatingHeight: 1
+  _floatingGroundLayer:
+    serializedVersion: 2
+    m_Bits: 1
   _dashSpeed: 50
   _dashDuration: 0.2
   Gravity: {x: 0, y: 0, z: 0}
@@ -184,8 +187,8 @@ MonoBehaviour:
   MaxStableDenivelationAngle: 180
   InteractiveRigidbodyHandling: 1
   RigidbodyInteractionType: 0
-  SimulatedCharacterMass: 1
-  PreserveAttachedRigidbodyMomentum: 1
+  SimulatedCharacterMass: 0
+  PreserveAttachedRigidbodyMomentum: 0
   HasPlanarConstraint: 0
   PlanarConstraintAxis: {x: 0, y: 0, z: 1}
   MaxMovementIterations: 5

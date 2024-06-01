@@ -34,7 +34,9 @@ public class DialogManager : MonoBehaviour
         _dialogCanvas.gameObject.SetActive(false);
 
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+
         _inputManager.DialogActions.NextDialog.performed += _ => NextDialog();
+        _inputManager.DialogActions.Disable();
 
         foreach (var dialog in _dialogs)
             dialog.IsDialogEnded = false;
