@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime);
 
         Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;

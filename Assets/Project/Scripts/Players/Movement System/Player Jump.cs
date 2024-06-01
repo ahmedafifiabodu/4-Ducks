@@ -52,6 +52,13 @@ public class PlayerJump : MonoBehaviour
 
     private void Jump()
     {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal))
+        {
+            if (hit.distance < groundCheckDistanceNormal)
+            {
+                jumpCount = 0;
+            }
+        }
         if (jumpCount < 2)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
@@ -61,6 +68,7 @@ public class PlayerJump : MonoBehaviour
             Logging.Log("Jumping");
         }
     }
+
 
     private void ApplyGravity()
     {
@@ -76,14 +84,6 @@ public class PlayerJump : MonoBehaviour
         if (rb.velocity.magnitude > maxForce)
         {
             rb.velocity = rb.velocity.normalized * maxForce;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            jumpCount = 0;
         }
     }
 
