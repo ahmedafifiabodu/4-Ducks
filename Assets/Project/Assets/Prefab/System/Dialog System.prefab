@@ -222,8 +222,8 @@ GameObject:
   - component: {fileID: 2455651052720546854}
   - component: {fileID: 2206796678459318407}
   - component: {fileID: 923088647637447760}
-  - component: {fileID: 4672654417430759756}
-  - component: {fileID: 2493244175491097829}
+  - component: {fileID: 474084553447623163}
+  - component: {fileID: 7262615055323857785}
   m_Layer: 5
   m_Name: Dialog
   m_TagString: Untagged
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4672654417430759756
+--- !u!114 &474084553447623163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,24 +361,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typewriterStartsAutomatically: 0
+  typewriterStartsAutomatically: 1
   animationLoop: 0
   timeScale: 0
-  _text: 
+  _text: New Text
   useDynamicScaling: 1
   referenceFontSize: 10
   isResettingTimeOnNewText: 1
   useDefaultDatabases: 1
-  databaseBehaviors: {fileID: 0}
-  databaseAppearances: {fileID: 0}
-  databaseActions: {fileID: 0}
+  databaseBehaviors: {fileID: 11400000, guid: 9d5c88691c2ea4f44a46b72464ef490e, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: 7852ef32a55781a4197c71d35f2ad03d,
+    type: 2}
+  databaseActions: {fileID: 11400000, guid: ec717343cde4f134c8890565939beaac, type: 2}
   defaultAppearancesTags:
   - size
   defaultDisappearancesTags:
   - fade
   defaultBehaviorsTags: []
   defaultTagsMode: 0
---- !u!114 &2493244175491097829
+--- !u!114 &7262615055323857785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -794,6 +795,6 @@ MonoBehaviour:
   _iconImage: {fileID: 686346672802105153}
   _nameText: {fileID: 7354425715037543949}
   _dialogText: {fileID: 923088647637447760}
-  _typewriter: {fileID: 2493244175491097829}
+  _typewriter: {fileID: 7262615055323857785}
   _dialogs:
   - {fileID: 11400000, guid: e286036cbb7ebee4b8f6777b6e83740a, type: 2}
