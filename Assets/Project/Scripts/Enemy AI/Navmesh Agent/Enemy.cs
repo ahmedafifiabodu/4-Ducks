@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour
 {
     [Header("Enemy Configuration")]
     [SerializeField] private EnemyScriptableObject _enemyScriptableObject;
@@ -15,8 +15,6 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private NavMeshAgent _navMeshAgent;
 
     private Coroutine _lookCoroutine;
-    private int _health = 100;
-    private const string ATTACK_TRIGGER = "Attack";
 
     internal NavMeshAgent NavMeshAgent => _navMeshAgent;
     internal AttackRadius AttackRadius => _attackRadius;
@@ -34,7 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void OnAttack(IDamageable _target)
     {
-        _animator.SetTrigger(ATTACK_TRIGGER);
+        _animator.SetTrigger(GameConstant.EnemyAnimation.ATTACK_TRIGGER);
 
         if (_lookCoroutine != null)
             StopCoroutine(_lookCoroutine);
@@ -55,14 +53,6 @@ public class Enemy : MonoBehaviour, IDamageable
         }
 
         transform.rotation = _lookRotation;
-    }
-
-    public void TakeDamage(int _damage)
-    {
-        _health -= _damage;
-
-        if (_health <= 0)
-            gameObject.SetActive(false);
     }
 
     public Transform GetTransform() => transform;
