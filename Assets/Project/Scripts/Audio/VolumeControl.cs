@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum VolumeType
+{
+    Music,
+    SFX,
+}
+
 public class VolumeControl : MonoBehaviour
 {
-    private enum VolumeType
-    {
-        Music,
-        SFX,
-    }
 
     [Header("Type")]
     [SerializeField] private VolumeType volumeType;
 
     private Slider volumeSlider;
-    AudioSystemFMOD _audioSystem;
+    private AudioSystemFMOD _audioSystem;
 
     private void Awake()
     {
