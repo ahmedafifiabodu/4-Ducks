@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WaterTrap : Interactable
 {
-
     protected override void Interact(ObjectType _objectType)
     {
         base.Interact(_objectType);
