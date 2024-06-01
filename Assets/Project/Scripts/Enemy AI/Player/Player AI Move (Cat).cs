@@ -116,7 +116,7 @@ public class PlayerNewMovmentSystemCat : MonoBehaviour, ICharacterController
         if (isMoving)
         {
             _inputVector = _inputManager.CatActions.Move.ReadValue<Vector2>();
-            _moveInputVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+            _moveInputVector = new Vector3(_inputVector.y, 0, -_inputVector.x);
         }
         else
         {

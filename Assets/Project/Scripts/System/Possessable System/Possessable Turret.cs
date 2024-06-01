@@ -56,6 +56,7 @@ public class PossessableTurret : MonoBehaviour, IPossessable
         if (_turretThrowing != null)
             _turretThrowing.enabled = false;
 
+        // Disable the PossessTurretActions
         if (_inputManager != null)
             _inputManager.PossessTurretActions.Disable();
     }
