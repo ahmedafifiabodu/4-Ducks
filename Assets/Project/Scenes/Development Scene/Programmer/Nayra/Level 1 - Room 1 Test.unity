@@ -22287,6 +22287,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1982343291}
+    - targetCorrespondingSourceObject: {fileID: 456768661024448939, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1982343292}
     - targetCorrespondingSourceObject: {fileID: 6851298719599476439, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
       insertIndex: -1
@@ -22366,7 +22370,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRadius: {fileID: 654009403}
   _animator: {fileID: 1982343282}
-  _health: 100
+--- !u!114 &1982343292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931939032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea1d6408cb783b42a983782e637814e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 100
+  _onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7982851053369667466}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1991859119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f47deafc36436649a9e4c3de97473c1,
@@ -23473,14 +23513,13 @@ GameObject:
   - component: {fileID: 7314716678527644976}
   - component: {fileID: 7982851053369667467}
   - component: {fileID: 7982851053369667469}
-  - component: {fileID: 7982851053369667468}
-  m_Layer: 4
+  m_Layer: 6
   m_Name: Small_rock3 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &7982851053369667467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23502,33 +23541,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7982851053369667468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7982851053369667466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a14f62889ae475e448470ed1fae5adfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &7982851053369667469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23543,12 +23555,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layersInteractedWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8388608
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
+  _useEvents: 0
   _promptMessage: 
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}

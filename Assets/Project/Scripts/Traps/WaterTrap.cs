@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class WaterTrap : Interactable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Interact(ObjectType _objectType)
     {
-        
+        base.Interact(_objectType);
+        if(_objectType.gameObject.TryGetComponent<HealthSystem>(out HealthSystem Death))
+            Death.Die();
     }
 }
