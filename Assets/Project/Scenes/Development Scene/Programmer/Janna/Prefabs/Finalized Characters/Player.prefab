@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6832537287315607564
 Transform:
   m_ObjectHideFlags: 0
@@ -235,10 +235,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67477abc4ebaeac4d8c62577f9076522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCat: 1
-  smooth: 2
-  Speed: 5
-  rotationSpeed: 8
+  isCat: 0
+  smooth: 5
+  Speed: 8
+  rotationSpeed: 0.2
 --- !u!114 &527054210668775682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,14 +251,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 1
+  jumpHeight: 2
   jumpDuration: 1
-  gravity: 9.8
+  gravity: 9.81
   maxVelocity: 10
   maxForce: 20
   animationPlayTransition: 0.001
   groundCheckDistanceNormal: 1
-  groundCheckDistanceDoubleJump: 2
 --- !u!54 &4174185122616345137
 Rigidbody:
   m_ObjectHideFlags: 0
