@@ -46,6 +46,14 @@ public static class GameConstant
         public const string CatFalling = "Cat Is Falling";
     }
 
+    public static class EnemyAnimation
+    {
+        public const string ATTACK_TRIGGER = "Attack";
+        public const string Walk = "Walk";
+        public const string Jump = "Jump";
+        public const string Idle = "Idle";
+    }
+
     public static class Input
     {
         public const string Movement = "PlayerMoveSystem";
