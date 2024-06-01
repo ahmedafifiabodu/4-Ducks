@@ -14,6 +14,9 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private bool _useEvents; // Determines if the object uses events for interaction
     [SerializeField] private string _promptMessage; // Message displayed when the object can be interacted with
 
+    [SerializeField] private bool _useParticleEffect = false; // Determines if the object uses particle effects
+    [SerializeField] private ParticleSystem _interactionParticals; // Reference to the ParticleSystem component
+
     private Renderer _renderer; // Renderer used for the outline effect
 
     // Public properties for private variables
@@ -31,6 +34,12 @@ public abstract class Interactable : MonoBehaviour
 
     public bool UseEvents
     { get => _useEvents; set { _useEvents = value; } }
+
+    public bool UseParticleEffect
+    { get => _useParticleEffect; set { _useParticleEffect = value; } }
+
+    public ParticleSystem InteractionParticals
+    { get => _interactionParticals; set { _interactionParticals = value; } }
 
     // Properties for the original and outline materials
     internal Material[] OriginalMaterials { get; private set; }
@@ -132,6 +141,10 @@ public abstract class Interactable : MonoBehaviour
     // Handles interaction with the object
     protected virtual void Interact(ObjectType _objectType)
     {
+        // If the object uses particle effects, play the particle effect
+        if (UseParticleEffect)
+            InteractionParticals.Play();
+
         // Check if the object uses events for interaction
         if (_useEvents)
         {

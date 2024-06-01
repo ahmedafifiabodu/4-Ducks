@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 // The Possess class inherits from the Interactable class
@@ -23,8 +24,32 @@ public class Possess : Interactable
 
             // Set the GhostPlayer property of the IPossessable interface to the player's game object
             _possessableScript.GetComponent<IPossessable>().GhostPlayer = _playerType.gameObject;
-            // Call the Possess method of the IPossessable interface
-            _possessableScript.GetComponent<IPossessable>().Possess();
+
+            ServiceLocator.Instance.GetService<InputManager>().GhostActions.Disable();
+
+            _playerType.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.2f).SetEase(Ease.InOutElastic).SetLoops(2, LoopType.Yoyo).SetDelay(0.5f).OnComplete(() =>
+            {
+                // Play the particle effect
+                if (UseParticleEffect)
+                {
+                    Logging.Log("Playing particle effect");
+
+                    // Instantiate the particle system prefab at the ghost's position
+                    ParticleSystem particleInstance = Instantiate(InteractionParticals, _playerType.transform.position, Quaternion.identity);
+
+                    // Play the instantiated particle system
+                    particleInstance.Play();
+
+                    // Set the particle system's game object to inactive after it finishes playing
+                    DOVirtual.DelayedCall(particleInstance.main.duration, () => particleInstance.gameObject.SetActive(false));
+                }
+
+                // Reset the scale back to (1,1,1)
+                _playerType.transform.localScale = Vector3.one;
+
+                // Call the Possess method of the IPossessable interface
+                _possessableScript.GetComponent<IPossessable>().Possess();
+            });
         }
     }
 }

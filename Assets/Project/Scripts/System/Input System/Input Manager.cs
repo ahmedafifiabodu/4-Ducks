@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     internal InputSystem.PossessTurretActions PossessTurretActions { get; private set; }
     internal InputSystem.PossessMovableObjectActions PossessMovableObjectActions { get; private set; }
     internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
+    internal InputSystem.DialogActions DialogActions { get; private set; }
 
     private ServiceLocator _serviceLocator;
 
@@ -23,6 +24,12 @@ public class InputManager : MonoBehaviour
         PossessTurretActions = _input.PossessTurret;
         PossessMovableObjectActions = _input.PossessMovableObject;
         PossessCatActions = _input.PossessCat;
+        DialogActions = _input.Dialog;
+
+        PossessTurretActions.Disable();
+        PossessMovableObjectActions.Disable();
+        PossessCatActions.Disable();
+        DialogActions.Disable();
     }
 
     private void OnEnable() => _input.Enable();
