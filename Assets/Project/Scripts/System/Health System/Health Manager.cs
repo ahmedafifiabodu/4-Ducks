@@ -16,7 +16,7 @@ public class HealthManager : MonoBehaviour
 
     private void OnDisable() => HealthCrystal.OnHealthCrystalCollected.RemoveListener(Heal);
 
-    private void Heal(float _healAmount, ObjectType _playerType)
+    public void Heal(float _healAmount, ObjectType _playerType)
     {
         if (_isCombined)
             _combinedHealthSystem.Heal(_healAmount);
@@ -27,7 +27,7 @@ public class HealthManager : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float _damageAmount, ObjectType _playerType)
+    public void TakeDamage(float _damageAmount, ObjectType _playerType)
     {
         if (_isCombined)
             _combinedHealthSystem.TakeDamage(_damageAmount);
@@ -35,6 +35,16 @@ public class HealthManager : MonoBehaviour
         {
             if (_playerType.IsCat)
                 _catHealthSystem.TakeDamage(_damageAmount);
+        }
+    }
+    public void InstantKill(ObjectType _playerType)
+    {
+        if (_isCombined)
+            _combinedHealthSystem.TakeDamage(_combinedHealthSystem.HealthMax);
+        else
+        {
+            if (_playerType.IsCat)
+                _catHealthSystem.TakeDamage(_catHealthSystem.HealthMax);
         }
     }
 }

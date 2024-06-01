@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CM_CamBlending : MonoBehaviour
@@ -42,11 +42,11 @@ public class CM_CamBlending : MonoBehaviour
     {
         float totalDistance = 0f;
         int count = 0;
-        for (int i = 0; i < targetGroup.m_Targets.Length; i++)
+        for (int i = 0; i < targetGroup.Targets.Count; i++)
         {
-            for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
+            for (int j = i + 1; j < targetGroup.Targets.Count; j++)
             {
-                totalDistance += Vector3.Distance(targetGroup.m_Targets[i].target.position, targetGroup.m_Targets[j].target.position);
+                totalDistance += Vector3.Distance(targetGroup.Targets[i].Object.position, targetGroup.Targets[j].Object.position);
                 count++;
             }
         }

@@ -1,11 +1,11 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CM_CameraControl : MonoBehaviour
 {
     private CinemachineVirtualCamera _virtualCamera;
     private CinemachineGroupComposer _groupComposer;
-    private CinemachineTransposer _transposer;
+    private CinemachineFollow _transposer;
 
     [Header("Frame Size")]
     [Space(3)]
@@ -29,10 +29,10 @@ public class CM_CameraControl : MonoBehaviour
     void Start()
     {
         _virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        _transposer = _virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        _transposer = _virtualCamera.GetCinemachineComponent<CinemachineFollow>();
         _groupComposer = _virtualCamera.GetCinemachineComponent<CinemachineGroupComposer>();
 
-        _transposer.m_FollowOffset = _startTransposerOffset;
+        _transposer.FollowOffset = _startTransposerOffset;
         _groupComposer.m_TrackedObjectOffset = _startAim0ffset;
     }
     private void LateUpdate()
@@ -46,14 +46,14 @@ public class CM_CameraControl : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
-            _transposer.m_FollowOffset = Vector3.Slerp(_startTransposerOffset, _endtransposerendOffset, t);
+            _transposer.FollowOffset = Vector3.Slerp(_startTransposerOffset, _endtransposerendOffset, t);
             _groupComposer.m_TrackedObjectOffset = Vector3.Slerp(_startAim0ffset, _endAimEndOffset, t);
         }
         if (averageDistance < _minDistance)
         {
             _elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp(_elapsedTime / duration, 0.0f, 1.0f);
-            _transposer.m_FollowOffset = Vector3.Slerp(_endtransposerendOffset, _startTransposerOffset, t);
+            _transposer.FollowOffset = Vector3.Slerp(_endtransposerendOffset, _startTransposerOffset, t);
             _groupComposer.m_TrackedObjectOffset = Vector3.Slerp(_endAimEndOffset, _startAim0ffset, t);
         }
     }
@@ -61,11 +61,11 @@ public class CM_CameraControl : MonoBehaviour
     {
         float totalDistance = 0f;
         int count = 0;
-        for (int i = 0; i < targetGroup.m_Targets.Length; i++)
+        for (int i = 0; i < targetGroup.Targets.Count; i++)
         {
-            for (int j = i + 1; j < targetGroup.m_Targets.Length; j++)
+            for (int j = i + 1; j < targetGroup.Targets.Count; j++)
             {
-                totalDistance += Vector3.Distance(targetGroup.m_Targets[i].target.position, targetGroup.m_Targets[j].target.position);
+                totalDistance += Vector3.Distance(targetGroup.Targets[i].Object.position, targetGroup.Targets[j].Object.position);
                 count++;
             }
         }
