@@ -15,7 +15,7 @@ public class EnergySystem : MonoBehaviour
     //[SerializeField] private UnityEvent _onLowEnergy;  //if needed.
 
 
-    private float _energy = 0;
+    protected float _energy = 0;
     internal float EnergyPrecentage => (_energy / _maxEnergy);
     internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
