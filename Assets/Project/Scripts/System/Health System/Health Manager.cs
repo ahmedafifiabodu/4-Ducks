@@ -16,7 +16,8 @@ public class HealthManager : MonoBehaviour
 
     private void OnDisable() => HealthCrystal.OnHealthCrystalCollected.RemoveListener(Heal);
 
-    public void Heal(float _healAmount, ObjectType _playerType)
+    public
+        void Heal(float _healAmount, ObjectType _playerType)
     {
         if (_isCombined)
             _combinedHealthSystem.Heal(_healAmount);
