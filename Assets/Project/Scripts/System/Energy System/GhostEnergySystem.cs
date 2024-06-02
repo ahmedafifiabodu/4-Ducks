@@ -10,11 +10,12 @@ public class GhostEnergySystem : EnergySystem
 
     private void OnDisable() => EnergyCrystal._onEnergyCrystalCollected.RemoveListener(GainEnergy);
 
-    public void StartEnergyDecrease()
+    public void StartEnergyDecrease(float _energyDecreaseRate)
     {
         if (_energyDecreaseCoroutine == null)
         {
-            _energyDecreaseCoroutine = StartCoroutine(DecreaseEnergyOverTime());
+            _energyDecreaseCoroutine = StartCoroutine(DecreaseEnergyOverTime(_energyDecreaseRate));
+            Logging.Log("Started");
         }
     }
     public void StopEnergyDecrease()
@@ -22,10 +23,11 @@ public class GhostEnergySystem : EnergySystem
         if (_energyDecreaseCoroutine != null)
         {
             StopCoroutine(_energyDecreaseCoroutine);
+            Logging.Log("Stopped");
             _energyDecreaseCoroutine = null;
         }
     }
-    private IEnumerator DecreaseEnergyOverTime()
+    private IEnumerator DecreaseEnergyOverTime(float _energyDecreaseRate)
     {
         while (_energy > 0)
         {
@@ -36,7 +38,7 @@ public class GhostEnergySystem : EnergySystem
                 _energy = 0;
                 _onNoEnergy?.Invoke();
             }
-
+            Logging.Log(_energy);
             OnEnergyChanged?.Invoke();
             yield return null;
         }

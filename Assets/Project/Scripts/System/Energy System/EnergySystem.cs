@@ -3,16 +3,16 @@ using UnityEngine.Events;
 
 public class EnergySystem : MonoBehaviour
 {
-    [SerializeField] private float _maxEnergy;
-    [SerializeField] private float _minEnergyRange;
-    [SerializeField] private float _startEnergy;
+    [SerializeField] protected float _maxEnergy;
+    [SerializeField] protected float _startEnergy;
 
-    [SerializeField] private UnityEvent _onEnergyChanged;
-    [SerializeField] private UnityEvent _onMaxEnergy;
-    [SerializeField] private UnityEvent _onNoEnergy;
-    [SerializeField] private UnityEvent _onGainEnergy;
-    [SerializeField] private UnityEvent _onLoseEnergy;
-    //[SerializeField] private UnityEvent _onLowEnergy;  //if needed.
+    [SerializeField] protected UnityEvent _onEnergyChanged;
+    [SerializeField] protected UnityEvent _onMaxEnergy;
+    [SerializeField] protected UnityEvent _onNoEnergy;
+    [SerializeField] protected UnityEvent _onGainEnergy;
+    [SerializeField] protected UnityEvent _onLoseEnergy;
+   // [SerializeField] protected float _minEnergyRange;
+    //[SerializeField] protected UnityEvent _onLowEnergy;  //if needed.
 
 
     protected float _energy = 0;
