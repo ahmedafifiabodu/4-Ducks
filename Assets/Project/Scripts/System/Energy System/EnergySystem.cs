@@ -7,17 +7,17 @@ public class EnergySystem : MonoBehaviour
     [SerializeField] private float _minEnergyRange;
     [SerializeField] private float _startEnergy;
 
-    public UnityEvent OnEnergyChanged;
-    public UnityEvent OnMaxEnergy;
-    public UnityEvent OnNoEnergy;
+    [SerializeField] private UnityEvent _onEnergyChanged;
+    [SerializeField] private UnityEvent _onMaxEnergy;
+    [SerializeField] private UnityEvent _onNoEnergy;
+    [SerializeField] private UnityEvent _onGainEnergy;
+    [SerializeField] private UnityEvent _onLoseEnergy;
+    //[SerializeField] private UnityEvent _onLowEnergy;  //if needed.
 
-    public UnityEvent OnGainEnergy;
-    public UnityEvent OnLoseEnergy;
-    //public UnityEvent OnLowEnergy;  //if needed.
 
     private float _energy = 0;
-    internal float Energt => _energy;
     internal float EnergyPrecentage => (_energy / _maxEnergy);
+    internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
     private void Start()
     {
@@ -30,11 +30,11 @@ public class EnergySystem : MonoBehaviour
         if (_energy > _maxEnergy)
         {
             _energy = _maxEnergy;
-            OnMaxEnergy?.Invoke();
+            _onMaxEnergy?.Invoke();
         }
 
         OnEnergyChanged?.Invoke();
-        OnGainEnergy?.Invoke();
+        _onGainEnergy?.Invoke();
     }
 
     public void LoseEnergy(float energyAmount)
@@ -44,7 +44,7 @@ public class EnergySystem : MonoBehaviour
         if (_energy <= 0)
         {
             _energy = 0;
-            OnNoEnergy?.Invoke();
+            _onNoEnergy?.Invoke();
         }
 
         // To apply effect on low energy can be used later? Note: Still needs alittle edit to be used.
@@ -55,6 +55,6 @@ public class EnergySystem : MonoBehaviour
         //}
 
         OnEnergyChanged?.Invoke();
-        OnLoseEnergy?.Invoke();
+        _onLoseEnergy?.Invoke();
     }
 }
