@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GhostEnergySystem : EnergySystem
 {
-    [SerializeField] private float _energyDecreaseRate; 
     private Coroutine _energyDecreaseCoroutine;
     private void OnEnable() => EnergyCrystal._onEnergyCrystalCollected.AddListener(GainEnergy);
 
@@ -15,7 +14,6 @@ public class GhostEnergySystem : EnergySystem
         if (_energyDecreaseCoroutine == null)
         {
             _energyDecreaseCoroutine = StartCoroutine(DecreaseEnergyOverTime(_energyDecreaseRate));
-            Logging.Log("Started");
         }
     }
     public void StopEnergyDecrease()
@@ -23,7 +21,6 @@ public class GhostEnergySystem : EnergySystem
         if (_energyDecreaseCoroutine != null)
         {
             StopCoroutine(_energyDecreaseCoroutine);
-            Logging.Log("Stopped");
             _energyDecreaseCoroutine = null;
         }
     }
