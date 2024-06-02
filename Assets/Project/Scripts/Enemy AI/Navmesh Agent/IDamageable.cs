@@ -2,7 +2,11 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(int damage);
+    void TakeDamage(float damage);
+
+    void Heal(float healAmount);
+
+    void Die();
 
     Transform GetTransform();
 }
