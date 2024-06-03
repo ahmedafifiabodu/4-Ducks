@@ -7,6 +7,7 @@ public class AudioSystemFMOD : MonoBehaviour
     private FMODEvents FmodSystemn;
     private EventInstance musicEventInstance;
 
+    #region Volume Control
     //Volume Control
     [Header("Volume")]
     [Range(0, 1)]
@@ -15,12 +16,13 @@ public class AudioSystemFMOD : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] private float sfxVolume = 1;
 
-    private Bus masterBus;
     private Bus musicBus;
     private Bus sfxBus;
 
     public float MusicVolume { get => musicVolume; set => musicVolume = value; }
     public float SfxVolume { get => sfxVolume; set => sfxVolume = value; }
+
+    #endregion
 
     private void Awake()
     {
@@ -43,12 +45,20 @@ public class AudioSystemFMOD : MonoBehaviour
         sfxBus.setVolume(SfxVolume);
     }
 
+    //Player Foot Steps
     internal EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance PlayereventInstance = RuntimeManager.CreateInstance(eventReference);
         return PlayereventInstance;
     }
+    
+    //Player Shooting
+    public void PlayerShooting(EventReference catShoot , Vector3 pos)
+    {
+        RuntimeManager.PlayOneShot(catShoot , pos);
+    }
 
+    //Enviroment music
     private void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = RuntimeManager.CreateInstance(musicEventReference);

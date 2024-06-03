@@ -21,6 +21,9 @@ public class TurretThrowing : ThrowingMechanism
     protected override void Throw()
     {
         initialVelocity = _currentVelocity * 4 * transform.forward;
+
+        AudioSystem.PlayerShooting(FmodSystem.TurretShoot, this.gameObject.transform.position);
+
         base.Throw();
     }
 
