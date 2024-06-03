@@ -15,53 +15,27 @@ public class FadingEffect : MonoBehaviour
     private Texture2D _texture;
     private int _direction = 0;
     private float _time;
-   // private Coroutine _fadeCoroutine;
+
     private void Start()
     {
         _texture = new Texture2D(1, 1);
-        //_texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
-        //_texture.Apply();
     }
     public void FadeIn()
     {
-       // StopFadeEffect();
         _alpha = 1f;
         _time = 0;
         _direction = 1;
         _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
         _texture.Apply();
-        // _fadeCoroutine = StartCoroutine(StartFadeEffect());
     }
     public void FadeOut()
     {
-       // StopFadeEffect();
         _alpha = 0f;
         _time = 1;
         _direction = -1;
         _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
         _texture.Apply();
-        //_fadeCoroutine = StartCoroutine(StartFadeEffect());
     }
-    //private IEnumerator StartFadeEffect()
-    //{
-    //    while (_direction != 0)
-    //    {
-    //        _time += Time.deltaTime * _direction * _fadingSpeed;
-    //        _alpha = _fadeCurve.Evaluate(_time);
-    //        _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
-    //        _texture.Apply();
-    //        if (_alpha <= 0f || _alpha >= 1f) _direction = 0;
-    //    }
-    //    yield return null;
-    //}
-    //private void StopFadeEffect()
-    //{
-    //    if (_fadeCoroutine != null)
-    //    {
-    //        StopCoroutine(_fadeCoroutine);
-    //        _fadeCoroutine = null;
-    //    }
-    //}
     public void OnGUI()
     {
         if (_alpha > 0) GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), _texture);
