@@ -9,6 +9,7 @@ public class GameData
     public Vector3 _playerPosition;
     public SerializableDictionary<string, bool> _coinsCollected;
     public SerializableDictionary<string, bool> _crystalsCollected;
+    public SerializableDictionary<string, bool> _checkPointPassed;
 
     public GameData()
     {
