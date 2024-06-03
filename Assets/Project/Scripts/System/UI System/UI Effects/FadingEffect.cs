@@ -38,7 +38,6 @@ public class FadingEffect : MonoBehaviour
         {
             _time += Time.deltaTime * _direction * _fadingSpeed;
             _alpha = _fadeCurve.Evaluate(_time);
-            Logging.Log(_alpha);
             _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
             _texture.Apply();
             if (_alpha <= 0f || _alpha >= 1f) _direction = 0;
