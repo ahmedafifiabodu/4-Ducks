@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
     #region Parameters
 
-
     private Action<InputAction.CallbackContext> _startMoveAction;
     private Action<InputAction.CallbackContext> _stopMoveAction;
 
@@ -18,6 +17,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("CatAnimation")]
     [SerializeField] private float smooth = 5;
+
     private int RunAnimationId;
     private int RunAnimationIdY;
     private float p_anim;
@@ -25,12 +25,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Movement")]
     [SerializeField] private float Speed = 4f;
+
     [SerializeField] private float rotationSpeed = 0.5f;
     private Vector2 input;
     private bool isMoving;
 
     [Header("Audio")]
     private EventInstance PlayerFootSteps;
+
     private AudioSystemFMOD AudioSystem;
     private FMODEvents FmodSystemn;
 
@@ -114,6 +116,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
             Move();
         }
     }
+
     private void Move()
     {
         Vector3 forward = transform.forward;
@@ -123,13 +126,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         // Vector3 inputDirection = (right * input.x + forward * input.y).normalized;
 
-        Debug.Log(input.x);
         if (MathF.Abs(input.x) != 0)
         {
-            transform.forward =  Quaternion.Euler(0, input.x, 0) * transform.forward;
-/*            Quaternion targetRotation = transform.forward * Quaternion.Euler(0, input.x, 0);
-                transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);*/
-           
+            transform.forward = Quaternion.Euler(0, input.x, 0) * transform.forward;
+            /*            Quaternion targetRotation = transform.forward * Quaternion.Euler(0, input.x, 0);
+                            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);*/
         }
 
         // Move in the input direction
@@ -139,7 +140,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         Animate(input);
     }
-
 
     private void Animate(Vector2 input)
     {
