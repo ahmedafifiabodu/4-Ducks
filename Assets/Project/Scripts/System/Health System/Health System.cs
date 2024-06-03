@@ -16,7 +16,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
     private float _health; // The current health of the game object.
 
     // Property that calculates the current health percentage.
-    public float HealthPrecentage => (_health / _healthMax);
+    internal float HealthPrecentage => (_health / _healthMax);
 
     // Property that returns the OnHealthChanged event.
     internal UnityEvent OnHealthChanged => _onHealthChanged;
@@ -28,7 +28,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
     public void TakeDamage(float damageAmount)
     {
         _health -= damageAmount; // Reduce the health by the damage amount.
-
+        Logging.Log(_health);
         // If the health drops to 0 or below, invoke the _onDeath event.
         if (_health <= 0)
         {

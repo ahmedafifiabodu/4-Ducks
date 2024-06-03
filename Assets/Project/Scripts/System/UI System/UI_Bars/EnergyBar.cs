@@ -8,7 +8,6 @@ public class EnergyBar : MonoBehaviour
 
     private void OnEnable()
     {
-        Logging.Log(_energySystem.OnEnergyChanged);
         _energySystem.OnEnergyChanged.AddListener(UpdateEnergyBar);
         _image.fillAmount = _energySystem.EnergyPrecentage;
     }
