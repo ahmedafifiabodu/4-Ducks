@@ -15,7 +15,7 @@ public class FadingEffect : MonoBehaviour
     private Texture2D _texture;
     private int _direction = 0;
     private float _time;
-    private Coroutine _fadeCoroutine;
+   // private Coroutine _fadeCoroutine;
     private void Start()
     {
         _texture = new Texture2D(1, 1);
