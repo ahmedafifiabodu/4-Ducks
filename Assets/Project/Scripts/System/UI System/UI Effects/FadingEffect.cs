@@ -19,8 +19,8 @@ public class FadingEffect : MonoBehaviour
     private void Start()
     {
         _texture = new Texture2D(1, 1);
-        _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
-        _texture.Apply();
+        //_texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
+        //_texture.Apply();
     }
     public void FadeIn()
     {
@@ -28,7 +28,9 @@ public class FadingEffect : MonoBehaviour
         _alpha = 1f;
         _time = 0;
         _direction = 1;
-       // _fadeCoroutine = StartCoroutine(StartFadeEffect());
+        _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
+        _texture.Apply();
+        // _fadeCoroutine = StartCoroutine(StartFadeEffect());
     }
     public void FadeOut()
     {
@@ -36,6 +38,8 @@ public class FadingEffect : MonoBehaviour
         _alpha = 0f;
         _time = 1;
         _direction = -1;
+        _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
+        _texture.Apply();
         //_fadeCoroutine = StartCoroutine(StartFadeEffect());
     }
     //private IEnumerator StartFadeEffect()
@@ -65,6 +69,7 @@ public class FadingEffect : MonoBehaviour
         {
             _time += Time.deltaTime * _direction * _fadingSpeed;
             _alpha = _fadeCurve.Evaluate(_time);
+            Logging.Log(_alpha);
             _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
             _texture.Apply();
             if (_alpha <= 0f || _alpha >= 1f) _direction = 0;
