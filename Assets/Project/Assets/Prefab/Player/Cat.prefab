@@ -945,7 +945,8 @@ GameObject:
   - component: {fileID: 366948885829443422}
   - component: {fileID: 4556479796225035977}
   - component: {fileID: 6067199737892564776}
-  - component: {fileID: 6151508000467813410}
+  - component: {fileID: 8734270746291371578}
+  - component: {fileID: 3303122164568107136}
   m_Layer: 23
   m_Name: Cat
   m_TagString: Untagged
@@ -1091,7 +1092,6 @@ MonoBehaviour:
   maxForce: 20
   animationPlayTransition: 0.001
   groundCheckDistanceNormal: 1
-  groundCheckDistanceDoubleJump: 2
 --- !u!114 &6067199737892564776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,9 +1104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30316ea8a17a94d4297f08a7409338a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerCat: 1
-  isPlayerGhost: 0
---- !u!114 &6151508000467813410
+  isCat: 1
+  isGhost: 0
+  isObject: 0
+--- !u!114 &8734270746291371578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1120,7 +1121,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRadius: {fileID: 6381704276347640820}
   _animator: {fileID: 1165600015829764446}
-  _health: 10000000
+--- !u!114 &3303122164568107136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456768661024448939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea1d6408cb783b42a983782e637814e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 100
+  _onHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &465980158888602553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,7 +2815,7 @@ Transform:
   m_GameObject: {fileID: 1059725287931693334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.42, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3482,7 +3519,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461022616997951909}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0038300043, y: 0.020492205, z: 0.048311707, w: 0.9986147}
+  m_LocalRotation: {x: -0.0038300038, y: 0.020492205, z: 0.0483117, w: 0.9986147}
   m_LocalPosition: {x: 0.09048239, y: 4.0856205e-16, z: -5.684342e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8532,7 +8569,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3501298358448669416}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.004505938, y: 0.0014608948, z: -0.053301733, w: 0.9985672}
+  m_LocalRotation: {x: -0.0045059375, y: 0.0014608948, z: -0.053301726, w: 0.9985672}
   m_LocalPosition: {x: -0.09048239, y: 2.4868996e-16, z: 4.440892e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
