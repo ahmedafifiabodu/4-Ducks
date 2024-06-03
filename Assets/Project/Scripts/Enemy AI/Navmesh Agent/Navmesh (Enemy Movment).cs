@@ -27,10 +27,6 @@ public class NavmeshEnemyMovment : MonoBehaviour
     private AgentLinkMover _agentLinkMover;
     public StateChangeEvent _onStateChange;
 
-    public const string Walk = "Walk";
-    public const string Jump = "Jump";
-    public const string Idle = "Idle";
-
     private Coroutine _followTargetCoroutine;
 
     public delegate void StateChangeEvent(EnemyStates _oldState, EnemyStates _newState);
@@ -78,8 +74,8 @@ public class NavmeshEnemyMovment : MonoBehaviour
     private void Update()
     {
         bool isMoving = _agent.velocity.magnitude > 0;
-        _animator.SetBool(Walk, isMoving);
-        _animator.SetBool(Idle, !isMoving);
+        _animator.SetBool(GameConstant.EnemyAnimation.Walk, isMoving);
+        _animator.SetBool(GameConstant.EnemyAnimation.Idle, !isMoving);
     }
 
     internal void Spawn()
@@ -179,12 +175,12 @@ public class NavmeshEnemyMovment : MonoBehaviour
         }
     }
 
-    private void HandleLinkStart() => _animator.SetTrigger(Jump);
+    private void HandleLinkStart() => _animator.SetTrigger(GameConstant.EnemyAnimation.Jump);
 
     private void HandleLinkEnd()
     {
-        _animator.SetBool(Idle, false);
-        _animator.SetBool(Walk, true);
+        _animator.SetBool(GameConstant.EnemyAnimation.Idle, false);
+        _animator.SetBool(GameConstant.EnemyAnimation.Walk, true);
     }
 
     #endregion Event Handlers

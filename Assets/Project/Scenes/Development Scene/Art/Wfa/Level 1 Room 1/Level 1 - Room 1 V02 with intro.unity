@@ -125,12 +125,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 775235430}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &423793156 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7926554330434948859, guid: 775219347a7c666428d798eb576623bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 2047491570}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &425347068
 GameObject:
   m_ObjectHideFlags: 0
@@ -6049,6 +6043,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 30
   _angleLimitForRotation: {x: -30, y: 30}
+  _turretThrowing: {fileID: 0}
+  _delayAfterUnpossess: 3
+  _collider: {fileID: 0}
 --- !u!114 &1780163051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6171,6 +6168,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 775219347a7c666428d798eb576623bd, type: 3}
+--- !u!4 &2047491571 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4842590109669333137, guid: 775219347a7c666428d798eb576623bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 2047491570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2104024562
 GameObject:
   m_ObjectHideFlags: 0
@@ -6201,7 +6204,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1495438247}
-  - {fileID: 423793156}
+  - {fileID: 2047491571}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2133047511
@@ -6455,6 +6458,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 30
   _angleLimitForRotation: {x: -30, y: 30}
+  _turretThrowing: {fileID: 0}
+  _delayAfterUnpossess: 3
+  _collider: {fileID: 0}
 --- !u!4 &6775452678343483461
 Transform:
   m_ObjectHideFlags: 0

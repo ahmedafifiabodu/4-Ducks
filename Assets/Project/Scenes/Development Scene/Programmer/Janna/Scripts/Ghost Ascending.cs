@@ -13,7 +13,7 @@ public class GhostAscending : MonoBehaviour
     private float distanceToGround;
 
     private bool isAscending = false;
-    private float ghostDistance = 1.2f;
+    private float ghostDistance = 0.1f;
     [SerializeField] private float ascendingSpeed = 5f;
 
     private void Start()
@@ -73,7 +73,7 @@ public class GhostAscending : MonoBehaviour
         {
             distanceToGround = reachedDistance.distance;
 
-            if (distanceToGround > ghostDistance + 0.1f)
+            if (distanceToGround > ghostDistance)
             {
                 rb.useGravity = true;
             }

@@ -785,6 +785,34 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Dialog"",
+            ""id"": ""7014f99b-fc8b-4889-9e51-4d6fe5008c8e"",
+            ""actions"": [
+                {
+                    ""name"": ""Next Dialog"",
+                    ""type"": ""Button"",
+                    ""id"": ""5912f6dc-75e2-4120-952d-9869d7db41eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7f76a608-c6cc-4f1f-83ad-3c7763b35abb"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next Dialog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Test"",
             ""id"": ""b76ae8f6-1ee3-42bf-8e54-b88aa6481a9b"",
             ""actions"": [
@@ -1446,6 +1474,9 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
         m_PossessCat = asset.FindActionMap("Possess Cat", throwIfNotFound: true);
         m_PossessCat_Invisibility = m_PossessCat.FindAction("Invisibility", throwIfNotFound: true);
         m_PossessCat_Unpossess = m_PossessCat.FindAction("Unpossess", throwIfNotFound: true);
+        // Dialog
+        m_Dialog = asset.FindActionMap("Dialog", throwIfNotFound: true);
+        m_Dialog_NextDialog = m_Dialog.FindAction("Next Dialog", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Look = m_Test.FindAction("Look", throwIfNotFound: true);
@@ -1862,6 +1893,52 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     }
     public PossessCatActions @PossessCat => new PossessCatActions(this);
 
+    // Dialog
+    private readonly InputActionMap m_Dialog;
+    private List<IDialogActions> m_DialogActionsCallbackInterfaces = new List<IDialogActions>();
+    private readonly InputAction m_Dialog_NextDialog;
+    public struct DialogActions
+    {
+        private @InputSystem m_Wrapper;
+        public DialogActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @NextDialog => m_Wrapper.m_Dialog_NextDialog;
+        public InputActionMap Get() { return m_Wrapper.m_Dialog; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DialogActions set) { return set.Get(); }
+        public void AddCallbacks(IDialogActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DialogActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DialogActionsCallbackInterfaces.Add(instance);
+            @NextDialog.started += instance.OnNextDialog;
+            @NextDialog.performed += instance.OnNextDialog;
+            @NextDialog.canceled += instance.OnNextDialog;
+        }
+
+        private void UnregisterCallbacks(IDialogActions instance)
+        {
+            @NextDialog.started -= instance.OnNextDialog;
+            @NextDialog.performed -= instance.OnNextDialog;
+            @NextDialog.canceled -= instance.OnNextDialog;
+        }
+
+        public void RemoveCallbacks(IDialogActions instance)
+        {
+            if (m_Wrapper.m_DialogActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDialogActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DialogActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DialogActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DialogActions @Dialog => new DialogActions(this);
+
     // Test
     private readonly InputActionMap m_Test;
     private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
@@ -2066,6 +2143,10 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
     {
         void OnInvisibility(InputAction.CallbackContext context);
         void OnUnpossess(InputAction.CallbackContext context);
+    }
+    public interface IDialogActions
+    {
+        void OnNextDialog(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

@@ -3,21 +3,26 @@ using UnityEngine.Events;
 
 public class EnergySystem : MonoBehaviour
 {
-    [SerializeField] private float _maxEnergy;
-    [SerializeField] private float _minEnergyRange;
+    [SerializeField] protected float _maxEnergy;
+    [SerializeField] protected float _startEnergy;
 
-    internal UnityEvent OnEnergyChanged;
-    internal UnityEvent OnMaxEnergy;
-    internal UnityEvent OnNoEnergy;
+    [SerializeField] protected UnityEvent _onEnergyChanged;
+    [SerializeField] protected UnityEvent _onMaxEnergy;
+    [SerializeField] protected UnityEvent _onNoEnergy;
+    [SerializeField] protected UnityEvent _onGainEnergy;
+    [SerializeField] protected UnityEvent _onLoseEnergy;
+   // [SerializeField] protected float _minEnergyRange;
+    //[SerializeField] protected UnityEvent _onLowEnergy;  //if needed.
 
-    internal UnityEvent OnGainEnergy;
-    internal UnityEvent OnLoseEnergy;
-    //public UnityEvent OnLowEnergy;  //if needed.
 
-    private float _energy = 0;
-    internal float Energt => _energy;
+    protected float _energy = 0;
     internal float EnergyPrecentage => (_energy / _maxEnergy);
+    internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
+    private void Start()
+    {
+        _energy = _startEnergy;
+    }
     public void GainEnergy(float energyAmount)
     {
         _energy += energyAmount;
@@ -25,11 +30,11 @@ public class EnergySystem : MonoBehaviour
         if (_energy > _maxEnergy)
         {
             _energy = _maxEnergy;
-            OnMaxEnergy?.Invoke();
+            _onMaxEnergy?.Invoke();
         }
 
         OnEnergyChanged?.Invoke();
-        OnGainEnergy?.Invoke();
+        _onGainEnergy?.Invoke();
     }
 
     public void LoseEnergy(float energyAmount)
@@ -39,7 +44,7 @@ public class EnergySystem : MonoBehaviour
         if (_energy <= 0)
         {
             _energy = 0;
-            OnNoEnergy?.Invoke();
+            _onNoEnergy?.Invoke();
         }
 
         // To apply effect on low energy can be used later? Note: Still needs alittle edit to be used.
@@ -50,6 +55,6 @@ public class EnergySystem : MonoBehaviour
         //}
 
         OnEnergyChanged?.Invoke();
-        OnLoseEnergy?.Invoke();
+        _onLoseEnergy?.Invoke();
     }
 }

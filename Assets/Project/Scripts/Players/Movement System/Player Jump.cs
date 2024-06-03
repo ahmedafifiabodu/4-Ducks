@@ -11,13 +11,13 @@ public class PlayerJump : MonoBehaviour
     private int jumpCount = 0;
 
     [Header("Jump")]
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float jumpDuration = 1f;
+    [SerializeField] private float jumpHeight = 3f;
+    [SerializeField] private float jumpDuration = 0.5f;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float maxVelocity = 10f;
-    [SerializeField] private float maxForce = 20f;
+    [SerializeField] private float maxForce = 15f;
     private float VelocityNode;
 
     [Header("CatAnimation")]
@@ -26,7 +26,7 @@ public class PlayerJump : MonoBehaviour
     private int JumpAnimationId;
 
     [Header("Ground Detection")]
-    [SerializeField] private float groundCheckDistanceNormal = 1f;
+    [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     private void Awake()
     {
@@ -52,6 +52,13 @@ public class PlayerJump : MonoBehaviour
 
     private void Jump()
     {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal))
+        {
+            if (hit.distance < groundCheckDistanceNormal)
+            {
+                jumpCount = 0;
+            }
+        }
         if (jumpCount < 2)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
@@ -61,6 +68,7 @@ public class PlayerJump : MonoBehaviour
             Logging.Log("Jumping");
         }
     }
+
 
     private void ApplyGravity()
     {
@@ -76,14 +84,6 @@ public class PlayerJump : MonoBehaviour
         if (rb.velocity.magnitude > maxForce)
         {
             rb.velocity = rb.velocity.normalized * maxForce;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            jumpCount = 0;
         }
     }
 

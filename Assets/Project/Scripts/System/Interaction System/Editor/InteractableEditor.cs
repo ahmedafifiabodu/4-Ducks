@@ -31,6 +31,13 @@ public class InteractableEditor : Editor
         if (!interactProperty.boolValue)
             EditorGUILayout.PropertyField(autoInteractProperty);
 
+        // Draw the _useParticleEffect field
+        EditorGUILayout.PropertyField(so.FindProperty("_useParticleEffect"));
+
+        // If _useParticleEffect is true, draw the _interactionParticals field
+        if (_interactable.UseParticleEffect)
+            EditorGUILayout.PropertyField(so.FindProperty("_interactionParticals"));
+
         if (autoInteractProperty.boolValue || interactProperty.boolValue)
         {
             if (interactProperty.boolValue)

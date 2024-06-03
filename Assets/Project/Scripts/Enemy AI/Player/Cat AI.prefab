@@ -588,15 +588,16 @@ GameObject:
   m_Component:
   - component: {fileID: 7046003192005060324}
   - component: {fileID: 5912106208788131342}
+  - component: {fileID: 7753273373651189965}
+  - component: {fileID: 5877960741259259042}
   - component: {fileID: 6029460376718385939}
   - component: {fileID: 553898824703700182}
   - component: {fileID: 6081779893639782550}
-  - component: {fileID: 1519892360421401789}
   - component: {fileID: 8550535525187700254}
+  - component: {fileID: 1519892360421401789}
   - component: {fileID: 8926432910016240583}
-  - component: {fileID: 7393881072680949930}
-  - component: {fileID: 7753273373651189965}
-  - component: {fileID: 5877960741259259042}
+  - component: {fileID: 3736206414553844755}
+  - component: {fileID: 7473179324611129524}
   m_Layer: 23
   m_Name: Cat AI
   m_TagString: Untagged
@@ -644,6 +645,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &7753273373651189965
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.91, z: 1}
+  m_Center: {x: 0, y: 0.98, z: 0}
+--- !u!54 &5877960741259259042
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &6029460376718385939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,29 +767,6 @@ MonoBehaviour:
   _doubleJumpForce: 10
   Gravity: {x: 0, y: -30, z: 0}
   MeshRoot: {fileID: 0}
---- !u!136 &1519892360421401789
-CapsuleCollider:
-  m_ObjectHideFlags: 8
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240391161694952614}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.37
-  m_Height: 2.01
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.04, z: 0}
 --- !u!114 &8550535525187700254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,6 +809,29 @@ MonoBehaviour:
   CheckMovementInitialOverlaps: 1
   KillVelocityWhenExceedMaxMovementIterations: 1
   KillRemainingMovementWhenExceedMaxMovementIterations: 1
+--- !u!136 &1519892360421401789
+CapsuleCollider:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.37
+  m_Height: 2.01
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.04, z: 0}
 --- !u!114 &8926432910016240583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,9 +844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30316ea8a17a94d4297f08a7409338a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerCat: 1
-  isPlayerGhost: 0
---- !u!114 &7393881072680949930
+  isCat: 1
+  isGhost: 0
+  isObject: 0
+--- !u!114 &3736206414553844755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -811,55 +861,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRadius: {fileID: 29545178596191710}
   _animator: {fileID: 5912106208788131342}
-  _health: 100
---- !u!65 &7753273373651189965
-BoxCollider:
+--- !u!114 &7473179324611129524
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240391161694952614}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1.91, z: 1}
-  m_Center: {x: 0, y: 0.98, z: 0}
---- !u!54 &5877960741259259042
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240391161694952614}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea1d6408cb783b42a983782e637814e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthMax: 0
+  _onHealthChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &243439777243332653
 GameObject:
   m_ObjectHideFlags: 0
