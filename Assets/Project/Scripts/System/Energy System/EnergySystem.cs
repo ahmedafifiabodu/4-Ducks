@@ -5,19 +5,24 @@ public class EnergySystem : MonoBehaviour
 {
     [SerializeField] private float _maxEnergy;
     [SerializeField] private float _minEnergyRange;
+    [SerializeField] private float _startEnergy;
 
-    internal UnityEvent OnEnergyChanged;
-    internal UnityEvent OnMaxEnergy;
-    internal UnityEvent OnNoEnergy;
+    public UnityEvent OnEnergyChanged;
+    public UnityEvent OnMaxEnergy;
+    public UnityEvent OnNoEnergy;
 
-    internal UnityEvent OnGainEnergy;
-    internal UnityEvent OnLoseEnergy;
+    public UnityEvent OnGainEnergy;
+    public UnityEvent OnLoseEnergy;
     //public UnityEvent OnLowEnergy;  //if needed.
 
     private float _energy = 0;
     internal float Energt => _energy;
     internal float EnergyPrecentage => (_energy / _maxEnergy);
 
+    private void Start()
+    {
+        _energy = _startEnergy;
+    }
     public void GainEnergy(float energyAmount)
     {
         _energy += energyAmount;

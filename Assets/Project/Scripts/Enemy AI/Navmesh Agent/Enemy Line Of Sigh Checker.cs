@@ -18,7 +18,6 @@ public class EnemyLineChecker : MonoBehaviour
 
     internal float FieldOfView { get => _fieldOfView; set => _fieldOfView = value; }
     internal float ColliderRadius { get => _collider.radius; set => _collider.radius = value; }
-
     internal LayerMask LineOfSightLayers { get => _lineOfSightLayers; set => _lineOfSightLayers = value; }
 
     private void Awake() => _collider = GetComponent<SphereCollider>();

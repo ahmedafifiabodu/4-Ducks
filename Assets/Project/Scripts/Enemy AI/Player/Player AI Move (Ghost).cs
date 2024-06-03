@@ -16,6 +16,7 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
 
     [Header("Floating")]
     [SerializeField] private float _floatingHeight = 1f;
+    [SerializeField] private LayerMask _floatingGroundLayer;
 
     [Header("Dash")]
     [SerializeField] private float _dashSpeed = 50f;
@@ -119,7 +120,7 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
         if (_isMoving)
         {
             _inputVector = _inputManager.GhostActions.Move.ReadValue<Vector2>();
-            _moveInputVector = new Vector3(_inputVector.x, 0, _inputVector.y);
+            _moveInputVector = new Vector3(_inputVector.y, 0, -_inputVector.x);
         }
         else
         {
@@ -148,24 +149,20 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
         }
 
         // Calculate the distance to the ground
-        if (Physics.Raycast(transform.position + Vector3.up, -Vector3.up, out RaycastHit hit))
+        if (Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, Mathf.Infinity, _floatingGroundLayer))
         {
             float distanceToGround = hit.distance;
             float desiredHeight = _floatingHeight;
 
-            Vector3 pos = transform.position;
-
-            if (distanceToGround < desiredHeight)
+            if (distanceToGround > desiredHeight)
             {
-                // If the player is below the desired height, move the player up
-                pos.y = Mathf.MoveTowards(pos.y, pos.y + (desiredHeight - distanceToGround), deltaTime * 10f);
-                _motor.SetPosition(pos);
+                // If the player is above the desired height, apply gravity
+                _motor.SetPosition(transform.position - new Vector3(0, Mathf.Abs(distanceToGround - desiredHeight), 0));
             }
-            else if (distanceToGround > desiredHeight)
+            else if (distanceToGround < desiredHeight)
             {
-                // If the player is above the desired height, move the player down
-                pos.y = Mathf.MoveTowards(pos.y, pos.y - (distanceToGround - desiredHeight), deltaTime * 2f);
-                _motor.SetPosition(pos);
+                // If the player is below the desired height, move them up
+                _motor.SetPosition(transform.position + new Vector3(0, Mathf.Abs(distanceToGround - desiredHeight), 0));
             }
         }
     }

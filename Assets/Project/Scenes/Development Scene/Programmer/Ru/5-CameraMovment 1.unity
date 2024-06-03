@@ -190,11 +190,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1044137441}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 775219347a7c666428d798eb576623bd, type: 3}
 --- !u!1001 &112231029
 PrefabInstance:
@@ -309,16 +305,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5eb80d8e62d9d145bb50fb783c0f731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PositionMode: 1
-  m_RotationMode: 0
-  m_UpdateMethod: 2
-  m_Targets:
-  - target: {fileID: 584279697}
-    weight: 1
-    radius: 0
-  - target: {fileID: 1044137440}
-    weight: 1
-    radius: 0
+  PositionMode: 1
+  RotationMode: 0
+  UpdateMethod: 2
+  Targets:
+  - Object: {fileID: 584279697}
+    Weight: 1
+    Radius: 0
+  - Object: {fileID: 0}
+    Weight: 1
+    Radius: 0
+  m_LegacyTargets: []
 --- !u!4 &533501166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3604687321537704847, guid: 2ac1d066b26a9184f9667a683620cc7b,
@@ -453,15 +450,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactableLayerMask:
-    serializedVersion: 2
-    m_Bits: 6
   _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 0
   _autoInteract: 0
   _useEvents: 0
   _promptMessage: Press E
-  _possessable: 1
-  _possessableScript: {fileID: 586672066}
 --- !u!114 &586672065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +481,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffaed31a167fac04591418c34cd43deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 5
+  _angleLimitForRotation: {x: 0, y: 0}
+  _turretThrowing: {fileID: 0}
+  _delayAfterUnpossess: 3
+  _collider: {fileID: 0}
 --- !u!1 &835977093
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,15 +534,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactableLayerMask:
-    serializedVersion: 2
-    m_Bits: 6
   _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 0
   _autoInteract: 0
   _useEvents: 0
   _promptMessage: Press E
-  _possessable: 1
-  _possessableScript: {fileID: 835977101}
 --- !u!65 &835977097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -645,6 +641,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1
+  _delayAfterUnpossess: 3
+  _collider: {fileID: 0}
 --- !u!65 &835977102
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -820,37 +818,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2644386748239876472}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1044137433 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6969748958586297785, guid: 775219347a7c666428d798eb576623bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 82741040}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1044137440 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7926554330434948859, guid: 775219347a7c666428d798eb576623bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 82741040}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1044137441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044137433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3418e1040c146f645af94cd25ecd7563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpForce: 5
-  jumpHeight: 1
-  jumpDuration: 1
-  gravity: 20
-  maxVelocity: 10
-  maxForce: 20
-  animationPlayTransition: 0.001
 --- !u!1 &1339729176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,28 +1317,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 838624838}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
+  ShowDebugText: 0
+  ShowCameraFrustum: 1
+  IgnoreTimeScale: 0
+  WorldUpOverride: {fileID: 838624838}
+  ChannelMask: -1
+  UpdateMethod: 2
+  BlendUpdateMethod: 1
+  LensModeOverride:
+    Enabled: 0
+    DefaultMode: 2
+  DefaultBlend:
+    Style: 1
+    Time: 2
+    CustomCurve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  CustomBlends: {fileID: 0}
 --- !u!1001 &1902672270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1777,7 +1742,10 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 511287927}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6563130361913427757, guid: 2ac1d066b26a9184f9667a683620cc7b, type: 3}
+    - {fileID: 2772859652691571422, guid: 2ac1d066b26a9184f9667a683620cc7b, type: 3}
+    - {fileID: 586856451253760977, guid: 2ac1d066b26a9184f9667a683620cc7b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
