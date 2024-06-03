@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CutOutObject : MonoBehaviour
@@ -36,7 +34,7 @@ public class CutOutObject : MonoBehaviour
             Material[] _materials = _hitGhostObjects[i].transform.GetComponent<Renderer>().materials;
             for (int j = 0; j < _materials.Length; j++)
             {
-                _materials[j].SetVector("_Player2Position", _cutOutCatPos);
+                _materials[j].SetVector("_Player2Position", _cutOutGhostPos);
             }
         }
     }
