@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MusicArea
+{
+    Room1 = 0,
+    enemyArea = 1,
+}
 public class MusicChangeTrigger : MonoBehaviour
 {
     [Header("Area")]
     [SerializeField] private MusicArea area;
 
-    AudioSystemFMOD _audioSystem;
+    private AudioSystemFMOD _audioSystem;
 
     private void Start()
     {
