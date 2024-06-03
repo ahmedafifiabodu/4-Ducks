@@ -31,7 +31,7 @@ public class FadingEffect : MonoBehaviour
         _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
         _texture.Apply();
     }
-    public void OnGUI()
+    private void OnGUI()
     {
         if (_alpha > 0) GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), _texture);
         if (_direction != 0)
