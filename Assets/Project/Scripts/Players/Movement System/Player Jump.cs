@@ -8,18 +8,16 @@ public class PlayerJump : MonoBehaviour
     private Action<InputAction.CallbackContext> _jumpAction;
 
     private Rigidbody rb;
-    public RaycastHit hit;
+    private int jumpCount = 0;
 
     [Header("Jump")]
-    // [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float jumpDuration = 1f;
-    private bool canJump = true;
+    [SerializeField] private float jumpHeight = 3f;
+    [SerializeField] private float jumpDuration = 0.5f;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 9.81f;
     [SerializeField] private float maxVelocity = 10f;
-    [SerializeField] private float maxForce = 20f;
+    [SerializeField] private float maxForce = 15f;
     private float VelocityNode;
 
     [Header("CatAnimation")]
@@ -28,8 +26,7 @@ public class PlayerJump : MonoBehaviour
     private int JumpAnimationId;
 
     [Header("Ground Detection")]
-    [SerializeField] private float groundCheckDistanceNormal = 1f;
-    private float checkDistance;
+    [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     private void Awake()
     {
@@ -51,20 +48,27 @@ public class PlayerJump : MonoBehaviour
     {
         ApplyGravity();
         LimitVelocity();
-        GroundDetection();
     }
 
     private void Jump()
     {
-        if (canJump)
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal))
+        {
+            if (hit.distance < groundCheckDistanceNormal)
+            {
+                jumpCount = 0;
+            }
+        }
+        if (jumpCount < 2)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);
-            canJump = false;
+            jumpCount++;
             Logging.Log("Jumping");
         }
     }
+
 
     private void ApplyGravity()
     {
@@ -80,18 +84,6 @@ public class PlayerJump : MonoBehaviour
         if (rb.velocity.magnitude > maxForce)
         {
             rb.velocity = rb.velocity.normalized * maxForce;
-        }
-    }
-
-    private void GroundDetection()
-    {
-        checkDistance = groundCheckDistanceNormal;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, checkDistance))
-        {
-            if (hit.distance < checkDistance)
-            {
-                canJump = true;
-            }
         }
     }
 

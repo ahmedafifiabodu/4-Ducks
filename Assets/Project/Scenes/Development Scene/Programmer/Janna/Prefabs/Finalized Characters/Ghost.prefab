@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 8448172865554593710}
   - component: {fileID: 529965462445945398}
   - component: {fileID: 2770843592439170102}
+  - component: {fileID: 9050803877534638232}
   m_Layer: 23
   m_Name: Ghost
   m_TagString: Untagged
@@ -540,8 +541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCat: 0
-  smooth: 2
-  Speed: 5
+  smooth: 5
+  Speed: 8
   rotationSpeed: 8
 --- !u!65 &3116327563657526055
 BoxCollider:
@@ -618,9 +619,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectWall:
     serializedVersion: 2
-    m_Bits: 0
-  dashSpeed: 10
-  dashDistance: 10
+    m_Bits: 16384
+  dashSpeed: 50
+  dashDistance: 5
 --- !u!114 &529965462445945398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,9 +634,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30316ea8a17a94d4297f08a7409338a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerCat: 0
-  isPlayerGhost: 1
+  isCat: 0
+  isGhost: 1
+  isObject: 0
 --- !u!114 &2770843592439170102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802464884941218806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4637d17138467c948b27e2faf7b5f0b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9050803877534638232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

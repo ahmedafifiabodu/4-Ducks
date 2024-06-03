@@ -101,7 +101,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -124,6 +124,8 @@ GameObject:
   - component: {fileID: 4200895875142380481}
   - component: {fileID: 6213479105064145167}
   - component: {fileID: 3631552942849859692}
+  - component: {fileID: 3180900318655794295}
+  - component: {fileID: 8683396936032767528}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -141,7 +143,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.480672, y: 1.13, z: 5.397236}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1593848183747454687}
@@ -177,7 +179,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 27215d76d030abc4398fb9e463cda8d1, type: 2}
+  - {fileID: 2100000, guid: 9a54b9b672f247645869633f3b5b0519, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -231,7 +233,7 @@ Rigidbody:
   m_GameObject: {fileID: 3892446785065049416}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -244,7 +246,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -285,4 +287,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCat: 0
   smooth: 5
-  Speed: 8
+  Speed: 15
+  rotationSpeed: 10
+--- !u!114 &3180900318655794295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3892446785065049416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3504434d1dda33b4d95df05a58c07692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ascendingSpeed: 3
+--- !u!114 &8683396936032767528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3892446785065049416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e0fcfa93f58ad845acf529f9f705e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectWall:
+    serializedVersion: 2
+    m_Bits: 16384
+  dashSpeed: 50
+  dashDistance: 5
