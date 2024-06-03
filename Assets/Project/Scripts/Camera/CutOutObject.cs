@@ -19,20 +19,20 @@ public class CutOutObject : MonoBehaviour
         Vector3 _ghostOffest = _ghostTransform.position - transform.position;
 
         RaycastHit[] _hitCatObjects = Physics.RaycastAll(transform.position, _catOffest, _catOffest.magnitude, _obstaclesMask);
-        RaycastHit[] _hitGhostObjects = Physics.RaycastAll(transform.position, _catOffest, _ghostOffest.magnitude, _obstaclesMask);
+        RaycastHit[] _hitGhostObjects = Physics.RaycastAll(transform.position, _ghostOffest, _ghostOffest.magnitude, _obstaclesMask);
 
-        for(int i =0; i< _hitCatObjects.Length; i++)
+        for(int i =0; i< _hitCatObjects.Length; ++i)
         {
             Material[] _materials  = _hitCatObjects[i].transform.GetComponent<Renderer>().materials;
-            for(int j = 0; j < _materials.Length;j++)
+            for(int j = 0; j < _materials.Length;++j)
             {
                 _materials[j].SetVector("_Player1Position", _cutOutCatPos);
             }
         }
-        for (int i = 0; i < _hitGhostObjects.Length; i++)
+        for (int i = 0; i < _hitGhostObjects.Length; ++i)
         {
             Material[] _materials = _hitGhostObjects[i].transform.GetComponent<Renderer>().materials;
-            for (int j = 0; j < _materials.Length; j++)
+            for (int j = 0; j < _materials.Length; ++j)
             {
                 _materials[j].SetVector("_Player2Position", _cutOutGhostPos);
             }
