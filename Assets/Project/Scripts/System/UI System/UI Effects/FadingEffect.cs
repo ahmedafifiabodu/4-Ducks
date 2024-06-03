@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class FadingEffect : MonoBehaviour
 {
-    [SerializeField] private float _fadingSpeed = 1.0f;
+    [SerializeField] private float _fadingSpeed = 0.5f;
     [SerializeField] private Color _fadeColor = Color.black;
-    [SerializeField] private AnimationCurve _fadeCurve = new AnimationCurve(new Keyframe(0, 1), new Keyframe(0.5f, 0.5f, 1.5f, 1.5f), new Keyframe(1, 0));
+    [SerializeField] private AnimationCurve _fadeCurve;
 
     private float _alpha = 0;
     private Texture2D _texture;
