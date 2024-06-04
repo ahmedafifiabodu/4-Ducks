@@ -83,7 +83,7 @@ public class MoveableObject : MonoBehaviour, IPossessable
         if (_isPossessed && _isMoving)
         {
             Vector2 inputVector = _inputManager.PossessMovableObjectActions.Move.ReadValue<Vector2>();
-            Vector3 movement = _speed * Time.deltaTime * new Vector3(inputVector.x, 0, inputVector.y);
+            Vector3 movement = _speed * Time.deltaTime * new Vector3(-inputVector.y, 0, inputVector.x);
             transform.Translate(movement, Space.World);
         }
     }
