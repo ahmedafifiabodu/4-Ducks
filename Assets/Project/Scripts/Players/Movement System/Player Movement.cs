@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private EventInstance PlayerFootSteps;
 
     private AudioSystemFMOD AudioSystem;
-    private FMODEvents FmodSystemn;
+    private FMODEvents FmodSystem;
 
     #endregion Parameters
 
@@ -85,9 +85,9 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     private void Start()
     {
         AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
+        FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
 
-        PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystemn.PlayerSteps);
+        PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystem.PlayerSteps);
     }
 
     private void OnDisable()
