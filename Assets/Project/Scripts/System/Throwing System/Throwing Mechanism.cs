@@ -36,13 +36,11 @@ public class ThrowingMechanism : MonoBehaviour
 
     [Header("Audio")]
     protected AudioSystemFMOD AudioSystem;
-    protected FMODEvents FmodSystem;
 
 
     private void Start()
     {
         AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
     }
 
     // Called when the object is enabled

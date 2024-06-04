@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioSystemFMOD : MonoBehaviour
 {
-    private FMODEvents FmodSystemn;
+    private FMODEvents fmodSystem;
     private EventInstance musicEventInstance;
 
     #region Volume Control
@@ -21,6 +21,7 @@ public class AudioSystemFMOD : MonoBehaviour
 
     public float MusicVolume { get => musicVolume; set => musicVolume = value; }
     public float SfxVolume { get => sfxVolume; set => sfxVolume = value; }
+    public FMODEvents FmodSystem => fmodSystem;
 
     #endregion
 
@@ -35,8 +36,8 @@ public class AudioSystemFMOD : MonoBehaviour
 
     private void Start()
     {
-        FmodSystemn = ServiceLocator.Instance.GetService<FMODEvents>();
-        InitializeMusic(FmodSystemn.Music);
+        fmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
+        InitializeMusic(FmodSystem.Music);
     }
 
     private void Update()

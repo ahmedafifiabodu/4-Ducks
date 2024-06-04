@@ -22,7 +22,7 @@ public class TurretThrowing : ThrowingMechanism
     {
         initialVelocity = _currentVelocity * 4 * transform.forward;
 
-        AudioSystem.PlayerShooting(FmodSystem.TurretShoot, this.gameObject.transform.position);
+        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.TurretShoot, this.gameObject.transform.position);
 
         base.Throw();
     }

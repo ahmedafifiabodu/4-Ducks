@@ -45,7 +45,7 @@ public class CatThrowing : ThrowingMechanism
 
         base.Throw();
 
-        AudioSystem.PlayerShooting(FmodSystem.CatShoot , this.gameObject.transform.position);
+        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot , this.gameObject.transform.position);
 
         // Play the attack animation
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);
