@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 370223878}
   - component: {fileID: 370223876}
   - component: {fileID: 370223875}
-  - component: {fileID: 370223874}
   m_Layer: 6
   m_Name: 3
   m_TagString: Untagged
@@ -156,33 +155,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 896518917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &370223874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370223872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a14f62889ae475e448470ed1fae5adfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 370223876}
-        m_TargetAssemblyTypeName: Coin, Assembly-CSharp
-        m_MethodName: CollectCoin
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &370223875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,12 +167,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 0
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 0
-  _useEvents: 1
+  _useEvents: 0
   _promptMessage: press e
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!114 &370223876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,12 +575,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 0
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
   _useEvents: 1
   _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!114 &1493453470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,12 +794,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 0
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
   _useEvents: 1
   _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!114 &1619593566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,12 +876,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 0
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 0
   _useEvents: 1
   _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!65 &2026688408
 BoxCollider:
   m_ObjectHideFlags: 0
