@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3102650021736398137
+--- !u!114 &-1412011178260213754
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,24 +20,38 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: e27de5ec690783c478f614e3abbaffcb,
+  m_Name: Unity Toon V2 - bee
+  m_Shader: {fileID: -6465566751694194690, guid: de95bb0e2f05dfe498aa55175f922c97,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: _Ripple_Color
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 1a0d20a2eb3dc9141ac5b92be62bd4c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Seethrough_0ae3a4b2f0cd4d67a549047c40e06845_Texture2D_1249608993_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,48 +66,33 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - LIGHTMAP: 0
     - _AlphaClip: 1
-    - _AlphaToMask: 0
-    - _BUILTIN_QueueControl: -1
-    - _BUILTIN_QueueOffset: 0
+    - _AlphaToMask: 1
     - _Blend: 0
-    - _BlendModePreserveSpecular: 1
     - _CastShadows: 1
+    - _Circle_Area: 0.33
+    - _Circle_Opacity: 1
     - _Cull: 2
-    - _DstBlend: 10
-    - _Foam_Offset: 0.17
-    - _Metallic: 0.828
-    - _Normal_Speed: 0.05
-    - _Normal_Strength: 0.08
+    - _DstBlend: 0
+    - _Edge_Smoothness: 0.004
+    - _LightProbeContribution: 2.51
+    - _OutlineDepthSensitivity: 0.381
+    - _OutlineNormalsSensitivity: 0.555
+    - _OutlineThickness: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
-    - _Ripple_Disolve: 5.42
-    - _Ripple_Scale: 3.55
-    - _Ripple_Speed: 0.67
-    - _Smoothness: 1
+    - _Smoothness: 0.197
     - _SrcBlend: 1
-    - _Surface: 1
-    - _WorkflowMode: 1
+    - _Surface: 0
     - _ZTest: 4
-    - _ZWrite: 0
-    - _ZWriteControl: 0
+    - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
-    - _BaseColor: {r: 0.13484512, g: 0.34744996, b: 0.6679245, a: 0}
-    - _Normal_Speed: {r: 0.06, g: 0.08, b: 0, a: 0}
-    - _Ripple_Color: {r: 0.20846044, g: 1.0877435, b: 2.166354, a: 0}
+    - _MainColor: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Player_Position: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &1607866510052047660
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 0

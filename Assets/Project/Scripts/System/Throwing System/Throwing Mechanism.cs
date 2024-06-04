@@ -34,6 +34,15 @@ public class ThrowingMechanism : MonoBehaviour
 
     protected Vector3 startingVelocity; // Starting velocity for the throw
 
+    [Header("Audio")]
+    protected AudioSystemFMOD AudioSystem;
+
+
+    private void Start()
+    {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+    }
+
     // Called when the object is enabled
     protected virtual void OnEnable()
     {
