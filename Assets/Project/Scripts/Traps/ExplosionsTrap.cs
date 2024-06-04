@@ -10,7 +10,7 @@ public class ExplosionsTrap : Interactable
         base.Interact(_objectType);
         if (_objectType.gameObject.TryGetComponent<HealthSystem>(out HealthSystem Damaged))
         {
-            //Logging.Log(Damaged.name);
+            Logging.Log(Damaged.name);
             //Explosion.SetActive(true);
             Damaged.TakeDamage(10f);
         }

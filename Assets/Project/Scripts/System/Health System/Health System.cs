@@ -28,7 +28,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
     public void TakeDamage(float damageAmount)
     {
         _health -= damageAmount; // Reduce the health by the damage amount.
-        Logging.Log(_health);
         // If the health drops to 0 or below, invoke the _onDeath event.
         if (_health <= 0)
         {

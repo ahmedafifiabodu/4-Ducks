@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 
 public class CatThrowing : ThrowingMechanism
@@ -9,6 +10,7 @@ public class CatThrowing : ThrowingMechanism
     private int AttackAnimationId; // ID for the attack animation
     private float animationPlayTransition = 0.001f; // Transition time for the animation
 
+ 
     // Called when the object is enabled
     protected override void OnEnable()
     {
@@ -27,6 +29,7 @@ public class CatThrowing : ThrowingMechanism
     {
         base.OnDisable();
 
+        //CatShootingSFX.stop(STOP_MODE.ALLOWFADEOUT);
         // Remove the input actions
         _inputManager.CatActions.Throw.started -= _startThrowAction;
         _inputManager.CatActions.Throw.canceled -= _endThrowAction;
@@ -41,6 +44,8 @@ public class CatThrowing : ThrowingMechanism
             initialVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
 
         base.Throw();
+
+        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot , this.gameObject.transform.position);
 
         // Play the attack animation
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);
