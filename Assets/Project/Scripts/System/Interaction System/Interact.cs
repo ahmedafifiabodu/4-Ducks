@@ -112,7 +112,10 @@ public class Interact : MonoBehaviour
 
         currentInteractable.RemoveOutline();
 
-        _playerUI.DisablePromptText();
+        if (_playerUI != null)
+        {
+            _playerUI.DisablePromptText();
+        }
         currentInteractable = null;
     }
 
