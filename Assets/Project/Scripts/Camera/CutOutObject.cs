@@ -1,77 +1,81 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+using System.Collections.Generic; // Required for using List
 
 public class CutOutObject : MonoBehaviour
 {
-    [SerializeField] Transform _catTransform;
-    [SerializeField] Transform _ghostTransform;
-    [SerializeField] LayerMask _obstaclesMask;
+    [SerializeField] private Transform _catTransform;
+    [SerializeField] private Transform _ghostTransform;
+    [SerializeField] private LayerMask _obstaclesMask;
     private Camera _camera;
 
-    private Material[] _cutoutMat;
-    private bool _needResetPos1;
-    private bool _needResetPos2;
-    RaycastHit[] __hitObjects;
+    private List<Renderer> _hitCatRenderers = new List<Renderer>();
+    private List<Renderer> _hitGhostRenderers = new List<Renderer>();
+
     private void Start()
     {
         _camera = ServiceLocator.Instance.GetService<CameraInstance>().Camera;
     }
+
     private void Update()
     {
         Vector2 _cutOutCatPos = _camera.WorldToViewportPoint(_catTransform.position);
         Vector2 _cutOutGhostPos = _camera.WorldToViewportPoint(_ghostTransform.position);
 
-        Vector3 _catOffest = _catTransform.position - transform.position;
-        Vector3 _ghostOffest = _ghostTransform.position - transform.position;
+        Vector3 _catOffset = _catTransform.position - transform.position;
+        Vector3 _ghostOffset = _ghostTransform.position - transform.position;
 
-       
-        RaycastHit[] _hitCatObjects = Physics.RaycastAll(transform.position, _catOffest, _catOffest.magnitude, _obstaclesMask);
-        RaycastHit[] _hitGhostObjects = Physics.RaycastAll(transform.position, _ghostOffest, _ghostOffest.magnitude, _obstaclesMask);
+        RaycastHit[] _hitCatObjects = Physics.RaycastAll(transform.position, _catOffset, _catOffset.magnitude, _obstaclesMask);
+        RaycastHit[] _hitGhostObjects = Physics.RaycastAll(transform.position, _ghostOffset, _ghostOffset.magnitude, _obstaclesMask);
 
-        if(_hitCatObjects.Length > 0)
+        if (_hitCatObjects.Length > 0)
         {
-            if(!_needResetPos1) _needResetPos1 = true;
-            SetMaterialPosition(_hitCatObjects, "_Player1Position", _cutOutCatPos);
+            SetMaterialPosition(_hitCatObjects, "_Player1Size", "_Player1Position", _cutOutCatPos, _hitCatRenderers);
         }
+        else if(_hitCatRenderers.Count > 0)
+        {
+            Logging.Log("Test Cat Reset");
+            ResetMaterialsPosition("_Player1Size", _hitCatRenderers);
+        }
+
         if (_hitGhostObjects.Length > 0)
         {
-            if (!_needResetPos1) _needResetPos2 = true;
-            SetMaterialPosition(_hitGhostObjects, "_Player2Position", _cutOutGhostPos);
+            SetMaterialPosition(_hitGhostObjects, "_Player2Size", "_Player2Position", _cutOutGhostPos, _hitGhostRenderers);
         }
-        // the point is _hit always saves the objects of ghost only try to use events to invoke it.
-        if (_needResetPos1)
+        else if(_hitGhostRenderers.Count > 0)
         {
-            ResetMaterialsPosition("_Player1Position");
-            _needResetPos1 = false;
-        }
-        if (_needResetPos2)
-        {
-            ResetMaterialsPosition("_Player2Position");
-            _needResetPos2 = false;
+            ResetMaterialsPosition("_Player2Size", _hitGhostRenderers);
         }
     }
-    private void SetMaterialPosition(RaycastHit[] _hitObjects, string _matParamenter ,Vector2 _cutPos)
-    {
 
-        __hitObjects = _hitObjects;
-        for (int i = 0; i < _hitObjects.Length; ++i)
+    private void SetMaterialPosition(RaycastHit[] _hitObjects, string _matSizeParameter, string _matPositionParameter, Vector2 _cutPos, List<Renderer> renderersList)
+    {
+        foreach (RaycastHit hit in _hitObjects)
         {
-            _cutoutMat = _hitObjects[i].transform.GetComponent<Renderer>().materials;
-            for (int j = 0; j < _cutoutMat.Length; ++j)
+            Renderer hitRenderer = hit.transform.GetComponent<Renderer>();
+            if (!renderersList.Contains(hitRenderer))
             {
-                _cutoutMat[j].SetVector(_matParamenter, _cutPos);
+                renderersList.Add(hitRenderer);
+            }
+            Material[] _cutoutMat = hitRenderer.materials;
+            foreach (Material mat in _cutoutMat)
+            {
+                mat.SetFloat(_matSizeParameter, 0.55f);
+                mat.SetVector(_matPositionParameter, _cutPos);
             }
         }
     }
-    private void ResetMaterialsPosition(string _matParamenter)
+
+    private void ResetMaterialsPosition(string _matParameter, List<Renderer> renderersList)
     {
-        for (int i = 0; i < __hitObjects.Length; ++i)
+        foreach (Renderer renderer in renderersList)
         {
-            _cutoutMat = __hitObjects[i].transform.GetComponent<Renderer>().materials;
-            for (int j = 0; j < _cutoutMat.Length; ++j)
+            Material[] _cutoutMat = renderer.materials;
+            foreach (Material mat in _cutoutMat)
             {
-                _cutoutMat[j].SetVector(_matParamenter, Vector3.zero);
+                mat.SetFloat(_matParameter, 0);
             }
         }
+        renderersList.Clear(); // Clear the list after resetting the materials
     }
 }
+
