@@ -59,7 +59,7 @@ public class CutOutObject : MonoBehaviour
             Material[] _cutoutMat = hitRenderer.materials;
             foreach (Material mat in _cutoutMat)
             {
-                mat.SetFloat(_matSizeParameter, 0.75f);
+                mat.SetFloat(_matSizeParameter, 0.55f);
                 mat.SetVector(_matPositionParameter, _cutPos);
             }
         }

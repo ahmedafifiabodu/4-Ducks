@@ -11,6 +11,6 @@ public class CameraInstance : MonoBehaviour
     {
         _serviceLocator = ServiceLocator.Instance;
         _serviceLocator.RegisterService<CameraInstance>(this, true);
-      //  _camera = GetComponent<Camera>();
+        _camera = GetComponent<Camera>();
     }
 }
