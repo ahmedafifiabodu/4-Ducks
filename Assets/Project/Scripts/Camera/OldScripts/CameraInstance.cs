@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraInstance : MonoBehaviour
 {
     private ServiceLocator _serviceLocator;
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
     public Camera Camera => _camera;
     private void Awake()
     {
