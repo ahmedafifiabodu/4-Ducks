@@ -5,12 +5,12 @@ using UnityEngine;
 public class CameraInstance : MonoBehaviour
 {
     private ServiceLocator _serviceLocator;
-    private Camera _camera;
+    [SerializeField] private Camera _camera;
     public Camera Camera => _camera;
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
         _serviceLocator.RegisterService<CameraInstance>(this, true);
-        _camera = GetComponent<Camera>();
+      //  _camera = GetComponent<Camera>();
     }
 }
