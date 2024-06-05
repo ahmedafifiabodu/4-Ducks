@@ -30,25 +30,25 @@ public class CutOutObject : MonoBehaviour
 
         if(_hitCatObjects.Length > 0)
         {
-            if(!_needResetPos1) _needResetPos1 = true;
+           // if(!_needResetPos1) _needResetPos1 = true;
             SetMaterialPosition(_hitCatObjects, "_Player1Position", _cutOutCatPos);
         }
         if (_hitGhostObjects.Length > 0)
         {
-            if (!_needResetPos1) _needResetPos2 = true;
+           // if (!_needResetPos1) _needResetPos2 = true;
             SetMaterialPosition(_hitGhostObjects, "_Player2Position", _cutOutGhostPos);
         }
         // the point is _hit always saves the objects of ghost only try to use events to invoke it.
-        if (_needResetPos1)
-        {
-            ResetMaterialsPosition("_Player1Position");
-            _needResetPos1 = false;
-        }
-        if (_needResetPos2)
-        {
-            ResetMaterialsPosition("_Player2Position");
-            _needResetPos2 = false;
-        }
+        //if (_needResetPos1)
+        //{
+        //    ResetMaterialsPosition("_Player1Position");
+        //    _needResetPos1 = false;
+        //}
+        //if (_needResetPos2)
+        //{
+        //    ResetMaterialsPosition("_Player2Position");
+        //    _needResetPos2 = false;
+        //}
     }
     private void SetMaterialPosition(RaycastHit[] _hitObjects, string _matParamenter ,Vector2 _cutPos)
     {
