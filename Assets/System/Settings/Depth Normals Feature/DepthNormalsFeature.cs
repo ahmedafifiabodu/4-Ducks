@@ -12,7 +12,7 @@ public class DepthNormalsFeature : ScriptableRendererFeature
         private RTHandle depthAttachmentHandle;
         private int tempRTId;
 
-        internal RenderTextureDescriptor descriptor { get; private set; }
+        internal RenderTextureDescriptor Descriptor { get; private set; }
 
         private Material depthNormalsMaterial = null;
         private FilteringSettings m_FilteringSettings;
@@ -30,13 +30,13 @@ public class DepthNormalsFeature : ScriptableRendererFeature
             this.depthAttachmentHandle = depthAttachmentHandle;
             baseDescriptor.colorFormat = RenderTextureFormat.ARGB32;
             baseDescriptor.depthBufferBits = kDepthBufferBits;
-            descriptor = baseDescriptor;
+            Descriptor = baseDescriptor;
         }
 
         public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
         {
             tempRTId = Shader.PropertyToID(depthAttachmentHandle.name);
-            cmd.GetTemporaryRT(tempRTId, descriptor, FilterMode.Point);
+            cmd.GetTemporaryRT(tempRTId, Descriptor, FilterMode.Point);
             ConfigureTarget(depthAttachmentHandle);
             ConfigureClear(ClearFlag.All, Color.black);
         }
