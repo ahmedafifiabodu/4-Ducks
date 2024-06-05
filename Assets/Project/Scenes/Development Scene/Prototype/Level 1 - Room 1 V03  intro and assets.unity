@@ -7296,6 +7296,8 @@ MonoBehaviour:
   _autoInteract: 1
   _useEvents: 1
   _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!111 &521038144
 Animation:
   m_ObjectHideFlags: 0
@@ -9829,12 +9831,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20230301
+  m_LegacyPriority: 0
   m_LookAt: {fileID: 1194281038}
   m_Follow: {fileID: 1194281038}
   m_Lens:
@@ -9844,17 +9847,30 @@ MonoBehaviour:
     FarClipPlane: 5000
     Dutch: 0
     ModeOverride: 0
-    LensShift: {x: 0, y: 0}
     GateFit: 2
-    FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
+    LensShift: {x: 0, y: 0}
+    FocusDistance: 10
+    Iso: 200
+    ShutterSpeed: 0.005
+    Aperture: 16
+    BladeCount: 5
+    Curvature: {x: 2, y: 11}
+    BarrelClipping: 0.25
+    Anamorphism: 0
+  BlendHint: 0
+  m_OnCameraLiveEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ExcludedPropertiesInInspector:
+  - m_Script
+  m_LockStageInInspector: 
+  m_LegacyTransitions:
     m_BlendHint: 0
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-  m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1104451394}
 --- !u!114 &859697195
 MonoBehaviour:
@@ -12073,7 +12089,7 @@ BoxCollider:
   m_Center: {x: -0.569048, y: 0.44420955, z: 0.21356201}
 --- !u!1 &1104451393
 GameObject:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12091,7 +12107,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1104451394
 Transform:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12106,7 +12122,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1104451396
 MonoBehaviour:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -12128,7 +12144,7 @@ MonoBehaviour:
   m_AngularDamping: 0
 --- !u!114 &1104451397
 MonoBehaviour:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -15125,12 +15141,12 @@ PrefabInstance:
     - target: {fileID: 1546195432490259103, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
       propertyPath: sfxVolume
-      value: 0.283
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 1546195432490259103, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
       propertyPath: musicVolume
-      value: 0.183
+      value: 0.82
       objectReference: {fileID: 0}
     - target: {fileID: 5209050279115428631, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
@@ -21692,6 +21708,8 @@ MonoBehaviour:
   _autoInteract: 1
   _useEvents: 1
   _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
 --- !u!111 &1918231181
 Animation:
   m_ObjectHideFlags: 0

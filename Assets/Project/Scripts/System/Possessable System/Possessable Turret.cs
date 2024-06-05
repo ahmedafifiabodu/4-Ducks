@@ -113,7 +113,7 @@ public class PossessableTurret : MonoBehaviour, IPossessable
         if (_isPossessed && _inputVector != Vector2.zero)
         {
             // Calculate the rotation amount based on the input vector and the rotation speed
-            Vector3 rotationAmount = rotationSpeed * Time.deltaTime * new Vector3(_inputVector.y, _inputVector.x, 0);
+            Vector3 rotationAmount = rotationSpeed * Time.deltaTime * new Vector3(-_inputVector.y, _inputVector.x, 0);
 
             // Add the rotation amount to the current rotation
             currentRotation += rotationAmount;

@@ -12,8 +12,6 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] private GameObject _hasDataContent;
 
     [SerializeField] private TMPro.TextMeshProUGUI _percentageComplete;
-    [SerializeField] private TMPro.TextMeshProUGUI _DeathCount;
-
     [Header("Clear Button")]
     [SerializeField] private Button _clearButton;
 
@@ -43,7 +41,7 @@ public class SaveSlot : MonoBehaviour
         _clearButton.interactable = true;
 
         _percentageComplete.text = gameData.PercentageComplete() + "% Complete";
-        _DeathCount.text = "Death Count: " + gameData._deathCount;
+    
     }
 
     public string GetProfileID() => _profileID;
