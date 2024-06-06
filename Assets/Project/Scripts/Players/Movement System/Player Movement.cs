@@ -25,8 +25,11 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     [Header("Movement")]
     [SerializeField] private float Speed = 4f;
-
     [SerializeField] private float rotationSpeed = 0.5f;
+    [SerializeField] private float stepHeight = 0.3f;
+    [SerializeField] private float stepSmooth = 0.2f; 
+    [SerializeField] private float rayLength = 1f;
+    [SerializeField] private float startRay = 0.1f;
     private Vector2 input;
     private bool isMoving;
 
@@ -44,7 +47,6 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator = GetComponent<Animator>();
 
         RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
-        //RunAnimationIdY = Animator.StringToHash(GameConstant.CatAnimation.VerticalMove);
     }
 
     private void OnEnable()
@@ -119,22 +121,24 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void Move()
     {
-        Vector3 forward = transform.forward;
-        //Vector3 right = transform.right;
-        Vector3 forwardMovement = forward.normalized * input.y;
-        //Vector3 rotationDirection = right.normalized * input.x;
+        Vector3 rayOrigin = transform.position + Vector3.up * startRay;
+        Vector3 rayDirection = transform.forward;
 
-        // Vector3 inputDirection = (right * input.x + forward * input.y).normalized;
+        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        if (MathF.Abs(input.x) != 0)
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
-            transform.forward = Quaternion.Euler(0, input.x, 0) * transform.forward;
-            /*            Quaternion targetRotation = transform.forward * Quaternion.Euler(0, input.x, 0);
-                            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, rotationSpeed * Time.deltaTime);*/
+            if (hit.point.y - transform.position.y > 0.1f && hit.point.y - transform.position.y < stepHeight)
+            {
+                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
+                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
+            }
         }
 
-        // Move in the input direction
-        Vector3 newVelocity = forwardMovement * Speed;
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+
+        Vector3 newVelocity = transform.forward * Speed;
         newVelocity.y = rb.velocity.y;
         rb.velocity = newVelocity;
 
@@ -143,29 +147,13 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private void Animate(Vector2 input)
     {
-        /*if (Math.Abs(p_anim - input.x) < 0.1f)
-            p_anim = input.x;*/
-
         if (p_anim < input.x || p_anim >= input.x)
         {
             p_anim += Time.deltaTime * smooth;
         }
 
-        /*if (Math.Abs(p_animVerical - input.y) < 0.1f)
-            p_animVerical = input.y;
-
-        if (p_animVerical < input.y || p_animVerical >= input.y)
-        {
-            p_animVerical += Time.deltaTime * smooth;
-            Logging.Log("Forward ?? ");
-        }*/
-
-        // Clamp p_anim to be between 0 and 0.5
         p_anim = Mathf.Clamp(p_anim, 0.0f, 0.25f);
-        //p_animVerical = Mathf.Clamp(p_animVerical, 0.0f, 0.5f);
-
         _animator.SetFloat(RunAnimationId, p_anim);
-        //_animator.SetFloat(RunAnimationIdY, p_animVerical);
     }
 
     private System.Collections.IEnumerator StopMoveSmoothly()
@@ -177,16 +165,12 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         {
             float value = Mathf.Lerp(1, 0, elapsedTime / duration);
             _animator.SetFloat(RunAnimationId, value);
-            //_animator.SetFloat(RunAnimationIdY, value);
-
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         _animator.SetFloat(RunAnimationId, 0);
-        //_animator.SetFloat(RunAnimationIdY, 0);
         p_anim = 0;
-        //p_animVerical = 0;
     }
 
     public void LoadGame(GameData _gameData)
