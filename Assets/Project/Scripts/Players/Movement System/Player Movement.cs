@@ -13,34 +13,33 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private InputManager _inputManager;
     private Rigidbody rb;
-    private Animator _animator;
+    private Camera mainCamera;
     [SerializeField] private bool isCat;
+    [SerializeField] private float gravity = -9.81f;
 
     [Header("CatAnimation")]
     [SerializeField] private float smooth = 5f;
-
+    private Animator _animator;
     private int RunAnimationId;
     private float p_anim;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
     [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float stepHeight = 0.5f;
-    [SerializeField] private float stepSmooth = 15f;
-    [SerializeField] private float rayLength = 2f;
+
+    [Header ("Steps")]
     [SerializeField] private float startRay = 0.2f;
+    [SerializeField] private float rayLength = 2f;
+    [SerializeField] private float stepSmooth = 15f;
+    [SerializeField] private float stepHeight = 0.5f;
     [SerializeField] private float maxClimbHeight = 0.3f;
-    [SerializeField] private float gravity = -9.81f;
     private Vector2 input;
     private bool isMoving;
 
     [Header("Audio")]
     private EventInstance PlayerFootSteps;
-
     private AudioSystemFMOD AudioSystem;
     private FMODEvents FmodSystem;
-
-    private Camera mainCamera;
 
     #endregion Parameters
 
@@ -121,14 +120,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
 
             Move();
+            Steps();
         }
     }
 
-    private void Move()
+    private void Steps()
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = transform.forward;
-
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
         bool stepDetected = false;
@@ -143,12 +142,14 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
                 stepDetected = true;
             }
         }
-
         if (!stepDetected)
         {
             rb.AddForce(Vector3.up * gravity);
         }
+    }
 
+    private void Move()
+    {
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
