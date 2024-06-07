@@ -11669,8 +11669,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719792386}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.098471746, y: 0.799614, z: -0.13660091, w: 0.57642084}
-  m_LocalPosition: {x: -118.01894, y: -18.403225, z: -27.108707}
+  m_LocalRotation: {x: 0.36360103, y: -0.25282747, z: 0.103217565, w: 0.8906283}
+  m_LocalPosition: {x: -57.334423, y: -3.6010008, z: -31.139864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34193,18 +34193,43 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: Speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: isCat
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
-      propertyPath: stepHeight
+      propertyPath: startRay
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: rayLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: stepHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: stepSmooth
-      value: 0.2
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: maxClimbHeight
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2915603517287071764, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
@@ -34213,13 +34238,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: Speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: startRay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rayLength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: stepHeight
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
       propertyPath: stepSmooth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: maxClimbHeight
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056184456468019072, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: m_Drag
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9030050484029896948, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}

@@ -165,18 +165,48 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: Speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: isCat
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: inputX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: startRay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rayLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: stepHeight
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
       propertyPath: stepSmooth
-      value: 0.2
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224943455318452193, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: maxClimbHeight
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2915603517287071764, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
@@ -185,18 +215,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
+      propertyPath: Speed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: startRay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rayLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
       propertyPath: stepHeight
-      value: 5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
       propertyPath: stepSmooth
-      value: 0.2
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166668690764738500, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: maxClimbHeight
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6484829326335419862, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
+        type: 3}
+      propertyPath: m_Drag
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9030050484029896948, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 5.4
       objectReference: {fileID: 0}
     - target: {fileID: 9030050484029896948, guid: a376b77c8fad7bb4bbc8b3ac0b725b51,
         type: 3}
@@ -326,7 +386,7 @@ Transform:
   m_GameObject: {fileID: 206423091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.71, y: 1.1800001, z: 1.8799984}
+  m_LocalPosition: {x: -2.71, y: 1.1200001, z: 1.8799984}
   m_LocalScale: {x: 13.945816, y: 0.2061419, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1434,7 +1494,7 @@ Transform:
   m_GameObject: {fileID: 1138294869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.71, y: 0.83, z: 0.76}
+  m_LocalPosition: {x: -2.71, y: 0.77, z: 0.76}
   m_LocalScale: {x: 13.945816, y: 0.2061419, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1844,7 +1904,7 @@ Transform:
   m_GameObject: {fileID: 1411030334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.71, y: 0.7, z: 0.27}
+  m_LocalPosition: {x: -2.71, y: 0.64, z: 0.27}
   m_LocalScale: {x: 13.945816, y: 0.2061419, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2127,7 +2187,7 @@ Transform:
   m_GameObject: {fileID: 1677165163}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.71, y: 0.99, z: 1.3}
+  m_LocalPosition: {x: -2.71, y: 0.93, z: 1.3}
   m_LocalScale: {x: 13.945816, y: 0.2061419, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2466,10 +2526,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCat: 1
   smooth: 5
-  Speed: 15
+  Speed: 4
   rotationSpeed: 8
   stepHeight: 0.2
   stepSmooth: 0.1
+  rayLength: 1
+  startRay: 0.1
+  maxClimbHeight: 0.5
+  gravity: -9.81
 --- !u!65 &1844659715
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2636,8 +2700,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1546195432490259103, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
+      propertyPath: sfxVolume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546195432490259103, guid: abadadb1a53338d4eba304827c2cb902,
+        type: 3}
       propertyPath: musicVolume
-      value: 0.007
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5209050279115428631, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
@@ -9553,8 +9622,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7327639987062377806}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10539519, y: -0.013123807, z: 0.0013910503, w: 0.99434286}
-  m_LocalPosition: {x: 7.938734, y: 7.1298075, z: -59.849823}
+  m_LocalRotation: {x: 0.29393277, y: -0.17422077, z: 0.054580644, w: 0.93822795}
+  m_LocalPosition: {x: 11.792278, y: 16.294147, z: -61.524055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22958,6 +23027,10 @@ MonoBehaviour:
   rotationSpeed: 0.5
   stepHeight: 0.2
   stepSmooth: 0.1
+  rayLength: 1
+  startRay: 0.1
+  maxClimbHeight: 0.5
+  gravity: -9.81
 --- !u!1 &7327639987062377806
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using FMOD.Studio;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour, IDataPersistence
 {
@@ -16,20 +17,20 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
     [SerializeField] private bool isCat;
 
     [Header("CatAnimation")]
-    [SerializeField] private float smooth = 5;
+    [SerializeField] private float smooth = 5f;
 
     private int RunAnimationId;
-    private int RunAnimationIdY;
     private float p_anim;
-    private float p_animVerical;
 
     [Header("Movement")]
-    [SerializeField] private float Speed = 4f;
-    [SerializeField] private float rotationSpeed = 0.5f;
-    [SerializeField] private float stepHeight = 0.3f;
-    [SerializeField] private float stepSmooth = 0.2f; 
-    [SerializeField] private float rayLength = 1f;
-    [SerializeField] private float startRay = 0.1f;
+    [SerializeField] private float Speed = 15f;
+    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float stepHeight = 0.5f;
+    [SerializeField] private float stepSmooth = 15f;
+    [SerializeField] private float rayLength = 2f;
+    [SerializeField] private float startRay = 0.2f;
+    [SerializeField] private float maxClimbHeight = 0.3f;
+    [SerializeField] private float gravity = -9.81f;
     private Vector2 input;
     private bool isMoving;
 
@@ -38,6 +39,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
     private AudioSystemFMOD AudioSystem;
     private FMODEvents FmodSystem;
+
+    private Camera mainCamera;
 
     #endregion Parameters
 
@@ -90,6 +93,8 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
 
         PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystem.PlayerSteps);
+
+        mainCamera = Camera.main;
     }
 
     private void OnDisable()
@@ -126,21 +131,42 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
 
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
+        bool stepDetected = false;
+
         if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
-            if (hit.point.y - transform.position.y > 0.1f && hit.point.y - transform.position.y < stepHeight)
+            float heightDifference = hit.point.y - transform.position.y;
+            if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
                 Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
                 rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
+                stepDetected = true;
             }
         }
 
-        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(input.x, 0f, input.y));
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        if (!stepDetected)
+        {
+            rb.AddForce(Vector3.up * gravity);
+        }
 
-        Vector3 newVelocity = transform.forward * Speed;
-        newVelocity.y = rb.velocity.y;
-        rb.velocity = newVelocity;
+        Vector3 cameraForward = mainCamera.transform.forward;
+        cameraForward.y = 0;
+        cameraForward.Normalize();
+        Vector3 cameraRight = mainCamera.transform.right;
+        cameraRight.y = 0;
+        cameraRight.Normalize();
+
+        Vector3 moveDirection = (cameraForward * input.y + cameraRight * input.x).normalized;
+
+        if (moveDirection.magnitude >= 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            Vector3 newVelocity = moveDirection * Speed;
+            newVelocity.y = rb.velocity.y;
+            rb.velocity = newVelocity;
+        }
 
         Animate(input);
     }
@@ -156,7 +182,7 @@ public class PlayerMovement : MonoBehaviour, IDataPersistence
         _animator.SetFloat(RunAnimationId, p_anim);
     }
 
-    private System.Collections.IEnumerator StopMoveSmoothly()
+    private IEnumerator StopMoveSmoothly()
     {
         float elapsedTime = 0f;
         float duration = 0.2f;
