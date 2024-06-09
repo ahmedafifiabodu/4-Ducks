@@ -35,6 +35,49 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
   - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+--- !u!114 &-4659198548520585706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2107e0e8dbd574a4dbc01fad97d36302, type: 3}
+  m_Name: CustomPostProcessRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  m_bloomShader: {fileID: 4800000, guid: 5f1864addb451f54bae8c86d230f736e, type: 3}
+  m_compsiteShader: {fileID: -6465566751694194690, guid: 71c99b49678624444aa4e15f25b50a68,
+    type: 3}
+  m_bloomMaterial: {fileID: 0}
+  m_compositeMaterial: {fileID: 0}
+  m_customPass:
+    <renderPassEvent>k__BackingField: 300
+    m_ColorStoreActions: 0000000000000000000000000000000000000000000000000000000000000000
+    m_DepthStoreAction: 0
+    m_OverriddenColorStoreActions: 
+    m_OverriddenDepthStoreAction: 0
+    <overrideCameraTarget>k__BackingField: 0
+    <isBlitRenderPass>k__BackingField: 0
+    <useNativeRenderPass>k__BackingField: 1
+    <renderPassQueueIndex>k__BackingField: -1
+    <renderTargetFormat>k__BackingField: 0000000000000000000000000000000000000000000000000000000000000000
+    m_InputAttachmentIsTransient: 
+    m_Input: 0
+    m_ClearFlag: 0
+    m_ClearColor:
+      r: 0
+      g: 0
+      b: 0
+      a: 1
+    m_bloomMaterial: {fileID: 0}
+    m_compositeMaterial: {fileID: 0}
+    _BloomMipMap: 7107000072070000730700007407000075070000760700007707000078070000790700007a0700007b0700007c0700007d0700007e0700007f07000080070000
+    _BloomMipDown: a2060000a4060000a6060000a8060000aa060000ac060000ae060000b0060000b2060000b4060000b6060000b8060000ba060000bc060000be060000c0060000
+    hdrFormat: 74
+    m_BloomEffect: {fileID: 0}
 --- !u!114 &-1642872224311495146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,29 +91,6 @@ MonoBehaviour:
   m_Name: OutlineFeature
   m_EditorClassIdentifier: 
   m_Active: 1
---- !u!114 &-695717379679815573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1614fc811f8f184697d9bee70ab9fe5, type: 3}
-  m_Name: DecalRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 0
-  m_Settings:
-    technique: 0
-    maxDrawDistance: 1000
-    decalLayers: 1
-    dBufferSettings:
-      surfaceData: 2
-    screenSpaceSettings:
-      normalBlend: 0
-  m_CopyDepthPS: {fileID: 4800000, guid: d6dae50ee9e1bfa4db75f19f99355220, type: 3}
-  m_DBufferClear: {fileID: 4800000, guid: f056d8bd2a1c7e44e9729144b4c70395, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,8 +126,7 @@ MonoBehaviour:
   - {fileID: 5493083952908396344}
   - {fileID: -5040953499215908517}
   - {fileID: 7543271115171979553}
-  - {fileID: -695717379679815573}
-  m_RendererFeatureMap: 38e78066c05a3b4c5b31f92580ef0aba21614a001d15af686b781eb0ba5058f6
+  m_RendererFeatureMap: 38e78066c05a3b4c5b31f92580ef0aba21614a001d15af68
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -189,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
   m_Name: FullScreenPassRendererFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   passMaterial: {fileID: 2100000, guid: a7d1a51a91c0e2d4aad49517b4e702ed, type: 2}
   injectionPoint: 600
   requirements: 4

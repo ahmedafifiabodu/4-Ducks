@@ -1,7 +1,16 @@
 #ifndef CUSTOM_LIGHTING_INCLUDED
 #define CUSTOM_LIGHTING_INCLUDED
 
-void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
+Texture2D _RampTexture;
+SamplerState sampler_RampTexture;
+
+// Function to sample ramp texture based on light intensity
+float3 SampleRampTexture(float intensity)
+{
+    return _RampTexture.Sample(sampler_RampTexture, float2(intensity, 0.5)).rgb;
+}
+
+void MainLight_float(float3 WorldPos, float3 WorldNormal, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
 {
 #if SHADERGRAPH_PREVIEW
     Direction = float3(0.5, 0.5, 0);
@@ -20,6 +29,17 @@ void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, ou
     Color = mainLight.color;
     DistanceAtten = mainLight.distanceAttenuation;
     ShadowAtten = mainLight.shadowAttenuation;
+
+    // Ensure WorldNormal is normalized
+    float3 normal = normalize(WorldNormal);
+    float3 lightDir = normalize(Direction);
+    float intensity = saturate(dot(normal, lightDir));
+    
+    // Sample the ramp texture
+    float3 rampColor = SampleRampTexture(intensity);
+
+    // Modify the main light color with the ramp color
+    Color *= rampColor;
 #endif
 }
 
