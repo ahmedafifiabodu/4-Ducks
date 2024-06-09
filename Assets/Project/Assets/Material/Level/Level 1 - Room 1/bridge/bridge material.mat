@@ -26,7 +26,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 99223b4841bf0a749acfcad04aa9d86d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 97c83149718ad6e4d940d6eb280d75f8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -50,6 +50,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 97c83149718ad6e4d940d6eb280d75f8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
         m_Texture: {fileID: 2800000, guid: 99223b4841bf0a749acfcad04aa9d86d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -65,7 +69,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_ee0fcdee668f4b56beee9e829146535c_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Shadow_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Toon_Ramp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -104,8 +124,11 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _Rim_Amount: 0.878
+    - _Rim_Theshhold: 0.1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -115,10 +138,20 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - _Ambient_Color: {r: 0.7098039, g: 0.7098039, b: 0.7098039, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Main_Color: {r: 0.7294118, g: 0.7294118, b: 0.7294118, a: 1}
+    - _Rim_Color: {r: 8, g: 8, b: 8, a: 0}
+    - _ShadowColor: {r: 0.6784314, g: 0.6039216, b: 0.6039216, a: 1}
+    - _ShadowPatternColor: {r: 0.254902, g: 0.254902, b: 0.254902, a: 0}
+    - _ShadowTextureTill: {r: 100, g: 0, b: 0, a: 0}
+    - _ShadowTextureTilling: {r: 0, g: 0, b: 0, a: 0}
+    - _Shadow_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Shadow_Pattern_Color: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Specular_Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &127450366511090009
