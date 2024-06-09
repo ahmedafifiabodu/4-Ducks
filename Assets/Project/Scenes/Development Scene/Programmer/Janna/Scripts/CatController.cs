@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class CatController : PlayerController, IMove, IJump, IStep
 {
+    #region Parameters
+    
     private Vector2 input;
     private bool isMoving;
     private bool isJumping;
@@ -43,6 +45,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float stepHeight = 0.5f;
     [SerializeField] private float maxClimbHeight = 0.3f;
 
+    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -53,38 +56,20 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     private void Update()
     {
-        if (currentState != CatState.Jumping)
-        {
-            if (isMoving)
-            {
-                currentState = CatState.Moving;
-            }
-        }
-            switch (currentState)
-        {
-            case CatState.Moving:
-                input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
-                Move(input);
-                break;
+        input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
 
-            case CatState.Jumping:
-                if (!isJumping)
+        switch (currentState)
+        {
+            case CatState.Idle:
+                if (isMoving && input != Vector2.zero)
                 {
-                    Jump();
-                }
-                break;
-
-            case CatState.Stepping:
-                if (!isStepping)
-                {
+                    currentState = CatState.Moving;
+                    Move(input);
                     Step();
                 }
                 break;
-            default:
-                break;
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -192,15 +177,15 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public void Step()
     {
-        currentState = CatState.Stepping;
-        isStepping = true;
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = transform.forward;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
+        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
+
         bool stepDetected = false;
 
-        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
+        foreach (RaycastHit hit in hits)
         {
             float heightDifference = hit.point.y - transform.position.y;
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
@@ -208,8 +193,10 @@ public class CatController : PlayerController, IMove, IJump, IStep
                 Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
                 rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
                 stepDetected = true;
+                break;
             }
         }
+
         if (!stepDetected)
         {
             rb.AddForce(Vector3.up * gravity);
@@ -259,6 +246,5 @@ public enum CatState
 {
     Idle,
     Moving,
-    Stepping,
     Jumping
 }

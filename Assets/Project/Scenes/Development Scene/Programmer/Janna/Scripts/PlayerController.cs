@@ -3,12 +3,15 @@ using UnityEngine.InputSystem;
 
 public abstract class PlayerController : MonoBehaviour, IDataPersistence
 {
+    #region Parameters
+
     protected InputManager _inputManager;
     protected Rigidbody rb;
     protected Camera mainCamera;
     protected Animator _animator;
     [SerializeField] private bool isCat;
 
+    #endregion
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();

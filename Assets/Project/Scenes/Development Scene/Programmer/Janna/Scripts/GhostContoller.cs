@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 {
+    #region Parameters
     private Vector2 input;
     private bool isMoving;
     private bool isAscending = false;
@@ -22,7 +23,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     private float dashTime;
 
     [Header("Ascending")]
-    [SerializeField] private float ascendingSpeed = 5f;
+    [SerializeField] private float ascendingSpeed =20f;
     private float ghostDistance = 0.1f;
     [SerializeField] private float gravity = -9.81f;
     private float distanceToGround;
@@ -38,6 +39,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     private RaycastHit ishit;
     [SerializeField] private LayerMask detectWall;
 
+    #endregion
     protected override void Awake()
     {
         base.Awake();
@@ -82,7 +84,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
                 break;
 
             case GhostState.Dashing:
-                StartCoroutine(PerformDash());
+                Dash();
                 currentState = GhostState.Moving;
                 break;
         }
@@ -156,34 +158,32 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     }
 
     public void Step()
+{
+    Vector3 rayOrigin = transform.position + Vector3.up * startRay;
+    Vector3 rayDirection = transform.forward;
+    Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+    RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
+
+    bool stepDetected = false;
+
+    foreach (RaycastHit hit in hits)
     {
-        Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-        Vector3 rayDirection = transform.forward;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
-
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        bool stepDetected = false;
-
-        foreach (RaycastHit hit in hits)
+        float heightDifference = hit.point.y - transform.position.y;
+        if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
         {
-            float heightDifference = hit.point.y - transform.position.y;
-            if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
-            {
-                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
-                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
-                stepDetected = true;
-                break;
-            }
-        }
-
-        if (!stepDetected)
-        {
-            rb.AddForce(Vector3.up * gravity);
+            Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
+            rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
+            stepDetected = true;
+            break;
         }
     }
 
-
+    if (!stepDetected)
+    {
+        rb.AddForce(Vector3.up * gravity);
+    }
+}
     public void Dash()
     {
         if (canDash && !isDashing)
@@ -197,6 +197,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
         canDash = false;
         isDashing = true;
+        isMoving = true;
 
         if (Physics.Raycast(transform.position, transform.forward, out ishit, dashDistance, detectWall))
         {
@@ -214,11 +215,10 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
         if (ishit.collider != null)
         {
             SetWallTrigger(ishit.collider, false);
+
+            canDash = true;
         }
-
-        canDash = true;
     }
-
     public void SetWallTrigger(Collider wallCollider, bool isTrigger)
     {
         if (wallCollider != null)
@@ -227,7 +227,9 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
         }
     }
 
-    public void Ascend()
+
+
+public void Ascend()
     {
         rb.velocity = new Vector3(rb.velocity.x, ghostDistance * ascendingSpeed, rb.velocity.z);
     }
