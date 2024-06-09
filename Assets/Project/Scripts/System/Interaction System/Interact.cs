@@ -9,6 +9,7 @@ public class Interact : MonoBehaviour
     private InputManager _inputManager; // Reference to the InputManager
     private UISystem _playerUI; // Reference to the UISystem
     private Interactable currentInteractable; // The current interactable object
+    private CustomInteractionAnimation _customInteractionAnimation;
     private ObjectType _objectType; // The type of the player
 
     private ServiceLocator serviceLocator; // Reference to the ServiceLocator
@@ -28,10 +29,17 @@ public class Interact : MonoBehaviour
         serviceLocator = ServiceLocator.Instance;
 
         // Get the UISystem and InputManager from the ServiceLocator
-        _playerUI = serviceLocator.GetService<UISystem>();
         _inputManager = serviceLocator.GetService<InputManager>();
 
-        _playerUI.DisablePromptText();
+        if (TryGetComponent<UISystem>(out var _UISystem))
+        {
+            _playerUI = _UISystem;
+            _playerUI.DisablePromptText();
+        }
+
+        // Get the CustomInteractionAnimation component from the current interactable object
+        if (TryGetComponent<CustomInteractionAnimation>(out var animation))
+            _customInteractionAnimation = animation;
 
         // Check the player type and set up the interact action
         if (_objectType != null)
@@ -133,6 +141,13 @@ public class Interact : MonoBehaviour
                 {
                     //_audioManager.PlaySFX(_audioManager._interact);
                     hasPlayedInteractSFX = true;
+                }
+
+                // Get the CustomInteractionAnimation component from the current interactable object
+                if (_customInteractionAnimation != null)
+                {
+                    _customInteractionAnimation.StartInteractableAnimation(currentInteractable.gameObject);
+                    //_customInteractionAnimation.StartInteractAnimation(gameObject);
                 }
 
                 currentInteractable.BaseInteract(_objectType);
