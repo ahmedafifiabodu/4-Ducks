@@ -1,17 +1,21 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.Rendering;
 
 public class CatController : PlayerController, IMove, IJump, IStep
 {
     #region Parameters
-    
+
+    private Action<InputAction.CallbackContext> _jumpAction;
+
     private Vector2 input;
     private bool isMoving;
     private bool isJumping;
     private bool isStepping;
 
-    private CatState currentState;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
@@ -51,23 +55,25 @@ public class CatController : PlayerController, IMove, IJump, IStep
         base.Awake();
         JumpAnimationId = Animator.StringToHash(GameConstant.CatAnimation.IsJumping);
         RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
-        currentState = CatState.Idle;
     }
+    private void Start()
+    {
+       
+            _jumpAction = _ => Jump();
 
+    }
     private void Update()
     {
         input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
-
-        switch (currentState)
+        if (input.magnitude > 0.1f)
         {
-            case CatState.Idle:
-                if (isMoving && input != Vector2.zero)
-                {
-                    currentState = CatState.Moving;
-                    Move(input);
-                    Step();
-                }
-                break;
+            Move(input);
+        }
+        if (_inputManager.CatActions.Jump.triggered)
+        {
+            Jump();
+            isMoving = false;
+            
         }
     }
 
@@ -92,7 +98,8 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        currentState = CatState.Jumping;
+        isJumping = true;
+        isMoving= false;
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -112,7 +119,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public void Move(Vector2 input)
     {
-        currentState = CatState.Moving;
         isMoving = true;
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
@@ -148,13 +154,13 @@ public class CatController : PlayerController, IMove, IJump, IStep
         }
         if (jumpCount < 2)
         {
+            isMoving = false;
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);
             jumpCount++;
             Logging.Log("Jumping");
         }
-        currentState = CatState.Jumping;
     }
 
     public void ApplyGravity()
@@ -187,6 +193,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
         foreach (RaycastHit hit in hits)
         {
+            isStepping = true;
             float heightDifference = hit.point.y - transform.position.y;
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
@@ -241,10 +248,4 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         _gameData._playerPosition = transform.position;
     }
-}
-public enum CatState
-{
-    Idle,
-    Moving,
-    Jumping
 }

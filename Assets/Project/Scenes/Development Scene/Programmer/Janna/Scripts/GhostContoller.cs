@@ -1,17 +1,22 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using System;
 
 public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 {
     #region Parameters
+
+    private Action<InputAction.CallbackContext> _dashAction;
+    private Action<InputAction.CallbackContext> _startAscendAction;
+    private Action<InputAction.CallbackContext> _stopAscendAction;
+
     private Vector2 input;
     private bool isMoving;
     private bool isAscending = false;
     private bool canDash = true;
     private bool isDashing = false;
 
-    private GhostState currentState;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
@@ -43,53 +48,28 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     protected override void Awake()
     {
         base.Awake();
-        currentState = GhostState.Idle;
     }
-
+    private void Start()
+    {
+        _dashAction = context => Dash();
+    }
     private void Update()
     {
         input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
-
-        switch (currentState)
+        if (input.magnitude > 0.1f)
         {
-            case GhostState.Idle:
-                if (isMoving)
-                {
-                    currentState = GhostState.Moving;
-                }
-                break;
-
-            case GhostState.Moving:
-                if (input != Vector2.zero)
-                {
-                    Move(input);
-                    Step();
-                }
-                if (isAscending)
-                {
-                    currentState = GhostState.Ascending;
-                }
-                if (isDashing)
-                {
-                    currentState = GhostState.Dashing;
-                }
-                break;
-
-            case GhostState.Ascending:
-                Ascend();
-                if (!isAscending)
-                {
-                    currentState = GhostState.Moving;
-                }
-                break;
-
-            case GhostState.Dashing:
+            if (canDash && !isDashing)
+            {
                 Dash();
-                currentState = GhostState.Moving;
-                break;
+            }
+            Move(input);
         }
-
-        if (!isAscending && currentState != GhostState.Dashing)
+        
+        if (isAscending)
+        {
+            Ascend();
+        }
+        else
         {
             ApplyGravity();
         }
@@ -99,35 +79,30 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
         input = context.ReadValue<Vector2>().normalized;
         isMoving = true;
-        currentState = GhostState.Moving;
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
         isMoving = false;
         rb.velocity = Vector3.zero;
-        currentState = GhostState.Idle;
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
     {
         isDashing = true;
         Dash();
-        currentState = GhostState.Dashing;
     }
 
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = true;
-        currentState = GhostState.Ascending;
     }
 
     protected override void OnAscendCanceled(InputAction.CallbackContext context)
     {
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = false;
-        currentState = GhostState.Moving;
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
@@ -274,10 +249,3 @@ public void Ascend()
     }
 }
 
-public enum GhostState
-{
-    Idle,
-    Moving,
-    Dashing,
-    Ascending
-}
