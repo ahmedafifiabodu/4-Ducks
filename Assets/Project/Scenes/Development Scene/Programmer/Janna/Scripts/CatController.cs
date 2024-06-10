@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR.Haptics;
 using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.Rendering;
 
@@ -16,6 +17,9 @@ public class CatController : PlayerController, IMove, IJump, IStep
     private bool isJumping;
     private bool isStepping;
 
+    private float jumpTimer;
+
+    PlayerState CatState;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
@@ -58,22 +62,19 @@ public class CatController : PlayerController, IMove, IJump, IStep
     }
     private void Start()
     {
-       
-            _jumpAction = _ => Jump();
-
+        _jumpAction = _ => Jump();
     }
     private void Update()
     {
+        jumpTimer -= Time.deltaTime;
         input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
         if (input.magnitude > 0.1f)
         {
             Move(input);
         }
-        if (_inputManager.CatActions.Jump.triggered)
+        if(_inputManager.CatActions.Jump.triggered)
         {
             Jump();
-            isMoving = false;
-            
         }
     }
 
@@ -98,8 +99,9 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        isJumping = true;
-        isMoving= false;
+        Debug.Log("JUmpPerformed");
+        CatState = PlayerState.jumping;
+        jumpTimer = 2f;
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -119,6 +121,8 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public void Move(Vector2 input)
     {
+        if (CatState != PlayerState.moving)
+            return; 
         isMoving = true;
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
@@ -144,17 +148,23 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public void Jump()
     {
+        if (CatState != PlayerState.jumping)
+            return;
         isJumping = true;
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal))
+        CatState = PlayerState.moving;
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal)) // && jumpTimer <= 0)
         {
+            Debug.Log("Raycast");
             if (hit.distance < groundCheckDistanceNormal)
             {
+                Debug.Log(jumpCount);
+                CatState = PlayerState.moving;
                 jumpCount = 0;
             }
         }
         if (jumpCount < 2)
         {
-            isMoving = false;
+           // isMoving = false;
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);

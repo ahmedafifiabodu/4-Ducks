@@ -67,3 +67,7 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     public abstract void LoadGame(GameData _gameData);
     public abstract void SaveGame(GameData _gameData);
 }
+public enum PlayerState
+{
+    moving, jumping, Dashing, Ascending
+}

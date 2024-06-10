@@ -17,6 +17,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     private bool canDash = true;
     private bool isDashing = false;
 
+    PlayerState GhostState;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
@@ -58,10 +59,6 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
         input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
         if (input.magnitude > 0.1f)
         {
-            if (canDash && !isDashing)
-            {
-                Dash();
-            }
             Move(input);
         }
         
@@ -89,7 +86,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
     {
-        isDashing = true;
+        GhostState = PlayerState.Dashing;
         Dash();
     }
 
@@ -97,12 +94,14 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = true;
+        GhostState = PlayerState.Ascending;
     }
 
     protected override void OnAscendCanceled(InputAction.CallbackContext context)
     {
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = false;
+        GhostState = PlayerState.moving;
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
@@ -112,6 +111,8 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
     public void Move(Vector2 input)
     {
+        GhostState = PlayerState.moving;
+       // Step();
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
@@ -161,8 +162,12 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 }
     public void Dash()
     {
+        GhostState = PlayerState.Dashing;
+        Debug.Log( "CanDash" + canDash);
+        Debug.Log( "isdashing" +!isDashing);
         if (canDash && !isDashing)
         {
+           
             Logging.Log("Dashing");
             StartCoroutine(PerformDash());
         }
@@ -191,8 +196,9 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
         {
             SetWallTrigger(ishit.collider, false);
 
-            canDash = true;
         }
+        canDash = true;
+
     }
     public void SetWallTrigger(Collider wallCollider, bool isTrigger)
     {
@@ -206,6 +212,8 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
 public void Ascend()
     {
+        GhostState = PlayerState.Ascending;
+
         rb.velocity = new Vector3(rb.velocity.x, ghostDistance * ascendingSpeed, rb.velocity.z);
     }
     public void StartAscend()
@@ -248,4 +256,3 @@ public void Ascend()
         _gameData._playerPosition = transform.position;
     }
 }
-
