@@ -27,7 +27,5 @@ public interface IDash
 public interface IAscend
 {
     void Ascend();
-    void StartAscend();
-    void StopAscend();
     void ApplyGravity();
 }

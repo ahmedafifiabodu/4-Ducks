@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR.Haptics;
-using UnityEngine.ProBuilder.MeshOperations;
-using UnityEngine.Rendering;
 
 public class CatController : PlayerController, IMove, IJump, IStep
 {
@@ -13,11 +10,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
     private Action<InputAction.CallbackContext> _jumpAction;
 
     private Vector2 input;
-    private bool isMoving;
-    private bool isJumping;
-    private bool isStepping;
-
-    private float jumpTimer;
 
     PlayerState CatState;
 
@@ -26,14 +18,14 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Jump")]
-    [SerializeField] private float jumpHeight = 3f;
-    [SerializeField] private float jumpDuration = 0.5f;
+    [SerializeField] private float jumpHeight = 4f;
+    [SerializeField] private float jumpDuration = 0.1f;
     private int jumpCount = 0;
 
     [Header("Physics")]
-    [SerializeField] private float gravity = 9.81f;
-    [SerializeField] private float maxVelocity = 10f;
-    [SerializeField] private float maxForce = 15f;
+    [SerializeField] private float gravity = 30f;
+    [SerializeField] private float maxVelocity = 20f;
+    [SerializeField] private float maxForce = 20f;
     private float VelocityNode;
 
     [Header("CatAnimation")]
@@ -66,7 +58,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
     }
     private void Update()
     {
-        jumpTimer -= Time.deltaTime;
         input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
         if (input.magnitude > 0.1f)
         {
@@ -87,21 +78,18 @@ public class CatController : PlayerController, IMove, IJump, IStep
     protected override void OnMovePerformed(InputAction.CallbackContext context)
     {
         input = context.ReadValue<Vector2>().normalized;
-        isMoving = true;
+        CatState = PlayerState.moving;
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        isMoving = false;
         StartCoroutine(StopMoveSmoothly());
         rb.velocity = Vector3.zero;
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("JUmpPerformed");
         CatState = PlayerState.jumping;
-        jumpTimer = 2f;
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -121,9 +109,13 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public void Move(Vector2 input)
     {
+        if (stepHeight> 0.5f &&  maxClimbHeight < 0.5f)
+        {
+            Debug.Log("Step In Move");
+            Step();
+        }
         if (CatState != PlayerState.moving)
             return; 
-        isMoving = true;
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
@@ -150,11 +142,9 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         if (CatState != PlayerState.jumping)
             return;
-        isJumping = true;
         CatState = PlayerState.moving;
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal)) // && jumpTimer <= 0)
         {
-            Debug.Log("Raycast");
             if (hit.distance < groundCheckDistanceNormal)
             {
                 Debug.Log(jumpCount);
@@ -164,18 +154,15 @@ public class CatController : PlayerController, IMove, IJump, IStep
         }
         if (jumpCount < 2)
         {
-           // isMoving = false;
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
             rb.velocity = new Vector3(rb.velocity.x, VelocityNode, rb.velocity.z);
             _animator.CrossFade(JumpAnimationId, animationPlayTransition);
             jumpCount++;
-            Logging.Log("Jumping");
         }
     }
 
     public void ApplyGravity()
     {
-        isStepping = false;
         rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
     }
 
@@ -203,7 +190,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
         foreach (RaycastHit hit in hits)
         {
-            isStepping = true;
             float heightDifference = hit.point.y - transform.position.y;
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
@@ -233,7 +219,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     private IEnumerator StopMoveSmoothly()
     {
-        isMoving = false;
         float elapsedTime = 0f;
         float duration = 0.2f;
 

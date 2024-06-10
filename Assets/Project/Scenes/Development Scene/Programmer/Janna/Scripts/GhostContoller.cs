@@ -12,7 +12,6 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     private Action<InputAction.CallbackContext> _stopAscendAction;
 
     private Vector2 input;
-    private bool isMoving;
     private bool isAscending = false;
     private bool canDash = true;
     private bool isDashing = false;
@@ -24,12 +23,12 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Dashing")]
-    [SerializeField] private float dashSpeed = 50f;
-    [SerializeField] private float dashDistance = 5f;
+    [SerializeField] private float dashSpeed = 100f;
+    [SerializeField] private float dashDistance = 10f;
     private float dashTime;
 
     [Header("Ascending")]
-    [SerializeField] private float ascendingSpeed =20f;
+    [SerializeField] private float ascendingSpeed =40f;
     private float ghostDistance = 0.1f;
     [SerializeField] private float gravity = -9.81f;
     private float distanceToGround;
@@ -74,13 +73,12 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
     protected override void OnMovePerformed(InputAction.CallbackContext context)
     {
+        GhostState = PlayerState.moving;
         input = context.ReadValue<Vector2>().normalized;
-        isMoving = true;
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
-        isMoving = false;
         rb.velocity = Vector3.zero;
     }
 
@@ -106,15 +104,12 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
     {
-        // Empty implementation to satisfy the abstract method requirement
     }
 
     public void Move(Vector2 input)
     {
         if (GhostState != PlayerState.moving)
             return;
-        isMoving = true;
-       // Step();
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
@@ -166,16 +161,10 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
         if (GhostState != PlayerState.Dashing)
             return;
-        //_inputManager.GhostActions.Move.Disable();
-        isMoving = false;
         GhostState = PlayerState.Dashing;
-        Debug.Log( "CanDash" + canDash);
-        Debug.Log( "isdashing" +!isDashing);
         if (canDash && !isDashing)
         {
-            Logging.Log("Dashing");
             StartCoroutine(PerformDash());
-           // _inputManager.GhostActions.Move.Enable();
         }
     }
 
@@ -183,7 +172,6 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
         canDash = false;
         isDashing = true;
-        isMoving = true;
 
         if (Physics.Raycast(transform.position, transform.forward, out ishit, dashDistance, detectWall))
         {
@@ -213,29 +201,13 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
             wallCollider.isTrigger = isTrigger;
         }
     }
-
-
-
-public void Ascend()
+    public void Ascend()
     {
         if (GhostState != PlayerState.Ascending)
             return;
 
         rb.velocity = new Vector3(rb.velocity.x, ghostDistance * ascendingSpeed, rb.velocity.z);
-
     }
-    public void StartAscend()
-    {
-        Logging.Log("Ascend started");
-        isAscending = true;
-    }
-
-    public void StopAscend()
-    {
-        Logging.Log("Ascend stopped");
-        isAscending = false;
-    }
-
     public void ApplyGravity()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out reachedDistance))
