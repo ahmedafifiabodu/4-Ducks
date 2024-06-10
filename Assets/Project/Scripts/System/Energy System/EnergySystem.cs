@@ -11,18 +11,18 @@ public class EnergySystem : MonoBehaviour
     [SerializeField] protected UnityEvent _onNoEnergy;
     [SerializeField] protected UnityEvent _onGainEnergy;
     [SerializeField] protected UnityEvent _onLoseEnergy;
-   // [SerializeField] protected float _minEnergyRange;
-    //[SerializeField] protected UnityEvent _onLowEnergy;  //if needed.
 
+    // [SerializeField] protected float _minEnergyRange;
+    //[SerializeField] protected UnityEvent _onLowEnergy;  //if needed.
 
     protected float _energy = 0;
     internal float EnergyPrecentage => (_energy / _maxEnergy);
     internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
-    private void Start()
-    {
-        _energy = _startEnergy;
-    }
+    private void Awake() => ServiceLocator.Instance.RegisterService(this, false);
+
+    private void Start() => _energy = _startEnergy;
+
     public void GainEnergy(float energyAmount)
     {
         _energy += energyAmount;
