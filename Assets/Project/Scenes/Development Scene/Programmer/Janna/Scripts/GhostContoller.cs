@@ -192,10 +192,7 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
                 rb.velocity = newVelocity;
             }
         }
-        else
-        {
-            _animator.SetFloat(RunAnimationId, 0);
-        }
+       
     }
 
     public bool ShouldStep(Vector3 moveDirection)

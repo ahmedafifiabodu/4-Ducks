@@ -168,10 +168,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
                 rb.velocity = newVelocity;
             }
         }
-        else
-        {
-            _animator.SetFloat(RunAnimationId, 0);
-        }
+       Animate(input);
     }
 
     public bool ShouldStep(Vector3 moveDirection)
