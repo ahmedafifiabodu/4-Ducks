@@ -111,7 +111,9 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
     public void Move(Vector2 input)
     {
-        GhostState = PlayerState.moving;
+        if (GhostState != PlayerState.moving)
+            return;
+        isMoving = true;
        // Step();
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
@@ -162,14 +164,18 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 }
     public void Dash()
     {
+        if (GhostState != PlayerState.Dashing)
+            return;
+        //_inputManager.GhostActions.Move.Disable();
+        isMoving = false;
         GhostState = PlayerState.Dashing;
         Debug.Log( "CanDash" + canDash);
         Debug.Log( "isdashing" +!isDashing);
         if (canDash && !isDashing)
         {
-           
             Logging.Log("Dashing");
             StartCoroutine(PerformDash());
+           // _inputManager.GhostActions.Move.Enable();
         }
     }
 
@@ -198,7 +204,7 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
         }
         canDash = true;
-
+        GhostState = PlayerState.moving;
     }
     public void SetWallTrigger(Collider wallCollider, bool isTrigger)
     {
@@ -212,9 +218,11 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
 
 public void Ascend()
     {
-        GhostState = PlayerState.Ascending;
+        if (GhostState != PlayerState.Ascending)
+            return;
 
         rb.velocity = new Vector3(rb.velocity.x, ghostDistance * ascendingSpeed, rb.velocity.z);
+
     }
     public void StartAscend()
     {
