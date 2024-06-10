@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private ParticleSystem _interactionParticals; // Reference to the ParticleSystem component
 
     private Renderer _renderer; // Renderer used for the outline effect
+    private ObjectPool _objectPool;
 
     // Public properties for private variables
     public LayerMask LayersInteractedWith
@@ -48,6 +50,8 @@ public abstract class Interactable : MonoBehaviour
 
     // Called when the object is first initialized
     private void Awake() => Initialize(_outlineMaterial);
+
+    private void Start() => _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
     // Called when a value is changed in the Unity editor
     private void OnValidate()
@@ -141,9 +145,28 @@ public abstract class Interactable : MonoBehaviour
     // Handles interaction with the object
     protected virtual void Interact(ObjectType _objectType)
     {
-        // If the object uses particle effects, play the particle effect
+        // Play the particle effect
         if (UseParticleEffect)
-            InteractionParticals.Play();
+        {
+            // Get the particle system from the object pool
+            GameObject particleInstanceObject = _objectPool.GetPooledObject(InteractionParticals.gameObject);
+
+            // If a particle system was found in the pool
+            if (particleInstanceObject != null)
+            {
+                // Get the ParticleSystem component
+                ParticleSystem particleInstance = particleInstanceObject.GetComponent<ParticleSystem>();
+
+                // Set the position of the particle system to the ghost's position
+                particleInstance.transform.position = _objectType.transform.position;
+
+                // Play the particle system
+                particleInstance.Play();
+
+                // Set the particle system's game object to inactive after it finishes playing
+                DOVirtual.DelayedCall(particleInstance.main.duration, () => particleInstance.gameObject.SetActive(false));
+            }
+        }
 
         // Check if the object uses events for interaction
         if (_useEvents)

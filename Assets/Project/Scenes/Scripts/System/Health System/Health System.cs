@@ -22,7 +22,11 @@ public class HealthSystem : MonoBehaviour, IDamageable
     internal UnityEvent OnHealthChanged => _onHealthChanged;
 
     // Initialize the health to the maximum health when the game object awakes.
-    private void Awake() => _health = _healthMax;
+    private void Awake()
+    {
+        _health = _healthMax;
+        ServiceLocator.Instance.RegisterService(this, false);
+    }
 
     // Method to reduce the health of the game object.
     public void TakeDamage(float damageAmount)

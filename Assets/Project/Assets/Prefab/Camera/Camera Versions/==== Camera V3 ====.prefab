@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033527109997733041}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000016453622, y: -0.707107, z: 0.000000016453633, w: 0.70710665}
-  m_LocalPosition: {x: -24.109337, y: 4.9202666, z: 25.001154}
+  m_LocalRotation: {x: 0.061996493, y: -0.7043838, z: 0.061996505, w: 0.7043837}
+  m_LocalPosition: {x: -47.12433, y: 282.06912, z: -315.2967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67,11 +67,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 1
-  far clip plane: 5000
-  field of view: 80
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60.000004
   orthographic: 0
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -283,8 +283,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8604698054244917785}
   - component: {fileID: 7714484769251374947}
-  - component: {fileID: 5372971912164909893}
   - component: {fileID: 7992035869518817897}
+  - component: {fileID: 5372971912164909893}
   - component: {fileID: 6128733955373110624}
   m_Layer: 0
   m_Name: Virtual Camera
@@ -321,12 +321,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
-  m_StreamingVersion: 20170927
-  m_LegacyPriority: 10
+  m_StreamingVersion: 20230301
+  m_LegacyPriority: 0
   Target:
     TrackingTarget: {fileID: 3427874132441976672}
     LookAtTarget: {fileID: 3427874132441976672}
@@ -351,6 +351,25 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &7992035869518817897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821514163506456839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FollowOffset: {x: 0, y: 3, z: -4}
+  TrackerSettings:
+    BindingMode: 1
+    PositionDamping: {x: 1, y: 1, z: 1}
+    AngularDampingMode: 0
+    RotationDamping: {x: 0, y: 0, z: 0}
+    QuaternionDamping: 0
 --- !u!114 &5372971912164909893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,25 +399,6 @@ MonoBehaviour:
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0.108, y: 0}
   CenterOnActivate: 1
---- !u!114 &7992035869518817897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6821514163506456839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FollowOffset: {x: 0, y: 3, z: -4}
-  TrackerSettings:
-    BindingMode: 1
-    PositionDamping: {x: 1, y: 1, z: 1}
-    AngularDampingMode: 0
-    RotationDamping: {x: 0, y: 0, z: 0}
-    QuaternionDamping: 0
 --- !u!114 &6128733955373110624
 MonoBehaviour:
   m_ObjectHideFlags: 0
