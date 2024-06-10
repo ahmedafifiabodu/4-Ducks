@@ -5,13 +5,16 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image _image; // The image component of the health bar.
-    [SerializeField] private HealthSystem _healthSystem; // The health system that the health bar represents.
 
-    // When the health bar is enabled, add the UpdateHealthBar method as a listener to the OnHealthChanged event.
-    private void OnEnable() => _healthSystem.OnHealthChanged.AddListener(UpdateHealthBar);
+    private HealthSystem _healthSystem; // The health system that the health bar represents.
 
     // At the start of the game, set the fill amount of the health bar image to the health percentage of the health system.
-    private void Start() => _image.fillAmount = _healthSystem.HealthPrecentage;
+    private void Start()
+    {
+        _healthSystem = ServiceLocator.Instance.GetService<HealthSystem>();
+        _healthSystem.OnHealthChanged.AddListener(UpdateHealthBar);
+        _image.fillAmount = _healthSystem.HealthPrecentage;
+    }
 
     // Method to update the health bar.
     private void UpdateHealthBar()
