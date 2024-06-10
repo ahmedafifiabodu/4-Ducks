@@ -36,10 +36,10 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 
     [Header("Steps")]
     [SerializeField] private float startRay = 0.2f;
-    [SerializeField] private float rayLength = 1f;
-    [SerializeField] private float stepSmooth = 15f;
-    [SerializeField] private float stepHeight = 0.3f;
-    [SerializeField] private float maxClimbHeight = 0.3f;
+    [SerializeField] private float rayLength = 1.5f;
+    [SerializeField] private float stepSmooth = 20f;
+    [SerializeField] private float stepHeight = 0.4f;
+    [SerializeField] private float maxClimbHeight = 0.5f;
 
     private int RunAnimationId;
     private RaycastHit ishit;

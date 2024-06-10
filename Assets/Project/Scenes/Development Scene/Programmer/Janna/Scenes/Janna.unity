@@ -19647,6 +19647,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
+      propertyPath: isCat
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
       propertyPath: gravity
       value: -9.81
       objectReference: {fileID: 0}
@@ -19658,12 +19663,17 @@ PrefabInstance:
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
       propertyPath: rayLength
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
       propertyPath: stepHeight
-      value: 0.3
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
+      propertyPath: stepSmooth
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
@@ -19678,7 +19688,7 @@ PrefabInstance:
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
       propertyPath: maxClimbHeight
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
@@ -19822,8 +19832,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
+      propertyPath: startRay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
       propertyPath: rayLength
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
@@ -19833,7 +19848,12 @@ PrefabInstance:
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
       propertyPath: stepHeight
-      value: 0.3
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
+      propertyPath: stepSmooth
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
@@ -19844,6 +19864,11 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpDuration
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
+      propertyPath: maxClimbHeight
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8999173503170968167, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}

@@ -39,11 +39,11 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.1f;
-    [SerializeField] private float rayLength = 1f;
+    [SerializeField] private float startRay = 0.2f;
+    [SerializeField] private float rayLength = 1.5f;
     [SerializeField] private float stepSmooth = 20f;
     [SerializeField] private float stepHeight = 0.4f;
-    [SerializeField] private float maxClimbHeight = 0.3f;
+    [SerializeField] private float maxClimbHeight = 0.5f;
 
     #endregion
     protected override void Awake()
