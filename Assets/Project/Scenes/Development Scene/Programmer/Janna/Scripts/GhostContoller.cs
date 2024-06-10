@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using System;
 
-public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
+public class GhostController : PlayerController, IMove, IDash, IAscend
 {
     #region Parameters
 
@@ -106,10 +106,62 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
     {
     }
 
+    /* public void Move(Vector2 input)
+     {
+         if (GhostState != PlayerState.moving)
+             return;
+         Vector3 cameraForward = mainCamera.transform.forward;
+         cameraForward.y = 0;
+         cameraForward.Normalize();
+         Vector3 cameraRight = mainCamera.transform.right;
+         cameraRight.y = 0;
+         cameraRight.Normalize();
+
+         Vector3 moveDirection = (cameraForward * input.y + cameraRight * input.x).normalized;
+
+         if (moveDirection.magnitude >= 0.1f)
+         {
+             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+             Vector3 newVelocity = moveDirection * Speed;
+             newVelocity.y = rb.velocity.y;
+             rb.velocity = newVelocity;
+         }
+     }
+
+     public void Step()
+ {
+     Vector3 rayOrigin = transform.position + Vector3.up * startRay;
+     Vector3 rayDirection = transform.forward;
+     Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+     RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
+
+     bool stepDetected = false;
+
+     foreach (RaycastHit hit in hits)
+     {
+         float heightDifference = hit.point.y - transform.position.y;
+         if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
+         {
+             Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
+             rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
+             stepDetected = true;
+             break;
+         }
+     }
+
+     if (!stepDetected)
+     {
+         rb.AddForce(Vector3.up * gravity);
+     }
+ }*/
     public void Move(Vector2 input)
     {
         if (GhostState != PlayerState.moving)
             return;
+
         Vector3 cameraForward = mainCamera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
@@ -124,39 +176,59 @@ public class GhostController : PlayerController, IMove, IStep, IDash, IAscend
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            Vector3 newVelocity = moveDirection * Speed;
-            newVelocity.y = rb.velocity.y;
-            rb.velocity = newVelocity;
+            // Check if the player needs to step
+            if (ShouldStep(moveDirection))
+            {
+                Step();
+            }
+            else
+            {
+                Vector3 newVelocity = moveDirection * Speed;
+                newVelocity.y = rb.velocity.y;
+                rb.velocity = newVelocity;
+            }
         }
     }
 
-    public void Step()
-{
-    Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-    Vector3 rayDirection = transform.forward;
-    Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
-
-    RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-    bool stepDetected = false;
-
-    foreach (RaycastHit hit in hits)
+    private bool ShouldStep(Vector3 moveDirection)
     {
-        float heightDifference = hit.point.y - transform.position.y;
-        if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
+        Vector3 rayOrigin = transform.position + Vector3.up * startRay;
+        Vector3 rayDirection = moveDirection;
+        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
+
+        foreach (RaycastHit hit in hits)
         {
-            Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
-            rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
-            stepDetected = true;
-            break;
+            float heightDifference = hit.point.y - transform.position.y;
+            if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void Step()
+    {
+        Vector3 rayOrigin = transform.position + Vector3.up * startRay;
+        Vector3 rayDirection = transform.forward;
+        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
+
+        foreach (RaycastHit hit in hits)
+        {
+            float heightDifference = hit.point.y - transform.position.y;
+            if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
+            {
+                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
+                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth * Time.deltaTime));
+                break;
+            }
         }
     }
 
-    if (!stepDetected)
-    {
-        rb.AddForce(Vector3.up * gravity);
-    }
-}
     public void Dash()
     {
         if (GhostState != PlayerState.Dashing)
