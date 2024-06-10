@@ -189,7 +189,7 @@ Transform:
   m_GameObject: {fileID: 139460577}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.23, y: 1.62, z: 1.92}
+  m_LocalPosition: {x: 33.23, y: 1.44, z: 1.92}
   m_LocalScale: {x: 19.855, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19647,13 +19647,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
+      propertyPath: gravity
+      value: -9.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
       propertyPath: dashSpeed
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
+      propertyPath: rayLength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
+        type: 3}
       propertyPath: stepHeight
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 584313994617151193, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
@@ -19823,7 +19833,7 @@ PrefabInstance:
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}
       propertyPath: stepHeight
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7985737946682687120, guid: 0588079222ecf3e41b4a6ac595c20fd6,
         type: 3}

@@ -14,7 +14,8 @@ public interface IJump
 
 public interface IStep
 {
-    void Step();
+    void Step(Vector3 moveDirection);
+    bool ShouldStep(Vector3 moveDirection);
 }
 
 public interface IDash

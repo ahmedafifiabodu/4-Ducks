@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using System;
 
-public class GhostController : PlayerController, IMove, IDash, IAscend
+public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 {
     #region Parameters
 
@@ -36,11 +36,12 @@ public class GhostController : PlayerController, IMove, IDash, IAscend
 
     [Header("Steps")]
     [SerializeField] private float startRay = 0.2f;
-    [SerializeField] private float rayLength = 2f;
+    [SerializeField] private float rayLength = 1f;
     [SerializeField] private float stepSmooth = 15f;
-    [SerializeField] private float stepHeight = 0.5f;
+    [SerializeField] private float stepHeight = 0.3f;
     [SerializeField] private float maxClimbHeight = 0.3f;
 
+    private int RunAnimationId;
     private RaycastHit ishit;
     [SerializeField] private LayerMask detectWall;
 
@@ -176,10 +177,9 @@ public class GhostController : PlayerController, IMove, IDash, IAscend
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            // Check if the player needs to step
             if (ShouldStep(moveDirection))
             {
-                Step();
+                Step(moveDirection);
             }
             else
             {
@@ -188,9 +188,13 @@ public class GhostController : PlayerController, IMove, IDash, IAscend
                 rb.velocity = newVelocity;
             }
         }
+        else
+        {
+            _animator.SetFloat(RunAnimationId, 0);
+        }
     }
 
-    private bool ShouldStep(Vector3 moveDirection)
+    public bool ShouldStep(Vector3 moveDirection)
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = moveDirection;
@@ -209,25 +213,38 @@ public class GhostController : PlayerController, IMove, IDash, IAscend
         return false;
     }
 
-    private void Step()
+    public void Step(Vector3 moveDirection)
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-        Vector3 rayDirection = transform.forward;
+        Vector3 rayDirection = moveDirection;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        foreach (RaycastHit hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
+
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
-                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
+                Vector3 normal = hit.normal;
+                Vector3 projectedDirection = Vector3.ProjectOnPlane(rayDirection, normal);
+
+                Vector3 stepUpPosition = transform.position + projectedDirection.normalized * Speed * Time.deltaTime;
+                stepUpPosition.y = hit.point.y + stepHeight;
+
                 rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth * Time.deltaTime));
-                break;
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * gravity);
             }
         }
+        else
+        {
+            rb.AddForce(Vector3.up * gravity);
+        }
     }
+
 
     public void Dash()
     {

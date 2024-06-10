@@ -39,10 +39,10 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.2f;
-    [SerializeField] private float rayLength = 2f;
-    [SerializeField] private float stepSmooth = 15f;
-    [SerializeField] private float stepHeight = 0.5f;
+    [SerializeField] private float startRay = 0.1f;
+    [SerializeField] private float rayLength = 1f;
+    [SerializeField] private float stepSmooth = 20f;
+    [SerializeField] private float stepHeight = 0.4f;
     [SerializeField] private float maxClimbHeight = 0.3f;
 
     #endregion
@@ -140,14 +140,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 */
     public void Move(Vector2 input)
     {
-        // Check if the upcoming step needs to be handled
-        if (CheckStep())
-        {
-            Step();
-            return; // Exit the function if stepping to avoid further movement processing
-        }
-
-        // Proceed with regular movement
         if (CatState != PlayerState.moving)
             return;
 
@@ -165,18 +157,27 @@ public class CatController : PlayerController, IMove, IJump, IStep
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            Vector3 newVelocity = moveDirection * Speed;
-            newVelocity.y = rb.velocity.y;
-            rb.velocity = newVelocity;
+            if (ShouldStep(moveDirection))
+            {
+                Step(moveDirection);
+            }
+            else
+            {
+                Vector3 newVelocity = moveDirection * Speed;
+                newVelocity.y = rb.velocity.y;
+                rb.velocity = newVelocity;
+            }
         }
-
-        Animate(input);
+        else
+        {
+            _animator.SetFloat(RunAnimationId, 0);
+        }
     }
 
-    private bool CheckStep()
+    public bool ShouldStep(Vector3 moveDirection)
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-        Vector3 rayDirection = transform.forward;
+        Vector3 rayDirection = moveDirection;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
         RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
@@ -186,33 +187,42 @@ public class CatController : PlayerController, IMove, IJump, IStep
             float heightDifference = hit.point.y - transform.position.y;
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
-                return true; // Step needed
+                return true;
             }
         }
-        return false; // No step needed
+        return false;
     }
 
-    public void Step()
+    public void Step(Vector3 moveDirection)
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-        Vector3 rayDirection = transform.forward;
+        Vector3 rayDirection = moveDirection;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        foreach (RaycastHit hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
+
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
-                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
-                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
-                return; // Step executed, exit the function
+                Vector3 normal = hit.normal;
+                Vector3 projectedDirection = Vector3.ProjectOnPlane(rayDirection, normal);
+
+                Vector3 stepUpPosition = transform.position + projectedDirection.normalized * Speed * Time.deltaTime;
+                stepUpPosition.y = hit.point.y + stepHeight;
+
+                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth * Time.deltaTime));
+            }
+            else
+            {
+                rb.AddForce(Vector3.up * gravity);
             }
         }
-
-        // Apply a small upward force if no step detected to counteract gravity
-        rb.AddForce(Vector3.up * gravity);
+        else
+        {
+            rb.AddForce(Vector3.up * gravity);
+        }
     }
 
     public void Jump()
