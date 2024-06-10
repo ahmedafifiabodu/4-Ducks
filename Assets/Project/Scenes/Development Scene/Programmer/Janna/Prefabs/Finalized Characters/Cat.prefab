@@ -1454,9 +1454,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCat: 1
+  gravity: -9.81
   smooth: 5
   Speed: 4
   rotationSpeed: 0.5
+  startRay: 0.2
+  rayLength: 2
+  stepSmooth: 15
+  stepHeight: 0.5
+  maxClimbHeight: 0.3
 --- !u!114 &8930586378604248902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1520,7 +1526,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRadius: {fileID: 2582926324785055371}
   _animator: {fileID: 428854935262698580}
-  _health: 100
 --- !u!1 &465033210504334841
 GameObject:
   m_ObjectHideFlags: 0
@@ -12975,6 +12980,7 @@ GameObject:
   - component: {fileID: 6028500557348946642}
   - component: {fileID: 7749582238309400632}
   - component: {fileID: 569478216549786263}
+  - component: {fileID: 6964504290353582569}
   m_Layer: 0
   m_Name: pivot
   m_TagString: Untagged
@@ -13127,11 +13133,25 @@ MonoBehaviour:
     type: 3}
   _baseVelocity: 2
   _velocityMultiplier: 2
-  trajectoryLineRenderer: {fileID: 7749582238309400632}
+  _trajectoryLineRenderer: {fileID: 7749582238309400632}
   numPoints: 10
-  timeBetweenPoints: 0.1
+  _timeBetweenPoints: 0.1
   pointIncreaseInterval: 0.2
+  _customInteractionAnimation: {fileID: 6964504290353582569}
   _animator: {fileID: 428854935262698580}
+--- !u!114 &6964504290353582569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4910288840787499543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
 --- !u!1 &4951371342865722565
 GameObject:
   m_ObjectHideFlags: 0
