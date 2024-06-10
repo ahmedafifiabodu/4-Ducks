@@ -467,7 +467,6 @@ GameObject:
   - component: {fileID: 8448172865554593710}
   - component: {fileID: 529965462445945398}
   - component: {fileID: 2770843592439170102}
-  - component: {fileID: 9050803877534638232}
   m_Layer: 23
   m_Name: Ghost
   m_TagString: Untagged
@@ -541,9 +540,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCat: 0
+  gravity: -9.81
   smooth: 5
   Speed: 8
   rotationSpeed: 8
+  startRay: 0.2
+  rayLength: 2
+  stepSmooth: 15
+  stepHeight: 0.5
+  maxClimbHeight: 0.3
 --- !u!65 &3116327563657526055
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -638,18 +643,6 @@ MonoBehaviour:
   isGhost: 1
   isObject: 0
 --- !u!114 &2770843592439170102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802464884941218806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4637d17138467c948b27e2faf7b5f0b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9050803877534638232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

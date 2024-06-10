@@ -4,14 +4,18 @@ using UnityEngine;
 public class CustomInteractionAnimation : MonoBehaviour
 {
     [SerializeField] private float duration = 1f; // Duration of the animation
+    private Sequence sequence; // Store the sequence
 
     // Method to start the animation
-    public void StartInteractableAnimation(GameObject targetObject)
+    internal void StartInteractableAnimation(GameObject targetObject)
     {
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
         Vector3 originalScale = targetObject.transform.localScale;
 
         // Create a sequence
-        Sequence sequence = DOTween.Sequence();
+        sequence = DOTween.Sequence();
 
         // Add a scaling up tween to the sequence
         sequence.Append(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2));
@@ -26,14 +30,16 @@ public class CustomInteractionAnimation : MonoBehaviour
         sequence.Play();
     }
 
-    public void StartInteractAnimation(GameObject targetObject)
+    internal void StartCatInteractJumpingUpAnimation(GameObject targetObject)
     {
-        // Save the original position and scale
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
         Vector3 originalPosition = targetObject.transform.position;
         Vector3 originalScale = targetObject.transform.localScale;
 
         // Create a sequence
-        Sequence sequence = DOTween.Sequence();
+        sequence = DOTween.Sequence();
 
         // Add a jump tween to the sequence
         sequence.Append(targetObject.transform.DOJump(originalPosition + new Vector3(0, 1, 0), 0.5f, 1, duration / 2));
@@ -49,6 +55,32 @@ public class CustomInteractionAnimation : MonoBehaviour
 
         // Add a move back to original position tween to the sequence
         sequence.Append(targetObject.transform.DOMove(originalPosition, duration / 2));
+
+        // Start the sequence
+        sequence.Play();
+    }
+
+    public void StartDestructableObjectAnimation(GameObject targetObject)
+    {
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        if (targetObject == null)
+            targetObject = gameObject;
+
+        Vector3 originalScale = targetObject.transform.localScale;
+
+        // Create a sequence
+        sequence = DOTween.Sequence();
+
+        // Add a scaling up tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2));
+
+        // Add a scaling down tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(Vector3.zero, duration / 2));
+
+        // Add a callback to the sequence to deactivate the object when the animation is done
+        sequence.OnComplete(() => targetObject.SetActive(false));
 
         // Start the sequence
         sequence.Play();

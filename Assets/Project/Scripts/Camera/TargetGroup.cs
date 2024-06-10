@@ -1,29 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class TargetGroup : MonoBehaviour
 {
-    CinemachineTargetGroup _targetGroup;
-    ServiceLocator _serviceLocator;
-    [SerializeField] float _weight = 0.5f;
-    [SerializeField] float _radius = 1.0f;
+    [SerializeField] private float _weight = 1.0f;
+    [SerializeField] private float _radius = 0.5f;
+
+    private CinemachineTargetGroup _targetGroup;
+    private ServiceLocator _serviceLocator;
+
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService<TargetGroup>(this, true);
+        _serviceLocator.RegisterService(this, true);
     }
+
     private void Start()
     {
-        _targetGroup.GetComponent<CinemachineTargetGroup>();
-        _targetGroup.Targets.Add(new CinemachineTargetGroup.Target { 
-            Object = _serviceLocator.GetService<Cat>().gameObject.transform,
-            Weight = _weight,
-            Radius = _radius});
-        _targetGroup.Targets.Add(new CinemachineTargetGroup.Target { 
-            Object = _serviceLocator.GetService<Ghost>().gameObject.transform,
-            Weight = _weight,
-            Radius = _radius});
+        if (TryGetComponent(out _targetGroup))
+        {
+            _targetGroup.Targets.Add(new CinemachineTargetGroup.Target
+            {
+                Object = _serviceLocator.GetService<Cat>().GetTransform(),
+                Weight = _weight,
+                Radius = _radius
+            });
+
+            _targetGroup.Targets.Add(new CinemachineTargetGroup.Target
+            {
+                Object = _serviceLocator.GetService<Ghost>().GetTransform(),
+                Weight = _weight,
+                Radius = _radius
+            });
+        }
+        else
+            Logging.Log("haai i am null");
     }
 }
