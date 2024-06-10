@@ -18,6 +18,9 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 
     PlayerState GhostState;
 
+    [Header("BroadCasting")]
+    // refernce of two events 
+
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
     [SerializeField] private float rotationSpeed = 10f;
@@ -91,6 +94,7 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
+        //invoke event start ascending
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = true;
         GhostState = PlayerState.Ascending;
