@@ -6,7 +6,5 @@ public class CameraInteract : Interactable
     {
         if (_objectType.IsCat)
             base.Interact(_objectType);
-        else
-            Debug.Log("HERE");
     }
 }
