@@ -148,6 +148,9 @@ public abstract class Interactable : MonoBehaviour
         // Play the particle effect
         if (UseParticleEffect)
         {
+            if (_objectPool == null)
+                _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+
             // Get the particle system from the object pool
             GameObject particleInstanceObject = _objectPool.GetPooledObject(InteractionParticals.gameObject);
 

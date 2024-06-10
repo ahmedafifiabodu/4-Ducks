@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: eb83f8567d48dfb489307796730e1ccc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 3114894505356850453}
   - component: {fileID: 5450497696555940410}
   - component: {fileID: 2009029519282501483}
+  - component: {fileID: 679399003336916313}
   m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
@@ -301,10 +302,11 @@ MonoBehaviour:
     type: 3}
   _baseVelocity: 2
   _velocityMultiplier: 2
-  trajectoryLineRenderer: {fileID: 2009029519282501483}
+  _trajectoryLineRenderer: {fileID: 2009029519282501483}
   numPoints: 10
-  timeBetweenPoints: 0.1
+  _timeBetweenPoints: 0.1
   pointIncreaseInterval: 0.2
+  _customInteractionAnimation: {fileID: 679399003336916313}
 --- !u!120 &2009029519282501483
 LineRenderer:
   serializedVersion: 2
@@ -419,3 +421,16 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &679399003336916313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3426380814091662589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
