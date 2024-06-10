@@ -147,7 +147,9 @@ public class Interact : MonoBehaviour
                 if (_customInteractionAnimation != null)
                 {
                     _customInteractionAnimation.StartInteractableAnimation(currentInteractable.gameObject);
-                    //_customInteractionAnimation.StartInteractAnimation(gameObject);
+
+                    if (_objectType.IsCat)
+                        _customInteractionAnimation.StartCatInteractJumpingUpAnimation(gameObject);
                 }
 
                 currentInteractable.BaseInteract(_objectType);
