@@ -598,6 +598,8 @@ GameObject:
   - component: {fileID: 8926432910016240583}
   - component: {fileID: 3736206414553844755}
   - component: {fileID: 7473179324611129524}
+  - component: {fileID: 7289178378400183433}
+  - component: {fileID: 2676998547693066550}
   m_Layer: 23
   m_Name: Cat AI
   m_TagString: Untagged
@@ -689,9 +691,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!114 &6029460376718385939
 MonoBehaviour:
@@ -715,7 +717,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240391161694952614}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb910cdc9ca6bd74094162c2a14e0ad7, type: 3}
   m_Name: 
@@ -774,7 +776,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240391161694952614}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d1bc5515e3ab954e80599c538834774, type: 3}
   m_Name: 
@@ -873,7 +875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea1d6408cb783b42a983782e637814e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 0
+  _healthMax: 100
   _onHealthChanged:
     m_PersistentCalls:
       m_Calls:
@@ -894,22 +896,36 @@ MonoBehaviour:
       m_Calls: []
   _onHeal:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   _onDamageTaken:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7289178378400183433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a005c61a24d86458a5114a502923b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fallHeightDistance: 3
+--- !u!114 &2676998547693066550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240391161694952614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
 --- !u!1 &243439777243332653
 GameObject:
   m_ObjectHideFlags: 0
