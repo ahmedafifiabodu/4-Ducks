@@ -49,11 +49,9 @@ public abstract class Interactable : MonoBehaviour
     internal Material[] MaterialsWithOutline { get; private set; }
 
     // Called when the object is first initialized
-    private void Awake()
-    {
-        Initialize(_outlineMaterial);
-        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
-    }
+    private void Awake() => Initialize(_outlineMaterial);
+
+    private void Start() => _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
     // Called when a value is changed in the Unity editor
     private void OnValidate()
