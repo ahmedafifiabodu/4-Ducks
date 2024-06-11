@@ -8,23 +8,30 @@ public class SpawnSystem : MonoBehaviour
     // List of all CheckPoints in the scene
     [SerializeField] private List<CheckPoint> _checkPoints;
     [SerializeField] Transform _startcheckPoint;
-    [SerializeField] Transform _lastcheckPointReached;
+    Transform _lastcheckPointReached;
    // [SerializeField] GameObject _playersRoot;
     [SerializeField] int _playerOffset;
 
-    [SerializeField] private UnityEvent _onLastCheckPontReached;
+    [SerializeField] private UnityEvent _onLastCheckPointReached;
 
     private Transform _catTransform;
     private Transform _ghostTransform;
-    public UnityEvent OnLastCheckPontReached => _onLastCheckPontReached;
-
+    public UnityEvent OnLastCheckPointReached => _onLastCheckPointReached;
+    private void Awake()
+    {
+        ServiceLocator.Instance.RegisterService<SpawnSystem>(this, false);
+    }
     private void Start() 
     {
         _startcheckPoint = _checkPoints[0].transform; 
         _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
         _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
     }
-    private void OnEnable() => CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
+    private void OnEnable()
+    {
+        CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
+        _lastcheckPointReached = _startcheckPoint;
+    }
     private void OnDisable() => CheckPoint._onCheckPointPassed.RemoveListener(UpdateLastCheckPoint);
     private void UpdateLastCheckPoint(CheckPoint checkPoint)
     {
@@ -33,7 +40,8 @@ public class SpawnSystem : MonoBehaviour
             _lastcheckPointReached = checkPoint.transform;
             // When The last CheckPoint Of the level Reached
             if (_lastcheckPointReached.gameObject == _checkPoints[_checkPoints.Count - 1].gameObject)
-                _onLastCheckPontReached?.Invoke();
+                _onLastCheckPointReached?.Invoke();
+            checkPoint.IsPassed = true;
         }
     } 
     public void SpawnAtLastCheckPoint() => SpawnAtCheckPoint(_lastcheckPointReached);

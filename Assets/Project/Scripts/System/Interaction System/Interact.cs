@@ -31,7 +31,7 @@ public class Interact : MonoBehaviour
         // Get the UISystem and InputManager from the ServiceLocator
         _inputManager = serviceLocator.GetService<InputManager>();
 
-        if (TryGetComponent<UISystem>(out var _UISystem))
+        if (serviceLocator.TryGetService<UISystem>(out var _UISystem))
         {
             _playerUI = _UISystem;
             _playerUI.DisablePromptText();
