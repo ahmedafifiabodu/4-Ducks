@@ -13,6 +13,7 @@ public class ObjectPool : MonoBehaviour
     {
         // Register the ObjectPool as a service
         ServiceLocator.Instance.RegisterService(this, true);
+
         // Initialize the pool dictionary
         poolDictionary = new();
     }

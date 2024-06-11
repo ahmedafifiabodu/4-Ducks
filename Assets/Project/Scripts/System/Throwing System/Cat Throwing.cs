@@ -1,4 +1,3 @@
-using FMOD.Studio;
 using UnityEngine;
 
 public class CatThrowing : ThrowingMechanism
@@ -10,7 +9,6 @@ public class CatThrowing : ThrowingMechanism
     private int AttackAnimationId; // ID for the attack animation
     private float animationPlayTransition = 0.001f; // Transition time for the animation
 
- 
     // Called when the object is enabled
     protected override void OnEnable()
     {
@@ -20,8 +18,8 @@ public class CatThrowing : ThrowingMechanism
         AttackAnimationId = Animator.StringToHash(GameConstant.CatAnimation.Attacking);
 
         // Set up the input actions
-        _inputManager.CatActions.Throw.started += _startThrowAction;
-        _inputManager.CatActions.Throw.canceled += _endThrowAction;
+        InputManager.CatActions.Throw.started += StartThrowAction;
+        InputManager.CatActions.Throw.canceled += EndThrowAction;
     }
 
     // Called when the object is disabled
@@ -31,21 +29,21 @@ public class CatThrowing : ThrowingMechanism
 
         //CatShootingSFX.stop(STOP_MODE.ALLOWFADEOUT);
         // Remove the input actions
-        _inputManager.CatActions.Throw.started -= _startThrowAction;
-        _inputManager.CatActions.Throw.canceled -= _endThrowAction;
+        InputManager.CatActions.Throw.started -= StartThrowAction;
+        InputManager.CatActions.Throw.canceled -= EndThrowAction;
     }
 
     // Throw the ball
     protected override void Throw()
     {
-        if (_checkingPlayerInput)
-            initialVelocity = transform.forward * _currentVelocity;
+        if (CheckingPlayerInput)
+            InitialVelocity = transform.forward * CurrentVelocity;
         else
-            initialVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
+            InitialVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity;
 
         base.Throw();
 
-        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot , this.gameObject.transform.position);
+        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
 
         // Play the attack animation
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);
@@ -56,17 +54,17 @@ public class CatThrowing : ThrowingMechanism
     {
         Vector3[] points = new Vector3[numP];
         Vector3 startingPosition = transform.position;
-        Vector3 startingVelocity = transform.up * _currentVelocity + transform.forward * _currentVelocity;
+        Vector3 startingVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity;
 
         // Calculate the points for the trajectory
         for (int i = 0; i < numP; i++)
         {
-            float time = i * timeBetweenPoints;
+            float time = i * TimeBetweenPoints;
             points[i] = startingPosition + startingVelocity * time + time * time * Physics.gravity / 2f;
         }
 
         // Set the points for the line renderer
-        trajectoryLineRenderer.positionCount = numP;
-        trajectoryLineRenderer.SetPositions(points);
+        TrajectoryLineRenderer.positionCount = numP;
+        TrajectoryLineRenderer.SetPositions(points);
     }
 }
