@@ -8,6 +8,7 @@ public class Possess : Interactable
     [SerializeField] private MonoBehaviour _possessableScript;
 
     private InputManager _inputManager;
+    private Vector3 _originalScale;
 
     private void Start() => _inputManager = ServiceLocator.Instance.GetService<InputManager>();
 
@@ -17,6 +18,9 @@ public class Possess : Interactable
         // Check if the _ObjectType is not null and if it's a ghost
         if (_playerType != null && _playerType.IsGhost)
         {
+            // Set the original scale of the player
+            _originalScale = _playerType.transform.localScale;
+
             // Set the GhostPlayer property of the IPossessable interface to the player's game object
             _possessableScript.GetComponent<IPossessable>().GhostPlayer = _playerType.gameObject;
 
@@ -27,7 +31,7 @@ public class Possess : Interactable
             _playerType.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.2f).SetEase(Ease.InOutElastic).SetLoops(2, LoopType.Yoyo).SetDelay(0.5f).OnComplete(() =>
             {
                 // Reset the scale back to (1,1,1)
-                _playerType.transform.localScale = Vector3.one;
+                _playerType.transform.localScale = _originalScale;
 
                 // Call the Interact method of the base class
                 base.Interact(_playerType);

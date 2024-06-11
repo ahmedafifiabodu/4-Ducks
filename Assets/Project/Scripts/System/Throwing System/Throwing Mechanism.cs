@@ -7,48 +7,70 @@ public class ThrowingMechanism : MonoBehaviour
 {
     // Serialized fields that can be set in the Unity editor
     [Header("Throwing Mechanism")]
-    [SerializeField] private GameObject _ballPrefab; // Prefab for the ball
+    [SerializeField] private GameObject _ballPrefab; // Prefab for the ball to be thrown
 
-    [SerializeField] protected float _baseVelocity = 2f; // Base velocity for the throw
-    [SerializeField] protected float _velocityMultiplier = 2f; // Velocity multiplier for the throw
+    [SerializeField] private float shootDelay = 1f; // Delay between each shot in seconds
+    [SerializeField] private float _baseVelocity = 2f; // Base velocity for the throw
+    [SerializeField] private float _velocityMultiplier = 2f; // Velocity multiplier for the throw
 
     [Header("Trajectory Line Renderer")]
-    [SerializeField] protected LineRenderer trajectoryLineRenderer; // Line renderer for the trajectory
+    [SerializeField] private LineRenderer _trajectoryLineRenderer; // Line renderer for the trajectory
 
-    [SerializeField] protected int numPoints = 10; // Number of points in the trajectory
-    [SerializeField] protected float timeBetweenPoints = 0.1f; // Time between points in the trajectory
-    [SerializeField] protected float pointIncreaseInterval = 0.2f; // Interval to increase the points in the trajectory
+    [SerializeField] private int numPoints = 10; // Number of points in the trajectory
+    [SerializeField] private float _timeBetweenPoints = 0.1f; // Time between points in the trajectory
+    [SerializeField] private float pointIncreaseInterval = 0.2f; // Interval to increase the points in the trajectory
+
+    [Header("Shoot Animation")]
+    [SerializeField] private CustomInteractionAnimation _customInteractionAnimation; // Reference to the custom interaction animation
 
     private ObjectPool _objectPool; // Reference to the ObjectPool
-    protected InputManager _inputManager; // Reference to the InputManager
     private Coroutine _throwCoroutine; // Coroutine for the throw
+    private AudioSystemFMOD _audioSystem; // Reference to the AudioSystem
+    private InputManager _inputManager; // Reference to the InputManager
+    private WaitForSeconds _waitForShootDelay; // WaitForSeconds object for shoot delay
 
-    protected Action<InputAction.CallbackContext> _startThrowAction; // Action to start the throw
-    protected Action<InputAction.CallbackContext> _endThrowAction; // Action to end the throw
+    private Action<InputAction.CallbackContext> _startThrowAction; // Action to start the throw
+    private Action<InputAction.CallbackContext> _endThrowAction; // Action to end the throw
 
-    protected Vector3 initialVelocity; // Initial velocity for the throw
+    private bool _checkingPlayerInput = false; // Flag to check if the player input is being checked
+
+    private Vector3 _initialVelocity; // Initial velocity for the throw
+    private float _currentVelocity; // Current velocity for the throw
+
     private float _holdTime = 0f; // Time the throw button is held
-    protected float _currentVelocity; // Current velocity for the throw
-    internal bool _checkingPlayerInput = false; // Flag to check if the player input is being checked
     private bool _isFireKeyPressed = false; // Flag to check if the fire key is being pressed
+    private bool _canShoot = true; // Flag to check if the player can shoot
 
-    protected Vector3 startingVelocity; // Starting velocity for the throw
+    // Properties
+    protected InputManager InputManager => _inputManager; // Property for the InputManager
 
-    [Header("Audio")]
-    protected AudioSystemFMOD AudioSystem;
+    protected AudioSystemFMOD AudioSystem => _audioSystem; // Property for the AudioSystem
+    protected Action<InputAction.CallbackContext> StartThrowAction => _startThrowAction; // Property for the start throw action
+    protected Action<InputAction.CallbackContext> EndThrowAction => _endThrowAction; // Property for the end throw action
 
+    protected Vector3 InitialVelocity
+    { get => _initialVelocity; set { _initialVelocity = value; } } // Property for the initial velocity
 
-    private void Start()
-    {
-        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-    }
+    protected float CurrentVelocity
+    { get => _currentVelocity; private set { _currentVelocity = value; } } // Property for the current velocity
+
+    protected bool CheckingPlayerInput => _checkingPlayerInput;
+    protected float TimeBetweenPoints => _timeBetweenPoints; // Property for the time between points
+    protected LineRenderer TrajectoryLineRenderer => _trajectoryLineRenderer; // Property for the trajectory line renderer
 
     // Called when the object is enabled
     protected virtual void OnEnable()
     {
+        // Initialize the WaitForSeconds object
+        _waitForShootDelay = new WaitForSeconds(shootDelay);
+
         // Get the InputManager and ObjectPool from the ServiceLocator
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+
+        // Get the CustomInteractionAnimation component
+        if (_customInteractionAnimation == null)
+            _customInteractionAnimation = GetComponent<CustomInteractionAnimation>();
 
         // Initialize the actions
         _startThrowAction = context =>
@@ -69,26 +91,12 @@ public class ThrowingMechanism : MonoBehaviour
 
             if (_holdTime <= 1.0f)
             {
-                _currentVelocity = _baseVelocity * 5;
+                CurrentVelocity = _baseVelocity * 5;
                 _checkingPlayerInput = true;
             }
 
             Throw();
         };
-    }
-
-    // Called every frame
-    protected virtual void Update()
-    {
-        if (_isFireKeyPressed)
-        {
-            _holdTime += Time.deltaTime;
-            if (_holdTime > 1f)
-            {
-                _isFireKeyPressed = false;
-                _throwCoroutine = StartCoroutine(StartThrow());
-            }
-        }
     }
 
     // Called when the object is disabled
@@ -101,22 +109,38 @@ public class ThrowingMechanism : MonoBehaviour
             StopCoroutine(_throwCoroutine);
     }
 
+    private void Start() => _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>(); // Get the AudioSystem
+
+    // Called every frame
+    private void Update()
+    {
+        if (_isFireKeyPressed)
+        {
+            _holdTime += Time.deltaTime;
+            if (_holdTime > 1f)
+            {
+                _isFireKeyPressed = false;
+                _throwCoroutine = StartCoroutine(StartThrow());
+            }
+        }
+    }
+
     // Start the throw
     protected virtual IEnumerator StartThrow()
     {
-        _currentVelocity = _baseVelocity;
+        CurrentVelocity = _baseVelocity;
 
-        trajectoryLineRenderer.enabled = true;
-        trajectoryLineRenderer.positionCount = numPoints;
+        TrajectoryLineRenderer.enabled = true;
+        TrajectoryLineRenderer.positionCount = numPoints;
 
         float timer = 0f;
 
         while (true)
         {
-            _currentVelocity += _velocityMultiplier * Time.deltaTime;
+            CurrentVelocity += _velocityMultiplier * Time.deltaTime;
             timer += Time.deltaTime;
 
-            if (timer >= pointIncreaseInterval && numPoints < 50 && _currentVelocity >= 4.5)
+            if (timer >= pointIncreaseInterval && numPoints < 50 && CurrentVelocity >= 4.5)
             {
                 numPoints++;
                 timer = 0f;
@@ -135,6 +159,8 @@ public class ThrowingMechanism : MonoBehaviour
     // Throw the ball
     protected virtual void Throw()
     {
+        if (!_canShoot) return; // If the player can't shoot, return
+
         GameObject bullet = _objectPool.GetPooledObject(_ballPrefab);
 
         if (bullet != null)
@@ -143,12 +169,27 @@ public class ThrowingMechanism : MonoBehaviour
             bullet.SetActive(true);
 
             Rigidbody ballRigidbody = bullet.GetComponent<Rigidbody>();
-            ballRigidbody.velocity = initialVelocity;
+            ballRigidbody.velocity = InitialVelocity;
             _checkingPlayerInput = false;
         }
 
-        _currentVelocity = 0;
-        trajectoryLineRenderer.enabled = false;
+        CurrentVelocity = 0;
+        TrajectoryLineRenderer.enabled = false;
         numPoints = 10;
+
+        // Start the turret shoot animation with the parent's transform
+        if (_customInteractionAnimation != null)
+            _customInteractionAnimation.StartTurretShootAnimation(transform.parent);
+
+        // Start the ShootDelay coroutine
+        StartCoroutine(ShootDelay());
+    }
+
+    // Coroutine to add a delay between each shot
+    private IEnumerator ShootDelay()
+    {
+        _canShoot = false; // Set canShoot to false
+        yield return _waitForShootDelay; // Wait for shootDelay seconds
+        _canShoot = true; // Set canShoot to true
     }
 }

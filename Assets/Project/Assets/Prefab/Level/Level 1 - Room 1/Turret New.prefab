@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 1776924621867411754}
   - component: {fileID: 6182420506243276833}
   - component: {fileID: 1293644347487784323}
+  - component: {fileID: 2391778729033937534}
   m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
@@ -113,12 +114,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5345659237715865193}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.39, y: 1.33, z: 2.82}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0.000000029802322, z: 9.313226e-10, w: 1}
+  m_LocalPosition: {x: -0.38999665, y: 1.3299861, z: 2.8200045}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.49999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 4309100618525697080}
+  m_Father: {fileID: 4541708488219737044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &735803880871725874
 MeshFilter:
@@ -186,12 +187,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ballPrefab: {fileID: 7636507714296715182, guid: 1269d5acd262a184eadfd971e43cbe8d,
     type: 3}
+  shootDelay: 1
   _baseVelocity: 2
   _velocityMultiplier: 2
-  trajectoryLineRenderer: {fileID: 1293644347487784323}
+  _trajectoryLineRenderer: {fileID: 1293644347487784323}
   numPoints: 10
-  timeBetweenPoints: 0.1
+  _timeBetweenPoints: 0.1
   pointIncreaseInterval: 0.2
+  _customInteractionAnimation: {fileID: 2391778729033937534}
 --- !u!120 &1293644347487784323
 LineRenderer:
   serializedVersion: 2
@@ -306,6 +309,19 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &2391778729033937534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5345659237715865193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
 --- !u!1 &5430001200602408844
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +356,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5886055476615800175}
+  - {fileID: 6444044702158780279}
   m_Father: {fileID: 4309100618525697080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5037841876139278162
@@ -534,6 +551,5 @@ Transform:
   m_Children:
   - {fileID: 4541708488219737044}
   - {fileID: 5778549035058116310}
-  - {fileID: 6444044702158780279}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -38.417, z: 0}

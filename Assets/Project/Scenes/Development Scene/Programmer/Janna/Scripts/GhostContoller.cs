@@ -18,6 +18,9 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 
     PlayerState GhostState;
 
+    [Header("BroadCasting")]
+    // refernce of two events 
+
     [Header("Movement")]
     [SerializeField] private float Speed = 15f;
     [SerializeField] private float rotationSpeed = 10f;
@@ -35,11 +38,11 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
     private RaycastHit reachedDistance;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.2f;
+    [SerializeField] private float startRay = 0.15f;
     [SerializeField] private float rayLength = 1.5f;
-    [SerializeField] private float stepSmooth = 20f;
+    [SerializeField] private float stepSmooth = 7.3f;
     [SerializeField] private float stepHeight = 0.4f;
-    [SerializeField] private float maxClimbHeight = 0.5f;
+    [SerializeField] private float maxClimbHeight = 0.25f;
 
     private int RunAnimationId;
     private RaycastHit ishit;
@@ -91,6 +94,7 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
 
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
+        //invoke event start ascending
         isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = true;
         GhostState = PlayerState.Ascending;
@@ -188,10 +192,7 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
                 rb.velocity = newVelocity;
             }
         }
-        else
-        {
-            _animator.SetFloat(RunAnimationId, 0);
-        }
+       
     }
 
     public bool ShouldStep(Vector3 moveDirection)
