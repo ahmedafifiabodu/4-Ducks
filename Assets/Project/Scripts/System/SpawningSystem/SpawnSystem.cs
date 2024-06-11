@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEditor.FilePathAttribute;
 
 public class SpawnSystem : MonoBehaviour
 {
@@ -12,9 +13,17 @@ public class SpawnSystem : MonoBehaviour
     [SerializeField] int _playerOffset;
 
     [SerializeField] private UnityEvent _onLastCheckPontReached;
+
+    private Transform _catTransform;
+    private Transform _ghostTransform;
     public UnityEvent OnLastCheckPontReached => _onLastCheckPontReached;
 
-    private void Start() => _startcheckPoint = _checkPoints[0].transform;
+    private void Start() 
+    {
+        _startcheckPoint = _checkPoints[0].transform; 
+        _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
+        _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
+    }
     private void OnEnable() => CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
     private void OnDisable() => CheckPoint._onCheckPointPassed.RemoveListener(UpdateLastCheckPoint);
     private void UpdateLastCheckPoint(CheckPoint checkPoint)
@@ -31,7 +40,11 @@ public class SpawnSystem : MonoBehaviour
     public void SpawnAtStart() => SpawnAtCheckPoint(_startcheckPoint);
     private void SpawnAtCheckPoint(Transform _checkPoint)
     {
+        _catTransform.position = _checkPoint.position + new Vector3(_playerOffset, 0f, 0f);
+        _catTransform.rotation = _checkPoint.rotation;
 
+        _ghostTransform.position = _checkPoint.position - new Vector3(_playerOffset, 0f, 0f);
+        _ghostTransform.rotation = _checkPoint.rotation;
 
 
         //Root based logic 
