@@ -4,10 +4,11 @@ using UnityEngine.Events;
 
 public class SpawnSystem : MonoBehaviour
 {
+    // List of all CheckPoints in the scene
     [SerializeField] private List<CheckPoint> _checkPoints;
     [SerializeField] Transform _startcheckPoint;
     [SerializeField] Transform _lastcheckPointReached;
-    [SerializeField] GameObject _playersRoot;
+   // [SerializeField] GameObject _playersRoot;
     [SerializeField] int _playerOffset;
 
     [SerializeField] private UnityEvent _onLastCheckPontReached;
@@ -21,6 +22,7 @@ public class SpawnSystem : MonoBehaviour
         if (!checkPoint.IsPassed)
         {
             _lastcheckPointReached = checkPoint.transform;
+            // When The last CheckPoint Of the level Reached
             if (_lastcheckPointReached.gameObject == _checkPoints[_checkPoints.Count - 1].gameObject)
                 _onLastCheckPontReached?.Invoke();
         }
@@ -29,15 +31,20 @@ public class SpawnSystem : MonoBehaviour
     public void SpawnAtStart() => SpawnAtCheckPoint(_startcheckPoint);
     private void SpawnAtCheckPoint(Transform _checkPoint)
     {
-        foreach (Transform _player in _playersRoot.transform)
-        {
-            _player.transform.rotation = Quaternion.identity;
-            _player.transform.position = new Vector3(_playerOffset, 0, 0);
-            _playerOffset *= -1;
-        }
-        _playerOffset *= -1;
 
-        _playersRoot.transform.position = _checkPoint.position;
-        _playersRoot.transform.rotation = _checkPoint.rotation;
+
+
+        //Root based logic 
+
+        //foreach (Transform _player in _playersRoot.transform)
+        //{
+        //    _player.transform.rotation = Quaternion.identity;
+        //    _player.transform.position = new Vector3(_playerOffset, 0, 0);
+        //    _playerOffset *= -1;
+        //}
+        //_playerOffset *= -1;
+
+        //_playersRoot.transform.position = _checkPoint.position;
+        //_playersRoot.transform.rotation = _checkPoint.rotation;
     }
 }

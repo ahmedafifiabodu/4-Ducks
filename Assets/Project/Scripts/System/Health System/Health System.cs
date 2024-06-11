@@ -25,7 +25,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
     private void Awake()
     {
         _health = _healthMax;
-        ServiceLocator.Instance.RegisterService(this, false);
     }
 
     // Method to reduce the health of the game object.
