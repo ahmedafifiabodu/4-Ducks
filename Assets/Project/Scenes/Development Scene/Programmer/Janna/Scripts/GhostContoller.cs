@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using System;
 
-public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
+public class GhostController : PlayerController, IMove, IDash, IStep
 {
     #region Parameters
 
@@ -22,7 +22,7 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
     // refernce of two events 
 
     [Header("Movement")]
-    [SerializeField] private float Speed = 15f;
+    [SerializeField] private float Speed = 20f;
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Dashing")]
@@ -38,11 +38,11 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
     private RaycastHit reachedDistance;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.15f;
-    [SerializeField] private float rayLength = 1.5f;
-    [SerializeField] private float stepSmooth = 7.3f;
-    [SerializeField] private float stepHeight = 0.4f;
-    [SerializeField] private float maxClimbHeight = 0.25f;
+    [SerializeField] private float startRay = 0.5f;
+    [SerializeField] private float rayLength = 1f;
+    [SerializeField] private float stepSmooth = 20f;
+    [SerializeField] private float stepHeight = 1f;
+    [SerializeField] private float maxClimbHeight = 0.5f;
 
     private int RunAnimationId;
     private RaycastHit ishit;
@@ -141,7 +141,10 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
                 rb.velocity = newVelocity;
             }
         }
-       
+        else
+        {
+            _animator.SetFloat(RunAnimationId, 0);
+        }
     }
 
     public bool ShouldStep(Vector3 moveDirection)
@@ -150,14 +153,18 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
         Vector3 rayDirection = moveDirection;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        foreach (RaycastHit hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
+            Vector3 stepRayOrigin = rayOrigin + Vector3.up * stepHeight;
+
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
-                return true;
+                if (!Physics.Raycast(stepRayOrigin, rayDirection, out hit, rayLength))
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -194,7 +201,6 @@ public class GhostController : PlayerController, IMove, IDash, IAscend, IStep
             rb.AddForce(Vector3.up * gravity);
         }
     }
-
 
     public void Dash()
     {
