@@ -1151,7 +1151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCat: 1
-  Speed: 15
+  Speed: 20
   rotationSpeed: 10
   jumpHeight: 4
   jumpDuration: 0.1
@@ -1161,10 +1161,10 @@ MonoBehaviour:
   smooth: 5
   animationPlayTransition: 0.001
   groundCheckDistanceNormal: 0.1
-  startRay: 0.2
-  rayLength: 1.5
+  startRay: 0.1
+  rayLength: 1
   stepSmooth: 20
-  stepHeight: 0.4
+  stepHeight: 1
   maxClimbHeight: 0.5
 --- !u!1 &465980158888602553
 GameObject:
@@ -13579,6 +13579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ballPrefab: {fileID: 7636507714296715182, guid: d4b35430f9a61114681db047c2171e6b,
     type: 3}
+  shootDelay: 1
   _baseVelocity: 2
   _velocityMultiplier: 2
   _trajectoryLineRenderer: {fileID: 6855850053981197908}

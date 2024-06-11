@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using System;
 
-public class GhostController : PlayerController, IMove, IDash, IStep
+public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 {
     #region Parameters
 
@@ -95,16 +95,16 @@ public class GhostController : PlayerController, IMove, IDash, IStep
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
         //invoke event start ascending
-        isAscending = context.ReadValue<float>() > 0.1f;
+        /*isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = true;
-        GhostState = PlayerState.Ascending;
+        GhostState = PlayerState.Ascending;*/
     }
 
     protected override void OnAscendCanceled(InputAction.CallbackContext context)
     {
-        isAscending = context.ReadValue<float>() > 0.1f;
+       /* isAscending = context.ReadValue<float>() > 0.1f;
         isAscending = false;
-        GhostState = PlayerState.moving;
+        GhostState = PlayerState.moving;*/
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
