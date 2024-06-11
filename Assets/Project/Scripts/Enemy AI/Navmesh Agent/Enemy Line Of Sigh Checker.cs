@@ -6,7 +6,7 @@ public class EnemyLineChecker : MonoBehaviour
     [SerializeField] private SphereCollider _collider;
     private float _fieldOfView = 90f;
     private LayerMask _lineOfSightLayers;
-    private Cat _catInTrigger;
+    private Cat _catInTrigger; // Use Object Type Script
 
     public delegate void GainSightEvent(Cat _cat);
 
