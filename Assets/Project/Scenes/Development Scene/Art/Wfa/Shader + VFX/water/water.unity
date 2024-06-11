@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &12678157
 Light:
   m_ObjectHideFlags: 0
@@ -294,16 +294,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -3901992563441801604, guid: cfe226619ca210e4abaad42e3e623ca9,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 43d20e14e94890142ae45ad8c98d53cd, type: 2}
     - target: {fileID: 919132149155446097, guid: b91be3481f0f1c147a5a8551ffc28dfa,
         type: 3}
       propertyPath: m_Name
       value: waterfallMesh_nonStretched
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b91be3481f0f1c147a5a8551ffc28dfa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3901992563441801604, guid: cfe226619ca210e4abaad42e3e623ca9,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 43d20e14e94890142ae45ad8c98d53cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -327,7 +332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &689176614
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -435,7 +440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1003471148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -541,7 +546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1181824090
 Transform:
   m_ObjectHideFlags: 0
@@ -5381,7 +5386,7 @@ Transform:
   m_GameObject: {fileID: 1665759899}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.978944, y: -0.60332394, z: 3.4523926}
+  m_LocalPosition: {x: -57.94, y: 476.01, z: 1.0802822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5418,13 +5423,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1665912538}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 0, z: -0.049999952}
-  m_LocalScale: {x: 3.3794446, y: 3.3794446, z: 3.3794446}
+  m_LocalRotation: {x: -0, y: -0.000000014901161, z: -0, w: 1}
+  m_LocalPosition: {x: 4.033245, y: 0, z: 10.950006}
+  m_LocalScale: {x: 13.736878, y: 13.736878, z: 13.736878}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1665759900}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &1665912540
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5492,7 +5497,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: -4684948810517408689, guid: 59be822b0164f2948a24b01dfffe50e5, type: 3}
+  m_Mesh: {fileID: -4684948810517408689, guid: d85b5ecf445b7484ea131efc0441cf4b, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -10308,13 +10313,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700113240}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: -1.22, y: 0, z: 10.95}
+  m_LocalScale: {x: 6.0257087, y: 4.064833, z: 0.8229324}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1665759900}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!199 &1700113242
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -10382,7 +10387,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 7629811779324647873, guid: 4de83c00f1f2bd746a3f615f4efa9e72, type: 3}
+  m_Mesh: {fileID: 7629811779324647873, guid: 237a851a637d32f4aba7a9e12427dd34, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -15198,13 +15203,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764613766}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.5442869, z: -0, w: 0.83889914}
-  m_LocalPosition: {x: -0.12, y: 0, z: -0.17}
-  m_LocalScale: {x: 3.0721335, y: 3.0721335, z: 3.0721335}
+  m_LocalRotation: {x: -0, y: -0.20832089, z: -0, w: 0.9780606}
+  m_LocalPosition: {x: 4.521023, y: 0, z: 10.46223}
+  m_LocalScale: {x: 12.487711, y: 12.487711, z: 12.487711}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1665759900}
-  m_LocalEulerAnglesHint: {x: 0, y: 65.952, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -24.048, z: 0}
 --- !u!199 &1764613768
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -15272,7 +15277,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: -4684948810517408689, guid: 59be822b0164f2948a24b01dfffe50e5, type: 3}
+  m_Mesh: {fileID: -4684948810517408689, guid: d85b5ecf445b7484ea131efc0441cf4b, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -20088,13 +20093,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826616707}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: -1.2199998, y: 0, z: 10.95}
+  m_LocalScale: {x: 6.0257087, y: 4.064833, z: 0.8229324}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1665759900}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!199 &1826616709
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -20162,7 +20167,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 7629811779324647873, guid: 4de83c00f1f2bd746a3f615f4efa9e72, type: 3}
+  m_Mesh: {fileID: 7629811779324647873, guid: 237a851a637d32f4aba7a9e12427dd34, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -24960,6 +24965,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3901992563441801604, guid: 4de83c00f1f2bd746a3f615f4efa9e72,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 43d20e14e94890142ae45ad8c98d53cd, type: 2}
     - target: {fileID: -8679921383154817045, guid: 237a851a637d32f4aba7a9e12427dd34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25010,15 +25020,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -3901992563441801604, guid: 4de83c00f1f2bd746a3f615f4efa9e72,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 43d20e14e94890142ae45ad8c98d53cd, type: 2}
     - target: {fileID: 919132149155446097, guid: 237a851a637d32f4aba7a9e12427dd34,
         type: 3}
       propertyPath: m_Name
       value: waterfallMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 237a851a637d32f4aba7a9e12427dd34,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -25043,7 +25053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &2143203420
 AudioListener:
   m_ObjectHideFlags: 0
