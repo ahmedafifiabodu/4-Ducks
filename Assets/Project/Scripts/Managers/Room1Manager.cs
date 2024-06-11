@@ -6,15 +6,26 @@ using UnityEngine;
 public class Room1Manager : MonoBehaviour
 {
     private ServiceLocator _serviceLocator;
+    private FadingEffect _fadingEffect;
+    private SpawnSystem _spawnSystem;
+    private KeepInRange _keepInRange;
     private void Start()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.GetService<KeepInRange>().OnMaxDistanceReached += Respawn;
+        _keepInRange = _serviceLocator.GetService<KeepInRange>();
+        _fadingEffect = _serviceLocator.GetService<FadingEffect>();
+        _spawnSystem = _serviceLocator.GetService<SpawnSystem>();
+        _keepInRange.OnMaxDistanceReached += Respawn;
     }
     private void Respawn()
     {
-        _serviceLocator.GetService<FadingEffect>().FadeIn();
-        _serviceLocator.GetService<SpawnSystem>().SpawnAtLastCheckPoint();
-        _serviceLocator.GetService<FadingEffect>().FadeOut();
+        _fadingEffect.FadeIn();
+        _spawnSystem.SpawnAtLastCheckPoint();
+        _fadingEffect.FadeOut();
+        _keepInRange.ResetValues();
+    }
+    private void OnDisable()
+    {
+        _keepInRange.OnMaxDistanceReached -= Respawn;
     }
 }
