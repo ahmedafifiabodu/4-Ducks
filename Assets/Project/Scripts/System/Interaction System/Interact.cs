@@ -14,7 +14,7 @@ public class Interact : MonoBehaviour
 
     private ServiceLocator serviceLocator; // Reference to the ServiceLocator
 
-    private bool hasPlayedInteractSFX = false; // Flag to check if the interact sound effect has been played
+    private bool _hasPlayedInteractSFX = false; // Flag to check if the interact sound effect has been played
     private bool _outlineEnabled = true; // Flag to check if the outline is enabled
 
     // Property for the interactable layer mask
@@ -88,9 +88,7 @@ public class Interact : MonoBehaviour
 
             // If the interactable object does not auto interact
             if (!_interactable.AutoInteract)
-            {
                 _playerUI.UpdatePromptText(_interactable.PromptMessage);
-            }
             else
                 StartInteraction();
         }
@@ -101,29 +99,30 @@ public class Interact : MonoBehaviour
     {
         // If the other object is interactable
         if (((1 << other.gameObject.layer) & InteractableLayerMask) != 0)
-        {
-            _outlineEnabled = false;
-            if (currentInteractable != null)
-            {
-                currentInteractable.ApplyOutline(_outlineEnabled);
-            }
-            hasPlayedInteractSFX = false;
-            SetCurrentInteractableToNull();
-        }
+            ResetInteraction();
+    }
+
+    private void ResetInteraction()
+    {
+        _outlineEnabled = false;
+        _hasPlayedInteractSFX = false;
+
+        if (currentInteractable != null)
+            currentInteractable.ApplyOutline(_outlineEnabled);
+
+        SetCurrentInteractableToNull();
     }
 
     // Set the current interactable object to null
-    public void SetCurrentInteractableToNull()
+    private void SetCurrentInteractableToNull()
     {
         if (currentInteractable == null)
             return;
 
-        currentInteractable.RemoveOutline();
-
         if (_playerUI != null)
-        {
             _playerUI.DisablePromptText();
-        }
+
+        currentInteractable.RemoveOutline();
         currentInteractable = null;
     }
 
@@ -137,10 +136,10 @@ public class Interact : MonoBehaviour
 
             if (shouldInteract)
             {
-                if (!hasPlayedInteractSFX)
+                if (!_hasPlayedInteractSFX)
                 {
                     //_audioManager.PlaySFX(_audioManager._interact);
-                    hasPlayedInteractSFX = true;
+                    _hasPlayedInteractSFX = true;
                 }
 
                 // Get the CustomInteractionAnimation component from the current interactable object
@@ -155,5 +154,8 @@ public class Interact : MonoBehaviour
                 currentInteractable.BaseInteract(_objectType);
             }
         }
+
+        // Reset the interaction
+        ResetInteraction();
     }
 }
