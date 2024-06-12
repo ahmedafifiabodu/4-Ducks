@@ -7,13 +7,14 @@ public class SpawnSystem : MonoBehaviour
 {
     // List of all CheckPoints in the scene
     [SerializeField] private List<CheckPoint> _checkPoints;
-    [SerializeField] Transform _startcheckPoint;
-    Transform _lastcheckPointReached;
+    [SerializeField] CheckPoint _startcheckPoint;
    // [SerializeField] GameObject _playersRoot;
     [SerializeField] int _playerOffset;
 
     [SerializeField] private UnityEvent _onLastCheckPointReached;
 
+    private LevelVirtualCameras _levelVirtualCameras;
+    private CheckPoint _lastcheckPointReached;
     private Transform _catTransform;
     private Transform _ghostTransform;
     public UnityEvent OnLastCheckPointReached => _onLastCheckPointReached;
@@ -23,9 +24,10 @@ public class SpawnSystem : MonoBehaviour
     }
     private void Start() 
     {
-        _startcheckPoint = _checkPoints[0].transform; 
+        _startcheckPoint = _checkPoints[0]; 
         _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
         _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
+        _levelVirtualCameras = ServiceLocator.Instance.GetService<LevelVirtualCameras>();
     }
     private void OnEnable()
     {
@@ -37,7 +39,7 @@ public class SpawnSystem : MonoBehaviour
     {
         if (!checkPoint.IsPassed)
         {
-            _lastcheckPointReached = checkPoint.transform;
+            _lastcheckPointReached = checkPoint;
             // When The last CheckPoint Of the level Reached
             if (_lastcheckPointReached.gameObject == _checkPoints[_checkPoints.Count - 1].gameObject)
                 _onLastCheckPointReached?.Invoke();
@@ -46,14 +48,16 @@ public class SpawnSystem : MonoBehaviour
     } 
     public void SpawnAtLastCheckPoint() => SpawnAtCheckPoint(_lastcheckPointReached);
     public void SpawnAtStart() => SpawnAtCheckPoint(_startcheckPoint);
-    private void SpawnAtCheckPoint(Transform _checkPoint)
+    private void SpawnAtCheckPoint(CheckPoint _checkPoint)
     {
-        _catTransform.position = _checkPoint.position + new Vector3(_playerOffset, 0f, 0f);
-        _catTransform.rotation = _checkPoint.rotation;
+        _catTransform.position = _checkPoint.transform.position + new Vector3(_playerOffset, 0f, 0f);
+        _catTransform.rotation = _checkPoint.transform.rotation;
 
-        _ghostTransform.position = _checkPoint.position - new Vector3(_playerOffset, 0f, 0f);
-        _ghostTransform.rotation = _checkPoint.rotation;
+        _ghostTransform.position = _checkPoint.transform.position - new Vector3(_playerOffset, 0f, 0f);
+        _ghostTransform.rotation = _checkPoint.transform.rotation;
 
+        _levelVirtualCameras.CloseAllCamera();
+        _levelVirtualCameras.OpenCamera(_checkPoint.CamKey);
 
         //Root based logic 
 

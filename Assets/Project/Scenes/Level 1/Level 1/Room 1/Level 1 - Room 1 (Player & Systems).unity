@@ -294,23 +294,11 @@ MonoBehaviour:
   _checkPoints:
   - {fileID: 1745290535}
   - {fileID: 1537858623}
-  _startcheckPoint: {fileID: 1745290533}
+  _startcheckPoint: {fileID: 1745290535}
   _playerOffset: 2
   _onLastCheckPointReached:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2074788240}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &502172630
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945f749d000862e4a9e9ea4e22a9d261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDistance: 10
+  _maxDistance: 20
   _dangerDistance: 5
 --- !u!114 &1264001879
 MonoBehaviour:
@@ -1334,7 +1322,7 @@ Transform:
   m_GameObject: {fileID: 1537858620}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.24, y: 271.74, z: -291.42}
+  m_LocalPosition: {x: 14.7, y: 271.74, z: -272}
   m_LocalScale: {x: 1.9899, y: 9.648047, z: 31.762554}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1359,8 +1347,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.07345647, y: 1, z: 0.99999785}
+  m_Center: {x: 0.46327314, y: 0, z: 0}
 --- !u!114 &1537858623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1379,12 +1367,13 @@ MonoBehaviour:
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
-  _autoInteract: 0
+  _autoInteract: 1
   _useEvents: 0
   _promptMessage: 
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
   _checkPointId: 
+  _camKey: 2
 --- !u!1 &1745290532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 1745290532}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 63.03, y: 273.71, z: -292.31}
+  m_LocalPosition: {x: 64.93, y: 273.71, z: -292.31}
   m_LocalScale: {x: 1.9899, y: 1.9899, z: 1.9899}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1457,19 +1446,20 @@ MonoBehaviour:
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
-  _autoInteract: 0
+  _autoInteract: 1
   _useEvents: 0
   _promptMessage: 
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
   _checkPointId: 
+  _camKey: 1
 --- !u!114 &1749612626 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 285280053944263312, guid: 775219347a7c666428d798eb576623bd,
     type: 3}
   m_PrefabInstance: {fileID: 600618693}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2074788240}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 536a56baaf9ca0547a5811abd94fe896, type: 3}
@@ -1487,12 +1477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea1d6408cb783b42a983782e637814e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2074788240 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2492223023921291873, guid: 775219347a7c666428d798eb576623bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 600618693}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2089590319
 GameObject:
   m_ObjectHideFlags: 0
