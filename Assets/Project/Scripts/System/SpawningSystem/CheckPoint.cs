@@ -21,13 +21,14 @@ public class CheckPoint : Interactable, IDataPersistence
     private void GenerateID() => _checkPointId = System.Guid.NewGuid().ToString();
     public void LoadGame(GameData _gameData)
     { 
-        _gameData._checkPointPassed.TryGetValue(_checkPointId, out _isPassed);
+        _gameData._checkPointPassed.TryGetValue(_checkPointId, out CheckPoint _chPoint);
+        ServiceLocator.Instance.GetService<SpawnSystem>().LastcheckPointReached = _chPoint;
     }
     public void SaveGame(GameData _gameData)
     {
         if (_gameData._checkPointPassed.ContainsKey(_checkPointId))
-            _gameData._checkPointPassed[_checkPointId] = _isPassed;
+            _gameData._checkPointPassed[_checkPointId] = this;
         else
-            _gameData._checkPointPassed.Add(_checkPointId, _isPassed);
+            _gameData._checkPointPassed.Add(_checkPointId, this);
     }
 }

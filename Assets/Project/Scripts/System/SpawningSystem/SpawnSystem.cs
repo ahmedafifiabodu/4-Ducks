@@ -18,6 +18,8 @@ public class SpawnSystem : MonoBehaviour
     private Transform _catTransform;
     private Transform _ghostTransform;
     public UnityEvent OnLastCheckPointReached => _onLastCheckPointReached;
+    internal List<CheckPoint> CheckPoints => _checkPoints;
+    internal CheckPoint LastcheckPointReached { get { return _lastcheckPointReached; } set { _lastcheckPointReached = value; } }
     private void Awake()
     {
         ServiceLocator.Instance.RegisterService<SpawnSystem>(this, false);
