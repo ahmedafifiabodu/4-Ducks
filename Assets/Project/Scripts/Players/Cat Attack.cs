@@ -4,10 +4,12 @@ using UnityEngine.InputSystem;
 
 public class CatAttack : MonoBehaviour
 {
+    [SerializeField] private int _attackDamage; // Damage dealt by the attack
     [SerializeField] private Animator _animator; // Animator for the cat
 
     private InputManager _inputManager;
     private WaitForSeconds _attackDelayWaitForSeconds;
+    private IDamageable _damageable = null;
 
     private int AttackAnimationId; // ID for the attack animation
     private float animationPlayTransition = 0.001f; // Transition time for the animation
@@ -61,5 +63,19 @@ public class CatAttack : MonoBehaviour
         yield return _attackDelayWaitForSeconds; // Wait for the delay
 
         _isAttacking = false; // Reset the flag
+    }
+
+    internal void OnAttackAnimationCompleted() => _damageable?.TakeDamage(_attackDamage);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent<IDamageable>(out var damageable))
+            _damageable = damageable;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<IDamageable>(out var _))
+            _damageable = null;
     }
 }

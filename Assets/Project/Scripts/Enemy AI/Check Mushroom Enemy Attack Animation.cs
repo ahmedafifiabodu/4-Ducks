@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CheckAttackAnimation : StateMachineBehaviour
+public class CheckMushroomEnemyAttackAnimation : StateMachineBehaviour
 {
     private AttackRadius _attackRadius;
     private bool hasCalled = false;

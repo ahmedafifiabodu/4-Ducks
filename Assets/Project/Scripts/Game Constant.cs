@@ -36,6 +36,11 @@ public static class GameConstant
         public const string IsJumping = "CatJump";
         public const string Attacking = "CatAttack";
         public const string Throwing = "CatAttack";
+
+        public static class StateNames
+        {
+            public const string Attack = "CatAttack";
+        }
     }
 
     public static class AnimationTest
