@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelVirtualCameras : MonoBehaviour
 {
     [SerializeField] private List<CinemachineCamera> _levelcamerasList;
-    private Dictionary<int, CinemachineCamera> _levelcameras;
+    private Dictionary<int, CinemachineCamera> _levelcameras = new();
     private void Awake()
     {
         ServiceLocator.Instance.RegisterService(this, false);
@@ -16,9 +16,9 @@ public class LevelVirtualCameras : MonoBehaviour
     }
     private void AddCamsToDictionary()
     {
-        for(int i = 0;  i < _levelcameras.Count; i++)
+        for(int i = 0;  i < _levelcamerasList.Count; i++)
         {
-            _levelcameras.Add(i+1, _levelcameras[i]);
+            _levelcameras.Add(i+1, _levelcamerasList[i]);
         }
     }
     internal void CloseCamera(int _key)
