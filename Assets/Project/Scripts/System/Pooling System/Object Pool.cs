@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ObjectPool class is used to manage a pool of objects for reuse, to avoid the overhead of instantiating and destroying
 public class ObjectPool : MonoBehaviour
 {
     // Serialized fields that can be set in the Unity editor
@@ -12,7 +13,7 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         // Register the ObjectPool as a service
-        ServiceLocator.Instance.RegisterService(this, true);
+        ServiceLocator.Instance.RegisterService(this, false);
 
         // Initialize the pool dictionary
         poolDictionary = new();

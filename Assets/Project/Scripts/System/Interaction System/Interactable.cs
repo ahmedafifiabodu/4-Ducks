@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Interactable is an abstract class that other classes can inherit from to become interactable
 public abstract class Interactable : MonoBehaviour
 {
     // Serialized fields are private variables that can be set in the Unity editor
@@ -19,7 +20,7 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private ParticleSystem _interactionParticals; // Reference to the ParticleSystem component
 
     private Renderer _renderer; // Renderer used for the outline effect
-    private ObjectPool _objectPool;
+    private ObjectPool _objectPool; // Reference to the object pool
 
     // Public properties for private variables
     public LayerMask LayersInteractedWith

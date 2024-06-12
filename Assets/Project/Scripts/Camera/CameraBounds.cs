@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraBounds : MonoBehaviour
 {
-
     private ServiceLocator _serviceLocator;
     private Camera _camera;
     private bool _isOutsideViewport;

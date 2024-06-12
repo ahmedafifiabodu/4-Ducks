@@ -24,6 +24,18 @@ public class ServiceLocator
             throw new ApplicationException("The requested service is not registered");
     }
 
+    public bool TryGetService<T>(out T service)
+    {
+        service = default;
+        if (services.TryGetValue(typeof(T), out var serviceTuple))
+        {
+            service = (T)serviceTuple.service;
+            return true;
+        }
+        else
+            return false;
+    }
+
     public void RegisterService<T>(T service, bool dontDestroyOnLoad)
     {
         Type serviceType = typeof(T);
