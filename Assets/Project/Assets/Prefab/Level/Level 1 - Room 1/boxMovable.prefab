@@ -318,7 +318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 63686728b44111340af1ebafe8cd3a5f, type: 2}
+  - {fileID: 2100000, guid: 6b52ead0e5ca30f41955a686efbef73c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 2377004640452717656}
   - component: {fileID: 8447688419813285816}
   - component: {fileID: 3538036075002146778}
+  - component: {fileID: 6909848614500161423}
   m_Layer: 6
   m_Name: boxMovable
   m_TagString: Untagged
@@ -537,7 +538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9096257658185597334}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.04010083, z: -0, w: 0.99919564}
+  m_LocalRotation: {x: 0, y: -0.04009689, z: 0, w: 0.9991958}
   m_LocalPosition: {x: 265.79, y: 269.49, z: 26.41}
   m_LocalScale: {x: 0.8585801, y: 0.85858, z: 0.8585801}
   m_ConstrainProportionsScale: 0
@@ -588,7 +589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _delayAfterUnpossess: 3
-  _collider: {fileID: 0}
+  _collider: {fileID: 3538036075002146778}
+  _rigidbody: {fileID: 6909848614500161423}
 --- !u!65 &3538036075002146778
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -610,3 +612,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6341412, y: 1.4198505, z: 1.6463223}
   m_Center: {x: 0.9251194, y: 0.63144356, z: -0.031987313}
+--- !u!54 &6909848614500161423
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9096257658185597334}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
