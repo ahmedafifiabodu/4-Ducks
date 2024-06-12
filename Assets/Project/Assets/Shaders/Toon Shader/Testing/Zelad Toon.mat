@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Zelad Toon
-  m_Shader: {fileID: -6465566751694194690, guid: 7b8a461a2d66a6b4cad9a248fd2df329,
+  m_Shader: {fileID: -6465566751694194690, guid: 1ae7aecfcbe9a6344bcc74be71b30bc6,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -39,7 +39,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Main_Texture:
-        m_Texture: {fileID: 2800000, guid: 9f071f6fd0dfd8a49947b140a63741cd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2434adbfbadf55b4eb936a1b9db3daeb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Specular_Ramp:
+        m_Texture: {fileID: 2800000, guid: b258e74d5429f5847ac9ca813b0a09a5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Toon_Ramp:
+        m_Texture: {fileID: 2800000, guid: b258e74d5429f5847ac9ca813b0a09a5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Toon_Ramp_1:
+        m_Texture: {fileID: 2800000, guid: e8e4605bec336bf4ebf26f1946b33e39, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -56,12 +68,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Glossiness: 19.89
+    - _Glossiness: 0.98
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Rim_Amount: 0.761
+    - _Rim_Theshhold: 0.082
     m_Colors:
-    - _Ambient_Color: {r: 0.4943396, g: 0.4943396, b: 0.4943396, a: 0}
-    - _Main_Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Specular_Color: {r: 0.6528301, g: 0.6528301, b: 0.6528301, a: 1}
+    - _Ambient_Color: {r: 1.4980394, g: 1.4980394, b: 1.4980394, a: 0}
+    - _Main_Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Rim_Color: {r: 3.4258614, g: 3.4117098, b: 1.686026, a: 0}
+    - _Specular_Color: {r: 0.3210039, g: 0.4792453, b: 0.3431873, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// CatThrowing class inherits from ThrowingMechanism
 public class CatThrowing : ThrowingMechanism
 {
     // Serialized fields that can be set in the Unity editor
@@ -27,7 +28,6 @@ public class CatThrowing : ThrowingMechanism
     {
         base.OnDisable();
 
-        //CatShootingSFX.stop(STOP_MODE.ALLOWFADEOUT);
         // Remove the input actions
         InputManager.CatActions.Throw.started -= StartThrowAction;
         InputManager.CatActions.Throw.canceled -= EndThrowAction;
@@ -43,6 +43,7 @@ public class CatThrowing : ThrowingMechanism
 
         base.Throw();
 
+        // Play the shooting sound
         AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
 
         // Play the attack animation
