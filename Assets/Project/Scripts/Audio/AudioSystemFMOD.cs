@@ -4,67 +4,89 @@ using UnityEngine;
 
 public class AudioSystemFMOD : MonoBehaviour
 {
+    // Reference to the FMOD system
     private FMODEvents fmodSystem;
+
+    // Instance of the music event
     private EventInstance musicEventInstance;
 
     #region Volume Control
+
     //Volume Control
     [Header("Volume")]
+    // Music volume, can be set in the Unity editor
     [Range(0, 1)]
     [SerializeField] private float musicVolume = 1;
 
+    // Sound effects volume, can be set in the Unity editor
     [Range(0, 1)]
     [SerializeField] private float sfxVolume = 1;
 
+    // FMOD bus for the music
     private Bus musicBus;
+
+    // FMOD bus for the sound effects
     private Bus sfxBus;
 
+    // Property for the music volume
     public float MusicVolume { get => musicVolume; set => musicVolume = value; }
+
+    // Property for the sound effects volume
     public float SfxVolume { get => sfxVolume; set => sfxVolume = value; }
+
+    // Property for the FMOD system
     public FMODEvents FmodSystem => fmodSystem;
 
-    #endregion
+    #endregion Volume Control
 
+    // Called when the object is first initialized
     private void Awake()
     {
+        // Register this service in the ServiceLocator
         ServiceLocator.Instance.RegisterService(this, true);
 
-        //masterBus = RuntimeManager.GetBus("bus:/");
+        // Get the FMOD buses
         musicBus = RuntimeManager.GetBus("bus:/Music");
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
     }
 
+    // Called before the first frame update
     private void Start()
     {
+        // Get the FMODEvents service from the ServiceLocator
         fmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
+        // Initialize the music
         InitializeMusic(FmodSystem.Music);
     }
 
+    // Called every frame
     private void Update()
     {
+        // Set the volume of the music and sound effects
         musicBus.setVolume(MusicVolume);
         sfxBus.setVolume(SfxVolume);
     }
 
-    //Player Foot Steps
+    // Create an event instance for the player's foot steps
     internal EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance PlayereventInstance = RuntimeManager.CreateInstance(eventReference);
         return PlayereventInstance;
     }
-    
-    //Player Shooting
-    public void PlayerShooting(EventReference catShoot , Vector3 pos)
+
+    // Play the player's shooting sound
+    public void PlayerShooting(EventReference catShoot, Vector3 pos)
     {
-        RuntimeManager.PlayOneShot(catShoot , pos);
+        RuntimeManager.PlayOneShot(catShoot, pos);
     }
 
-    //Enviroment music
+    // Initialize the environment music
     private void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = RuntimeManager.CreateInstance(musicEventReference);
         musicEventInstance.start();
     }
 
+    // Set the music area parameter
     internal void SetMusicArea(MusicArea area) => musicEventInstance.setParameterByName("area", (float)area);
 }

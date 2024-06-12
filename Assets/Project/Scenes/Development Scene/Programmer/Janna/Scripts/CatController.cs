@@ -14,7 +14,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
     PlayerState CatState;
 
     [Header("Movement")]
-    [SerializeField] private float Speed = 15f;
+    [SerializeField] private float Speed = 20f;
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Jump")]
@@ -39,10 +39,10 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.2f;
-    [SerializeField] private float rayLength = 1.5f;
+    [SerializeField] private float startRay = 0.1f;
+    [SerializeField] private float rayLength = 1f;
     [SerializeField] private float stepSmooth = 20f;
-    [SerializeField] private float stepHeight = 0.4f;
+    [SerializeField] private float stepHeight = 1f;
     [SerializeField] private float maxClimbHeight = 0.5f;
 
     #endregion
@@ -107,37 +107,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
         // Empty implementation to satisfy the interface requirement
     }
 
-    /*public void Move(Vector2 input)
-    {
-        if (stepHeight> 0.5f &&  maxClimbHeight < 0.5f)
-        {
-            Debug.Log("Step In Move");
-            Step();
-        }
-        if (CatState != PlayerState.moving)
-            return; 
-        Vector3 cameraForward = mainCamera.transform.forward;
-        cameraForward.y = 0;
-        cameraForward.Normalize();
-        Vector3 cameraRight = mainCamera.transform.right;
-        cameraRight.y = 0;
-        cameraRight.Normalize();
-
-        Vector3 moveDirection = (cameraForward * input.y + cameraRight * input.x).normalized;
-
-        if (moveDirection.magnitude >= 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            Vector3 newVelocity = moveDirection * Speed;
-            newVelocity.y = rb.velocity.y;
-            rb.velocity = newVelocity;
-        }
-
-        Animate(input);
-    }
-*/
     public void Move(Vector2 input)
     {
         if (CatState != PlayerState.moving)
@@ -168,7 +137,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
                 rb.velocity = newVelocity;
             }
         }
-       Animate(input);
+        Animate(input);
     }
 
     public bool ShouldStep(Vector3 moveDirection)
@@ -177,14 +146,18 @@ public class CatController : PlayerController, IMove, IJump, IStep
         Vector3 rayDirection = moveDirection;
         Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        foreach (RaycastHit hit in hits)
+        RaycastHit hit;
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
+            Vector3 stepRayOrigin = rayOrigin + Vector3.up * stepHeight;
+
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
             {
-                return true;
+                if (!Physics.Raycast(stepRayOrigin, rayDirection, out hit, rayLength))
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -261,34 +234,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
             rb.velocity = rb.velocity.normalized * maxForce;
         }
     }
-
-    /*public void Step()
-    {
-        Vector3 rayOrigin = transform.position + Vector3.up * startRay;
-        Vector3 rayDirection = transform.forward;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
-
-        RaycastHit[] hits = Physics.RaycastAll(rayOrigin, rayDirection, rayLength);
-
-        bool stepDetected = false;
-
-        foreach (RaycastHit hit in hits)
-        {
-            float heightDifference = hit.point.y - transform.position.y;
-            if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
-            {
-                Vector3 stepUpPosition = new Vector3(transform.position.x, hit.point.y + stepHeight, transform.position.z);
-                rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth));
-                stepDetected = true;
-                break;
-            }
-        }
-
-        if (!stepDetected)
-        {
-            rb.AddForce(Vector3.up * gravity);
-        }
-    }*/
 
     private void Animate(Vector2 input)
     {

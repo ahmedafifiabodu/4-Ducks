@@ -11,6 +11,7 @@ public class FadingEffect : MonoBehaviour
     private int _direction = 0;
     private float _time;
 
+    private void Awake() => ServiceLocator.Instance.RegisterService<FadingEffect>(this, true);
     private void Start()
     {
         _texture = new Texture2D(1, 1);
@@ -18,7 +19,7 @@ public class FadingEffect : MonoBehaviour
     public void FadeIn()
     {
         _alpha = 1f;
-        _time = 0;
+        _time = 1;
         _direction = 1;
         _texture.SetPixel(0, 0, new Color(_fadeColor.r, _fadeColor.g, _fadeColor.b, _alpha));
         _texture.Apply();
