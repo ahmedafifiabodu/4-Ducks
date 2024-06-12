@@ -947,6 +947,8 @@ GameObject:
   - component: {fileID: 2360598098232789356}
   - component: {fileID: 340526712427765462}
   - component: {fileID: 5727031173477089107}
+  - component: {fileID: 2254102442331654624}
+  - component: {fileID: 5163044853985807639}
   m_Layer: 23
   m_Name: Cat
   m_TagString: Untagged
@@ -1166,6 +1168,32 @@ MonoBehaviour:
   stepSmooth: 20
   stepHeight: 1
   maxClimbHeight: 0.5
+--- !u!114 &2254102442331654624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456768661024448939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c00a8c23a0df045bdffaf5157428e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 1165600015829764446}
+--- !u!114 &5163044853985807639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456768661024448939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a005c61a24d86458a5114a502923b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fallHeightDistance: 2
 --- !u!1 &465980158888602553
 GameObject:
   m_ObjectHideFlags: 0
@@ -12832,6 +12860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ef55152e4570c4c802460eb30c6671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _particleEffect: {fileID: 0}
   _sphereCollider: {fileID: 2356894426365422664}
 --- !u!1 &5020340711534170962
 GameObject:

@@ -265,11 +265,11 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public override void LoadGame(GameData _gameData)
     {
-        transform.position = _gameData._playerPosition;
+        //transform.position = _gameData._playerPosition;
     }
 
     public override void SaveGame(GameData _gameData)
     {
-        _gameData._playerPosition = transform.position;
+        //_gameData._playerPosition = transform.position;
     }
 }

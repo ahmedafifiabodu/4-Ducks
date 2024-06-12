@@ -16,7 +16,7 @@ public class CatThrowing : ThrowingMechanism
         base.OnEnable();
 
         // Get the ID for the attack animation
-        AttackAnimationId = Animator.StringToHash(GameConstant.CatAnimation.Attacking);
+        AttackAnimationId = Animator.StringToHash(GameConstant.CatAnimation.Throwing);
 
         // Set up the input actions
         InputManager.CatActions.Throw.started += StartThrowAction;
