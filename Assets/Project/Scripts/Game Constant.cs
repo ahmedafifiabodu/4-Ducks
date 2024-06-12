@@ -52,6 +52,11 @@ public static class GameConstant
         public const string Walk = "Walk";
         public const string Jump = "Jump";
         public const string Idle = "Idle";
+
+        public static class EnemyAnimationState
+        {
+            public const string AttackState = "attacktop";
+        }
     }
 
     public static class Input
