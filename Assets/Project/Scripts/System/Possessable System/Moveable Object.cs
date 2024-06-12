@@ -102,8 +102,10 @@ public class MoveableObject : MonoBehaviour, IPossessable
         if (_isPossessed && _isMoving)
         {
             Vector2 inputVector = _inputManager.PossessMovableObjectActions.Move.ReadValue<Vector2>();
-            Vector3 movement = _speed * Time.deltaTime * new Vector3(-inputVector.y, 0, inputVector.x);
-            _rigidbody.MovePosition(_rigidbody.position + transform.forward * movement.magnitude); // Use Rigidbody to move
+            // Convert the 2D input vector into a 3D vector, considering input for horizontal and vertical movement
+            Vector3 movement = _speed * Time.deltaTime * new Vector3(inputVector.x, 0, inputVector.y);
+            // Apply the movement vector to the current position
+            _rigidbody.MovePosition(_rigidbody.position + movement);
         }
     }
 }
