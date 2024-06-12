@@ -10,6 +10,7 @@ public class CheckPoint : Interactable, IDataPersistence
     private bool _isPassed;
     public bool IsPassed { set { _isPassed = value; } get{return _isPassed;} }
     public int CamKey =>_camKey;
+    internal string CheckPointId => _checkPointId;
 
     internal static UnityEvent<CheckPoint> _onCheckPointPassed = new();
     protected override void Interact(ObjectType _playerType)
@@ -21,13 +22,12 @@ public class CheckPoint : Interactable, IDataPersistence
     private void GenerateID() => _checkPointId = System.Guid.NewGuid().ToString();
     public void LoadGame(GameData _gameData)
     { 
-        _gameData._checkPointPassed.TryGetValue(_checkPointId, out CheckPoint _chPoint);
-        ServiceLocator.Instance.GetService<SpawnSystem>().LastcheckPointReached = _chPoint;
+        _gameData._checkPointPassed.TryGetValue(_checkPointId, out _isPassed);
     }
     public void SaveGame(GameData _gameData)
     {
         if (_gameData._checkPointPassed.ContainsKey(_checkPointId))
-            _gameData._checkPointPassed[_checkPointId] = this;
+            _gameData._checkPointPassed[_checkPointId] = _isPassed;
         else
             _gameData._checkPointPassed.Add(_checkPointId, this);
     }
