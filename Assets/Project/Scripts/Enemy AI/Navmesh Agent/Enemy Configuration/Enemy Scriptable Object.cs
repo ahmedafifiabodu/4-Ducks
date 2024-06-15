@@ -9,7 +9,6 @@ public class EnemyScriptableObject : ScriptableObject
     [Header("Enemy")]
     [SerializeField] private AttackingScriptableObject _attackingConfiguration;
 
-    [SerializeField] private int _health = 100;
     [SerializeField] private float _AIUpdateInvterval = 0.1f;
 
     [Header("Enemy States")]
@@ -42,7 +41,6 @@ public class EnemyScriptableObject : ScriptableObject
     #region Getters
 
     internal AttackingScriptableObject AttackingConfiguration => _attackingConfiguration;
-    internal int Health => _health;
     internal float AIUpdateInvterval => _AIUpdateInvterval;
     internal float Acceleration => _acceleration;
     internal float AngularSpeed => _angularSpeed;
@@ -59,8 +57,6 @@ public class EnemyScriptableObject : ScriptableObject
 
     public void SetupEnemy(Enemy enemy)
     {
-        _health = Health;
-
         _attackingConfiguration.SetupEnemy(enemy);
 
         enemy.NavmeshEnemyMovment.UpdateSpeed = AIUpdateInvterval;

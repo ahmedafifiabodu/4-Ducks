@@ -9,7 +9,6 @@ public class Interact : MonoBehaviour
     private InputManager _inputManager; // Reference to the InputManager
     private UISystem _playerUI; // Reference to the UISystem
     private Interactable currentInteractable; // The current interactable object
-    private CustomInteractionAnimation _customInteractionAnimation;
     private ObjectType _objectType; // The type of the player
 
     private ServiceLocator serviceLocator; // Reference to the ServiceLocator
@@ -36,10 +35,6 @@ public class Interact : MonoBehaviour
             _playerUI = _UISystem;
             _playerUI.DisablePromptText();
         }
-
-        // Get the CustomInteractionAnimation component from the current interactable object
-        if (TryGetComponent<CustomInteractionAnimation>(out var animation))
-            _customInteractionAnimation = animation;
 
         // Check the player type and set up the interact action
         if (_objectType != null)
@@ -140,15 +135,6 @@ public class Interact : MonoBehaviour
                 {
                     //_audioManager.PlaySFX(_audioManager._interact);
                     _hasPlayedInteractSFX = true;
-                }
-
-                // Get the CustomInteractionAnimation component from the current interactable object
-                if (_customInteractionAnimation != null)
-                {
-                    _customInteractionAnimation.StartInteractableAnimation(currentInteractable.gameObject);
-
-                    if (_objectType.IsCat)
-                        _customInteractionAnimation.StartCatInteractJumpingUpAnimation(gameObject);
                 }
 
                 currentInteractable.BaseInteract(_objectType);
