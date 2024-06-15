@@ -1,71 +1,71 @@
 using UnityEngine;
 
-// CatThrowing class inherits from ThrowingMechanism
+// The CatThrowing class is responsible for handling the throwing mechanism specific to the cat character.
 public class CatThrowing : ThrowingMechanism
 {
-    // Serialized fields that can be set in the Unity editor
     [Header("Cat Specific")]
-    [SerializeField] private Animator _animator; // Animator for the cat
+    [SerializeField] private Animator _animator; // Animator component for controlling cat animations
 
-    private int AttackAnimationId; // ID for the attack animation
-    private float animationPlayTransition = 0.001f; // Transition time for the animation
+    private int AttackAnimationId; // Hash ID for the attack animation, used for performance optimization
+    private float animationPlayTransition = 0.001f; // Transition time for starting the attack animation, set to a very short duration for a quick transition
 
-    // Called when the object is enabled
+    // Called when the object becomes enabled and active
     protected override void OnEnable()
     {
-        base.OnEnable();
+        base.OnEnable(); // Call the base class OnEnable method
 
-        // Get the ID for the attack animation
+        // Convert the animation name to a hash ID for efficient animation parameter handling
         AttackAnimationId = Animator.StringToHash(GameConstant.CatAnimation.Throwing);
 
-        // Set up the input actions
+        // Subscribe to the Throw action's started and canceled events in the InputManager
         InputManager.CatActions.Throw.started += StartThrowAction;
         InputManager.CatActions.Throw.canceled += EndThrowAction;
     }
 
-    // Called when the object is disabled
+    // Called when the object becomes disabled or inactive
     protected override void OnDisable()
     {
-        base.OnDisable();
+        base.OnDisable(); // Call the base class OnDisable method
 
-        // Remove the input actions
+        // Unsubscribe from the Throw action's started and canceled events to prevent memory leaks
         InputManager.CatActions.Throw.started -= StartThrowAction;
         InputManager.CatActions.Throw.canceled -= EndThrowAction;
     }
 
-    // Throw the ball
+    // Method to handle the throwing action
     protected override void Throw()
     {
+        // Determine the initial velocity based on whether the player is inputting a direction
         if (CheckingPlayerInput)
-            InitialVelocity = transform.forward * CurrentVelocity;
+            InitialVelocity = transform.forward * CurrentVelocity; // Forward throw
         else
-            InitialVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity;
+            InitialVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity; // Upward and forward throw
 
-        base.Throw();
+        base.Throw(); // Call the base class Throw method to perform the throw
 
-        Logging.Log(AudioSystem);
-        // Play the shooting sound
+        // Play the shooting sound using the audio system
         AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
 
-        // Play the attack animation
+        // Play the attack animation with a quick transition
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);
     }
 
-    // Draw the trajectory
+    // Method to draw the trajectory of the throw
     protected override void DrawTrajectory(int numP)
     {
-        Vector3[] points = new Vector3[numP];
-        Vector3 startingPosition = transform.position;
-        Vector3 startingVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity;
+        Vector3[] points = new Vector3[numP]; // Array to store the trajectory points
+        Vector3 startingPosition = transform.position; // Starting position of the throw
+        Vector3 startingVelocity = transform.up * CurrentVelocity + transform.forward * CurrentVelocity; // Initial velocity for the trajectory calculation
 
-        // Calculate the points for the trajectory
+        // Calculate each point in the trajectory
         for (int i = 0; i < numP; i++)
         {
-            float time = i * TimeBetweenPoints;
+            float time = i * TimeBetweenPoints; // Time at each point
+            // Calculate the position of the point using the formula for projectile motion
             points[i] = startingPosition + startingVelocity * time + time * time * Physics.gravity / 2f;
         }
 
-        // Set the points for the line renderer
+        // Set the calculated points to the line renderer to draw the trajectory
         TrajectoryLineRenderer.positionCount = numP;
         TrajectoryLineRenderer.SetPositions(points);
     }

@@ -11,11 +11,13 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     protected Animator _animator;
     [SerializeField] private bool isCat;
 
-    #endregion
+    #endregion Parameters
 
     [Header("Audio")]
     protected AudioSystemFMOD AudioSystem;
+
     protected FMODEvents FmodSystem;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +34,7 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
 
     protected virtual void OnEnable()
     {
+
         if (isCat)
         {
             _inputManager.CatActions.Move.started += OnMovePerformed;
@@ -48,7 +51,6 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
         _inputManager.GhostActions.Ascend.canceled += OnAscendCanceled;
     }
 
-   
     protected virtual void OnDisable()
     {
         if (isCat)
@@ -68,15 +70,22 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     }
 
     protected abstract void OnMovePerformed(InputAction.CallbackContext context);
+
     protected abstract void OnMoveCanceled(InputAction.CallbackContext context);
+
     protected abstract void OnJumpPerformed(InputAction.CallbackContext context);
+
     protected abstract void OnDashPerformed(InputAction.CallbackContext context);
+
     protected abstract void OnAscendPerformed(InputAction.CallbackContext context);
+
     protected abstract void OnAscendCanceled(InputAction.CallbackContext context);
 
     public abstract void LoadGame(GameData _gameData);
+
     public abstract void SaveGame(GameData _gameData);
 }
+
 public enum PlayerState
 {
     moving, jumping, Dashing, Ascending
