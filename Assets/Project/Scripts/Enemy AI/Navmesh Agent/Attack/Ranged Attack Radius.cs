@@ -12,7 +12,6 @@ public class RangedAttackRadius : AttackRadius
     private LayerMask _layerMask;
 
     private WaitForSeconds _attackDelayWaitForSeconds;
-    private ObjectPool _objectPool;
     private RaycastHit _hit;
 
     private IDamageable _targetDamageable;
@@ -36,7 +35,7 @@ public class RangedAttackRadius : AttackRadius
     {
         base.Start();
 
-        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+        ObjectPool = ServiceLocator.Instance.GetService<ObjectPool>();
         _attackDelayWaitForSeconds = new WaitForSeconds(AttackDelay);
     }
 
@@ -62,9 +61,9 @@ public class RangedAttackRadius : AttackRadius
             if (_targetDamageable != null)
             {
                 if (useHomingBullet)
-                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
+                    _bullet = ObjectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
                 else
-                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
+                    _bullet = ObjectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
 
                 _bullet.Damage = Damage;
                 _bullet.transform.SetPositionAndRotation(_transform.position + _bulletSpawnOffset, _navMeshAgent.transform.rotation);

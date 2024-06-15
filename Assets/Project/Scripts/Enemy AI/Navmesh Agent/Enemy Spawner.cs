@@ -1,21 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // Serialized fields that can be set in the Unity editor
-    [SerializeField] private List<GameObject> _enemiesPrefabs; // List of enemy prefabs
-
-    [SerializeField] private float _spawnDelay = 1f; // Delay between spawns
-    [SerializeField] private SpawnMethod _spawnMethod = SpawnMethod.RoundRobin; // Method to spawn enemies
-
-    private List<GameObject> _enemiesPrefab; // List of enemy prefabs
-    private NavMeshTriangulation _navMeshTriangulation; // NavMesh triangulation
-    private int _numberOfEnemiesToSpawn; // Number of enemies to spawn
-    private WaitForSeconds _spawnDelayWaitForSeconds; // WaitForSeconds object for spawn delay
-    private int _navMeshVerticesLength; // Length of the NavMesh vertices
+    [SerializeField] private List<EnemySpawnerList> _enemySpawnerLists; // List of EnemySpawnerList
 
     private ObjectPool _objectPool; // Reference to the ObjectPool
 
@@ -25,74 +16,85 @@ public class EnemySpawner : MonoBehaviour
         // Get the ObjectPool from the ServiceLocator
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
-        _spawnDelayWaitForSeconds = new WaitForSeconds(_spawnDelay);
-        _enemiesPrefab = new List<GameObject>();
-
-        // Initialize the enemies prefab list and the number of enemies to spawn
-        foreach (GameObject _enemyPrefab in _enemiesPrefabs)
+        // Start the SpawnEnemies coroutine for each EnemySpawnerList
+        foreach (var spawnerList in _enemySpawnerLists)
         {
-            _numberOfEnemiesToSpawn += _objectPool.GetPoolSize(_enemyPrefab);
-            _enemiesPrefab.AddRange(_objectPool.GetPooledObjects(_enemyPrefab));
+            StartCoroutine(SpawnEnemies(spawnerList));
         }
-
-        // Calculate the NavMesh triangulation
-        _navMeshTriangulation = NavMesh.CalculateTriangulation();
-        _navMeshVerticesLength = _navMeshTriangulation.vertices.Length;
-
-        // Start the SpawnEnemies coroutine
-        StartCoroutine(SpawnEnemies());
     }
 
     // Coroutine to spawn enemies
-    private IEnumerator SpawnEnemies()
+    private IEnumerator SpawnEnemies(EnemySpawnerList spawnerList)
     {
-        int _spawnedEnemies = 0;
+        // Ensure the NavMesh for the specific NavMeshSurface is built
+        spawnerList.NavMeshSurface.BuildNavMesh();
 
-        // Spawn enemies until the number of enemies to spawn is reached
-        while (_spawnedEnemies < _numberOfEnemiesToSpawn)
+        // Use the SpawnDelay from the current spawnerList
+        WaitForSeconds spawnDelayWaitForSeconds = new(spawnerList.SpawnDelay);
+
+        foreach (EnemyPrefabAndSize enemyPrefabAndSize in spawnerList.EnemiesPrefabs)
         {
-            // Spawn an enemy based on the spawn method
-            if (_spawnMethod == SpawnMethod.RoundRobin)
-                SpawnRoundRobinEnemy(_spawnedEnemies);
-            else if (_spawnMethod == SpawnMethod.Random)
-                SpawnRandomEnemy();
+            List<GameObject> enemiesPrefab = new();
 
-            _spawnedEnemies++;
+            // Populate the enemiesPrefab list with the required number of prefabs
+            for (int i = 0; i < enemyPrefabAndSize.Size; i++)
+            {
+                // Inside the SpawnEnemies coroutine of EnemySpawner
+                GameObject pooledObject = _objectPool.GetPooledObject(enemyPrefabAndSize.EnemyPrefab);
+                if (pooledObject != null)
+                {
+                    enemiesPrefab.Add(pooledObject);
+                }
+                else
+                {
+                    Logging.LogError("Failed to get a pooled object. Is the pool size configured correctly?");
+                    yield break; // Exit if we can't get enough objects from the pool
+                }
+            }
 
-            yield return _spawnDelayWaitForSeconds;
+            int spawnedEnemies = 0;
+
+            // Spawn enemies until the number specified in enemyPrefabAndSize.Size is reached
+            while (spawnedEnemies < enemyPrefabAndSize.Size)
+            {
+                // Use the SpawnMethod from the current spawnerList
+                if (spawnerList.SpawnMethod == SpawnMethod.RoundRobin)
+                    SpawnRoundRobinEnemy(spawnedEnemies, enemiesPrefab, spawnerList.NavMeshSurface);
+                else if (spawnerList.SpawnMethod == SpawnMethod.Random)
+                    SpawnRandomEnemy(enemiesPrefab, spawnerList.NavMeshSurface);
+
+                spawnedEnemies++;
+
+                yield return spawnDelayWaitForSeconds;
+            }
         }
     }
 
-    // Spawn an enemy in a round robin manner
-    private void SpawnRoundRobinEnemy(int _spawnedEnemies)
+    // Correct the method signature to accept NavMeshSurface
+    private void SpawnRoundRobinEnemy(int spawnedEnemies, List<GameObject> enemiesPrefab, NavMeshSurface surface)
     {
-        int _enemyIndex = _spawnedEnemies % _enemiesPrefab.Count;
-
-        DoSpawnEnemy(_enemyIndex);
+        int enemyIndex = spawnedEnemies % enemiesPrefab.Count;
+        DoSpawnEnemy(enemyIndex, enemiesPrefab, surface);
     }
 
-    // Spawn a random enemy
-    private void SpawnRandomEnemy() => DoSpawnEnemy(Random.Range(0, _enemiesPrefab.Count));
+    // Correct the method signature to accept NavMeshSurface
+    private void SpawnRandomEnemy(List<GameObject> enemiesPrefab, NavMeshSurface surface) => DoSpawnEnemy(Random.Range(0, enemiesPrefab.Count), enemiesPrefab, surface);
 
     // Spawn an enemy
-    private void DoSpawnEnemy(int _enemyIndex)
+    private void DoSpawnEnemy(int enemyIndex, List<GameObject> enemiesPrefab, NavMeshSurface surface)
     {
-        GameObject _enemyPool = _enemiesPrefab[_enemyIndex];
+        GameObject enemyPool = enemiesPrefab[enemyIndex];
 
-        // If the enemy pool is not null and the enemy has an Enemy component
-        if (_enemyPool != null && _enemyPool.TryGetComponent(out Enemy _enemy))
+        if (enemyPool != null && enemyPool.TryGetComponent(out Enemy enemy))
         {
-            Vector3 spawnPosition = SampleNavMeshPosition();
+            Vector3 spawnPosition = SampleNavMeshPosition(surface);
 
-            // If the spawn position is not zero
             if (spawnPosition != Vector3.zero)
             {
-                // Warp the enemy to the spawn position and enable it
-                _enemy.NavMeshAgent.Warp(spawnPosition);
-                _enemy.NavMeshAgent.enabled = true;
-                _enemy.gameObject.SetActive(true);
-                _enemy.NavmeshEnemyMovment._navMeshTriangulation = _navMeshTriangulation;
-                _enemy.NavmeshEnemyMovment.Spawn();
+                enemy.NavMeshAgent.Warp(spawnPosition);
+                enemy.NavMeshAgent.enabled = true;
+                enemy.gameObject.SetActive(true);
+                enemy.NavmeshEnemyMovment.Spawn();
             }
             else
                 Logging.LogError("Failed to sample position");
@@ -102,14 +104,19 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // Sample a position on the NavMesh
-    private Vector3 SampleNavMeshPosition()
+    private Vector3 SampleNavMeshPosition(NavMeshSurface surface)
     {
-        int _vertexIndex = Random.Range(0, _navMeshVerticesLength);
+        // Assuming you want to sample a position within a certain range around the center of the surface
+        Vector3 center = surface.transform.position;
+        float range = 10.0f; // Example range within which to sample a position
 
-        // If a position on the NavMesh can be sampled
-        if (NavMesh.SamplePosition(_navMeshTriangulation.vertices[_vertexIndex], out NavMeshHit _navMeshHit, 2.0f, -1))
-            return _navMeshHit.position;
+        // Try to find a valid position on the NavMesh within the specified range
+        if (NavMesh.SamplePosition(center, out NavMeshHit hit, range, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
 
+        // If no valid position was found, return Vector3.zero or handle accordingly
         return Vector3.zero;
     }
 }
