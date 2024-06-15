@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -46,15 +47,21 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float maxClimbHeight = 0.5f;
 
     #endregion
+
+    [Header("Audio")]
+    private EventInstance PlayerFootSteps;
     protected override void Awake()
     {
         base.Awake();
         JumpAnimationId = Animator.StringToHash(GameConstant.CatAnimation.IsJumping);
         RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
     }
-    private void Start()
+    protected override void Start()
     {
         _jumpAction = _ => Jump();
+
+        base.Start();
+        PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystem.PlayerSteps);
     }
     private void Update()
     {
@@ -79,12 +86,17 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         input = context.ReadValue<Vector2>().normalized;
         CatState = PlayerState.moving;
+
+        PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
+        PlayerFootSteps.start();
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
         StartCoroutine(StopMoveSmoothly());
         rb.velocity = Vector3.zero;
+
+        PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
@@ -265,11 +277,11 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     public override void LoadGame(GameData _gameData)
     {
-        transform.position = _gameData._playerPosition;
+        //transform.position = _gameData._playerPosition;
     }
 
     public override void SaveGame(GameData _gameData)
     {
-        _gameData._playerPosition = transform.position;
+        //_gameData._playerPosition = transform.position;
     }
 }

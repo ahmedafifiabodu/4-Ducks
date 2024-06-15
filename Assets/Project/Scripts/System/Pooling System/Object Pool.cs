@@ -45,11 +45,28 @@ public class ObjectPool : MonoBehaviour
     // Get a pooled object
     internal GameObject GetPooledObject(GameObject prefab)
     {
-        if (!poolDictionary.ContainsKey(prefab))
-            return null;
+        // Attempt to remove "(Clone)" from the prefab name to match the original prefab name in the dictionary
+        string prefabName = prefab.name.Replace("(Clone)", "").Trim();
 
-        // Find an inactive object in the pool
-        foreach (GameObject obj in poolDictionary[prefab])
+        // Find the original prefab in the poolDictionary by matching the prefabName
+        GameObject originalPrefab = null;
+        foreach (var key in poolDictionary.Keys)
+        {
+            if (key.name == prefabName)
+            {
+                originalPrefab = key;
+                break;
+            }
+        }
+
+        if (originalPrefab == null)
+        {
+            Logging.LogError($"ObjectPool does not contain a pool for prefab: {prefab.name}");
+            return null;
+        }
+
+        // Use the originalPrefab to access the poolDictionary
+        foreach (GameObject obj in poolDictionary[originalPrefab])
         {
             if (!obj.activeInHierarchy)
             {
@@ -59,13 +76,15 @@ public class ObjectPool : MonoBehaviour
         }
 
         // If no inactive object is found, create a new one
-        GameObject newObj = ExtendObjects(prefab);
+        GameObject newObj = ExtendObjects(originalPrefab);
         if (newObj != null)
         {
+            Logging.Log($"Extended pool for prefab: {originalPrefab.name}");
             newObj.SetActive(true);
             return newObj;
         }
 
+        Logging.LogError($"Failed to extend pool for prefab: {originalPrefab.name}. Check if the prefab is correctly assigned in the pool.");
         return null;
     }
 

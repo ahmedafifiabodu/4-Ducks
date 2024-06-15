@@ -78,6 +78,7 @@ public class AudioSystemFMOD : MonoBehaviour
     public void PlayerShooting(EventReference catShoot, Vector3 pos)
     {
         RuntimeManager.PlayOneShot(catShoot, pos);
+        Logging.Log("Sound");
     }
 
     // Initialize the environment music

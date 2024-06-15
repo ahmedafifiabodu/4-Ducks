@@ -12,12 +12,22 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     [SerializeField] private bool isCat;
 
     #endregion
+
+    [Header("Audio")]
+    protected AudioSystemFMOD AudioSystem;
+    protected FMODEvents FmodSystem;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
         mainCamera = Camera.main;
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+    }
+
+    protected virtual void Start()
+    {
+        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+        FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
     }
 
     protected virtual void OnEnable()

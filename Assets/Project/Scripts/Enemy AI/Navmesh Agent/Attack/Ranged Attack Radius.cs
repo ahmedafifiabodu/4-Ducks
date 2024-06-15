@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,17 +9,27 @@ public class RangedAttackRadius : AttackRadius
 
     [SerializeField] private float _sphereCastRadius = 0.1f;
 
+    private bool _useHomingBullet;
+
     private Vector3 _bulletSpawnOffset;
     private LayerMask _layerMask;
 
     private WaitForSeconds _attackDelayWaitForSeconds;
-    private ObjectPool _objectPool;
     private RaycastHit _hit;
 
     private IDamageable _targetDamageable;
+    private IDamageable _storedTargetDamageable;
     private Bullet _bullet;
 
     #region Setters
+
+    internal bool UseHomingBullet
+    { get => _useHomingBullet; set { _useHomingBullet = value; } }
+
+    internal Bullet Bullet
+    {
+        set { _bullet = value; }
+    }
 
     internal Vector3 BulletSpawnOffset
     {
@@ -36,7 +47,7 @@ public class RangedAttackRadius : AttackRadius
     {
         base.Start();
 
-        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+        ObjectPool = ServiceLocator.Instance.GetService<ObjectPool>();
         _attackDelayWaitForSeconds = new WaitForSeconds(AttackDelay);
     }
 
@@ -53,26 +64,12 @@ public class RangedAttackRadius : AttackRadius
                 if (HasLineOfSightTo(_damageables[i].GetTransform()))
                 {
                     _targetDamageable = _damageables[i];
+                    _storedTargetDamageable = _targetDamageable; // Store the target here
                     InvokeOnAttack(_targetDamageable);
                     _navMeshAgent.enabled = true;
                     break;
                 }
             }
-
-            if (_targetDamageable != null)
-            {
-                if (useHomingBullet)
-                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
-                else
-                    _bullet = _objectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
-
-                _bullet.Damage = Damage;
-                _bullet.transform.SetPositionAndRotation(_transform.position + _bulletSpawnOffset, _navMeshAgent.transform.rotation);
-
-                _bullet.Spawn(_navMeshAgent.transform.forward, Damage, _targetDamageable.GetTransform());
-            }
-            else
-                _navMeshAgent.enabled = true;
 
             yield return _attackDelayWaitForSeconds;
 
@@ -84,6 +81,68 @@ public class RangedAttackRadius : AttackRadius
 
         _navMeshAgent.enabled = true;
         _attackCoroutine = null;
+    }
+
+    internal override void OnAttackAnimationCompleted()
+    {
+        // Check if there's a stored target and if the bullet is ready
+        if (_storedTargetDamageable != null && _bullet != null)
+        {
+            if (ObjectPool == null)
+            {
+                Logging.LogError("ObjectPool is null. Please assign the ObjectPool in the inspector.");
+                return;
+            }
+
+            if (ObjectPool.GetPooledObject(_bullet.gameObject) == null)
+            {
+                Logging.LogError("Failed to get a pooled object. Is the pool size configured correctly?");
+                return;
+            }
+
+            if (_useHomingBullet)
+                _bullet = ObjectPool.GetPooledObject(_bullet.gameObject).GetComponent<HomingBullet>();
+            else
+                _bullet = ObjectPool.GetPooledObject(_bullet.gameObject).GetComponent<Bullet>();
+
+            _bullet.Damage = Damage;
+            _bullet.transform.SetPositionAndRotation(transform.position + _bulletSpawnOffset, _navMeshAgent.transform.rotation);
+
+            _bullet.Spawn(_navMeshAgent.transform.forward, Damage, _storedTargetDamageable.GetTransform());
+
+            // Subscribe to the bullet's OnHit event
+            _bullet.OnHit += Bullet_OnHit;
+
+            // Reset the stored target after shooting
+            _storedTargetDamageable = null;
+        }
+    }
+
+    private void Bullet_OnHit()
+    {
+        // Spawn the particle effect at the bullet's position
+        if (ParticleEffect != null)
+        {
+            GameObject _particleEffectGameObject = ObjectPool.GetPooledObject(ParticleEffect.gameObject);
+            if (_particleEffectGameObject != null)
+            {
+                _particleEffectGameObject.transform.position = _bullet.transform.position; // Position the particle effect where the bullet hit
+                ParticleSystem particleInstance = _particleEffectGameObject.GetComponent<ParticleSystem>();
+                particleInstance.Play();
+
+                // Calculate the total duration of the particle effect
+                float totalDuration = particleInstance.main.duration + particleInstance.main.startLifetime.constantMax;
+
+                // Use DOVirtual.DelayedCall to wait for the particle effect to finish before setting the GameObject to inactive
+                DOVirtual.DelayedCall(totalDuration, () =>
+                {
+                    _particleEffectGameObject.SetActive(false);
+                });
+
+                // Unsubscribe from the bullet's OnHit event to prevent memory leaks
+                _bullet.OnHit -= Bullet_OnHit;
+            }
+        }
     }
 
     private bool HasLineOfSightTo(Transform _target)

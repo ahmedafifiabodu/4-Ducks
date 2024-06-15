@@ -35,6 +35,12 @@ public static class GameConstant
         public const string VerticalMove = "Vertical(Y)";
         public const string IsJumping = "CatJump";
         public const string Attacking = "CatAttack";
+        public const string Throwing = "CatAttack";
+
+        public static class StateNames
+        {
+            public const string Attack = "CatAttack";
+        }
     }
 
     public static class AnimationTest
@@ -55,7 +61,7 @@ public static class GameConstant
 
         public static class EnemyAnimationState
         {
-            public const string AttackState = "attacktop";
+            public const string AttackState = "Attack";
         }
     }
 
