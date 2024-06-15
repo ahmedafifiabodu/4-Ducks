@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -6,6 +7,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _autoDestoryByTime = 5f;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private int _damage = 10;
+
+    public event Action OnHit; // Event triggered when the bullet hits a target
 
     protected Transform _target;
 
@@ -39,7 +42,10 @@ public class Bullet : MonoBehaviour
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out IDamageable damageable))
+        {
+            OnHit?.Invoke();
             damageable.TakeDamage(_damage);
+        }
 
         Disable();
     }
