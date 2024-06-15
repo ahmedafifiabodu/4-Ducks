@@ -12,25 +12,29 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     private Vector2 input;
 
-    PlayerState CatState;
+    private PlayerState CatState;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
+
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Jump")]
     [SerializeField] private float jumpHeight = 4f;
+
     [SerializeField] private float jumpDuration = 0.1f;
     private int jumpCount = 0;
 
     [Header("Physics")]
     [SerializeField] private float gravity = 30f;
+
     [SerializeField] private float maxVelocity = 20f;
     [SerializeField] private float maxForce = 20f;
     private float VelocityNode;
 
     [Header("CatAnimation")]
     [SerializeField] private float smooth = 5f;
+
     [SerializeField] private float animationPlayTransition = 0.001f;
     private int JumpAnimationId;
     private int RunAnimationId;
@@ -41,28 +45,35 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     [Header("Steps")]
     [SerializeField] private float startRay = 0.1f;
+
     [SerializeField] private float rayLength = 1f;
     [SerializeField] private float stepSmooth = 20f;
     [SerializeField] private float stepHeight = 1f;
     [SerializeField] private float maxClimbHeight = 0.5f;
 
-    #endregion
+    #endregion Parameters
 
     [Header("Audio")]
     private EventInstance PlayerFootSteps;
+
     protected override void Awake()
     {
         base.Awake();
         JumpAnimationId = Animator.StringToHash(GameConstant.CatAnimation.IsJumping);
         RunAnimationId = Animator.StringToHash(GameConstant.CatAnimation.HorizontalMove);
     }
+
     protected override void Start()
     {
         _jumpAction = _ => Jump();
 
         base.Start();
         PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystem.PlayerSteps);
+
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>();
     }
+
     private void Update()
     {
         input = _inputManager.CatActions.Move.ReadValue<Vector2>().normalized;
@@ -70,7 +81,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
         {
             Move(input);
         }
-        if(_inputManager.CatActions.Jump.triggered)
+        if (_inputManager.CatActions.Jump.triggered)
         {
             Jump();
         }
