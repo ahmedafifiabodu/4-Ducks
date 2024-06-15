@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -70,7 +71,6 @@ public class RangedAttackRadius : AttackRadius
                 }
             }
 
-
             yield return _attackDelayWaitForSeconds;
 
             if (_targetDamageable == null || !HasLineOfSightTo(_targetDamageable.GetTransform()))
@@ -110,8 +110,38 @@ public class RangedAttackRadius : AttackRadius
 
             _bullet.Spawn(_navMeshAgent.transform.forward, Damage, _storedTargetDamageable.GetTransform());
 
+            // Subscribe to the bullet's OnHit event
+            _bullet.OnHit += Bullet_OnHit;
+
             // Reset the stored target after shooting
             _storedTargetDamageable = null;
+        }
+    }
+
+    private void Bullet_OnHit()
+    {
+        // Spawn the particle effect at the bullet's position
+        if (ParticleEffect != null)
+        {
+            GameObject _particleEffectGameObject = ObjectPool.GetPooledObject(ParticleEffect.gameObject);
+            if (_particleEffectGameObject != null)
+            {
+                _particleEffectGameObject.transform.position = _bullet.transform.position; // Position the particle effect where the bullet hit
+                ParticleSystem particleInstance = _particleEffectGameObject.GetComponent<ParticleSystem>();
+                particleInstance.Play();
+
+                // Calculate the total duration of the particle effect
+                float totalDuration = particleInstance.main.duration + particleInstance.main.startLifetime.constantMax;
+
+                // Use DOVirtual.DelayedCall to wait for the particle effect to finish before setting the GameObject to inactive
+                DOVirtual.DelayedCall(totalDuration, () =>
+                {
+                    _particleEffectGameObject.SetActive(false);
+                });
+
+                // Unsubscribe from the bullet's OnHit event to prevent memory leaks
+                _bullet.OnHit -= Bullet_OnHit;
+            }
         }
     }
 
