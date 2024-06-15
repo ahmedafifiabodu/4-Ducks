@@ -43,6 +43,7 @@ public class CatThrowing : ThrowingMechanism
 
         base.Throw();
 
+        Logging.Log(AudioSystem);
         // Play the shooting sound
         AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
 
