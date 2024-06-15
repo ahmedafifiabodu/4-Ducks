@@ -23,17 +23,21 @@ public class AttackingScriptableObjectEditor : Editor
             script.IsHomingBullet = EditorGUILayout.Toggle("Is Homing Bullet", script.IsHomingBullet);
             if (script.IsHomingBullet)
             {
-                script.HomingBulletPrefab = (HomingBullet)EditorGUILayout.ObjectField("Homing Bullet Prefab", script.HomingBulletPrefab, typeof(HomingBullet), false);
+                GameObject homingBulletPrefab = (GameObject)EditorGUILayout.ObjectField("Homing Bullet Prefab", script.BulletPrefab, typeof(GameObject), false);
+                if (homingBulletPrefab != null && homingBulletPrefab.GetComponent<HomingBullet>() == null)
+                {
+                    EditorGUILayout.HelpBox("The selected GameObject does not have a HomingBullet component.", MessageType.Warning);
+                }
+                script.BulletPrefab = homingBulletPrefab;
             }
             else
             {
-                Bullet selectedBullet = (Bullet)EditorGUILayout.ObjectField("Bullet Prefab", script.BulletPrefab, typeof(Bullet), false);
-                if (selectedBullet != null && selectedBullet.GetType() != typeof(Bullet))
+                GameObject bulletPrefab = (GameObject)EditorGUILayout.ObjectField("Bullet Prefab", script.BulletPrefab, typeof(GameObject), false);
+                if (bulletPrefab != null && bulletPrefab.GetComponent<Bullet>() == null)
                 {
-                    selectedBullet = null;
-                    EditorGUILayout.HelpBox("Only Bullet can be selected.", MessageType.Warning);
+                    EditorGUILayout.HelpBox("The selected GameObject does not have a Bullet component.", MessageType.Warning);
                 }
-                script.BulletPrefab = selectedBullet;
+                script.BulletPrefab = bulletPrefab;
             }
 
             script.BulletSpawnOffset = EditorGUILayout.Vector3Field("Bullet Spawn Offset", script.BulletSpawnOffset);

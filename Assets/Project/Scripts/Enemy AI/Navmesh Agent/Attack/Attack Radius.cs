@@ -12,7 +12,6 @@ public class AttackRadius : MonoBehaviour
     private int _damage = 10; // Damage dealt by the attack
     private float _attackDelay = 0.5f; // Delay between attacks
 
-    protected internal bool useHomingBullet; // Whether to use a homing bullet
     protected readonly List<IDamageable> _damageables = new(); // List of damageable objects in the attack radius
     protected Coroutine _attackCoroutine; // Coroutine for the attack
     protected Transform _transform; // Transform of the game object
@@ -110,7 +109,7 @@ public class AttackRadius : MonoBehaviour
     protected void InvokeOnAttack(IDamageable target) => OnAttack?.Invoke(target);
 
     // Called when the attack animation is completed
-    internal void OnAttackAnimationCompleted()
+    internal virtual void OnAttackAnimationCompleted()
     {
         if (_closestDamageable != null)
         {

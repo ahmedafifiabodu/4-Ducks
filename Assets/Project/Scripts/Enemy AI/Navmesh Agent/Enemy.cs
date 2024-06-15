@@ -24,12 +24,7 @@ public class Enemy : MonoBehaviour
     internal NavmeshEnemyMovment NavmeshEnemyMovment => _navmeshEnemyMovment;
 
     // Called when the object is first initialized
-    private void Awake()
-    {
-        // Set up the attack radius
-        _attackRadius.useHomingBullet = _enemyScriptableObject.AttackingConfiguration.IsRanged;
-        _attackRadius.OnAttack += OnAttack;
-    }
+    private void Awake() => AttackRadius.OnAttack += OnAttack;
 
     // Called when the object is disabled
     private void OnDisable() => _navMeshAgent.enabled = false;
