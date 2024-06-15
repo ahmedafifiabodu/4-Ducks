@@ -31,6 +31,7 @@ public class AttackRadius : MonoBehaviour
 
     internal int Damage { get => _damage; set => _damage = value; }
     internal float AttackDelay { get => _attackDelay; set => _attackDelay = value; }
+    internal ObjectPool ObjectPool { get => _objectPool; set => _objectPool = value; }
 
     // Called when the object is first initialized
     protected virtual void Start()

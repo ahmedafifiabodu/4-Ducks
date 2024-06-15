@@ -80,12 +80,25 @@ public class NavmeshEnemyMovment : MonoBehaviour
 
     internal void Spawn()
     {
+        // Assuming you want to sample around this central point
+        Vector3 centerPoint = transform.position;
+        float sampleRange = 10f; // Adjust this range as needed
+
         for (int i = 0; i < _waypoints.Length; i++)
         {
-            if (NavMesh.SamplePosition(_navMeshTriangulation.vertices[Random.Range(0, _navMeshTriangulation.vertices.Length)], out NavMeshHit _hit, 2f, _agent.areaMask))
-                _waypoints[i] = _hit.position;
+            // Generate a random point within the sample range
+            Vector3 randomPoint = centerPoint + Random.insideUnitSphere * sampleRange;
+            randomPoint.y = centerPoint.y; // Assuming you want to keep the y coordinate consistent
+
+            // Sample a position on the NavMesh within a specified range from the randomPoint
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, sampleRange, _agent.areaMask))
+            {
+                _waypoints[i] = hit.position;
+            }
             else
+            {
                 Logging.LogError("Failed to sample position");
+            }
         }
         _onStateChange?.Invoke(EnemyStates.Spawn, _defaultState);
     }
