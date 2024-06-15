@@ -3,17 +3,22 @@ using System.Collections.Generic; // Required for using List
 
 public class CutOutObject : MonoBehaviour
 {
-    [SerializeField] private Transform _catTransform;
-    [SerializeField] private Transform _ghostTransform;
     [SerializeField] private LayerMask _obstaclesMask;
+
+    private Transform _catTransform;
+    private Transform _ghostTransform;
     private Camera _camera;
+    private ServiceLocator _serviceLocator;
 
     private List<Renderer> _hitCatRenderers = new List<Renderer>();
     private List<Renderer> _hitGhostRenderers = new List<Renderer>();
 
     private void Start()
     {
-        _camera = ServiceLocator.Instance.GetService<CameraInstance>().Camera;
+        _serviceLocator = ServiceLocator.Instance;
+        _camera = _serviceLocator.GetService<CameraInstance>().Camera;
+        _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
+        _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
     }
 
     private void Update()

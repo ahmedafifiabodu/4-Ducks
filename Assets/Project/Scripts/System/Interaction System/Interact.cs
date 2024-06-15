@@ -9,12 +9,11 @@ public class Interact : MonoBehaviour
     private InputManager _inputManager; // Reference to the InputManager
     private UISystem _playerUI; // Reference to the UISystem
     private Interactable currentInteractable; // The current interactable object
-    private CustomInteractionAnimation _customInteractionAnimation;
     private ObjectType _objectType; // The type of the player
 
     private ServiceLocator serviceLocator; // Reference to the ServiceLocator
 
-    private bool hasPlayedInteractSFX = false; // Flag to check if the interact sound effect has been played
+    private bool _hasPlayedInteractSFX = false; // Flag to check if the interact sound effect has been played
     private bool _outlineEnabled = true; // Flag to check if the outline is enabled
 
     // Property for the interactable layer mask
@@ -31,15 +30,11 @@ public class Interact : MonoBehaviour
         // Get the UISystem and InputManager from the ServiceLocator
         _inputManager = serviceLocator.GetService<InputManager>();
 
-        if (TryGetComponent<UISystem>(out var _UISystem))
+        if (serviceLocator.TryGetService<UISystem>(out var _UISystem))
         {
             _playerUI = _UISystem;
             _playerUI.DisablePromptText();
         }
-
-        // Get the CustomInteractionAnimation component from the current interactable object
-        if (TryGetComponent<CustomInteractionAnimation>(out var animation))
-            _customInteractionAnimation = animation;
 
         // Check the player type and set up the interact action
         if (_objectType != null)
@@ -88,9 +83,7 @@ public class Interact : MonoBehaviour
 
             // If the interactable object does not auto interact
             if (!_interactable.AutoInteract)
-            {
                 _playerUI.UpdatePromptText(_interactable.PromptMessage);
-            }
             else
                 StartInteraction();
         }
@@ -101,29 +94,30 @@ public class Interact : MonoBehaviour
     {
         // If the other object is interactable
         if (((1 << other.gameObject.layer) & InteractableLayerMask) != 0)
-        {
-            _outlineEnabled = false;
-            if (currentInteractable != null)
-            {
-                currentInteractable.ApplyOutline(_outlineEnabled);
-            }
-            hasPlayedInteractSFX = false;
-            SetCurrentInteractableToNull();
-        }
+            ResetInteraction();
+    }
+
+    private void ResetInteraction()
+    {
+        _outlineEnabled = false;
+        _hasPlayedInteractSFX = false;
+
+        if (currentInteractable != null)
+            currentInteractable.ApplyOutline(_outlineEnabled);
+
+        SetCurrentInteractableToNull();
     }
 
     // Set the current interactable object to null
-    public void SetCurrentInteractableToNull()
+    private void SetCurrentInteractableToNull()
     {
         if (currentInteractable == null)
             return;
 
-        currentInteractable.RemoveOutline();
-
         if (_playerUI != null)
-        {
             _playerUI.DisablePromptText();
-        }
+
+        currentInteractable.RemoveOutline();
         currentInteractable = null;
     }
 
@@ -137,23 +131,17 @@ public class Interact : MonoBehaviour
 
             if (shouldInteract)
             {
-                if (!hasPlayedInteractSFX)
+                if (!_hasPlayedInteractSFX)
                 {
                     //_audioManager.PlaySFX(_audioManager._interact);
-                    hasPlayedInteractSFX = true;
-                }
-
-                // Get the CustomInteractionAnimation component from the current interactable object
-                if (_customInteractionAnimation != null)
-                {
-                    _customInteractionAnimation.StartInteractableAnimation(currentInteractable.gameObject);
-
-                    if (_objectType.IsCat)
-                        _customInteractionAnimation.StartCatInteractJumpingUpAnimation(gameObject);
+                    _hasPlayedInteractSFX = true;
                 }
 
                 currentInteractable.BaseInteract(_objectType);
             }
         }
+
+        // Reset the interaction
+        ResetInteraction();
     }
 }

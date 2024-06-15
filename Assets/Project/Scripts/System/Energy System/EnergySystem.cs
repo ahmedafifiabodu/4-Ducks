@@ -19,8 +19,6 @@ public class EnergySystem : MonoBehaviour
     internal float EnergyPrecentage => (_energy / _maxEnergy);
     internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
-    private void Awake() => ServiceLocator.Instance.RegisterService(this, false);
-
     private void Start() => _energy = _startEnergy;
 
     public void GainEnergy(float energyAmount)
