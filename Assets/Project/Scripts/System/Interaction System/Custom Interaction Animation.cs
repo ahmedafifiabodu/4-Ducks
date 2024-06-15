@@ -6,8 +6,8 @@ public class CustomInteractionAnimation : MonoBehaviour
     [SerializeField] private float duration = 1f; // Duration of the animation
     private Sequence sequence; // Store the sequence
 
-    // Method to start the animation
-    internal void StartInteractableAnimation(GameObject targetObject)
+    // Start an interactable animation
+    public void StartInteractableAnimation(GameObject targetObject)
     {
         // If the sequence is active, don't start a new animation
         if (sequence != null && sequence.IsActive()) return;
@@ -31,10 +31,41 @@ public class CustomInteractionAnimation : MonoBehaviour
         sequence.Play();
     }
 
-    internal void StartCatInteractJumpingUpAnimation(GameObject targetObject)
+    // Start an interactable animation and set the GameObject to false when the animation is done
+    public void StartInteractableAnimationAndSetGameObjectToFalse(GameObject targetObject)
     {
         // If the sequence is active, don't start a new animation
         if (sequence != null && sequence.IsActive()) return;
+
+        // Get the original scale of the object
+        Vector3 originalScale = targetObject.transform.localScale;
+
+        // Create a sequence
+        sequence = DOTween.Sequence();
+
+        // Add a scaling up tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2).SetEase(Ease.OutQuad));
+
+        // Add a scaling down tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(originalScale, duration / 2).SetEase(Ease.InQuad));
+
+        // Set the sequence to loop 2 times
+        sequence.SetLoops(2, LoopType.Yoyo);
+
+        // Add a callback to deactivate the GameObject when the sequence is complete
+        sequence.OnComplete(() => targetObject.SetActive(false));
+
+        // Start the sequence
+        sequence.Play();
+    }
+
+    public void StartCatInteractJumpingUpAnimation()
+    {
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // Get the cat object
+        GameObject targetObject = ServiceLocator.Instance.GetService<Cat>().gameObject;
 
         // Get the original position of the object
         Vector3 originalPosition = targetObject.transform.position;
