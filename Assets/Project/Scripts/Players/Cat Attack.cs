@@ -2,12 +2,16 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// This class handles the attack logic for the cat character, including animation and applying damage.
 public class CatAttack : MonoBehaviour
 {
     [SerializeField] private int _attackDamage; // Damage dealt by the attack
     [SerializeField] private Animator _animator; // Animator for the cat's animations
+    [SerializeField] private float _attackDelay = 1f; // Delay between each attack to prevent spamming
+    [SerializeField] private GameObject _hitVFXPrefab; // VFX to play when the attack hits
 
     private InputManager _inputManager; // Reference to the input manager
+    private ObjectPool objectPool; // Reference to the ObjectPool
     private WaitForSeconds _attackDelayWaitForSeconds; // WaitForSeconds used for attack delay
     private IDamageable _damageable = null; // Reference to the damageable component of the enemy
 
@@ -18,75 +22,94 @@ public class CatAttack : MonoBehaviour
     private Vector3 _originalPosition; // Original position of the cat, used for animation effects
 
     private bool _isAttacking = false; // Flag to check if the cat is currently attacking
-    private float _attackDelay = 1f; // Delay between each attack to prevent spamming
 
     private void Start()
     {
-        // Get the input manager from the service locator
+        // Initialize components and subscribe to input actions
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
-        // Subscribe to the attack action in the input manager
         _inputManager.CatActions.Attack.started += Attack;
 
-        // Convert the animation name to a hash for performance
+        // Get the ObjectPool from the ServiceLocator
+        objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+
+        // Convert the animation name to a hash ID for efficient animation parameter handling
         AttackAnimationId = Animator.StringToHash(GameConstant.CatAnimation.Attacking);
 
-        // Store the original scale of the cat
+        // Cache the original scale of the cat
         _originalScale = transform.localScale;
 
-        // Initialize the WaitForSeconds with the attack delay
+        // Initialize the WaitForSeconds object for attack delay
         _attackDelayWaitForSeconds = new WaitForSeconds(_attackDelay);
     }
 
     private void Attack(InputAction.CallbackContext context)
     {
-        // If the cat is already attacking, ignore further input
+        // Prevents attack action if already attacking
         if (_isAttacking) return;
 
-        // Store the original position of the cat
         _originalPosition = transform.position;
-        // Start the attack routine
         StartCoroutine(AttackRoutine());
     }
 
     private System.Collections.IEnumerator AttackRoutine()
     {
-        _isAttacking = true; // Indicate that the cat is attacking
+        _isAttacking = true;
+        _animator.CrossFade(AttackAnimationId, animationPlayTransition); // Play attack animation
 
-        // Play the attack animation with a very quick transition
-        _animator.CrossFade(AttackAnimationId, animationPlayTransition);
-
-        // Create a sequence for the attack effect using DOTween
+        // Create a sequence for visual effects during the attack
         Sequence attackSequence = DOTween.Sequence();
-
-        // Scale the cat up slightly for a visual effect
         attackSequence.Append(transform.DOScale(_originalScale * 1.1f, 0.1f).SetEase(Ease.InOutSine));
-
-        // Dash the cat forward slightly for a visual effect
         attackSequence.Append(transform.DOMove(transform.position + transform.forward * 1f, 0.2f).SetEase(Ease.InOutSine));
-
-        // Scale the cat back down and return to the original position
         attackSequence.Append(transform.DOScale(_originalScale, 0.1f).SetEase(Ease.InOutSine));
         attackSequence.Join(transform.DOMove(_originalPosition, 0.2f).SetEase(Ease.InOutSine));
 
-        // Wait for the attack delay before allowing another attack
-        yield return _attackDelayWaitForSeconds;
+        yield return _attackDelayWaitForSeconds; // Wait for the attack delay
 
         _isAttacking = false; // Reset the attacking flag
     }
 
-    // Called when the attack animation reaches its designated point
-    internal void OnAttackAnimationCompleted() => _damageable?.TakeDamage(_attackDamage);
+    // This method is called when the attack animation reaches its designated point to apply damage and play VFX
+    internal void OnAttackAnimationCompleted()
+    {
+        if (_damageable != null)
+        {
+            _damageable.TakeDamage(_attackDamage);
+            if (_hitVFXPrefab != null)
+            {
+                Logging.Log("HERE");
+
+                // Get a pooled object from the ObjectPool
+                GameObject hitVFX = objectPool.GetPooledObject(_hitVFXPrefab);
+
+                // Calculate the position for the VFX to appear in front of the enemy, based on the cat's attack direction
+                Vector3 hitPosition = _damageable.GetTransform().position + (transform.up * 1.5f); // Adjust the 0.5f value as needed to position the VFX correctly
+
+                hitVFX.transform.SetPositionAndRotation(hitPosition, Quaternion.identity);
+
+                // Activate the VFX
+                hitVFX.SetActive(true);
+
+                // Use DOTween to animate the VFX. Assuming you want to fade it out, then deactivate it.
+                // Adjust the duration and values according to your needs.
+                hitVFX.GetComponent<Renderer>().material.DOFade(0, 1f).OnComplete(() =>
+                {
+                    hitVFX.SetActive(false);
+                    hitVFX.GetComponent<Renderer>().material.DOFade(1, 0); // Reset the fade so it's visible next time
+                });
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // When entering a collider, check if it has an IDamageable component
+        // Detects damageable enemies when they enter the attack range
         if (other.TryGetComponent<IDamageable>(out var damageable))
-            _damageable = damageable; // Store the reference to apply damage later
+            _damageable = damageable;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // When exiting a collider, clear the stored IDamageable reference
+        // Clears the reference to the damageable enemy when it exits the attack range
         if (other.TryGetComponent<IDamageable>(out var _))
             _damageable = null;
     }

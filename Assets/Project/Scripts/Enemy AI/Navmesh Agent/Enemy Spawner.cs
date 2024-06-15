@@ -4,60 +4,57 @@ using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
+// The EnemySpawner class is responsible for spawning enemies at runtime using predefined configurations and an object pooling system.
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private List<EnemySpawnerList> _enemySpawnerLists; // List of EnemySpawnerList
+    [SerializeField] private List<EnemySpawnerList> _enemySpawnerLists; // List of configurations for spawning different enemy types
 
-    private ObjectPool _objectPool; // Reference to the ObjectPool
+    private ObjectPool _objectPool; // Reference to the ObjectPool for reusing enemy game objects
 
-    // Called before the first frame update
+    // Start is called before the first frame update
     private void Start()
     {
-        // Get the ObjectPool from the ServiceLocator
+        // Retrieve the ObjectPool instance from the ServiceLocator
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
-        // Start the SpawnEnemies coroutine for each EnemySpawnerList
+        // Start the coroutine to spawn enemies for each configuration in _enemySpawnerLists
         foreach (var spawnerList in _enemySpawnerLists)
-        {
             StartCoroutine(SpawnEnemies(spawnerList));
-        }
     }
 
-    // Coroutine to spawn enemies
+    // Coroutine to spawn enemies based on a given EnemySpawnerList configuration
     private IEnumerator SpawnEnemies(EnemySpawnerList spawnerList)
     {
-        // Ensure the NavMesh for the specific NavMeshSurface is built
+        // Build the NavMesh for the area where enemies will be spawned
         spawnerList.NavMeshSurface.BuildNavMesh();
 
-        // Use the SpawnDelay from the current spawnerList
+        // Delay between spawns for the current configuration
         WaitForSeconds spawnDelayWaitForSeconds = new(spawnerList.SpawnDelay);
 
+        // Iterate over each enemy type in the configuration
         foreach (EnemyPrefabAndSize enemyPrefabAndSize in spawnerList.EnemiesPrefabs)
         {
             List<GameObject> enemiesPrefab = new();
 
-            // Populate the enemiesPrefab list with the required number of prefabs
+            // Populate the list with the required number of prefabs from the object pool
             for (int i = 0; i < enemyPrefabAndSize.Size; i++)
             {
-                // Inside the SpawnEnemies coroutine of EnemySpawner
                 GameObject pooledObject = _objectPool.GetPooledObject(enemyPrefabAndSize.EnemyPrefab);
                 if (pooledObject != null)
-                {
                     enemiesPrefab.Add(pooledObject);
-                }
                 else
                 {
                     Logging.LogError("Failed to get a pooled object. Is the pool size configured correctly?");
-                    yield break; // Exit if we can't get enough objects from the pool
+                    yield break; // Exit the coroutine if unable to retrieve enough objects from the pool
                 }
             }
 
             int spawnedEnemies = 0;
 
-            // Spawn enemies until the number specified in enemyPrefabAndSize.Size is reached
+            // Spawn enemies until the desired number is reached
             while (spawnedEnemies < enemyPrefabAndSize.Size)
             {
-                // Use the SpawnMethod from the current spawnerList
+                // Spawn method can be either RoundRobin or Random based on the configuration
                 if (spawnerList.SpawnMethod == SpawnMethod.RoundRobin)
                     SpawnRoundRobinEnemy(spawnedEnemies, enemiesPrefab, spawnerList.NavMeshSurface);
                 else if (spawnerList.SpawnMethod == SpawnMethod.Random)
@@ -65,22 +62,23 @@ public class EnemySpawner : MonoBehaviour
 
                 spawnedEnemies++;
 
+                // Wait for the specified delay before spawning the next enemy
                 yield return spawnDelayWaitForSeconds;
             }
         }
     }
 
-    // Correct the method signature to accept NavMeshSurface
+    // Spawn an enemy using a round-robin selection method
     private void SpawnRoundRobinEnemy(int spawnedEnemies, List<GameObject> enemiesPrefab, NavMeshSurface surface)
     {
         int enemyIndex = spawnedEnemies % enemiesPrefab.Count;
         DoSpawnEnemy(enemyIndex, enemiesPrefab, surface);
     }
 
-    // Correct the method signature to accept NavMeshSurface
+    // Spawn an enemy at a random position
     private void SpawnRandomEnemy(List<GameObject> enemiesPrefab, NavMeshSurface surface) => DoSpawnEnemy(Random.Range(0, enemiesPrefab.Count), enemiesPrefab, surface);
 
-    // Spawn an enemy
+    // Common method for spawning an enemy
     private void DoSpawnEnemy(int enemyIndex, List<GameObject> enemiesPrefab, NavMeshSurface surface)
     {
         GameObject enemyPool = enemiesPrefab[enemyIndex];
@@ -91,10 +89,10 @@ public class EnemySpawner : MonoBehaviour
 
             if (spawnPosition != Vector3.zero)
             {
-                enemy.NavMeshAgent.Warp(spawnPosition);
-                enemy.NavMeshAgent.enabled = true;
-                enemy.gameObject.SetActive(true);
-                enemy.NavmeshEnemyMovment.Spawn();
+                enemy.NavMeshAgent.Warp(spawnPosition); // Position the enemy on the NavMesh
+                enemy.NavMeshAgent.enabled = true; // Enable the NavMeshAgent
+                enemy.gameObject.SetActive(true); // Activate the enemy game object
+                enemy.NavmeshEnemyMovment.Spawn(); // Trigger any spawn-specific behavior
             }
             else
                 Logging.LogError("Failed to sample position");
@@ -103,20 +101,17 @@ public class EnemySpawner : MonoBehaviour
             Logging.LogError("Enemy is null or does not have an Enemy component");
     }
 
-    // Sample a position on the NavMesh
+    // Sample a position on the NavMesh within a specified range
     private Vector3 SampleNavMeshPosition(NavMeshSurface surface)
     {
-        // Assuming you want to sample a position within a certain range around the center of the surface
         Vector3 center = surface.transform.position;
         float range = 10.0f; // Example range within which to sample a position
 
-        // Try to find a valid position on the NavMesh within the specified range
+        // Attempt to find a valid position on the NavMesh within the specified range
         if (NavMesh.SamplePosition(center, out NavMeshHit hit, range, NavMesh.AllAreas))
-        {
             return hit.position;
-        }
 
-        // If no valid position was found, return Vector3.zero or handle accordingly
+        // Return Vector3.zero if no valid position was found
         return Vector3.zero;
     }
 }

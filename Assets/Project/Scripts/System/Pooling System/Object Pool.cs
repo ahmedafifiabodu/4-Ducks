@@ -1,35 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// ObjectPool class is used to manage a pool of objects for reuse, to avoid the overhead of instantiating and destroying
+// The ObjectPool class manages a pool of objects for reuse, reducing the overhead associated with instantiating and destroying objects frequently.
 public class ObjectPool : MonoBehaviour
 {
-    // Serialized fields that can be set in the Unity editor
-    [SerializeField] internal List<Pool> pools; // List of pools
+    [SerializeField] internal List<Pool> pools; // List of different object pools
+    [SerializeField] internal Dictionary<GameObject, List<GameObject>> poolDictionary; // Dictionary mapping prefabs to their respective pools
 
-    [SerializeField] internal Dictionary<GameObject, List<GameObject>> poolDictionary; // Dictionary of pools
-
-    // Called when the object is first initialized
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        // Register the ObjectPool as a service
+        // Register this ObjectPool instance with the ServiceLocator for easy access from other scripts
         ServiceLocator.Instance.RegisterService(this, false);
 
-        // Initialize the pool dictionary
+        // Initialize the dictionary that will hold the pools
         poolDictionary = new();
     }
 
-    // Called before the first frame update
+    // Start is called before the first frame update
     private void Start() => InitializeList();
 
-    // Initialize the list of pools
+    // Initializes the object pools based on the 'pools' list
     private void InitializeList()
     {
         foreach (Pool pool in pools)
         {
             List<GameObject> objectPool = new();
 
-            // Instantiate the objects in the pool
+            // Instantiate and deactivate the initial objects for the pool
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
@@ -37,18 +35,18 @@ public class ObjectPool : MonoBehaviour
                 objectPool.Add(obj);
             }
 
-            // Add the pool to the pool dictionary
+            // Add the newly created pool to the dictionary
             poolDictionary.Add(pool.prefab, objectPool);
         }
     }
 
-    // Get a pooled object
+    // Retrieves an object from the specified pool, or extends the pool if necessary
     internal GameObject GetPooledObject(GameObject prefab)
     {
-        // Attempt to remove "(Clone)" from the prefab name to match the original prefab name in the dictionary
+        // Clean up the prefab name to match keys in the dictionary
         string prefabName = prefab.name.Replace("(Clone)", "").Trim();
 
-        // Find the original prefab in the poolDictionary by matching the prefabName
+        // Find the original prefab in the dictionary
         GameObject originalPrefab = null;
         foreach (var key in poolDictionary.Keys)
         {
@@ -65,7 +63,7 @@ public class ObjectPool : MonoBehaviour
             return null;
         }
 
-        // Use the originalPrefab to access the poolDictionary
+        // Retrieve an inactive object from the pool
         foreach (GameObject obj in poolDictionary[originalPrefab])
         {
             if (!obj.activeInHierarchy)
@@ -75,7 +73,7 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        // If no inactive object is found, create a new one
+        // If no inactive object is available, extend the pool
         GameObject newObj = ExtendObjects(originalPrefab);
         if (newObj != null)
         {
@@ -88,10 +86,10 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
-    // Extend the objects in the pool
+    // Extends the pool by instantiating a new object
     private GameObject ExtendObjects(GameObject prefab)
     {
-        // Find the pool for the prefab
+        // Find the corresponding pool for the prefab
         Pool pool = null;
         for (int i = 0; i < pools.Count; i++)
         {
@@ -102,7 +100,7 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        // If the pool is found, instantiate a new object and add it to the pool
+        // Instantiate a new object and add it to the pool
         if (pool != null)
         {
             GameObject obj = Instantiate(pool.prefab);
@@ -115,10 +113,10 @@ public class ObjectPool : MonoBehaviour
         return null;
     }
 
-    // Return an object to the pool
+    // Returns an object to the pool by deactivating it
     internal void ReturnToPool(int _, GameObject objectToReturn) => objectToReturn.SetActive(false);
 
-    // Get the size of a pool
+    // Retrieves the size of a specific pool
     internal int GetPoolSize(GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(prefab))
@@ -127,7 +125,7 @@ public class ObjectPool : MonoBehaviour
         return poolDictionary[prefab].Count;
     }
 
-    // Get the pooled objects for a prefab
+    // Retrieves the list of pooled objects for a specific prefab
     internal List<GameObject> GetPooledObjects(GameObject prefab)
     {
         if (!poolDictionary.ContainsKey(prefab))

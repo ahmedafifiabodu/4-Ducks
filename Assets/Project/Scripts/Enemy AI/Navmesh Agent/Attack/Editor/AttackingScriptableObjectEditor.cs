@@ -2,28 +2,38 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+// Custom editor for AttackingScriptableObject to provide a specialized inspector interface
 [CustomEditor(typeof(AttackingScriptableObject))]
 public class AttackingScriptableObjectEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        // Cast the target of this editor to AttackingScriptableObject for easier access
         AttackingScriptableObject script = (AttackingScriptableObject)target;
 
+        // Display a label for the attack configuration section
         EditorGUILayout.LabelField("Attack Configuration", EditorStyles.boldLabel);
+        // Fields for editing basic attack properties
         script.Damage = EditorGUILayout.IntField("Damage", script.Damage);
         script.AttackRadius = EditorGUILayout.FloatField("Attack Radius", script.AttackRadius);
         script.AttackDelay = EditorGUILayout.FloatField("Attack Delay", script.AttackDelay);
+        // Custom field for selecting a LayerMask
         script.LineOfSightLayers = LayerMaskField(new GUIContent("Layer Mask"), script.LineOfSightLayers);
 
+        // Display a label for the ranged configuration section
         EditorGUILayout.LabelField("Ranged Configuration", EditorStyles.boldLabel);
+        // Toggle for enabling/disabling ranged attack
         script.IsRanged = EditorGUILayout.Toggle("Is Ranged", script.IsRanged);
 
         if (script.IsRanged)
         {
+            // Toggle for enabling/disabling homing bullets
             script.IsHomingBullet = EditorGUILayout.Toggle("Is Homing Bullet", script.IsHomingBullet);
             if (script.IsHomingBullet)
             {
+                // Field for selecting the homing bullet prefab
                 GameObject homingBulletPrefab = (GameObject)EditorGUILayout.ObjectField("Homing Bullet Prefab", script.BulletPrefab, typeof(GameObject), false);
+                // Warning if the selected prefab does not have a HomingBullet component
                 if (homingBulletPrefab != null && homingBulletPrefab.GetComponent<HomingBullet>() == null)
                 {
                     EditorGUILayout.HelpBox("The selected GameObject does not have a HomingBullet component.", MessageType.Warning);
@@ -32,7 +42,9 @@ public class AttackingScriptableObjectEditor : Editor
             }
             else
             {
+                // Field for selecting the bullet prefab
                 GameObject bulletPrefab = (GameObject)EditorGUILayout.ObjectField("Bullet Prefab", script.BulletPrefab, typeof(GameObject), false);
+                // Warning if the selected prefab does not have a Bullet component
                 if (bulletPrefab != null && bulletPrefab.GetComponent<Bullet>() == null)
                 {
                     EditorGUILayout.HelpBox("The selected GameObject does not have a Bullet component.", MessageType.Warning);
@@ -40,9 +52,11 @@ public class AttackingScriptableObjectEditor : Editor
                 script.BulletPrefab = bulletPrefab;
             }
 
+            // Field for editing the bullet spawn offset
             script.BulletSpawnOffset = EditorGUILayout.Vector3Field("Bullet Spawn Offset", script.BulletSpawnOffset);
         }
 
+        // Mark the script as dirty and apply modified properties if any GUI element was changed
         if (GUI.changed)
         {
             EditorUtility.SetDirty(script);
@@ -50,6 +64,7 @@ public class AttackingScriptableObjectEditor : Editor
         }
     }
 
+    // Helper method to get all layer names
     private List<string> GetAllLayers()
     {
         List<string> layers = new();
@@ -64,6 +79,7 @@ public class AttackingScriptableObjectEditor : Editor
         return layers;
     }
 
+    // Custom field for selecting a LayerMask
     private LayerMask LayerMaskField(GUIContent label, LayerMask layerMask)
     {
         var layers = GetAllLayers();
