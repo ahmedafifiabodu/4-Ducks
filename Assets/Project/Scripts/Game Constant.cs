@@ -61,7 +61,7 @@ public static class GameConstant
 
         public static class EnemyAnimationState
         {
-            public const string AttackState = "attacktop";
+            public const string AttackState = "Attack";
         }
     }
 

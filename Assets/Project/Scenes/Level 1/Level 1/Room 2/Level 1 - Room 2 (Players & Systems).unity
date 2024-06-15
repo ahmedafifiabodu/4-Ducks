@@ -148,7 +148,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.083333336
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2618007d2dde1aa4facb7cfa724751d0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f9be91792475de041a671f2414db6a40, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &142911970
 PrefabInstance:
@@ -841,6 +841,24 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1808199303}
     m_Modifications:
+    - target: {fileID: 1884139828373057646, guid: 8694658422c36514593420263c7e6331,
+        type: 3}
+      propertyPath: pools.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: 430ff624cf269c34f9cb5dd7ebe802f5,
+        type: 3}
+    - target: {fileID: 1884139828373057646, guid: 8694658422c36514593420263c7e6331,
+        type: 3}
+      propertyPath: pools.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: 6c3ae074b4a50c74c84adbaceb3732a4,
+        type: 3}
+    - target: {fileID: 1884139828373057646, guid: 8694658422c36514593420263c7e6331,
+        type: 3}
+      propertyPath: pools.Array.data[7].prefab
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: 6c3ae074b4a50c74c84adbaceb3732a4,
+        type: 3}
     - target: {fileID: 7090651241692038567, guid: 8694658422c36514593420263c7e6331,
         type: 3}
       propertyPath: m_Name
@@ -1683,7 +1701,37 @@ PrefabInstance:
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: _enemySpawnerLists.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[0]._spawnDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[1]._spawnDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._spawnDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[0]._spawnMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[1]._spawnMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._spawnMethod
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
@@ -1697,12 +1745,22 @@ PrefabInstance:
       objectReference: {fileID: 8201191321837213380}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._navMeshSurface
+      value: 
+      objectReference: {fileID: 8201191322915181999}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
       propertyPath: _enemySpawnerLists.Array.data[0]._enemiesPrefabs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: _enemySpawnerLists.Array.data[1]._enemiesPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._enemiesPrefabs.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
@@ -1714,6 +1772,39 @@ PrefabInstance:
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: '_enemySpawnerLists.Array.data[1]._enemiesPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d,
+        type: 3}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[0]._enemiesPrefabs.Array.data[0]._size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[1]._enemiesPrefabs.Array.data[0]._size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._enemiesPrefabs.Array.data[0]._size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[0]._enemiesPrefabs.Array.data[0]._enemyPrefab
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: 430ff624cf269c34f9cb5dd7ebe802f5,
+        type: 3}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[1]._enemiesPrefabs.Array.data[0]._enemyPrefab
+      value: 
+      objectReference: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d,
+        type: 3}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
+      propertyPath: _enemySpawnerLists.Array.data[2]._enemiesPrefabs.Array.data[0]._enemyPrefab
       value: 
       objectReference: {fileID: 1128758269040250, guid: f88c6ad57910d8648807bcf0c131f49d,
         type: 3}
@@ -1946,7 +2037,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_UseGeometry: 0
   m_DefaultArea: 0
-  m_GenerateLinks: 0
+  m_GenerateLinks: 1
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
@@ -1997,7 +2088,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_UseGeometry: 0
   m_DefaultArea: 0
-  m_GenerateLinks: 0
+  m_GenerateLinks: 1
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0

@@ -13,8 +13,7 @@ public class AttackingScriptableObject : ScriptableObject
     [SerializeField] private bool _isRanged = false;
 
     [SerializeField] private bool _isHomingBullet = false;
-    [SerializeField] private Bullet _bulletPrefab;
-    [SerializeField] private HomingBullet _homingBulletPrefab;
+    [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Vector3 _bulletSpawnOffset = new(0, 1, 0);
     [SerializeField] private LayerMask _lineOfSightLayers = -1;
 
@@ -50,13 +49,7 @@ public class AttackingScriptableObject : ScriptableObject
         set { _isHomingBullet = value; }
     }
 
-    public HomingBullet HomingBulletPrefab
-    {
-        get { return _homingBulletPrefab; }
-        set { _homingBulletPrefab = value; }
-    }
-
-    public Bullet BulletPrefab
+    public GameObject BulletPrefab
     {
         get { return _bulletPrefab; }
         set { _bulletPrefab = value; }
@@ -84,17 +77,15 @@ public class AttackingScriptableObject : ScriptableObject
 
         if (_isRanged)
         {
-            RangedAttackRadius rangedAttackRadius = enemy.AttackRadius.GetComponent<RangedAttackRadius>();
+            if (enemy.AttackRadius.TryGetComponent<RangedAttackRadius>(out var rangedAttackRadius))
+            {
+                if (BulletPrefab == null)
+                    return;
 
-            if (_isHomingBullet)
-            {
-                rangedAttackRadius.BulletSpawnOffset = _bulletSpawnOffset;
-                rangedAttackRadius.LineOfSightLayers = _lineOfSightLayers;
-            }
-            else
-            {
-                rangedAttackRadius.BulletSpawnOffset = _bulletSpawnOffset;
-                rangedAttackRadius.LineOfSightLayers = _lineOfSightLayers;
+                rangedAttackRadius.Bullet = BulletPrefab.GetComponent<Bullet>();
+                rangedAttackRadius.UseHomingBullet = IsHomingBullet;
+                rangedAttackRadius.BulletSpawnOffset = BulletSpawnOffset;
+                rangedAttackRadius.LineOfSightLayers = LineOfSightLayers;
             }
         }
     }
