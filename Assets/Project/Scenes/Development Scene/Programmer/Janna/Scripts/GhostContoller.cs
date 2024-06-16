@@ -16,6 +16,9 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     private bool canDash = true;
     private bool isDashing = false;
 
+    [SerializeField] private ParticleSystem _movingEffect;
+
+
     PlayerState GhostState;
 
     [Header("BroadCasting")]
@@ -79,11 +82,13 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     {
         GhostState = PlayerState.moving;
         input = context.ReadValue<Vector2>().normalized;
+        MovingEffect();
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
         rb.velocity = Vector3.zero;
+        StoppingEffect();
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -269,6 +274,14 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
                 rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             }
         }
+    }
+    private void MovingEffect()
+    {
+        _movingEffect.Play();
+    }
+    private void StoppingEffect()
+    {
+        _movingEffect.Stop();
     }
     public override void LoadGame(GameData _gameData)
     {
