@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System;
+using UnityEngine.Events;
 
 public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 {
@@ -23,6 +24,8 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
     [Header("BroadCasting")]
     // reference of two events 
+    [SerializeField] private UnityEvent _onAscend;
+    [SerializeField] private UnityEvent _onDescend;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
@@ -73,15 +76,18 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             if (isAscending)
             {
                 Ascend();
+                _onAscend?.Invoke();
             }
             else
             {
                 ApplyGravity();
+                _onDescend?.Invoke();
             }
         }
         else
         {
             ApplyGravity();
+            _onDescend?.Invoke();
         }
     }
 
