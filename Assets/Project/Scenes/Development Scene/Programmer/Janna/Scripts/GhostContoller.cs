@@ -15,14 +15,14 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     private bool isAscending = false;
     private bool canDash = true;
     private bool isDashing = false;
+    [SerializeField] private bool canFly;
 
     [SerializeField] private ParticleSystem _movingEffect;
-
 
     PlayerState GhostState;
 
     [Header("BroadCasting")]
-    // refernce of two events 
+    // reference of two events 
 
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
@@ -34,7 +34,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     private float dashTime;
 
     [Header("Ascending")]
-    [SerializeField] private float ascendingSpeed =40f;
+    [SerializeField] private float ascendingSpeed = 40f;
     private float ghostDistance = 0.1f;
     [SerializeField] private float gravity = -9.81f;
     private float distanceToGround;
@@ -67,10 +67,17 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
         {
             Move(input);
         }
-        
-        if (isAscending)
+
+        if (canFly)
         {
-            Ascend();
+            if (isAscending)
+            {
+                Ascend();
+            }
+            else
+            {
+                ApplyGravity();
+            }
         }
         else
         {
@@ -99,17 +106,22 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
-        //invoke event start ascending
-        /*isAscending = context.ReadValue<float>() > 0.1f;
-        isAscending = true;
-        GhostState = PlayerState.Ascending;*/
+        if (canFly)
+        {
+            isAscending = context.ReadValue<float>() > 0.1f;
+            isAscending = true;
+            GhostState = PlayerState.Ascending;
+        }
     }
 
     protected override void OnAscendCanceled(InputAction.CallbackContext context)
     {
-       /* isAscending = context.ReadValue<float>() > 0.1f;
-        isAscending = false;
-        GhostState = PlayerState.moving;*/
+        if (canFly)
+        {
+            isAscending = context.ReadValue<float>() > 0.1f;
+            isAscending = false;
+            GhostState = PlayerState.moving;
+        }
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
