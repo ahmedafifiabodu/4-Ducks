@@ -21,7 +21,7 @@ public class ThrowingMechanism : MonoBehaviour
     [SerializeField] private float pointIncreaseInterval = 0.2f; // Interval to increase the points in the trajectory
 
     [Header("Shoot Animation")]
-    [SerializeField] private CustomInteractionAnimation _customInteractionAnimation; // Reference to the custom interaction animation
+    [SerializeField] private CustomDoTweenAnimation _customInteractionAnimation; // Reference to the custom interaction animation
 
     private ObjectPool _objectPool; // Reference to the ObjectPool
     private Coroutine _throwCoroutine; // Coroutine for the throw
@@ -68,9 +68,9 @@ public class ThrowingMechanism : MonoBehaviour
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
 
-        // Get the CustomInteractionAnimation component
+        // Get the CustomDoTweenAnimation component
         if (_customInteractionAnimation == null)
-            _customInteractionAnimation = GetComponent<CustomInteractionAnimation>();
+            _customInteractionAnimation = GetComponent<CustomDoTweenAnimation>();
 
         // Initialize the actions
         _startThrowAction = context =>

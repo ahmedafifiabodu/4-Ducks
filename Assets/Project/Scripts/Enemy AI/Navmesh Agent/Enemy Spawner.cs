@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
@@ -9,7 +10,10 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<EnemySpawnerList> _enemySpawnerLists; // List of configurations for spawning different enemy types
 
+    public event Action AllEnemiesDestroyed; // Event triggered when all enemies have been destroyed
+
     private ObjectPool _objectPool; // Reference to the ObjectPool for reusing enemy game objects
+    private readonly List<GameObject> activeEnemies = new();
 
     // Start is called before the first frame update
     private void Start()
@@ -76,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // Spawn an enemy at a random position
-    private void SpawnRandomEnemy(List<GameObject> enemiesPrefab, NavMeshSurface surface) => DoSpawnEnemy(Random.Range(0, enemiesPrefab.Count), enemiesPrefab, surface);
+    private void SpawnRandomEnemy(List<GameObject> enemiesPrefab, NavMeshSurface surface) => DoSpawnEnemy(UnityEngine.Random.Range(0, enemiesPrefab.Count), enemiesPrefab, surface);
 
     // Common method for spawning an enemy
     private void DoSpawnEnemy(int enemyIndex, List<GameObject> enemiesPrefab, NavMeshSurface surface)
@@ -93,6 +97,10 @@ public class EnemySpawner : MonoBehaviour
                 enemy.NavMeshAgent.enabled = true; // Enable the NavMeshAgent
                 enemy.gameObject.SetActive(true); // Activate the enemy game object
                 enemy.NavmeshEnemyMovment.Spawn(); // Trigger any spawn-specific behavior
+
+                // Add to active enemies list and subscribe to destruction event
+                activeEnemies.Add(enemy.gameObject);
+                enemy.OnDestroyed += () => OnEnemyDestroyed(enemy.gameObject);
             }
             else
                 Logging.LogError("Failed to sample position");
@@ -113,5 +121,15 @@ public class EnemySpawner : MonoBehaviour
 
         // Return Vector3.zero if no valid position was found
         return Vector3.zero;
+    }
+
+    // Event handler for when an enemy is destroyed
+    private void OnEnemyDestroyed(GameObject enemy)
+    {
+        // Remove the enemy from the active enemies list
+        activeEnemies.Remove(enemy);
+
+        if (activeEnemies.Count == 0)
+            AllEnemiesDestroyed?.Invoke(); // All enemies have been destroyed
     }
 }
