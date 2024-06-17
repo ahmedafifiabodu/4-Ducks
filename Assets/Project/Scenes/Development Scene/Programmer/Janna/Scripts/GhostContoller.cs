@@ -1,78 +1,92 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using System;
 
 public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 {
     #region Parameters
 
-    private Action<InputAction.CallbackContext> _dashAction;
-    private Action<InputAction.CallbackContext> _startAscendAction;
-    private Action<InputAction.CallbackContext> _stopAscendAction;
+    [SerializeField] private bool canFly;
+    [SerializeField] private ParticleSystem _movingEffect;
 
     private Vector2 input;
     private bool isAscending = false;
     private bool canDash = true;
     private bool isDashing = false;
 
-    PlayerState GhostState;
+    private PlayerState GhostState;
 
     [Header("BroadCasting")]
-    // refernce of two events 
+    // reference of two events
+    [SerializeField] private UnityEvent _onAscend;
+
+    [SerializeField] private UnityEvent _onDescend;
 
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
+
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Dashing")]
     [SerializeField] private float dashSpeed = 100f;
+
     [SerializeField] private float dashDistance = 10f;
     private float dashTime;
 
     [Header("Ascending")]
-    [SerializeField] private float ascendingSpeed =40f;
-    private float ghostDistance = 0.1f;
+    [SerializeField] private float ascendingSpeed = 40f;
+
     [SerializeField] private float gravity = -9.81f;
+
+    private readonly float ghostDistance = 0.1f;
     private float distanceToGround;
     private RaycastHit reachedDistance;
 
     [Header("Steps")]
     [SerializeField] private float startRay = 0.5f;
+
     [SerializeField] private float rayLength = 1f;
     [SerializeField] private float stepSmooth = 20f;
     [SerializeField] private float stepHeight = 1f;
     [SerializeField] private float maxClimbHeight = 0.5f;
-
-    private int RunAnimationId;
-    private RaycastHit ishit;
     [SerializeField] private LayerMask detectWall;
 
-    #endregion
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+    private readonly int RunAnimationId;
+    private RaycastHit ishit;
+
+    #endregion Parameters
+
+    protected override void Awake() => base.Awake();
+
     protected override void Start()
     {
         base.Start();
-        _dashAction = context => Dash();
     }
+
     private void Update()
     {
         input = _inputManager.GhostActions.Move.ReadValue<Vector2>().normalized;
         if (input.magnitude > 0.1f)
-        {
             Move(input);
-        }
-        
-        if (isAscending)
+
+        if (canFly)
         {
-            Ascend();
+            if (isAscending)
+            {
+                Ascend();
+                _onAscend?.Invoke();
+            }
+            else
+            {
+                ApplyGravity();
+                _onDescend?.Invoke();
+            }
         }
         else
         {
             ApplyGravity();
+            _onDescend?.Invoke();
         }
     }
 
@@ -80,11 +94,13 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     {
         GhostState = PlayerState.moving;
         input = context.ReadValue<Vector2>().normalized;
+        MovingEffect();
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
         rb.velocity = Vector3.zero;
+        StoppingEffect();
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -95,17 +111,22 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
     protected override void OnAscendPerformed(InputAction.CallbackContext context)
     {
-        //invoke event start ascending
-        /*isAscending = context.ReadValue<float>() > 0.1f;
-        isAscending = true;
-        GhostState = PlayerState.Ascending;*/
+        if (canFly)
+        {
+            isAscending = context.ReadValue<float>() > 0.1f;
+            isAscending = true;
+            GhostState = PlayerState.Ascending;
+        }
     }
 
     protected override void OnAscendCanceled(InputAction.CallbackContext context)
     {
-       /* isAscending = context.ReadValue<float>() > 0.1f;
-        isAscending = false;
-        GhostState = PlayerState.moving;*/
+        if (canFly)
+        {
+            isAscending = context.ReadValue<float>() > 0.1f;
+            isAscending = false;
+            GhostState = PlayerState.moving;
+        }
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
@@ -132,9 +153,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
             if (ShouldStep(moveDirection))
-            {
                 Step(moveDirection);
-            }
             else
             {
                 Vector3 newVelocity = moveDirection * Speed;
@@ -143,31 +162,26 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             }
         }
         else
-        {
             _animator.SetFloat(RunAnimationId, 0);
-        }
     }
 
     public bool ShouldStep(Vector3 moveDirection)
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = moveDirection;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
+        Logging.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
             Vector3 stepRayOrigin = rayOrigin + Vector3.up * stepHeight;
 
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
-            {
-                if (!Physics.Raycast(stepRayOrigin, rayDirection, out hit, rayLength))
-                {
+                if (!Physics.Raycast(stepRayOrigin, rayDirection, out _, rayLength))
                     return true;
-                }
-            }
         }
+
         return false;
     }
 
@@ -175,10 +189,10 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = moveDirection;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
+        Logging.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
 
@@ -187,31 +201,27 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
                 Vector3 normal = hit.normal;
                 Vector3 projectedDirection = Vector3.ProjectOnPlane(rayDirection, normal);
 
-                Vector3 stepUpPosition = transform.position + projectedDirection.normalized * Speed * Time.deltaTime;
+                Vector3 stepUpPosition = transform.position + Speed * Time.deltaTime * projectedDirection.normalized;
                 stepUpPosition.y = hit.point.y + stepHeight;
 
                 rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth * Time.deltaTime));
             }
             else
-            {
                 rb.AddForce(Vector3.up * gravity);
-            }
         }
         else
-        {
             rb.AddForce(Vector3.up * gravity);
-        }
     }
 
     public void Dash()
     {
         if (GhostState != PlayerState.Dashing)
             return;
+
         GhostState = PlayerState.Dashing;
+
         if (canDash && !isDashing)
-        {
             StartCoroutine(PerformDash());
-        }
     }
 
     public IEnumerator PerformDash()
@@ -220,9 +230,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
         isDashing = true;
 
         if (Physics.Raycast(transform.position, transform.forward, out ishit, dashDistance, detectWall))
-        {
             SetWallTrigger(ishit.collider, true);
-        }
 
         rb.velocity = transform.forward * dashSpeed;
         dashTime = dashDistance / dashSpeed;
@@ -233,20 +241,18 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
         isDashing = false;
 
         if (ishit.collider != null)
-        {
             SetWallTrigger(ishit.collider, false);
 
-        }
         canDash = true;
         GhostState = PlayerState.moving;
     }
+
     public void SetWallTrigger(Collider wallCollider, bool isTrigger)
     {
         if (wallCollider != null)
-        {
             wallCollider.isTrigger = isTrigger;
-        }
     }
+
     public void Ascend()
     {
         if (GhostState != PlayerState.Ascending)
@@ -254,6 +260,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
         rb.velocity = new Vector3(rb.velocity.x, ghostDistance * ascendingSpeed, rb.velocity.z);
     }
+
     public void ApplyGravity()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out reachedDistance))
@@ -261,9 +268,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             distanceToGround = reachedDistance.distance;
 
             if (distanceToGround > ghostDistance)
-            {
                 rb.useGravity = true;
-            }
             else
             {
                 rb.useGravity = false;
@@ -271,13 +276,8 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             }
         }
     }
-    public override void LoadGame(GameData _gameData)
-    {
-        transform.position = _gameData._playerPosition;
-    }
 
-    public override void SaveGame(GameData _gameData)
-    {
-        _gameData._playerPosition = transform.position;
-    }
+    private void MovingEffect() => _movingEffect.Play();
+
+    private void StoppingEffect() => _movingEffect.Stop();
 }

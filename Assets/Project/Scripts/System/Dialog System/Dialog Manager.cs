@@ -1,4 +1,4 @@
-using Febucci.UI;
+using Febucci.UI.Core;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,245 +7,207 @@ using UnityEngine.UI;
 public class DialogManager : MonoBehaviour
 {
     [Header("Dialog Canvas")]
-    [SerializeField] private Canvas _dialogCanvas;
+    [SerializeField] private Canvas _dialogCanvas; // Canvas for displaying dialog UI
 
     [Header("Dialog Elements")]
-    [SerializeField] private Image _iconImage;
+    [SerializeField] private Image _iconImage; // Image for the speaker's icon
 
-    [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _dialogText;
+    [SerializeField] private TextMeshProUGUI _nameText; // Text field for the speaker's name
+    [SerializeField] private TextMeshProUGUI _dialogText; // Text field for the dialog content
 
     [Header("Typewriter")]
-    [SerializeField] private TypewriterByCharacter _typewriter;
+    [SerializeField] private TypewriterCore _typewriter; // Typewriter effect for dialog text
 
-    [SerializeField] private List<DialogText> _dialogs;
+    [SerializeField] private List<DialogText> _dialogs; // List of dialogs to be displayed
 
-    private InputManager _inputManager;
+    private InputManager _inputManager; // Manager for handling input actions
 
-    private readonly Queue<string> _dialog = new();
+    private readonly Queue<string> _dialog = new(); // Queue for managing dialog lines
 
-    private bool _conversationEnded = false;
-    private bool _isTextFullyShown = true;
-    private int _currentDialogIndex = 0;
-    private int _currentCharacterIndex = 0;
+    private bool _conversationEnded = false; // Flag to check if the conversation has ended
+    private int _currentDialogIndex = 0; // Index of the current dialog
+    private int _currentCharacterIndex = 0; // Index of the current character in the dialog
 
     private void Start()
     {
-        _dialogCanvas.gameObject.SetActive(false);
+        _dialogCanvas.gameObject.SetActive(false); // Initially hide the dialog canvas
 
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Get the input manager instance
 
-        _inputManager.DialogActions.NextDialog.performed += _ => NextDialog();
-        _inputManager.DialogActions.Disable();
+        _inputManager.DialogActions.Disable(); // Disable dialog actions at start
 
         foreach (var dialog in _dialogs)
-            dialog.IsDialogEnded = false;
+            dialog.IsDialogEnded = false; // Initialize all dialogs as not ended
     }
 
     public void DisplayNextDialog(int dialogIndex)
     {
+        // Enable dialog actions and subscribe to the NextDialog event
+        _inputManager.DialogActions.Enable();
+        _inputManager.DialogActions.NextDialog.started += _ => NextDialog();
+
         if (_dialog.Count == 0)
         {
             if (!_conversationEnded)
-            {
-                // Check if the current dialog has ended
-                if (_dialogs[dialogIndex].IsDialogEnded)
-                {
-                    // Load the after dialog
-                    LoadAfterDialog(dialogIndex);
-                }
-                else
-                {
-                    // Start conversation
-                    StartConversation(dialogIndex);
-                }
-            }
+                StartOrContinueDialog(dialogIndex); // Start or continue the dialog if not ended
             else
-            {
-                // End conversation
-                EndConversation();
-
-                return;
-            }
+                EndConversation(); // End the conversation if all dialogs are completed
         }
+    }
+
+    private void StartOrContinueDialog(int dialogIndex)
+    {
+        // Disable unrelated actions during dialog
+        _inputManager.CatActions.Disable();
+        _inputManager.GhostActions.Disable();
+
+        // Check if the current dialog has ended and proceed accordingly
+        if (_dialogs[dialogIndex].IsDialogEnded)
+        {
+            if (_dialogs[dialogIndex].AfterDialog.Count > 0)
+                LoadAfterDialog(dialogIndex);  // Load after dialog if available
+            else
+                StartConversation(dialogIndex); // Restart the main dialog if no after dialog
+        }
+        else
+            StartConversation(dialogIndex);  // Start the conversation if not ended
     }
 
     private void StartConversation(int _dialogIndex)
     {
-        // Set the current dialog index
-        _currentDialogIndex = _dialogIndex;
+        _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
-        // Disable the cat actions
-        _inputManager.CatActions.Disable();
-
-        // Disable the ghost actions
-        _inputManager.GhostActions.Disable();
-
-        // Enable the dialog actions
-        _inputManager.DialogActions.Enable();
-
-        // If the panel is not active, activate it
         if (!_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.gameObject.SetActive(true);
+            _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
 
-        // Update the NPC image
+        // Set the speaker's icon and name, and enqueue dialog lines
         if (_dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image != null)
-            _iconImage.sprite = _dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image.sprite;
+        {
+            _iconImage.sprite = _dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image;
+            _iconImage.gameObject.SetActive(true);
+        }
+        else
+            _iconImage.gameObject.SetActive(false);
 
-        // Update the NPC name
         _nameText.text = _dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._name;
 
-        // Add the dialog to the queue
         foreach (string dialog in _dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._text)
             _dialog.Enqueue(dialog);
 
-        // Display the first dialog
-        NextDialog();
+        NextDialog(); // Display the first dialog
     }
 
     private void LoadAfterDialog(int _dialogIndex)
     {
-        // Set the current dialog index
-        _currentDialogIndex = _dialogIndex;
+        if (_dialogs[_dialogIndex].AfterDialog.Count == 0)
+        {
+            Logging.LogWarning("No after dialog available, consider handling this scenario.");
+            return;
+        }
 
-        // Disable the cat actions
-        _inputManager.CatActions.Disable();
+        _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
-        // Disable the ghost actions
-        _inputManager.GhostActions.Disable();
-
-        // Enable the dialog actions
-        _inputManager.DialogActions.Enable();
-
-        // If the panel is not active, activate it
         if (!_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.gameObject.SetActive(true);
+            _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
 
-        // Update the NPC image
-        if (_dialogs[_currentDialogIndex].AfterDialog[_currentCharacterIndex]._image != null)
-            _iconImage.sprite = _dialogs[_currentDialogIndex].AfterDialog[_currentCharacterIndex]._image.sprite;
+        // Set the speaker's icon and name, and enqueue after dialog lines
+        if (_dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image != null)
+        {
+            _iconImage.sprite = _dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image;
+            _iconImage.gameObject.SetActive(true);
+        }
+        else
+            _iconImage.gameObject.SetActive(false);
 
-        // Update the NPC name
         _nameText.text = _dialogs[_currentDialogIndex].AfterDialog[_currentCharacterIndex]._name;
 
-        // Add the dialog to the queue
         foreach (string dialog in _dialogs[_currentDialogIndex].AfterDialog[_currentCharacterIndex]._text)
             _dialog.Enqueue(dialog);
 
-        // Display the first dialog
-        NextDialog();
+        NextDialog(); // Display the first after dialog
     }
 
     private void NextDialog()
     {
-        // If there is something in the dialog queue
-        if (_dialog.Count > 0)
+        if (_typewriter.isShowingText)
+            _typewriter.SkipTypewriter(); // Skip the typewriter effect if it's currently showing text
+        else if (_dialog.Count > 0) // Check if there are more dialog lines in the queue
         {
-            if (!_isTextFullyShown && !_typewriter.TextAnimator.allLettersShown)
-            {
-                // Skip the typewriter effect
-                _typewriter.SkipTypewriter();
-
-                // Set _isTextFullyShown to true
-                _isTextFullyShown = true;
-            }
-            else
-            {
-                // Display the next dialog
-                _dialogText.text = _dialog.Dequeue();
-
-                // Set _isTextFullyShown to false
-                _isTextFullyShown = false;
-            }
+            string nextDialogText = _dialog.Dequeue(); // Dequeue the next dialog line
+            _dialogText.text = nextDialogText; // Set the dialog text
+            _typewriter.ShowText(nextDialogText); // Show the text with typewriter effect
         }
         else
         {
-            // Check if the current dialog has ended
-            if (_dialogs[_currentDialogIndex].IsDialogEnded)
+            if (_currentCharacterIndex + 1 < GetCurrentDialogList().Count)
             {
-                // If there are no more dialogs in the queue
-                if (_dialogs[_currentDialogIndex].AfterDialog.Count - 1 == _currentCharacterIndex)
-                {
-                    // Set _conversationEnded to true
-                    _conversationEnded = true;
-
-                    // Set the current dialog as ended
-                    _dialogs[_currentDialogIndex].IsDialogEnded = true;
-
-                    // End the conversation
-                    EndConversation();
-
-                    return;
-                }
-
-                // Increase the current character index
-                _currentCharacterIndex++;
-
-                // Update the Dialog Data
-                LoadAfterDialog(_currentDialogIndex);
+                _currentCharacterIndex++; // Move to the next character's dialog
+                EnqueueDialogsFromCurrentCharacter(); // Enqueue the next character's dialog lines
             }
             else
-            {
-                // If there are no more dialogs in the queue
-                if (_dialogs[_currentDialogIndex].Dialog.Count - 1 == _currentCharacterIndex)
-                {
-                    // Set _conversationEnded to true
-                    _conversationEnded = true;
-
-                    // Set the current dialog as ended
-                    _dialogs[_currentDialogIndex].IsDialogEnded = true;
-
-                    // End the conversation
-                    EndConversation();
-
-                    return;
-                }
-
-                // Increase the current character index
-                _currentCharacterIndex++;
-
-                // Update the Dialog Data
-                StartConversation(_currentDialogIndex);
-            }
+                HandleDialogEnd(); // Handle the end of the dialog
         }
+    }
+
+    // Helper method to get the current dialog list (main dialog or after dialog)
+    private List<Dialog> GetCurrentDialogList()
+    {
+        if (!_dialogs[_currentDialogIndex].IsDialogEnded)
+            return _dialogs[_currentDialogIndex].Dialog;
+        else
+            return _dialogs[_currentDialogIndex].AfterDialog;
+    }
+
+    // Enqueue dialogs from the current character based on the current dialog list
+    private void EnqueueDialogsFromCurrentCharacter()
+    {
+        var currentDialogList = GetCurrentDialogList();
+        var currentCharacterDialog = currentDialogList[_currentCharacterIndex];
+
+        _nameText.text = currentCharacterDialog._name;
+
+        if (currentCharacterDialog._image != null)
+        {
+            _iconImage.sprite = currentCharacterDialog._image;
+            _iconImage.gameObject.SetActive(true);
+        }
+        else
+            _iconImage.gameObject.SetActive(false);
+
+        foreach (string dialog in currentCharacterDialog._text)
+            _dialog.Enqueue(dialog);
+
+        NextDialog(); // Display the next dialog
+    }
+
+    private void HandleDialogEnd()
+    {
+        _dialogs[_currentDialogIndex].IsDialogEnded = true; // Mark the current dialog as ended
+
+        EndConversation(); // Call EndConversation to handle cleanup and state reset
     }
 
     private void EndConversation()
     {
-        Logging.Log("End Conversation");
+        Logging.Log("EndConversation called: Disabling dialog actions and enabling cat and ghost actions.");
 
-        // Enable the cat actions
-        _inputManager.CatActions.Enable();
+        _inputManager.CatActions.Enable(); // Enable cat actions
+        _inputManager.GhostActions.Enable(); // Enable ghost actions
 
-        // Enable the ghost actions
-        _inputManager.GhostActions.Enable();
+        _inputManager.DialogActions.NextDialog.started -= _ => NextDialog(); // Unsubscribe from the NextDialog event
+        _inputManager.DialogActions.Disable(); // Disable dialog actions
 
-        // Disable the dialog actions
-        _inputManager.DialogActions.Disable();
+        ResetConversationState(); // Reset the conversation state
+    }
 
-        // Clear the dialog queue
-        _dialog.Clear();
-
-        // Set _isTextFullyShown to false
-        _isTextFullyShown = true;
-
-        // Clear the NPC image
-        _iconImage.sprite = null;
-
-        // Clear the NPC name
-        _nameText.text = string.Empty;
-
-        // Clear the dialog text
-        _dialogText.text = string.Empty;
-
-        // Set _conversationEnded to false
-        _conversationEnded = false;
-
-        // Reset the current character index
-        _currentCharacterIndex = 0;
-
-        // Deactivate the dialog panel
-        if (_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.gameObject.SetActive(false);
+    private void ResetConversationState()
+    {
+        _dialog.Clear(); // Clear the dialog queue
+        _iconImage.sprite = null; // Reset the icon image
+        _nameText.text = string.Empty; // Clear the name text
+        _dialogText.text = string.Empty; // Clear the dialog text
+        _conversationEnded = false; // Reset the conversation ended flag
+        _currentCharacterIndex = 0; // Reset the current character index
+        _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
     }
 }

@@ -71,7 +71,7 @@ public class CatController : PlayerController, IMove, IJump, IStep
         PlayerFootSteps = AudioSystem.CreateEventInstance(FmodSystem.PlayerSteps);
 
         if (_inputManager == null)
-            _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+            _inputManager = _serviceLocator.GetService<InputManager>();
     }
 
     private void Update()
@@ -167,22 +167,19 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = moveDirection;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
+        Logging.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
             Vector3 stepRayOrigin = rayOrigin + Vector3.up * stepHeight;
 
             if (heightDifference > 0.1f && heightDifference < stepHeight && heightDifference < maxClimbHeight)
-            {
                 if (!Physics.Raycast(stepRayOrigin, rayDirection, out hit, rayLength))
-                {
                     return true;
-                }
-            }
         }
+
         return false;
     }
 
@@ -190,10 +187,10 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         Vector3 rayOrigin = transform.position + Vector3.up * startRay;
         Vector3 rayDirection = moveDirection;
-        Debug.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
 
-        RaycastHit hit;
-        if (Physics.Raycast(rayOrigin, rayDirection, out hit, rayLength))
+        Logging.DrawRay(rayOrigin, rayDirection * rayLength, Color.blue);
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hit, rayLength))
         {
             float heightDifference = hit.point.y - transform.position.y;
 
@@ -208,30 +205,28 @@ public class CatController : PlayerController, IMove, IJump, IStep
                 rb.MovePosition(Vector3.Lerp(rb.position, stepUpPosition, stepSmooth * Time.deltaTime));
             }
             else
-            {
                 rb.AddForce(Vector3.up * gravity);
-            }
         }
         else
-        {
             rb.AddForce(Vector3.up * gravity);
-        }
     }
 
     public void Jump()
     {
         if (CatState != PlayerState.jumping)
             return;
+
         CatState = PlayerState.moving;
+
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundCheckDistanceNormal)) // && jumpTimer <= 0)
         {
             if (hit.distance < groundCheckDistanceNormal)
             {
-                Debug.Log(jumpCount);
                 CatState = PlayerState.moving;
                 jumpCount = 0;
             }
         }
+
         if (jumpCount < 2)
         {
             VelocityNode = (2 * gravity * jumpHeight) / jumpDuration;
@@ -241,29 +236,21 @@ public class CatController : PlayerController, IMove, IJump, IStep
         }
     }
 
-    public void ApplyGravity()
-    {
-        rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-    }
+    public void ApplyGravity() => rb.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
 
     public void LimitVelocity()
     {
         if (rb.velocity.magnitude > maxVelocity)
-        {
             rb.velocity = rb.velocity.normalized * maxVelocity;
-        }
+
         if (rb.velocity.magnitude > maxForce)
-        {
             rb.velocity = rb.velocity.normalized * maxForce;
-        }
     }
 
     private void Animate(Vector2 input)
     {
         if (p_anim < input.x || p_anim >= input.x)
-        {
             p_anim += Time.deltaTime * smooth;
-        }
 
         p_anim = Mathf.Clamp(p_anim, 0.0f, 0.25f);
         _animator.SetFloat(RunAnimationId, p_anim);
@@ -284,15 +271,5 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
         _animator.SetFloat(RunAnimationId, 0);
         p_anim = 0;
-    }
-
-    public override void LoadGame(GameData _gameData)
-    {
-        //transform.position = _gameData._playerPosition;
-    }
-
-    public override void SaveGame(GameData _gameData)
-    {
-        //_gameData._playerPosition = transform.position;
     }
 }
