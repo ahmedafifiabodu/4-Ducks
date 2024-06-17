@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class CatController : PlayerController, IMove, IJump, IStep
 {
@@ -14,6 +15,9 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     private PlayerState CatState;
 
+    [Header("VFX")]
+    [SerializeField] private VisualEffect dustVFX;
+    
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
 
@@ -34,7 +38,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     [Header("CatAnimation")]
     [SerializeField] private float smooth = 5f;
-
     [SerializeField] private float animationPlayTransition = 0.001f;
     private int JumpAnimationId;
     private int RunAnimationId;
@@ -99,7 +102,12 @@ public class CatController : PlayerController, IMove, IJump, IStep
         CatState = PlayerState.moving;
 
         PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
+
         PlayerFootSteps.start();
+        if (dustVFX != null)
+        {
+            dustVFX.Play();
+        }
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
@@ -108,6 +116,11 @@ public class CatController : PlayerController, IMove, IJump, IStep
         rb.velocity = Vector3.zero;
 
         PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
+
+        if (dustVFX != null)
+        {
+            dustVFX.Stop();
+        }
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
