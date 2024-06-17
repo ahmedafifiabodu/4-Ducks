@@ -10,6 +10,7 @@ public class GameData
     public SerializableDictionary<string, bool> _coinsCollected;
     public SerializableDictionary<string, bool> _crystalsCollected;
     public SerializableDictionary<string, bool> _checkPointPassed;
+    public CheckPoint _lastCheckPoint;
 
     public GameData()
     {
