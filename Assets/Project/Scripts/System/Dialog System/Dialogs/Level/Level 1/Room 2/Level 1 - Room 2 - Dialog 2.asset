@@ -13,32 +13,83 @@ MonoBehaviour:
   m_Name: Level 1 - Room 2 - Dialog 2
   m_EditorClassIdentifier: 
   _dialog:
-  - _name: Cat
-    _image: {fileID: 0}
-    _text:
-    - '{diagexp}111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111{/diagexp}'
-    - <wiggle>222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222</wiggle>
-  - _name: Ghost
-    _image: {fileID: 0}
-    _text:
-    - <pend>333</pend>
-    - <dangle>444</dangle>
-    - '{vertexp}555{/vertexp}'
   - _name: NPC
     _image: {fileID: 0}
     _text:
-    - '<rainb>666</rainb>
-
-      <incr>777</incr>'
-  _afterDialog:
-  - _name: Hi
+    - "(Approaches the Cat and the Ghost with a beaming smile) Well done, both of
+      you! I heard the news \u2013 you took down all the enemies. You\u2019ve done
+      a fantastic job!"
+  - _name: Cat
     _image: {fileID: 0}
     _text:
-    - AAA
-    - BBB
-  - _name: Bye
+    - (Purring loudly) Meow! It was a tough fight, but we did it.
+  - _name: Ghost
     _image: {fileID: 0}
     _text:
-    - CCC
-    - DDD
-    - RRR
+    - (Nodding proudly) Yes, it was a great challenge, but together we prevailed.
+  - _name: NPC
+    _image: {fileID: 0}
+    _text:
+    - (Reaches into their bag) I have something special for you as a reward. Cat,
+      this is for you.
+  - _name: Cat
+    _image: {fileID: 0}
+    _text:
+    - (Eyes widening in curiosity) Meow? What is it?
+  - _name: NPC
+    _image: {fileID: 0}
+    _text:
+    - (Hands over a beautifully crafted wand) This wand has a special enchantment.
+      It allows you to summon a turret.
+  - _name: Cat
+    _image: {fileID: 0}
+    _text:
+    - (Takes the wand carefully, inspecting it) Meow! A turret?
+  - _name: Ghost
+    _image: {fileID: 0}
+    _text:
+    - (Floating closer, intrigued) How does it work?
+  - _name: NPC
+    _image: {fileID: 0}
+    _text:
+    - "(Smiling) It\u2019s simple. Cat, you use the wand to summon the turret. Once
+      it\u2019s summoned, Ghost, you can possess it and control its attacks. It will
+      give you both an edge in future battles."
+  - _name: Cat
+    _image: {fileID: 0}
+    _text:
+    - (Excitedly) Meow! This will be so useful.
+  - _name: Ghost
+    _image: {fileID: 0}
+    _text:
+    - (Nodding in agreement) Indeed, this will make us even stronger. Thank you,
+      NPC.
+  - _name: NPC
+    _image: {fileID: 0}
+    _text:
+    - "(Nods) You\u2019ve earned it. Keep up the good work, and remember to use it
+      wisely. This is just the beginning \u2013 there are more challenges ahead,
+      but I know you two can handle anything."
+  - _name: Cat
+    _image: {fileID: 0}
+    _text:
+    - "(Nods firmly) Meow, we won\u2019t let you down."
+  - _name: Ghost
+    _image: {fileID: 0}
+    _text:
+    - "(Glowing softly) We\u2019ll continue to protect this realm with everything
+      we have."
+  - _name: NPC
+    _image: {fileID: 0}
+    _text:
+    - "(Smiling warmly) That\u2019s the spirit. Now go, enjoy your well-deserved
+      rest, and be ready for whatever comes next."
+  - _name: Cat
+    _image: {fileID: 0}
+    _text:
+    - "(Nuzzles against the NPC\u2019s leg) Meow, thank you."
+  - _name: Ghost
+    _image: {fileID: 0}
+    _text:
+    - "Farewell, friend. We\u2019ll be ready."
+  _afterDialog: []

@@ -49,18 +49,17 @@ public class Enemy : MonoBehaviour
     // Coroutine to smoothly rotate the enemy to face its target
     private System.Collections.IEnumerator LookAt(Transform target)
     {
-        Quaternion _lookRotation = Quaternion.LookRotation(target.position - transform.position); // Calculate the rotation needed to look at the target
-        float _time = 0;
+        Vector3 directionToTarget = (target.position - transform.position).normalized; // Calculate direction to the target
+        directionToTarget.y = 0; // Ensure we only rotate on the Y axis
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget); // Calculate the rotation needed to look at the target
 
-        // Smoothly rotate towards the target over time
-        while (_time < 1)
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.5f) // Check the angle difference to ensure smooth rotation
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, _time);
-            _time += Time.deltaTime * 2; // Increment time based on deltaTime
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 4); // Smoothly rotate towards the target rotation
             yield return null;
         }
 
-        transform.rotation = _lookRotation; // Ensure the enemy is exactly facing the target at the end
+        transform.rotation = targetRotation; // Ensure the enemy is exactly facing the target at the end
     }
 
     // Method to get the Transform component of the enemy

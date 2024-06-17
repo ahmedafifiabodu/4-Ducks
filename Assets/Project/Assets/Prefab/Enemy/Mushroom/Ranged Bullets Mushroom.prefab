@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4444695180855720}
-  - component: {fileID: 95025375702580604}
   - component: {fileID: 2082650329160555504}
   - component: {fileID: 1076191172935423712}
   - component: {fileID: 6413700608027960051}
@@ -44,28 +43,6 @@ Transform:
   - {fileID: 8327986942735041715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95025375702580604
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128758269040250}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7b066e9f78beaca409ab76fb2a527bde, type: 3}
-  m_Controller: {fileID: 9100000, guid: efb0f3b984d69dc4abddb42e9de59f8e, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &2082650329160555504
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -164,7 +141,7 @@ MonoBehaviour:
     type: 2}
   _attackRadius: {fileID: 7419798655929617489}
   _navmeshEnemyMovment: {fileID: 1076191172935423712}
-  _animator: {fileID: 95025375702580604}
+  _animator: {fileID: 8129500997155912273}
   _navMeshAgent: {fileID: 2082650329160555504}
 --- !u!114 &3319124599982999440
 MonoBehaviour:
@@ -1230,6 +1207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1254979301739482420}
+  - component: {fileID: 8129500997155912273}
   m_Layer: 25
   m_Name: Model
   m_TagString: Untagged
@@ -1256,6 +1234,28 @@ Transform:
   - {fileID: 1986360093868228094}
   m_Father: {fileID: 4444695180855720}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8129500997155912273
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882862715699337102}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7b066e9f78beaca409ab76fb2a527bde, type: 3}
+  m_Controller: {fileID: 9100000, guid: efb0f3b984d69dc4abddb42e9de59f8e, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1908700554850846168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1873,15 +1873,15 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1128758269040250}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 3319124599982999440}
+        m_TargetAssemblyTypeName: HealthSystem, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 10
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

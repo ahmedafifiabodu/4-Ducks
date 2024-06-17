@@ -201,7 +201,7 @@ public class NavmeshEnemyMovment : MonoBehaviour
     private void CheckForNull()
     {
         _agent = _agent != null ? _agent : GetComponent<NavMeshAgent>();
-        _animator = _animator != null ? _animator : GetComponent<Animator>();
+        _animator = _animator != null ? _animator : GetComponentInChildren<Animator>();
         _agentLinkMover = _agentLinkMover != null ? _agentLinkMover : GetComponent<AgentLinkMover>();
         _catTarget = _catTarget != null ? _catTarget : ServiceLocator.Instance.GetService<Cat>();
     }
