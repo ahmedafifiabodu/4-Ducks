@@ -178,4 +178,31 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Start the sequence
         sequence.Play();
     }
+
+    public void StartPlatformImpactAnimation(GameObject platformObject)
+    {
+        // Ensure the platform object is not null
+        if (platformObject == null) return;
+
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // Get the original scale of the platform
+        Vector3 originalScale = platformObject.transform.localScale;
+
+        // Create a new sequence for the animation
+        sequence = DOTween.Sequence();
+
+        // Add a slight scaling up tween to the sequence to represent the impact
+        sequence.Append(platformObject.transform.DOScale(originalScale * 1.1f, 0.1f).SetEase(Ease.OutQuad));
+
+        // Add a scaling down tween to the sequence to return to the original size
+        sequence.Append(platformObject.transform.DOScale(originalScale, 0.2f).SetEase(Ease.InQuad));
+
+        // Optionally, you can set the sequence to auto-kill to clean up resources once the animation is complete
+        sequence.SetAutoKill(true);
+
+        // Start the sequence
+        sequence.Play();
+    }
 }
