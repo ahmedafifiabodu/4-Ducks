@@ -966,7 +966,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 2.4999995, y: 2.5, z: 2.4999995}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6472885911873835110}
@@ -1083,19 +1083,7 @@ MonoBehaviour:
       m_Calls: []
   _onDeath:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 456768661024448939}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   _onHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -1180,6 +1168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackDamage: 50
   _animator: {fileID: 1165600015829764446}
+  _attackDelay: 1
+  _hitVFXPrefab: {fileID: 184316, guid: 14bb13abe3804f242b49ffc7f2604227, type: 3}
 --- !u!114 &5163044853985807639
 MonoBehaviour:
   m_ObjectHideFlags: 0
