@@ -5,6 +5,7 @@ public class EnemyHealthSystemUI : MonoBehaviour
 {
     [SerializeField] private HealthSystem enemyHealthSystem; // Reference to the enemy's HealthSystem
     [SerializeField] private Slider healthSlider; // Reference to the UI Slider
+    private Camera mainCamera; // Reference to the main camera
 
     private void Start()
     {
@@ -27,6 +28,15 @@ public class EnemyHealthSystemUI : MonoBehaviour
             // Initial UI update
             UpdateHealthUI();
         }
+
+        mainCamera = ServiceLocator.Instance.GetService<CameraInstance>().Camera;
+    }
+
+    private void Update()
+    {
+        // Make the health slider always face the camera
+        if (mainCamera != null)
+            healthSlider.transform.LookAt(healthSlider.transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
     }
 
     private void UpdateHealthUI()
