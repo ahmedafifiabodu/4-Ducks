@@ -2,20 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 {
     #region Parameters
 
     [SerializeField] private bool canFly;
-    [SerializeField] private ParticleSystem _movingEffect;
-
     private Vector2 input;
     private bool isAscending = false;
     private bool canDash = true;
     private bool isDashing = false;
 
     private PlayerState GhostState;
+
+    [Header("VFX")]
+    [SerializeField] private VisualEffect dustVFX;
 
     [Header("BroadCasting")]
     // reference of two events
@@ -94,13 +96,21 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     {
         GhostState = PlayerState.moving;
         input = context.ReadValue<Vector2>().normalized;
-        MovingEffect();
+
+        if (dustVFX != null)
+        {
+            dustVFX.Play();
+        }
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
     {
         rb.velocity = Vector3.zero;
-        StoppingEffect();
+
+        if (dustVFX != null)
+        {
+            dustVFX.Stop();
+        }
     }
 
     protected override void OnDashPerformed(InputAction.CallbackContext context)
@@ -276,8 +286,4 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             }
         }
     }
-
-    private void MovingEffect() => _movingEffect.Play();
-
-    private void StoppingEffect() => _movingEffect.Stop();
 }
