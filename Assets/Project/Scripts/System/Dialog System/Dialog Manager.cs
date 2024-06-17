@@ -48,23 +48,30 @@ public class DialogManager : MonoBehaviour
         {
             if (!_conversationEnded)
             {
+                // Disable the cat actions
+                _inputManager.CatActions.Disable();
+
+                // Disable the ghost actions
+                _inputManager.GhostActions.Disable();
+
+                // Ensure dialog actions are enabled at the start of a new dialog
+                _inputManager.DialogActions.Enable();
+
                 // Check if the current dialog has ended
                 if (_dialogs[dialogIndex].IsDialogEnded)
                 {
-                    // Load the after dialog
-                    LoadAfterDialog(dialogIndex);
+                    // Check if there is an after dialog available
+                    if (_dialogs[dialogIndex].AfterDialog.Count > 0)
+                        LoadAfterDialog(dialogIndex);  // Load the after dialog
+                    else
+                        StartConversation(dialogIndex); // No after dialog available, restart the main dialog
                 }
                 else
-                {
-                    // Start conversation
-                    StartConversation(dialogIndex);
-                }
+                    StartConversation(dialogIndex);  // Start conversation
             }
             else
             {
-                // End conversation
                 EndConversation();
-
                 return;
             }
         }
@@ -74,15 +81,6 @@ public class DialogManager : MonoBehaviour
     {
         // Set the current dialog index
         _currentDialogIndex = _dialogIndex;
-
-        // Disable the cat actions
-        _inputManager.CatActions.Disable();
-
-        // Disable the ghost actions
-        _inputManager.GhostActions.Disable();
-
-        // Enable the dialog actions
-        _inputManager.DialogActions.Enable();
 
         // If the panel is not active, activate it
         if (!_dialogCanvas.gameObject.activeSelf)
@@ -105,17 +103,16 @@ public class DialogManager : MonoBehaviour
 
     private void LoadAfterDialog(int _dialogIndex)
     {
+        // Before proceeding, check if there's actually an after dialog to load
+        if (_dialogs[_dialogIndex].AfterDialog.Count == 0)
+        {
+            // If not, simply return or handle as needed
+            Logging.LogWarning("No after dialog available, consider handling this scenario.");
+            return;
+        }
+
         // Set the current dialog index
         _currentDialogIndex = _dialogIndex;
-
-        // Disable the cat actions
-        _inputManager.CatActions.Disable();
-
-        // Disable the ghost actions
-        _inputManager.GhostActions.Disable();
-
-        // Enable the dialog actions
-        _inputManager.DialogActions.Enable();
 
         // If the panel is not active, activate it
         if (!_dialogCanvas.gameObject.activeSelf)
