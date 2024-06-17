@@ -135,10 +135,10 @@ public class CatController : PlayerController, IMove, IJump, IStep
         if (CatState != PlayerState.moving)
             return;
 
-        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraForward = _camera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
-        Vector3 cameraRight = mainCamera.transform.right;
+        Vector3 cameraRight = _camera.transform.right;
         cameraRight.y = 0;
         cameraRight.Normalize();
 
