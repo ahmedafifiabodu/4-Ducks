@@ -1,40 +1,38 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class PlayerController : MonoBehaviour, IDataPersistence
+public abstract class PlayerController : MonoBehaviour
 {
-    #region Parameters
-
-    protected InputManager _inputManager;
-    protected Rigidbody rb;
-    protected Camera mainCamera;
-    protected Animator _animator;
     [SerializeField] private bool isCat;
 
-    #endregion Parameters
+    protected Rigidbody rb;
+    protected Animator _animator;
+    protected Camera _camera;
 
-    [Header("Audio")]
     protected AudioSystemFMOD AudioSystem;
-
     protected FMODEvents FmodSystem;
+
+    protected InputManager _inputManager;
+    protected ServiceLocator _serviceLocator;
 
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        mainCamera = Camera.main;
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>();
+
+        _serviceLocator = ServiceLocator.Instance;
+        _inputManager = _serviceLocator.GetService<InputManager>();
     }
 
     protected virtual void Start()
     {
-        AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-        FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
+        AudioSystem = _serviceLocator.GetService<AudioSystemFMOD>();
+        FmodSystem = _serviceLocator.GetService<FMODEvents>();
+        _camera = _serviceLocator.GetService<CameraInstance>().Camera;
     }
 
     protected virtual void OnEnable()
     {
-
         if (isCat)
         {
             _inputManager.CatActions.Move.started += OnMovePerformed;
@@ -80,10 +78,6 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     protected abstract void OnAscendPerformed(InputAction.CallbackContext context);
 
     protected abstract void OnAscendCanceled(InputAction.CallbackContext context);
-
-    public abstract void LoadGame(GameData _gameData);
-
-    public abstract void SaveGame(GameData _gameData);
 }
 
 public enum PlayerState

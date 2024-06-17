@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,6 +10,7 @@ public class KeepInRange : MonoBehaviour
     private Transform _catTransform;
     private Transform _ghostTransform;
     private ServiceLocator _serviceLocator;
+    private Camera _camera;
     private bool inDanger;
     private bool maxDistanceReached;
 
@@ -33,27 +35,31 @@ public class KeepInRange : MonoBehaviour
     {
         _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
         _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
+        _camera = _serviceLocator.GetService<CameraInstance>().Camera;
     }
 
     private void LateUpdate()
     {
-        float _currentDistance = Vector3.Distance(_catTransform.position, _ghostTransform.position);
-        if (!maxDistanceReached || !inDanger)
+        if (IsOutsideViewport())
         {
-            if (_currentDistance >= _maxDistance)
+            float _currentDistance = Vector3.Distance(_catTransform.position, _ghostTransform.position);
+            if (!maxDistanceReached || !inDanger)
             {
-                maxDistanceReached = true;
-                _onMaxDistanceReached?.Invoke();
+                if (_currentDistance >= _maxDistance)
+                {
+                    maxDistanceReached = true;
+                    _onMaxDistanceReached?.Invoke();
+                }
+                else if (_currentDistance >= _dangerDistance)
+                {
+                    inDanger = true;
+                    _onDanger?.Invoke();
+                }
             }
-            else if (_currentDistance >= _dangerDistance)
+            else if (inDanger && _currentDistance < _dangerDistance)
             {
-                inDanger = true;
-                _onDanger?.Invoke();
+                inDanger = false;
             }
-        }
-        else if (inDanger && _currentDistance < _dangerDistance)
-        {
-            inDanger = false;
         }
     }
 
@@ -61,5 +67,17 @@ public class KeepInRange : MonoBehaviour
     {
         inDanger = false;
         maxDistanceReached = false;
+    }
+    private bool IsOutsideViewport()
+    {
+        Vector3 CatViewportPos = _camera.WorldToViewportPoint(_catTransform.position);
+        Vector3 ghostViewportPos = _camera.WorldToViewportPoint(_ghostTransform.position);
+
+        bool isOut = CatViewportPos.x < 0 || CatViewportPos.x > 1 ||
+                                   CatViewportPos.y < 0 || CatViewportPos.y > 1 ||
+                                   CatViewportPos.z < 0 || ghostViewportPos.x < 0 ||
+                                   ghostViewportPos.x > 1 || ghostViewportPos.y < 0 ||
+                                   ghostViewportPos.y > 1 || ghostViewportPos.z < 0;
+        return isOut;
     }
 }

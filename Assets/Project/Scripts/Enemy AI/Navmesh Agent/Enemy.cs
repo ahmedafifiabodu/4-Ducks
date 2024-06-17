@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private NavMeshAgent _navMeshAgent; // NavMeshAgent component for pathfinding and movement
 
     private Coroutine _lookCoroutine; // Coroutine used for smoothly rotating the enemy to face its target
+
+    public event Action OnDestroyed; // Event triggered when the enemy is destroyed
 
     // Properties for accessing the enemy's components
     internal NavMeshAgent NavMeshAgent => _navMeshAgent;
@@ -62,4 +65,7 @@ public class Enemy : MonoBehaviour
 
     // Method to get the Transform component of the enemy
     public Transform GetTransform() => transform;
+
+    // Method to be called when the enemy is destroyed
+    public void DestroyEnemy() => OnDestroyed?.Invoke();
 }

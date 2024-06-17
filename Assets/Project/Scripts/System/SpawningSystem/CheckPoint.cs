@@ -10,6 +10,7 @@ public class CheckPoint : Interactable, IDataPersistence
     private bool _isPassed;
     public bool IsPassed { set { _isPassed = value; } get{return _isPassed;} }
     public int CamKey =>_camKey;
+    internal string CheckPointId => _checkPointId;
 
     internal static UnityEvent<CheckPoint> _onCheckPointPassed = new();
     protected override void Interact(ObjectType _playerType)
@@ -28,6 +29,6 @@ public class CheckPoint : Interactable, IDataPersistence
         if (_gameData._checkPointPassed.ContainsKey(_checkPointId))
             _gameData._checkPointPassed[_checkPointId] = _isPassed;
         else
-            _gameData._checkPointPassed.Add(_checkPointId, _isPassed);
+            _gameData._checkPointPassed.Add(_checkPointId, this);
     }
 }
