@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class CustomInteractionAnimation : MonoBehaviour
+public class CustomDoTweenAnimation : MonoBehaviour
 {
     [SerializeField] private float duration = 1f; // Duration of the animation
     private Sequence sequence; // Store the sequence
@@ -141,6 +141,39 @@ public class CustomInteractionAnimation : MonoBehaviour
 
         // Add a move back to original position tween to the sequence
         sequence.Append(turretTransform.DOMove(originalPosition, 0.1f).SetEase(Ease.OutQuad));
+
+        // Start the sequence
+        sequence.Play();
+    }
+
+    public void StartEnemyDeathAnimation(GameObject enemyObject)
+    {
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // Ensure the enemy object is not null
+        if (enemyObject == null) return;
+
+        // Get the original scale of the enemy object
+        Vector3 originalScale = enemyObject.transform.localScale;
+
+        // Create a new sequence for the animation
+        sequence = DOTween.Sequence();
+
+        // Add a scaling down tween to the sequence
+        sequence.Append(enemyObject.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack));
+
+        // Optionally, add a fading out effect if the enemy has a SpriteRenderer or MeshRenderer
+        if (enemyObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            sequence.Join(spriteRenderer.DOFade(0, duration).SetEase(Ease.InQuad));
+        else
+        {
+            if (enemyObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
+                sequence.Join(meshRenderer.material.DOFade(0, duration).SetEase(Ease.InQuad));
+        }
+
+        // Add a callback to deactivate the enemy object when the animation is done
+        sequence.OnComplete(() => enemyObject.SetActive(false));
 
         // Start the sequence
         sequence.Play();
