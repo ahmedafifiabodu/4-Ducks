@@ -14,8 +14,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
     private PlayerState CatState;
 
-    [SerializeField] private ParticleSystem _movingEffect;
-
     [Header("Movement")]
     [SerializeField] private float Speed = 20f;
 
@@ -102,7 +100,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
 
         PlayerFootSteps.getPlaybackState(out PLAYBACK_STATE playbackstate);
         PlayerFootSteps.start();
-        MovingEffect();
     }
 
     protected override void OnMoveCanceled(InputAction.CallbackContext context)
@@ -111,7 +108,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
         rb.velocity = Vector3.zero;
 
         PlayerFootSteps.stop(STOP_MODE.ALLOWFADEOUT);
-        StoppingEffect();
     }
 
     protected override void OnJumpPerformed(InputAction.CallbackContext context)
@@ -138,10 +134,11 @@ public class CatController : PlayerController, IMove, IJump, IStep
     {
         if (CatState != PlayerState.moving)
             return;
-        Vector3 cameraForward = mainCamera.transform.forward;
+
+        Vector3 cameraForward = _camera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
-        Vector3 cameraRight = mainCamera.transform.right;
+        Vector3 cameraRight = _camera.transform.right;
         cameraRight.y = 0;
         cameraRight.Normalize();
 
@@ -272,14 +269,6 @@ public class CatController : PlayerController, IMove, IJump, IStep
         _animator.SetFloat(RunAnimationId, p_anim);
     }
 
-    private void MovingEffect()
-    {
-        _movingEffect.Play();
-    }
-    private void StoppingEffect()
-    {
-        _movingEffect.Stop();
-    }
     private IEnumerator StopMoveSmoothly()
     {
         float elapsedTime = 0f;

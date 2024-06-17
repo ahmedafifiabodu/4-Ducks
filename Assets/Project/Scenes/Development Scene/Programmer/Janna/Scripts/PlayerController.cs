@@ -11,6 +11,8 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     protected Animator _animator;
     [SerializeField] private bool isCat;
 
+    protected Camera _camera;
+
     #endregion Parameters
 
     [Header("Audio")]
@@ -22,7 +24,6 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        mainCamera = Camera.main;
         _inputManager = ServiceLocator.Instance.GetService<InputManager>();
     }
 
@@ -30,6 +31,7 @@ public abstract class PlayerController : MonoBehaviour, IDataPersistence
     {
         AudioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
         FmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
+        _camera = ServiceLocator.Instance.GetService<CameraInstance>().Camera;
     }
 
     protected virtual void OnEnable()

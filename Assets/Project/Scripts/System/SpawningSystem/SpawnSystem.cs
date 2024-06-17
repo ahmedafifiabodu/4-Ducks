@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using static UnityEditor.FilePathAttribute;
-
-public class SpawnSystem : MonoBehaviour
+public class SpawnSystem : MonoBehaviour , IDataPersistence
 {
     // List of all CheckPoints in the scene
     [SerializeField] private List<CheckPoint> _checkPoints;
@@ -14,10 +13,13 @@ public class SpawnSystem : MonoBehaviour
     [SerializeField] private UnityEvent _onLastCheckPointReached;
 
     private LevelVirtualCameras _levelVirtualCameras;
+    private Dictionary<string, CheckPoint> _checkpointsDictionary = new();
     private CheckPoint _lastcheckPointReached;
     private Transform _catTransform;
     private Transform _ghostTransform;
     public UnityEvent OnLastCheckPointReached => _onLastCheckPointReached;
+    internal List<CheckPoint> CheckPoints => _checkPoints;
+    internal CheckPoint LastcheckPointReached { get { return _lastcheckPointReached; } set { _lastcheckPointReached = value; } }
     private void Awake()
     {
         ServiceLocator.Instance.RegisterService<SpawnSystem>(this, false);
@@ -28,10 +30,18 @@ public class SpawnSystem : MonoBehaviour
         _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
         _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
         _levelVirtualCameras = ServiceLocator.Instance.GetService<LevelVirtualCameras>();
+        AddCheckPointsToDictionary();
+    }
+    private void AddCheckPointsToDictionary()
+    {
+        foreach (CheckPoint _cp in CheckPoints)
+        {
+            _checkpointsDictionary.Add(_cp.CheckPointId, _cp);
+        }
     }
     private void OnEnable()
     {
-        CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
+       CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
         _lastcheckPointReached = _startcheckPoint;
     }
     private void OnDisable() => CheckPoint._onCheckPointPassed.RemoveListener(UpdateLastCheckPoint);
@@ -47,8 +57,7 @@ public class SpawnSystem : MonoBehaviour
         }
     } 
     public void SpawnAtLastCheckPoint() => SpawnAtCheckPoint(_lastcheckPointReached);
-    public void SpawnAtStart() => SpawnAtCheckPoint(_startcheckPoint);
-    private void SpawnAtCheckPoint(CheckPoint _checkPoint)
+    public void SpawnAtCheckPoint(CheckPoint _checkPoint)
     {
         _catTransform.position = _checkPoint.transform.position + new Vector3(_playerOffset, 0f, 0f);
         _catTransform.rotation = _checkPoint.transform.rotation;
@@ -71,5 +80,19 @@ public class SpawnSystem : MonoBehaviour
 
         //_playersRoot.transform.position = _checkPoint.position;
         //_playersRoot.transform.rotation = _checkPoint.rotation;
+    }
+    public void SpawnAtCheckPoint(string _checkPointID)
+    {
+        SpawnAtCheckPoint(_checkpointsDictionary[_checkPointID]);
+    }
+    public void LoadGame(GameData _gameData)
+    {
+        if (_gameData._lastCheckPoint != null)
+            SpawnAtCheckPoint(_gameData._lastCheckPoint);
+        else SpawnAtCheckPoint(_startcheckPoint);
+    }
+    public void SaveGame(GameData _gameData)
+    {
+        _gameData._lastCheckPoint = _lastcheckPointReached;
     }
 }

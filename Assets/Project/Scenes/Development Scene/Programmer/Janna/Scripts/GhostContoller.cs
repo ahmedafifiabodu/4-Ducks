@@ -59,8 +59,9 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     {
         base.Awake();
     }
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         _dashAction = context => Dash();
     }
     private void Update()
@@ -139,10 +140,10 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
         if (GhostState != PlayerState.moving)
             return;
 
-        Vector3 cameraForward = mainCamera.transform.forward;
+        Vector3 cameraForward = _camera.transform.forward;
         cameraForward.y = 0;
         cameraForward.Normalize();
-        Vector3 cameraRight = mainCamera.transform.right;
+        Vector3 cameraRight = _camera.transform.right;
         cameraRight.y = 0;
         cameraRight.Normalize();
 
