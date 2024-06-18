@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     internal InputSystem.PossessMovableObjectActions PossessMovableObjectActions { get; private set; }
     internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
     internal InputSystem.DialogActions DialogActions { get; private set; }
+    internal InputSystem.PauseActions PauseActions { get; private set; }
 
     private ServiceLocator _serviceLocator;
 
@@ -25,6 +26,7 @@ public class InputManager : MonoBehaviour
         PossessMovableObjectActions = _input.PossessMovableObject;
         PossessCatActions = _input.PossessCat;
         DialogActions = _input.Dialog;
+        PauseActions = _input.Pause;
 
         PossessTurretActions.Disable();
         PossessMovableObjectActions.Disable();
@@ -35,4 +37,28 @@ public class InputManager : MonoBehaviour
     private void OnEnable() => _input.Enable();
 
     private void OnDisable() => _input?.Disable();
+
+    // Disable all inputs except Pause
+    internal void DisableAllInputsExceptPause()
+    {
+        CatActions.Disable();
+        GhostActions.Disable();
+        PossessTurretActions.Disable();
+        PossessMovableObjectActions.Disable();
+        PossessCatActions.Disable();
+        DialogActions.Disable();
+    }
+
+    // Enable all inputs
+    internal void EnableAllInputs()
+    {
+        // Re-enable all input actions here
+        CatActions.Enable();
+        GhostActions.Enable();
+        PossessTurretActions.Enable();
+        PossessMovableObjectActions.Enable();
+        PossessCatActions.Enable();
+        DialogActions.Enable();
+        PauseActions.Enable();
+    }
 }

@@ -16,16 +16,26 @@ public class UISystem : MonoBehaviour
 
     [SerializeField] private Slider progressBar;
 
+    [Header("Pause")]
+    [SerializeField] private Canvas _pauseCanvas;
+
     [Header("Debugging")]
     [SerializeField] internal TextMeshProUGUI _deathCountText;
 
     private ServiceLocator _serviceLocator;
+    private InputManager inputManager;
 
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
         _serviceLocator.RegisterService(this, true);
+
+        inputManager = _serviceLocator.GetService<InputManager>();
     }
+
+    private void OnEnable() => inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
+
+    private void OnDisable() => inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
 
     private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded; // Clean up by ensuring we're unsubscribed from the SceneManager.sceneLoaded event
 
@@ -81,4 +91,29 @@ public class UISystem : MonoBehaviour
     }
 
     #endregion Loading UI
+
+    #region Pause
+
+    internal void TogglePauseMenu()
+    {
+        _pauseCanvas.enabled = !_pauseCanvas.enabled;
+
+        if (inputManager != null)
+        {
+            if (_pauseCanvas.enabled)
+            {
+                // Pause menu is now active, disable all inputs except for PauseActions
+                inputManager.DisableAllInputsExceptPause();
+                Time.timeScale = 0;
+            }
+            else
+            {
+                // Pause menu is now inactive, re-enable all inputs
+                inputManager.EnableAllInputs();
+                Time.timeScale = 1;
+            }
+        }
+    }
+
+    #endregion Pause
 }
