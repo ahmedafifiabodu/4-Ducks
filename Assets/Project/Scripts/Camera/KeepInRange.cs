@@ -80,4 +80,9 @@ public class KeepInRange : MonoBehaviour
                                    ghostViewportPos.y > 1 || ghostViewportPos.z < 0;
         return isOut;
     }
+    public void ChangeMaxDistance(float distance)
+    {
+        _maxDistance = distance;
+        ResetValues();
+    }
 }
