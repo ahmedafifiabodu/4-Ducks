@@ -23,14 +23,11 @@ public class FallToCheckPoint : MonoBehaviour
             {
                 _isFalling = false;
 
-                // Calculate fall damage based on the height fallen
+                // Calculate fall hieght 
                 float _fallHeight = _lastYPosition - currentYPosition;
 
-                if (_fallHeight > _fallHeightDistance) // Only apply fall damage if fallen more than 5 units
-                {
-                    float _fallDamage = _fallHeight - _fallHeightDistance; // Calculate fall damage
+                if (_fallHeight > _fallHeightDistance)
                     _spawnSystem.SpawnAtLastCheckPoint();
-                }
             }
         }
         else
@@ -42,7 +39,6 @@ public class FallToCheckPoint : MonoBehaviour
                 _lastYPosition = currentYPosition;
             }
         }
-
         _previousYPosition = currentYPosition;
     }
 }
