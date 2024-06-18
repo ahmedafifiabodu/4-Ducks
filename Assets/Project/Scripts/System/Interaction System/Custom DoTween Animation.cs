@@ -95,52 +95,29 @@ public class CustomDoTweenAnimation : MonoBehaviour
         sequence.Play();
     }
 
-    public void StartDestructableObjectAnimation(GameObject targetObject)
-    {
-        // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
-
-        // If the target object is null, set it to the current object
-        if (targetObject == null)
-            targetObject = gameObject;
-
-        // Get the original scale of the object
-        Vector3 originalScale = targetObject.transform.localScale;
-
-        // Create a sequence
-        sequence = DOTween.Sequence();
-
-        // Add a scaling up tween to the sequence
-        sequence.Append(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2).SetEase(Ease.OutQuad));
-
-        // Add a scaling down tween to the sequence
-        sequence.Append(targetObject.transform.DOScale(Vector3.zero, duration / 2).SetEase(Ease.InQuad));
-
-        // Add a callback to the sequence to deactivate the object when the animation is done
-        sequence.OnComplete(() => targetObject.SetActive(false));
-
-        // Start the sequence
-        sequence.Play();
-    }
-
     internal void StartTurretShootAnimation(Transform turretTransform)
     {
         // If the sequence is active, don't start a new animation
         if (sequence != null && sequence.IsActive()) return;
 
-        Vector3 originalPosition = turretTransform.position;
+        // Get the original local rotation of the turret
+        Quaternion originalLocalRotation = turretTransform.localRotation;
 
-        // Create a sequence
+        // Create a sequence for the turret shoot animation
         sequence = DOTween.Sequence();
 
-        // push back distance
-        sequence.Append(turretTransform.DOMove(originalPosition - new Vector3(0, 0, 0.5f), 0.1f).SetEase(Ease.OutQuad));
+        // Increase the rotation angle for a more pronounced tilt upwards, using local rotation
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-10, 0, 0), duration / 6).SetEase(Ease.OutCubic));
 
-        // shake strength
-        sequence.Append(turretTransform.DOShakePosition(0.2f, new Vector3(1f, 1f, 1f), 10, 90, false, true).SetEase(Ease.OutQuad));
+        // Intensify the vibration by increasing the range and frequency, using local rotation
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-8, 0, 0), duration / 12).SetEase(Ease.InOutSine));
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-12, 0, 0), duration / 12).SetEase(Ease.InOutSine));
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-10, 0, 0), duration / 12).SetEase(Ease.InOutSine));
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-9, 0, 0), duration / 12).SetEase(Ease.InOutSine));
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation * Quaternion.Euler(-11, 0, 0), duration / 12).SetEase(Ease.InOutSine));
 
-        // Add a move back to original position tween to the sequence
-        sequence.Append(turretTransform.DOMove(originalPosition, 0.1f).SetEase(Ease.OutQuad));
+        // Return the turret to its original local rotation more quickly to simulate a snappy recoil effect
+        sequence.Append(turretTransform.DOLocalRotateQuaternion(originalLocalRotation, duration / 6).SetEase(Ease.InCubic));
 
         // Start the sequence
         sequence.Play();
@@ -174,6 +151,34 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
         // Add a callback to deactivate the enemy object when the animation is done
         sequence.OnComplete(() => enemyObject.SetActive(false));
+
+        // Start the sequence
+        sequence.Play();
+    }
+
+    public void StartDestructableObjectAnimation(GameObject targetObject)
+    {
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // If the target object is null, set it to the current object
+        if (targetObject == null)
+            targetObject = gameObject;
+
+        // Get the original scale of the object
+        Vector3 originalScale = targetObject.transform.localScale;
+
+        // Create a sequence
+        sequence = DOTween.Sequence();
+
+        // Add a scaling up tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2).SetEase(Ease.OutQuad));
+
+        // Add a scaling down tween to the sequence
+        sequence.Append(targetObject.transform.DOScale(Vector3.zero, duration / 2).SetEase(Ease.InQuad));
+
+        // Add a callback to the sequence to deactivate the object when the animation is done
+        sequence.OnComplete(() => targetObject.SetActive(false));
 
         // Start the sequence
         sequence.Play();

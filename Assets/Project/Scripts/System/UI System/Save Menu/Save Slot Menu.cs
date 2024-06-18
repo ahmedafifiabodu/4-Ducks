@@ -83,8 +83,7 @@ public class SaveSlotMenu : MonoBehaviour
     private void SaveGameAndLoadScene()
     {
         _dataPersistenceManager.SaveGame();
-        //SceneManager.LoadSceneAsync(1);
-        _serviceLocator.GetService<SceneManagement>().StartLevel();
+        _serviceLocator.GetService<UISystem>().StartLoadingProcess();
     }
 
     private void DisableMenuButtons()

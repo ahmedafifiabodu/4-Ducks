@@ -9,7 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5979646677354191591}
-  m_Layer: 0
+  - component: {fileID: 3987605458830922874}
+  - component: {fileID: 6137210273281173180}
+  - component: {fileID: 3137389866481208121}
+  - component: {fileID: 730974175583116893}
+  - component: {fileID: 3537148522189398223}
+  m_Layer: 6
   m_Name: platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,14 +29,114 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3437760516870066809}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 45.965305, y: 45.965305, z: 45.965305}
+  m_LocalScale: {x: 60.9178, y: 45.965305, z: 51.47653}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6565510238401860832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3987605458830922874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437760516870066809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cfe87306430ae4e946ec971dae545c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPositionOffset: {x: 0, y: 0, z: 0}
+  endPositionOffset: {x: 0, y: -7, z: 0}
+  moveDuration: 2
+  _easeStyle: 6
+--- !u!114 &6137210273281173180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437760516870066809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 0
+  _autoInteract: 1
+  _useEvents: 1
+  _promptMessage: 
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+--- !u!114 &3137389866481208121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437760516870066809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
+--- !u!114 &730974175583116893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437760516870066809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14f62889ae475e448470ed1fae5adfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3137389866481208121}
+        m_TargetAssemblyTypeName: CustomDoTweenAnimation, Assembly-CSharp
+        m_MethodName: StartPlatformImpactAnimation
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3655962436809027267}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!65 &3537148522189398223
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3437760516870066809}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08221147, y: 0.05260263, z: 0.13370739}
+  m_Center: {x: 0, y: 0.03, z: 0}
 --- !u!1 &3655962436809027267
 GameObject:
   m_ObjectHideFlags: 0

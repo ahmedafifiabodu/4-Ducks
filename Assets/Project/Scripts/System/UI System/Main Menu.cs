@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [Header("Buttons")]
     [SerializeField] private Button _continueGame;
+
     [SerializeField] private Button _newGame;
     [SerializeField] private Button _loadGame;
 
@@ -23,19 +25,10 @@ public class MainMenu : MonoBehaviour
         _loadGame.interactable = _hasGameStarted;
     }
 
-    /*public void OnNewGameClicked()
-{
-    _serviceLocator.GetService<DataPersistenceManager>().NewGame();
-
-    SceneManager.LoadSceneAsync(1);
-}*/
-
     public void OnContiuneGameClicked()
     {
         _serviceLocator.GetService<DataPersistenceManager>().SaveGame();
-        //SceneManager.LoadSceneAsync(1);
-
-        _serviceLocator.GetService<SceneManagement>().StartLevel();
+        _serviceLocator.GetService<UISystem>().StartLoadingProcess();
     }
 
     public void OnExitClicked() => Application.Quit();
