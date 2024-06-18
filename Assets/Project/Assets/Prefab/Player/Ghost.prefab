@@ -243,11 +243,35 @@ MonoBehaviour:
   dustVFX: {fileID: 9214209579834190120}
   _onAscend:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 285280053944263312}
+        m_TargetAssemblyTypeName: GhostEnergySystem, Assembly-CSharp
+        m_MethodName: StartEnergyDecrease
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 20
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDescend:
     m_PersistentCalls:
-      m_Calls: []
-  Speed: 20
+      m_Calls:
+      - m_Target: {fileID: 285280053944263312}
+        m_TargetAssemblyTypeName: GhostEnergySystem, Assembly-CSharp
+        m_MethodName: StopEnergyDecrease
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Speed: 10
   rotationSpeed: 10
   dashSpeed: 100
   dashDistance: 10

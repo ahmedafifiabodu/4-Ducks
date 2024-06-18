@@ -19,21 +19,18 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private VisualEffect dustVFX;
     
     [Header("Movement")]
-    [SerializeField] private float Speed = 20f;
-
+    [SerializeField] private float Speed = 10f;
     [SerializeField] private float rotationSpeed = 10f;
 
     [Header("Jump")]
-    [SerializeField] private float jumpHeight = 4f;
-
+    [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float jumpDuration = 0.1f;
     private int jumpCount = 0;
 
     [Header("Physics")]
-    [SerializeField] private float gravity = 30f;
-
+    [SerializeField] private float gravity = 20f;
     [SerializeField] private float maxVelocity = 20f;
-    [SerializeField] private float maxForce = 20f;
+    [SerializeField] private float maxForce = 10f;
     private float VelocityNode;
 
     [Header("CatAnimation")]
@@ -47,10 +44,9 @@ public class CatController : PlayerController, IMove, IJump, IStep
     [SerializeField] private float groundCheckDistanceNormal = 0.1f;
 
     [Header("Steps")]
-    [SerializeField] private float startRay = 0.1f;
-
+    [SerializeField] private float startRay = 0.5f;
     [SerializeField] private float rayLength = 1f;
-    [SerializeField] private float stepSmooth = 20f;
+    [SerializeField] private float stepSmooth = 25f;
     [SerializeField] private float stepHeight = 1f;
     [SerializeField] private float maxClimbHeight = 0.5f;
 

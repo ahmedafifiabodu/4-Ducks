@@ -26,7 +26,7 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
     [SerializeField] private UnityEvent _onDescend;
 
     [Header("Movement")]
-    [SerializeField] private float Speed = 20f;
+    [SerializeField] private float Speed = 10f;
 
     [SerializeField] private float rotationSpeed = 10f;
 
