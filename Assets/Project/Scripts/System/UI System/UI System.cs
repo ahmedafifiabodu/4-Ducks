@@ -1,5 +1,8 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UISystem : MonoBehaviour
 {
@@ -7,6 +10,11 @@ public class UISystem : MonoBehaviour
     [SerializeField] private GameObject _prompt;
 
     [SerializeField] private TextMeshProUGUI _promptText;
+
+    [Header("Loading UI")]
+    [SerializeField] private GameObject loadingScreen;
+
+    [SerializeField] private Slider progressBar;
 
     [Header("Debugging")]
     [SerializeField] internal TextMeshProUGUI _deathCountText;
@@ -19,6 +27,8 @@ public class UISystem : MonoBehaviour
         _serviceLocator.RegisterService(this, true);
     }
 
+    private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded; // Clean up by ensuring we're unsubscribed from the SceneManager.sceneLoaded event
+
     #region Interaction UI
 
     internal void UpdatePromptText(string _promptMessage)
@@ -30,4 +40,45 @@ public class UISystem : MonoBehaviour
     internal void DisablePromptText() => _prompt.SetActive(false);
 
     #endregion Interaction UI
+
+    #region Loading UI
+
+    internal void StartLoadingProcess()
+    {
+        loadingScreen.SetActive(true); // Show the loading screen
+        progressBar.value = 0; // Reset the progress bar
+
+        // Animate the progress bar to full over 2 seconds
+        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadNextScene);
+    }
+
+    private void LoadNextScene()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        _serviceLocator.GetService<SceneManagement>().StartLevel();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Unsubscribe to prevent this method from being called if another scene loads later
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        // Now that the scene has loaded, perform your DOTween animation or other actions
+        PerformPostLoadAnimation();
+    }
+
+    private void PerformPostLoadAnimation()
+    {
+        // Ensure loadingScreen has a CanvasGroup component attached
+        if (!loadingScreen.TryGetComponent<CanvasGroup>(out var canvasGroup))
+        {
+            Logging.LogError("loadingScreen does not have a CanvasGroup component.");
+            return;
+        }
+
+        // Add a 1-second delay before starting the fade-out animation over 5 seconds
+        canvasGroup.DOFade(0, 3).SetDelay(1).OnComplete(() => loadingScreen.SetActive(false));
+    }
+
+    #endregion Loading UI
 }
