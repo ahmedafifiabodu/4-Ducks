@@ -875,9 +875,9 @@ namespace Unity.VisualScripting.Generated.Aot
 	// ExplosionsTrap.op_Implicit
 	// ExplosionsTrap.op_Equality
 	// ExplosionsTrap.op_Inequality
-	// FallDamage.op_Implicit
-	// FallDamage.op_Equality
-	// FallDamage.op_Inequality
+	// FallToCheckPoint.op_Implicit
+	// FallToCheckPoint.op_Equality
+	// FallToCheckPoint.op_Inequality
 	// WaterTrap.op_Implicit
 	// WaterTrap.op_Equality
 	// WaterTrap.op_Inequality
@@ -11311,7 +11311,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// FallDamage.op_Implicit
+		// FallToCheckPoint.op_Implicit
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FallDamage_op_Implicit()
 		{
@@ -11322,7 +11322,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// FallDamage.op_Equality
+		// FallToCheckPoint.op_Equality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FallDamage_op_Equality()
 		{
@@ -11334,7 +11334,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// FallDamage.op_Inequality
+		// FallToCheckPoint.op_Inequality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FallDamage_op_Inequality()
 		{
