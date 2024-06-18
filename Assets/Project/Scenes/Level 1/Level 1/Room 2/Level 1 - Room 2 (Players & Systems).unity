@@ -333,8 +333,93 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
         type: 3}
+      propertyPath: dustVFX
+      value: 
+      objectReference: {fileID: 175935973}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
       propertyPath: rotationSpeed
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: detectWall.m_Bits
+      value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1934759074}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1934759074}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartEnergyDecrease
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StopEnergyDecrease
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GhostEnergySystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GhostEnergySystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onAscend.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5671598266925473590, guid: 775219347a7c666428d798eb576623bd,
+        type: 3}
+      propertyPath: _onDescend.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -344,6 +429,12 @@ PrefabInstance:
 --- !u!4 &175935972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4842590109669333137, guid: 775219347a7c666428d798eb576623bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 175935971}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &175935973 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 9214209579834190120, guid: 775219347a7c666428d798eb576623bd,
     type: 3}
   m_PrefabInstance: {fileID: 175935971}
   m_PrefabAsset: {fileID: 0}
@@ -1859,8 +1950,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5727031173477089107, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
+      propertyPath: isCat
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727031173477089107, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+        type: 3}
+      propertyPath: dustVFX
+      value: 
+      objectReference: {fileID: 2078997614}
+    - target: {fileID: 5727031173477089107, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+        type: 3}
       propertyPath: rotationSpeed
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6717060011641658236, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
@@ -1925,6 +2026,12 @@ PrefabInstance:
 --- !u!4 &2078997613 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+    type: 3}
+  m_PrefabInstance: {fileID: 2078997612}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &2078997614 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 1201853941703824364, guid: 830685bdf7c7cbf489edb1b2866d7d11,
     type: 3}
   m_PrefabInstance: {fileID: 2078997612}
   m_PrefabAsset: {fileID: 0}
