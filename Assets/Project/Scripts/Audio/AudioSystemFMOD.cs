@@ -63,7 +63,7 @@ public class AudioSystemFMOD : MonoBehaviour
         // Get the FMODEvents service from the ServiceLocator
         fmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
         // Initialize the music
-        InitializeMusic(FmodSystem.Music);
+        //InitializeMusic(FmodSystem.Music);
     }
 
     // Called every frame
@@ -90,7 +90,7 @@ public class AudioSystemFMOD : MonoBehaviour
     }
 
     // Initialize the environment music
-    private void InitializeMusic(EventReference musicEventReference)
+    internal void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = RuntimeManager.CreateInstance(musicEventReference);
         musicEventInstance.start();

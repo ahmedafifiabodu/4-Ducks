@@ -905,10 +905,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 3
   _camKey: 5
   _areaMaxDistance: 20
@@ -956,6 +964,7 @@ GameObject:
   m_Component:
   - component: {fileID: 461080556}
   - component: {fileID: 461080557}
+  - component: {fileID: 461080558}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -992,6 +1001,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraBlendSettings: {fileID: 11400000, guid: 14270b0ad96b8ed41a72b3b747e9122d,
     type: 2}
+  area: 1
+--- !u!114 &461080558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461080555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341f9c825abb68c42bc04b31b2524f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels: []
 --- !u!1 &490057498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1076,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1808199303}
     m_Modifications:
+    - target: {fileID: 1546195432490259103, guid: abadadb1a53338d4eba304827c2cb902,
+        type: 3}
+      propertyPath: musicVolume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5209050279115428631, guid: abadadb1a53338d4eba304827c2cb902,
         type: 3}
       propertyPath: m_Name
@@ -1527,10 +1555,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 1
   _camKey: 1
   _areaMaxDistance: 20
@@ -1651,10 +1687,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 2
   _camKey: 2
   _areaMaxDistance: 15
