@@ -25,7 +25,7 @@ public class VolumeControl : MonoBehaviour
         switch (volumeType)
         {
             case VolumeType.Master:
-                //volumeSlider.value = _audioSystem.MasterVolume;
+                volumeSlider.value = _audioSystem.MasterVolume;
                 break;
 
             case VolumeType.Music:
@@ -47,7 +47,7 @@ public class VolumeControl : MonoBehaviour
         switch (volumeType)
         {
             case VolumeType.Master:
-                //_audioSystem.MasterVolume = volumeSlider.value;
+                _audioSystem.MasterVolume = volumeSlider.value;
                 break;
 
             case VolumeType.Music:
