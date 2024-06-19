@@ -67,17 +67,11 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Get the cat object
         GameObject targetObject = ServiceLocator.Instance.GetService<Cat>().gameObject;
 
-        // Get the original position of the object
-        Vector3 originalPosition = targetObject.transform.position;
-
         // Get the original scale of the object
         Vector3 originalScale = targetObject.transform.localScale;
 
         // Create a sequence
         sequence = DOTween.Sequence();
-
-        // Add a jump tween to the sequence
-        sequence.Append(targetObject.transform.DOJump(originalPosition + new Vector3(0, 1, 0), 0.5f, 1, duration / 2).SetEase(Ease.OutQuad));
 
         // Add a scaling up tween to the sequence
         sequence.Join(targetObject.transform.DOScale(originalScale * 1.2f, duration / 2).SetEase(Ease.OutQuad));
@@ -87,9 +81,6 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
         // Add a scaling down tween to the sequence
         sequence.Append(targetObject.transform.DOScale(originalScale, duration / 2).SetEase(Ease.InQuad));
-
-        // Add a move back to original position tween to the sequence
-        sequence.Append(targetObject.transform.DOMove(originalPosition, duration / 2).SetEase(Ease.InQuad));
 
         // Start the sequence
         sequence.Play();
@@ -242,6 +233,43 @@ public class CustomDoTweenAnimation : MonoBehaviour
             if (targetObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
                 sequence.Join(meshRenderer.material.DOFade(1, duration).SetEase(Ease.InQuad));
         }
+
+        // Start the sequence
+        sequence.Play();
+    }
+
+    public void SetDisappearAnimation(GameObject targetObject)
+    {
+        // Ensure the target object is not null
+        if (targetObject == null) return;
+
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // Get the original scale of the object to scale down to zero
+        Vector3 originalScale = targetObject.transform.localScale;
+
+        // Create a new sequence for the animation
+        sequence = DOTween.Sequence();
+
+        // Add a scaling down tween to the sequence to animate the object disappearing
+        sequence.Append(targetObject.transform.DOScale(Vector3.zero, duration).SetEase(Ease.InBack));
+
+        // Optionally, you can add a fading out effect if the object has a SpriteRenderer or MeshRenderer
+        if (targetObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            sequence.Join(spriteRenderer.DOFade(0, duration).SetEase(Ease.InQuad));
+        }
+        else
+        {
+            if (targetObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
+            {
+                sequence.Join(meshRenderer.material.DOFade(0, duration).SetEase(Ease.InQuad));
+            }
+        }
+
+        // Add a callback to the sequence to deactivate the object when the animation is done
+        sequence.OnComplete(() => targetObject.SetActive(false));
 
         // Start the sequence
         sequence.Play();

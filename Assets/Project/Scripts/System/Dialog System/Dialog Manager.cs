@@ -15,13 +15,14 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText; // Text field for the speaker's name
     [SerializeField] private TextMeshProUGUI _dialogText; // Text field for the dialog content
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource; // Add this line
+
     [Header("Typewriter")]
     [SerializeField] private TypewriterCore _typewriter; // Typewriter effect for dialog text
 
+    [Header("Dialogs")]
     [SerializeField] private List<DialogText> _dialogs; // List of dialogs to be displayed
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource _audioSource; // Add this line
 
     // Event for starting and ending dialog
     internal delegate void DialogEvent(DialogText dialogText);
