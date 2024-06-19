@@ -28,6 +28,8 @@ public class RoomManager : MonoBehaviour
         {
             int currentLevel = _sceneManagement.CurrentLevel;
 
+            _audioSystem.MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+
             switch (currentLevel)
             {
                 case 1:
