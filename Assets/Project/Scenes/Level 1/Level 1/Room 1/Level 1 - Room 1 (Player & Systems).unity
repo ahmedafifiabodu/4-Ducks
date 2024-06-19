@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 13473563}
   - component: {fileID: 13473562}
   - component: {fileID: 13473561}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,15 +226,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layersInteractedWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8388608
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
   _promptMessage: 
+  _useEvents: 1
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &13473563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -267,7 +275,7 @@ PrefabInstance:
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
@@ -296,6 +304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SetDisappearAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: SetDisappearAnimation
       objectReference: {fileID: 0}
@@ -303,6 +316,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.Behaviour, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: CustomDoTweenAnimation, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
@@ -1187,7 +1205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312462507}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Dialog 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1323,7 +1341,7 @@ PrefabInstance:
     - target: {fileID: 3361901250006332457, guid: f68da68925ceee448bedb88fab0bb40f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6531614774329865664, guid: f68da68925ceee448bedb88fab0bb40f,
         type: 3}
@@ -1588,7 +1606,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9096094407762982754, guid: 70d473f642996ef44b47a62ae6c7bb68,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 412479842}
   m_SourcePrefab: {fileID: 100100000, guid: 70d473f642996ef44b47a62ae6c7bb68, type: 3}
 --- !u!1 &412479840 stripped
 GameObject:
@@ -1602,6 +1624,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 412479839}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &412479842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412479840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
 --- !u!1 &417401635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2060,10 +2095,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 3
   _camKey: 4
   _areaMaxDistance: 25
@@ -2088,52 +2131,52 @@ PrefabInstance:
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 138.70053
+      value: 137.66975
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 110.84166
+      value: 110.839615
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -64.59503
+      value: -63.41342
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.97038555
+      value: 0.87676567
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0031906965
+      value: 0.0012641241
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.24143463
+      value: -0.48085418
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.007143163
+      value: -0.007720577
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -12.128
+      value: -0.298
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -1.115
+      value: -57.482
       objectReference: {fileID: 0}
     - target: {fileID: 4309100618525697080, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.316
+      value: -0.845
       objectReference: {fileID: 0}
     - target: {fileID: 5345659237715865193, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
@@ -2162,13 +2205,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9096094407762982754, guid: 70d473f642996ef44b47a62ae6c7bb68,
         type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096094407762982754, guid: 70d473f642996ef44b47a62ae6c7bb68,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9096094407762982754, guid: 70d473f642996ef44b47a62ae6c7bb68,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1080248452}
   m_SourcePrefab: {fileID: 100100000, guid: 70d473f642996ef44b47a62ae6c7bb68, type: 3}
 --- !u!4 &540539672 stripped
 Transform:
@@ -2348,10 +2400,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 4
   _camKey: 6
   _areaMaxDistance: 25
@@ -2476,7 +2536,7 @@ PrefabInstance:
     - target: {fileID: 723480102504664907, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 723480102504664907, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
@@ -3177,7 +3237,7 @@ GameObject:
   - component: {fileID: 1073177320}
   - component: {fileID: 1073177319}
   - component: {fileID: 1073177318}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3264,15 +3324,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layersInteractedWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8388608
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
   _promptMessage: 
+  _useEvents: 1
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &1073177320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3294,6 +3362,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 10.55, z: 30.25}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1080248451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9096094407762982754, guid: 70d473f642996ef44b47a62ae6c7bb68,
+    type: 3}
+  m_PrefabInstance: {fileID: 540539671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1080248452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080248451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
 --- !u!1 &1107639999
 GameObject:
   m_ObjectHideFlags: 0
@@ -3367,10 +3454,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 7
   _camKey: 10
   _areaMaxDistance: 100
@@ -3731,11 +3826,19 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 1
   _interactionParticals: {fileID: 6850869637442454374, guid: 09e352e0e5c13f544a69bba2f217ae13,
     type: 3}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _possessableScript: {fileID: 1250074829}
 --- !u!114 &1250074827
 MonoBehaviour:
@@ -4245,6 +4348,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cat
       objectReference: {fileID: 0}
+    - target: {fileID: 5727031173477089107, guid: 830685bdf7c7cbf489edb1b2866d7d11,
+        type: 3}
+      propertyPath: maxForce
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 9037731823457583109, guid: 830685bdf7c7cbf489edb1b2866d7d11,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4454,10 +4562,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 2
   _camKey: 2
   _areaMaxDistance: 25
@@ -4604,10 +4720,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 5
   _camKey: 8
   _areaMaxDistance: 40
@@ -4950,10 +5074,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 0
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 1
   _camKey: 1
   _areaMaxDistance: 25
@@ -4981,7 +5113,7 @@ GameObject:
   - component: {fileID: 1826353468}
   - component: {fileID: 1826353467}
   - component: {fileID: 1826353466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5068,15 +5200,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layersInteractedWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8388608
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
   _promptMessage: 
+  _useEvents: 1
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &1826353468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5174,7 +5314,7 @@ PrefabInstance:
     - target: {fileID: 4254367983021481672, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
@@ -5224,6 +5364,11 @@ PrefabInstance:
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9091779759201062058, guid: f35d3db493d3e8a4391bf8e662614f24,
+        type: 3}
+      propertyPath: _AddSFX
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5276,19 +5421,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f48d17205210444b96a37cb137464a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  associatedDialog: {fileID: 11400000, guid: 5768362440178264a89d1b68fd75f5ad, type: 2}
+  associatedDialog: {fileID: 11400000, guid: 89dbf62e0f295734caaa1bc1b9684085, type: 2}
   onDialogStart:
     m_PersistentCalls:
       m_Calls: []
   onDialogEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1468194295}
+      - m_Target: {fileID: 1080248452}
         m_TargetAssemblyTypeName: CustomDoTweenAnimation, Assembly-CSharp
         m_MethodName: StartAppearAnimation
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 6543405}
+          m_ObjectArgument: {fileID: 1080248451}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -5461,10 +5606,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 0
   _promptMessage: 
+  _useEvents: 0
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _checkPointId: 6
   _camKey: 9
   _areaMaxDistance: 40
@@ -5480,7 +5633,7 @@ GameObject:
   - component: {fileID: 2045038581}
   - component: {fileID: 2045038580}
   - component: {fileID: 2045038579}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collider (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5517,7 +5670,7 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1017964071}
+      - m_Target: {fileID: 1017964077}
         m_TargetAssemblyTypeName: CustomDoTweenAnimation, Assembly-CSharp
         m_MethodName: SetDisappearAnimation
         m_Mode: 2
@@ -5529,12 +5682,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1017964077}
+      - m_Target: {fileID: 1849305085}
         m_TargetAssemblyTypeName: CustomDoTweenAnimation, Assembly-CSharp
         m_MethodName: StartAppearAnimation
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1017964071}
+          m_ObjectArgument: {fileID: 1849305084}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -5567,15 +5720,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layersInteractedWith:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8388608
   _outlineMaterial: {fileID: 0}
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
   _promptMessage: 
+  _useEvents: 1
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!65 &2045038581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5969,7 +6130,17 @@ PrefabInstance:
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
@@ -5980,7 +6151,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 412479840}
+      objectReference: {fileID: 412479842}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -5993,8 +6164,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartAppearAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartCatInteractJumpingUpAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SetDisappearAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: SetDisappearAnimation
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CustomDoTweenAnimation, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: CustomDoTweenAnimation, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
@@ -6003,14 +6199,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 412479840}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 410971663}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
+        type: 3}
+      propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 610444964006541317, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
       propertyPath: onInteract.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6029,7 +6245,7 @@ PrefabInstance:
     - target: {fileID: 2875430169654446699, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3381890807843559137, guid: 86c1b67571adfdf40bc0a8040ef58859,
         type: 3}
@@ -6156,10 +6372,31 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.6341412, y: 1.4198505, z: 1.6463223}
   m_Center: {x: 0.91, y: 0.64, z: 0}
+--- !u!135 &2804426338384349746
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017374639}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.23
+  m_Center: {x: 0.99, y: 0.69, z: 0}
 --- !u!1 &2825289288659302836
 GameObject:
   m_ObjectHideFlags: 0
@@ -6214,6 +6451,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a410d84a54113ec40bc3ebbacc46b720, type: 2}
   - {fileID: 11400000, guid: 4277b4ed4dc0ef2429b1c716863cfbac, type: 2}
   - {fileID: 11400000, guid: 5768362440178264a89d1b68fd75f5ad, type: 2}
+  - {fileID: 11400000, guid: 89dbf62e0f295734caaa1bc1b9684085, type: 2}
 --- !u!222 &4065275887464176751
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6649,6 +6887,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2804426338384349745}
+    - targetCorrespondingSourceObject: {fileID: 9096257658185597334, guid: a4b26879ee396c84eb4d785cf40fb6e4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2804426338384349746}
   m_SourcePrefab: {fileID: 100100000, guid: a4b26879ee396c84eb4d785cf40fb6e4, type: 3}
 --- !u!1 &8421427372915784901
 GameObject:
