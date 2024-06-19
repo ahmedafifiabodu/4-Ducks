@@ -22,11 +22,8 @@ public class HealthSystem : MonoBehaviour, IDamageable
     internal UnityEvent OnHealthChanged => _onHealthChanged;
 
     // Initialize the health to the maximum health when the game object awakes.
-    private void Awake()
-    {
-        _health = _healthMax;
-    }
-
+    private void Awake() => _health = _healthMax;
+    private void OnEnable() => _onDeath.AddListener(SpawnToLastCheckPoint); 
     // Method to reduce the health of the game object.
     public void TakeDamage(float damageAmount)
     {
@@ -63,7 +60,12 @@ public class HealthSystem : MonoBehaviour, IDamageable
         _health = 0; // Set the health to 0.
         _onDeath?.Invoke(); // Invoke the _onDeath event.
     }
-
+    private void SpawnToLastCheckPoint()
+    {
+        ServiceLocator.Instance.GetService<SpawnSystem>().SpawnAtLastCheckPoint();
+        _health = 0.5f * _healthMax;
+    }
+    private void OnDisable() => _onDeath.RemoveListener(SpawnToLastCheckPoint);
     // Method to get the Transform component of the game object.
     public Transform GetTransform() => transform;
 }
