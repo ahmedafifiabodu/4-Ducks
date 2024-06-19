@@ -9,8 +9,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
     // Start an interactable animation
     public void StartInteractableAnimation(GameObject targetObject)
     {
+        // Check if the target object is null or has been destroyed
+        if (targetObject == null) return;
+
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the object
         Vector3 originalScale = targetObject.transform.localScale;
@@ -34,8 +38,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
     // Start an interactable animation and set the GameObject to false when the animation is done
     public void StartInteractableAnimationAndSetGameObjectToFalse(GameObject targetObject)
     {
+        // Check if the target object is null or has been destroyed
+        if (targetObject == null) return;
+
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the object
         Vector3 originalScale = targetObject.transform.localScale;
@@ -53,7 +61,10 @@ public class CustomDoTweenAnimation : MonoBehaviour
         sequence.SetLoops(2, LoopType.Yoyo);
 
         // Add a callback to deactivate the GameObject when the sequence is complete
-        sequence.OnComplete(() => targetObject.SetActive(false));
+        sequence.OnComplete(() =>
+        {
+            if (targetObject != null) targetObject.SetActive(false);
+        });
 
         // Start the sequence
         sequence.Play();
@@ -62,7 +73,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
     public void StartCatInteractJumpingUpAnimation()
     {
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the cat object
         GameObject targetObject = ServiceLocator.Instance.GetService<Cat>().gameObject;
@@ -88,8 +100,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
     internal void StartTurretShootAnimation(Transform turretTransform)
     {
+        // Check if the target object is null or has been destroyed
+        if (turretTransform.gameObject == null) return;
+
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original local rotation of the turret
         Quaternion originalLocalRotation = turretTransform.localRotation;
@@ -116,11 +132,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
     public void StartEnemyDeathAnimation(GameObject enemyObject)
     {
-        // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
-
         // Ensure the enemy object is not null
         if (enemyObject == null) return;
+
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the enemy object
         Vector3 originalScale = enemyObject.transform.localScale;
@@ -141,7 +158,10 @@ public class CustomDoTweenAnimation : MonoBehaviour
         }
 
         // Add a callback to deactivate the enemy object when the animation is done
-        sequence.OnComplete(() => enemyObject.SetActive(false));
+        sequence.OnComplete(() =>
+        {
+            if (enemyObject != null) enemyObject.SetActive(false);
+        });
 
         // Start the sequence
         sequence.Play();
@@ -150,7 +170,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
     public void StartDestructableObjectAnimation(GameObject targetObject)
     {
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // If the target object is null, set it to the current object
         if (targetObject == null)
@@ -169,7 +190,10 @@ public class CustomDoTweenAnimation : MonoBehaviour
         sequence.Append(targetObject.transform.DOScale(Vector3.zero, duration / 2).SetEase(Ease.InQuad));
 
         // Add a callback to the sequence to deactivate the object when the animation is done
-        sequence.OnComplete(() => targetObject.SetActive(false));
+        sequence.OnComplete(() =>
+        {
+            if (targetObject != null) targetObject.SetActive(false);
+        });
 
         // Start the sequence
         sequence.Play();
@@ -181,7 +205,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
         if (platformObject == null) return;
 
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the platform
         Vector3 originalScale = platformObject.transform.localScale;
@@ -208,7 +233,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
         if (targetObject == null) return;
 
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Set the object to active
         targetObject.SetActive(true);
@@ -244,7 +270,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
         if (targetObject == null) return;
 
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the object to scale down to zero
         Vector3 originalScale = targetObject.transform.localScale;
@@ -268,10 +295,11 @@ public class CustomDoTweenAnimation : MonoBehaviour
             }
         }
 
-        Logging.Log("WW");
-
         // Add a callback to the sequence to deactivate the object when the animation is done
-        sequence.OnComplete(() => targetObject.SetActive(false));
+        sequence.OnComplete(() =>
+        {
+            if (targetObject != null) targetObject.SetActive(false);
+        });
 
         // Start the sequence
         sequence.Play();
