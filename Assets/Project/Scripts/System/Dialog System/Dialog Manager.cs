@@ -39,13 +39,27 @@ public class DialogManager : MonoBehaviour
     private int _currentDialogIndex = 0; // Index of the current dialog
     private int _currentCharacterIndex = 0; // Index of the current character in the dialog
 
+    private void OnEnable()
+    {
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Ensure _inputManager is initialized
+
+        _inputManager.DialogActions.NextDialog.started += HandleNextDialog;
+    }
+
+    private void OnDisable()
+    {
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Ensure _inputManager is initialized
+
+        _inputManager.DialogActions.NextDialog.started -= HandleNextDialog;
+    }
+
     private void Start()
     {
         // Initially hide the dialog canvas if it's not null
         if (_dialogCanvas != null)
             _dialogCanvas.gameObject.SetActive(false);
-
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Get the input manager instance
 
         _inputManager.DialogActions.Disable(); // Disable dialog actions at start
 
@@ -57,7 +71,6 @@ public class DialogManager : MonoBehaviour
     {
         // Enable dialog actions and subscribe to the NextDialog event
         _inputManager.DialogActions.Enable();
-        _inputManager.DialogActions.NextDialog.started += _ => NextDialog();
 
         if (_dialog.Count == 0)
         {
@@ -143,6 +156,9 @@ public class DialogManager : MonoBehaviour
         NextDialog(); // Display the first after dialog
     }
 
+    private void HandleNextDialog(UnityEngine.InputSystem.InputAction.CallbackContext context)=>NextDialog();
+    
+
     private void NextDialog()
     {
         if (_typewriter.isShowingText)
@@ -222,7 +238,6 @@ public class DialogManager : MonoBehaviour
         _inputManager.CatActions.Enable(); // Enable cat actions
         _inputManager.GhostActions.Enable(); // Enable ghost actions
 
-        _inputManager.DialogActions.NextDialog.started -= _ => NextDialog(); // Unsubscribe from the NextDialog event
         _inputManager.DialogActions.Disable(); // Disable dialog actions
 
         ResetConversationState(); // Reset the conversation state
