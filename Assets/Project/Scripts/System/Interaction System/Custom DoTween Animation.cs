@@ -9,8 +9,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
     // Start an interactable animation
     public void StartInteractableAnimation(GameObject targetObject)
     {
+        // Check if the target object is null or has been destroyed
+        if (targetObject == null) return;
+
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the object
         Vector3 originalScale = targetObject.transform.localScale;
@@ -34,8 +38,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
     // Start an interactable animation and set the GameObject to false when the animation is done
     public void StartInteractableAnimationAndSetGameObjectToFalse(GameObject targetObject)
     {
+        // Check if the target object is null or has been destroyed
+        if (targetObject == null) return;
+
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the original scale of the object
         Vector3 originalScale = targetObject.transform.localScale;
@@ -65,7 +73,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
     public void StartCatInteractJumpingUpAnimation()
     {
         // If the sequence is active, don't start a new animation
-        if (sequence != null && sequence.IsActive()) return;
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
 
         // Get the cat object
         GameObject targetObject = ServiceLocator.Instance.GetService<Cat>().gameObject;
@@ -91,6 +100,9 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
     internal void StartTurretShootAnimation(Transform turretTransform)
     {
+        // Check if the target object is null or has been destroyed
+        if (turretTransform.gameObject == null) return;
+
         // If the sequence is active, don't start a new animation
         if (sequence != null && sequence.IsActive())
             sequence.Kill();
@@ -120,12 +132,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
 
     public void StartEnemyDeathAnimation(GameObject enemyObject)
     {
+        // Ensure the enemy object is not null
+        if (enemyObject == null) return;
+
         // If the sequence is active, don't start a new animation
         if (sequence != null && sequence.IsActive())
             sequence.Kill();
-
-        // Ensure the enemy object is not null
-        if (enemyObject == null) return;
 
         // Get the original scale of the enemy object
         Vector3 originalScale = enemyObject.transform.localScale;

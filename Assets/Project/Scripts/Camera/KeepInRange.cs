@@ -6,11 +6,13 @@ public class KeepInRange : MonoBehaviour
     [SerializeField] private float _maxDistance;
     [Range(0, 1)][SerializeField] private float _dangerDistancePrecentage;
 
-    private float _dangerDistance;
     private Transform _catTransform;
     private Transform _ghostTransform;
-    private ServiceLocator _serviceLocator;
     private Camera _camera;
+
+    private ServiceLocator _serviceLocator;
+
+    private float _dangerDistance;
     private bool inDanger;
     private bool maxDistanceReached;
 
@@ -26,7 +28,7 @@ public class KeepInRange : MonoBehaviour
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService(this, true);
+        _serviceLocator.RegisterService(this, false);
     }
 
     private void Start()
@@ -56,9 +58,7 @@ public class KeepInRange : MonoBehaviour
                 }
             }
             else if (inDanger && _currentDistance < _dangerDistance)
-            {
                 inDanger = false;
-            }
         }
     }
 
@@ -91,6 +91,7 @@ public class KeepInRange : MonoBehaviour
     {
         _maxDistance = distance;
         _dangerDistance = distance * _dangerDistancePrecentage;
+
         ResetValues();
     }
 }
