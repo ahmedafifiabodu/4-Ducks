@@ -85,6 +85,8 @@ public class DialogManager : MonoBehaviour
 
     private void StartConversation(int _dialogIndex)
     {
+        OnDialogStart?.Invoke(_dialogs[_dialogIndex]); // Broadcast the start event
+
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
         if (!_dialogCanvas.gameObject.activeSelf)
