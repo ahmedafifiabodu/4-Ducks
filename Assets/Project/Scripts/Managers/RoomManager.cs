@@ -19,8 +19,10 @@ public class RoomManager : MonoBehaviour
         _cameraInstance = _serviceLocator.GetService<CameraInstance>();
         _sceneManagement = _serviceLocator.GetService<SceneManagement>();
         _inputManager = _serviceLocator.GetService<InputManager>();
+        _audioSystem = _serviceLocator.GetService<AudioSystemFMOD>();
 
         _cameraInstance.ChangeCustomBlend(_cameraBlendSettings);
+
 
         if (_sceneManagement != null)
         {
@@ -36,20 +38,20 @@ public class RoomManager : MonoBehaviour
                 case 2:
                     _inputManager.GhostActions.Ascend.Disable();
                     _inputManager.CatActions.Throw.Disable();
-                    _audioSystem.SetMusicArea(MusicArea.Puzzle);
+                    _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Puzzle);
                     break;
 
                 case 3:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
-                    _audioSystem.SetMusicArea(MusicArea.Arena);
+                    _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Arena);
 
                     break;
 
                 case 4:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
-                    _audioSystem.SetMusicArea(MusicArea.Puzzle);
+                    _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Puzzle);
                     break;
             }
         }
