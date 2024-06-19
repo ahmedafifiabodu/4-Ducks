@@ -11,6 +11,8 @@ public class SceneManagement : MonoBehaviour
     private List<string> levelScenes;
     private InputManager inputManager;
 
+    internal int CurrentLevel => currentLevel;
+
     private void Awake() => ServiceLocator.Instance.RegisterService(this, true);
 
     private void Start() => inputManager = ServiceLocator.Instance.GetService<InputManager>();

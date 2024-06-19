@@ -28,9 +28,6 @@ public class InputManager : MonoBehaviour
         DialogActions = _input.Dialog;
         PauseActions = _input.Pause;
 
-        GhostActions.Ascend.Disable();
-        CatActions.Throw.Disable();
-
         PossessTurretActions.Disable();
         PossessMovableObjectActions.Disable();
         PossessCatActions.Disable();

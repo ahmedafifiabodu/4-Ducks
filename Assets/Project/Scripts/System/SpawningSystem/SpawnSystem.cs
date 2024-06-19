@@ -19,7 +19,7 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     private KeepInRange _keepInRange; // Reference to the KeepInRange component
     private LevelVirtualCameras _levelVirtualCameras; // Reference to the LevelVirtualCameras component
 
-    private Dictionary<string, CheckPoint> _checkpointsDictionary = new(); // Dictionary for quick checkpoint lookup
+    private readonly Dictionary<string, CheckPoint> _checkpointsDictionary = new(); // Dictionary for quick checkpoint lookup
     private CheckPoint _lastcheckPointReached; // The last checkpoint that was reached
     private Transform _catTransform; // Transform of the cat character
     private Transform _ghostTransform; // Transform of the ghost character

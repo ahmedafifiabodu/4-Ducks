@@ -210,4 +210,40 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Start the sequence
         sequence.Play();
     }
+
+    public void StartAppearAnimation(GameObject targetObject)
+    {
+        // Ensure the target object is not null
+        if (targetObject == null) return;
+
+        // If the sequence is active, don't start a new animation
+        if (sequence != null && sequence.IsActive()) return;
+
+        // Set the object to active
+        targetObject.SetActive(true);
+
+        // Get the original scale of the object
+        Vector3 originalScale = targetObject.transform.localScale;
+
+        // Temporarily set the object's scale to zero
+        targetObject.transform.localScale = Vector3.zero;
+
+        // Create a new sequence for the animation
+        sequence = DOTween.Sequence();
+
+        // Add a scaling up tween to the sequence to animate the object appearing
+        sequence.Append(targetObject.transform.DOScale(originalScale, duration).SetEase(Ease.OutBack));
+
+        // Optionally, you can add a fading in effect if the object has a SpriteRenderer or MeshRenderer
+        if (targetObject.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            sequence.Join(spriteRenderer.DOFade(1, duration).SetEase(Ease.InQuad));
+        else
+        {
+            if (targetObject.TryGetComponent<MeshRenderer>(out var meshRenderer))
+                sequence.Join(meshRenderer.material.DOFade(1, duration).SetEase(Ease.InQuad));
+        }
+
+        // Start the sequence
+        sequence.Play();
+    }
 }
