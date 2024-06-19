@@ -80,13 +80,19 @@ public class UISystem : MonoBehaviour
         progressBar.value = 0; // Reset the progress bar
 
         // Animate the progress bar to full over 2 seconds
-        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadNextScene);
+        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadMainMenuScene);
     }
 
     private void LoadNextScene()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         _serviceLocator.GetService<SceneManagement>().StartLevel();
+    }
+
+    private void LoadMainMenuScene()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        _serviceLocator.GetService<SceneManagement>().StartLevel(0);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

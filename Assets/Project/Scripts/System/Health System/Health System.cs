@@ -4,16 +4,16 @@ using UnityEngine.Events;
 // This class represents a health system for a game object.
 public class HealthSystem : MonoBehaviour, IDamageable
 {
-    [SerializeField] private float _healthMax; // The maximum health of the game object.
+    [SerializeField] protected float _healthMax; // The maximum health of the game object.
 
     // UnityEvents that are triggered when the health changes, the game object dies, heals, or takes damage.
     [SerializeField] private UnityEvent _onHealthChanged;
 
-    [SerializeField] private UnityEvent _onDeath;
     [SerializeField] private UnityEvent _onHeal;
     [SerializeField] private UnityEvent _onDamageTaken;
+    [SerializeField] protected UnityEvent _onDeath;
 
-    private float _health; // The current health of the game object.
+    protected float _health; // The current health of the game object.
 
     // Property that calculates the current health percentage.
     internal float HealthPrecentage => (_health / _healthMax);
@@ -23,7 +23,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
     // Initialize the health to the maximum health when the game object awakes.
     private void Awake() => _health = _healthMax;
-    private void OnEnable() => _onDeath.AddListener(SpawnToLastCheckPoint); 
+
     // Method to reduce the health of the game object.
     public void TakeDamage(float damageAmount)
     {
@@ -60,12 +60,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
         _health = 0; // Set the health to 0.
         _onDeath?.Invoke(); // Invoke the _onDeath event.
     }
-    private void SpawnToLastCheckPoint()
-    {
-        ServiceLocator.Instance.GetService<SpawnSystem>().SpawnAtLastCheckPoint();
-        _health = 0.5f * _healthMax;
-    }
-    private void OnDisable() => _onDeath.RemoveListener(SpawnToLastCheckPoint);
     // Method to get the Transform component of the game object.
     public Transform GetTransform() => transform;
 }

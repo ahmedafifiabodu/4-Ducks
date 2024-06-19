@@ -4,10 +4,22 @@ using UnityEngine;
 public class GhostEnergySystem : EnergySystem
 {
     private Coroutine _energyDecreaseCoroutine;
-    private void OnEnable() => EnergyCrystal._onEnergyCrystalCollected.AddListener(GainEnergy);
+    private void OnEnable()
+    {
+        EnergyCrystal._onEnergyCrystalCollected.AddListener(GainEnergy);
+        _onNoEnergy.AddListener(SpawnToLastCheckPoint);
+    }
 
-    private void OnDisable() => EnergyCrystal._onEnergyCrystalCollected.RemoveListener(GainEnergy);
-
+    private void OnDisable()
+    {
+        EnergyCrystal._onEnergyCrystalCollected.RemoveListener(GainEnergy);
+        _onNoEnergy.RemoveListener(SpawnToLastCheckPoint);
+    }
+    private void SpawnToLastCheckPoint()
+    {
+        ServiceLocator.Instance.GetService<SpawnSystem>().SpawnAtLastCheckPoint();
+        _energy = 0.5f * _maxEnergy;
+    }
     public void StartEnergyDecrease(float _energyDecreaseRate)
     {
         if (_energyDecreaseCoroutine == null)
