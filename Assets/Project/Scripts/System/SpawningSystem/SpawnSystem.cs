@@ -33,6 +33,7 @@ public class SpawnSystem : MonoBehaviour , IDataPersistence
         _keepInRange = _serviceLocator.GetService<KeepInRange>();
         _fadingEffect = _serviceLocator.GetService<FadingEffect>();
 
+        _keepInRange.OnMaxDistanceReached += Respawn;
         _startcheckPoint = _checkPoints[0]; 
         _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
         _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
@@ -49,7 +50,6 @@ public class SpawnSystem : MonoBehaviour , IDataPersistence
     private void OnEnable()
     {
        CheckPoint._onCheckPointPassed.AddListener(UpdateLastCheckPoint);
-        _keepInRange.OnMaxDistanceReached += Respawn;
         _lastcheckPointReached = _startcheckPoint;
     }
     private void OnDisable() => CheckPoint._onCheckPointPassed.RemoveListener(UpdateLastCheckPoint);
