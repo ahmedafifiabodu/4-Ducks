@@ -9,6 +9,7 @@ public class RoomManager : MonoBehaviour
     private ServiceLocator _serviceLocator;
     private SceneManagement _sceneManagement;
     private InputManager _inputManager;
+    TargetGroup _targetGroup;
 
     private AudioSystemFMOD _audioSystem;
 
@@ -20,6 +21,7 @@ public class RoomManager : MonoBehaviour
         _sceneManagement = _serviceLocator.GetService<SceneManagement>();
         _inputManager = _serviceLocator.GetService<InputManager>();
         _audioSystem = _serviceLocator.GetService<AudioSystemFMOD>();
+        _targetGroup = _serviceLocator.GetService<TargetGroup>();
 
         _cameraInstance.ChangeCustomBlend(_cameraBlendSettings);
 
@@ -39,19 +41,28 @@ public class RoomManager : MonoBehaviour
                     _inputManager.GhostActions.Ascend.Disable();
                     _inputManager.CatActions.Throw.Disable();
                     _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Puzzle);
+                    _targetGroup.SetTargetGroup();
                     break;
 
                 case 3:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
                     _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Arena);
-
+                    _targetGroup.SetTargetGroup();
                     break;
 
                 case 4:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
                     _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Puzzle);
+                    _targetGroup.SetTargetGroup();
+                    break;
+
+                case 5:
+                    _inputManager.GhostActions.Ascend.Enable();
+                    _inputManager.CatActions.Throw.Enable();
+                    _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Arena);
+                    _targetGroup.SetTargetGroup();
                     break;
             }
         }
