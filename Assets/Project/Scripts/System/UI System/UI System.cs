@@ -74,6 +74,15 @@ public class UISystem : MonoBehaviour
         DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadNextScene);
     }
 
+    internal void StartMainMenuLoadingProcess()
+    {
+        loadingScreen.SetActive(true); // Show the loading screen
+        progressBar.value = 0; // Reset the progress bar
+
+        // Animate the progress bar to full over 2 seconds
+        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadNextScene);
+    }
+
     private void LoadNextScene()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
