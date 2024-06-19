@@ -6,6 +6,12 @@ public class CustomDoTweenAnimation : MonoBehaviour
     [SerializeField] private float duration = 1f; // Duration of the animation
     private Sequence sequence; // Store the sequence
 
+    private void OnDestroy()
+    {
+        if (sequence != null && sequence.IsActive())
+            sequence.Kill();
+    }
+
     // Start an interactable animation
     public void StartInteractableAnimation(GameObject targetObject)
     {
@@ -63,6 +69,7 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Add a callback to deactivate the GameObject when the sequence is complete
         sequence.OnComplete(() =>
         {
+            sequence = null;
             if (targetObject != null) targetObject.SetActive(false);
         });
 
@@ -160,6 +167,7 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Add a callback to deactivate the enemy object when the animation is done
         sequence.OnComplete(() =>
         {
+            sequence = null;
             if (enemyObject != null) enemyObject.SetActive(false);
         });
 
@@ -192,6 +200,7 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Add a callback to the sequence to deactivate the object when the animation is done
         sequence.OnComplete(() =>
         {
+            sequence = null;
             if (targetObject != null) targetObject.SetActive(false);
         });
 
@@ -298,6 +307,7 @@ public class CustomDoTweenAnimation : MonoBehaviour
         // Add a callback to the sequence to deactivate the object when the animation is done
         sequence.OnComplete(() =>
         {
+            sequence = null;
             if (targetObject != null) targetObject.SetActive(false);
         });
 
