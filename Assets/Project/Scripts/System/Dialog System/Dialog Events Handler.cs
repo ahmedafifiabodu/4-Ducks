@@ -3,9 +3,9 @@ using UnityEngine.Events;
 
 public class DialogEventsHandler : MonoBehaviour
 {
+    [SerializeField] private DialogText associatedDialog;
     [SerializeField] private UnityEvent onDialogStart;
     [SerializeField] private UnityEvent onDialogEnd;
-    [SerializeField] private DialogText associatedDialog;
 
     private void OnEnable()
     {

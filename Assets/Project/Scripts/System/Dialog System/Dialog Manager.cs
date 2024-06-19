@@ -144,7 +144,9 @@ public class DialogManager : MonoBehaviour
         if (_typewriter.isShowingText)
         {
             _typewriter.SkipTypewriter(); // Skip the typewriter effect if it's currently showing text
-            _audioSource.Stop(); // Stop the audio if skipping dialog
+
+            if (_audioSource != null)
+                _audioSource.Stop(); // Stop the audio if skipping dialog
         }
         else if (_dialog.Count > 0) // Check if there are more dialog lines in the queue
         {
