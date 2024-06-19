@@ -35,10 +35,10 @@ MonoBehaviour:
   Path: Assets/Fmod project/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638544078648493944
+  lastModified: 638544226523820489
   FileSizes:
   - Name: Desktop
-    Value: 39200
+    Value: 94880
   Exists: 1
 --- !u!114 &-7357948990723027014
 MonoBehaviour:
@@ -68,6 +68,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-6696443212304354179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/CollectCrystal
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/CollectCrystal
+  Guid:
+    Data1: -1659619540
+    Data2: 1155820580
+    Data3: -1641688953
+    Data4: -169855958
+  Banks:
+  - {fileID: -7424240125933639209}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6410383163812432365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,10 +110,10 @@ MonoBehaviour:
   Path: Assets/Fmod project/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638544078647803992
+  lastModified: 638544226522700801
   FileSizes:
   - Name: Desktop
-    Value: 1116
+    Value: 1262
   Exists: 1
 --- !u!114 &-4023181350762628097
 MonoBehaviour:
@@ -106,6 +133,33 @@ MonoBehaviour:
     Data2: 1161731337
     Data3: 1456871313
     Data4: 1130395966
+  Banks:
+  - {fileID: -7424240125933639209}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2309685020946681314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/GhostDash
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/GhostDash
+  Guid:
+    Data1: -99541004
+    Data2: 1164463344
+    Data3: -446062664
+    Data4: -170607603
   Banks:
   - {fileID: -7424240125933639209}
   IsStream: 0
@@ -164,12 +218,15 @@ MonoBehaviour:
   - {fileID: 4761954233957118676}
   - {fileID: -4023181350762628097}
   - {fileID: -1819140891186294802}
+  - {fileID: -6696443212304354179}
+  - {fileID: 6082143500157325157}
+  - {fileID: -2309685020946681314}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4665557734573828954}
   StringsBanks:
   - {fileID: -6410383163812432365}
-  cacheTime: 638544080198042530
+  cacheTime: 638544226523820489
   cacheVersion: 131618
 --- !u!114 &3918908148320008260
 MonoBehaviour:
@@ -212,7 +269,7 @@ MonoBehaviour:
   Path: Assets/Fmod project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638544078647784041
+  lastModified: 638544226522670864
   FileSizes:
   - Name: Desktop
     Value: 1340
@@ -244,3 +301,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 9.6
   Length: 370
+--- !u!114 &6082143500157325157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/GhostPossess
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/GhostPossess
+  Guid:
+    Data1: 1252411996
+    Data2: 1328968804
+    Data3: -408514146
+    Data4: -1504339650
+  Banks:
+  - {fileID: -7424240125933639209}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
