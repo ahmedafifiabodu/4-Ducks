@@ -57,12 +57,11 @@ public abstract class Interactable : MonoBehaviour
     private void Awake() => Initialize(_outlineMaterial);
 
     // Retrieves the object pool service on start.
-    private void Start() 
+    private void Start()
     {
         _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
         _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
-    } 
-    
+    }
 
     // Ensures the outline effect is initialized correctly when values are changed in the editor.
     private void OnValidate()
@@ -127,6 +126,12 @@ public abstract class Interactable : MonoBehaviour
     // Base method for handling interaction, checking layer compatibility and invoking the specific interaction logic.
     internal void BaseInteract(ObjectType _objectType)
     {
+        if (_objectType == null)
+        {
+            Logging.LogWarning("ObjectType is null in Interact method.");
+            return;
+        }
+
         if (((1 << _objectType.gameObject.layer) & _layersInteractedWith) != 0)
             Interact(_objectType);
         else
