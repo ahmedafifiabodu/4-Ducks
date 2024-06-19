@@ -81,6 +81,7 @@ public class AudioSystemFMOD : MonoBehaviour
     internal EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance PlayereventInstance = RuntimeManager.CreateInstance(eventReference);
+        PlayereventInstance.set3DAttributes(transform.position.To3DAttributes()); // Set 3D attributes
         return PlayereventInstance;
     }
 
