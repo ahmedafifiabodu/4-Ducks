@@ -19,6 +19,10 @@ public class UISystem : MonoBehaviour
     [Header("Pause")]
     [SerializeField] private Canvas _pauseCanvas;
 
+    [SerializeField] private Canvas _settingsCanvas;
+    [SerializeField] private Canvas _controlCanvas;
+    [SerializeField] private Canvas _musicCanvas;
+
     [Header("Debugging")]
     [SerializeField] internal TextMeshProUGUI _deathCountText;
 
@@ -144,7 +148,15 @@ public class UISystem : MonoBehaviour
 
     public void SetTime(float _time) => Time.timeScale = _time;
 
-    public void Mainmenu() => ServiceLocator.Instance.GetService<SceneManagement>().StartFirstLevel();
+    public void Mainmenu()
+    {
+        _pauseCanvas.enabled = false;
+        _controlCanvas.enabled = false;
+        _settingsCanvas.enabled = false;
+        _musicCanvas.enabled = false;
+
+        ServiceLocator.Instance.GetService<SceneManagement>().StartFirstLevel();
+    }
 
     public void QuitGame() => Application.Quit();
 
