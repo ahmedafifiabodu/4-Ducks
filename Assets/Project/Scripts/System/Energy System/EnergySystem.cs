@@ -20,7 +20,6 @@ public class EnergySystem : MonoBehaviour
     internal UnityEvent OnEnergyChanged => _onEnergyChanged;
 
     private void Start() => _energy = _startEnergy;
-    private void OnEnable() => _onNoEnergy.AddListener(SpawnToLastCheckPoint);
     private void SpawnToLastCheckPoint()
     {
         ServiceLocator.Instance.GetService<SpawnSystem>().SpawnAtLastCheckPoint();

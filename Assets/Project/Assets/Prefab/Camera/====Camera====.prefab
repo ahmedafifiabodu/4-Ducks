@@ -82,7 +82,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!81 &4857134955613576575
@@ -147,12 +147,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8507110348526808829}
   - component: {fileID: 683490678716404714}
-  - component: {fileID: 2608450766297767131}
   - component: {fileID: 3723225211391633862}
   - component: {fileID: 6046172918346624094}
   - component: {fileID: 8232207079145518691}
   - component: {fileID: 2087559136513954988}
   - component: {fileID: 6577221793801369194}
+  - component: {fileID: 1530404214713007829}
+  - component: {fileID: 5998242920273418065}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -168,8 +169,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4441700469383013933}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.046480697, y: 0.70018715, z: -0.048065793, w: 0.7108215}
-  m_LocalPosition: {x: -100.3672, y: 43.728024, z: 34.300343}
+  m_LocalRotation: {x: -0.058775324, y: -0.5990216, z: -0.044155817, w: 0.7973511}
+  m_LocalPosition: {x: -11.023487, y: 304.3439, z: -271.78293}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -208,7 +209,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 300
   field of view: 60.000004
   orthographic: 0
   orthographic size: 5
@@ -227,14 +228,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2608450766297767131
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4441700469383013933}
-  m_Enabled: 1
 --- !u!114 &3723225211391633862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +252,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -336,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d223ccaee096ae044baeb98fbdd00389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fadingSpeed: 0.5
+  _fadingSpeed: 0.1
   _fadeColor: {r: 0, g: 0, b: 0, a: 1}
   _fadeCurve:
     serializedVersion: 2
@@ -353,8 +346,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -374,6 +367,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afe158385fc57643be57fe0d80c7c2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1530404214713007829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4441700469383013933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 4441700469383013933}
+--- !u!114 &5998242920273418065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4441700469383013933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945f749d000862e4a9e9ea4e22a9d261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDistance: 50
+  _dangerDistancePrecentage: 0.75
 --- !u!1 &6308330924616186467
 GameObject:
   m_ObjectHideFlags: 0
