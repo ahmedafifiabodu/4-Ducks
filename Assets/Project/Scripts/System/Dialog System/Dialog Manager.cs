@@ -20,6 +20,16 @@ public class DialogManager : MonoBehaviour
 
     [SerializeField] private List<DialogText> _dialogs; // List of dialogs to be displayed
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource; // Add this line
+
+    // Event for starting and ending dialog
+    internal delegate void DialogEvent(DialogText dialogText);
+
+    internal static event DialogEvent OnDialogStart;
+
+    internal static event DialogEvent OnDialogEnd;
+
     private InputManager _inputManager; // Manager for handling input actions
 
     private readonly Queue<string> _dialog = new(); // Queue for managing dialog lines
@@ -75,6 +85,8 @@ public class DialogManager : MonoBehaviour
 
     private void StartConversation(int _dialogIndex)
     {
+        OnDialogStart?.Invoke(_dialogs[_dialogIndex]); // Broadcast the start event
+
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
         if (!_dialogCanvas.gameObject.activeSelf)
@@ -130,7 +142,10 @@ public class DialogManager : MonoBehaviour
     private void NextDialog()
     {
         if (_typewriter.isShowingText)
+        {
             _typewriter.SkipTypewriter(); // Skip the typewriter effect if it's currently showing text
+            _audioSource.Stop(); // Stop the audio if skipping dialog
+        }
         else if (_dialog.Count > 0) // Check if there are more dialog lines in the queue
         {
             string nextDialogText = _dialog.Dequeue(); // Dequeue the next dialog line
@@ -177,6 +192,13 @@ public class DialogManager : MonoBehaviour
         foreach (string dialog in currentCharacterDialog._text)
             _dialog.Enqueue(dialog);
 
+        // Play the audio clip
+        if (currentCharacterDialog._audioClip != null)
+        {
+            _audioSource.clip = currentCharacterDialog._audioClip;
+            _audioSource.Play();
+        }
+
         NextDialog(); // Display the next dialog
     }
 
@@ -189,7 +211,7 @@ public class DialogManager : MonoBehaviour
 
     private void EndConversation()
     {
-        Logging.Log("EndConversation called: Disabling dialog actions and enabling cat and ghost actions.");
+        OnDialogEnd?.Invoke(_dialogs[_currentDialogIndex]); // Broadcast the end event
 
         _inputManager.CatActions.Enable(); // Enable cat actions
         _inputManager.GhostActions.Enable(); // Enable ghost actions
