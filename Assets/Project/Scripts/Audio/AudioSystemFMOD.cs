@@ -20,13 +20,14 @@ public class AudioSystemFMOD : MonoBehaviour
 
     [Range(0, 1)]
     [SerializeField] private float musicVolume = 1;
-    
+
     // Sound effects volume, can be set in the Unity editor
     [Range(0, 1)]
     [SerializeField] private float sfxVolume = 1;
 
     // FMOD bus for the music
     private Bus masterBus;
+
     private Bus musicBus;
 
     // FMOD bus for the sound effects
@@ -34,6 +35,7 @@ public class AudioSystemFMOD : MonoBehaviour
 
     // Property for the music volume
     public float MasterVolume { get => masterVolume; set => masterVolume = value; }
+
     public float MusicVolume { get => musicVolume; set => musicVolume = value; }
 
     // Property for the sound effects volume
@@ -41,7 +43,6 @@ public class AudioSystemFMOD : MonoBehaviour
 
     // Property for the FMOD system
     public FMODEvents FmodSystem => fmodSystem;
-
 
     #endregion Volume Control
 

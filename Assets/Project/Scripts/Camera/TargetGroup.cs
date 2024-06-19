@@ -13,7 +13,7 @@ public class TargetGroup : MonoBehaviour
     {
         // Initialize the ServiceLocator and register this component as a service
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService(this, true);
+        _serviceLocator.RegisterService(this, false);
     }
 
     /// <summary>

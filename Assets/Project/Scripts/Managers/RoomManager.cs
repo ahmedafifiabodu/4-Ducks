@@ -9,7 +9,7 @@ public class RoomManager : MonoBehaviour
     private ServiceLocator _serviceLocator;
     private SceneManagement _sceneManagement;
     private InputManager _inputManager;
-    TargetGroup _targetGroup;
+    private TargetGroup _targetGroup;
 
     private AudioSystemFMOD _audioSystem;
 
@@ -24,7 +24,6 @@ public class RoomManager : MonoBehaviour
         _targetGroup = _serviceLocator.GetService<TargetGroup>();
 
         _cameraInstance.ChangeCustomBlend(_cameraBlendSettings);
-
 
         if (_sceneManagement != null)
         {
