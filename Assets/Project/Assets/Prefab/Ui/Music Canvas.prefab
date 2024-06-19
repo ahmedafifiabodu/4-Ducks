@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 5443708811227629581}
   - component: {fileID: 1034457107677071995}
   - component: {fileID: 2514457228090536631}
+  - component: {fileID: 399260886404852387}
   m_Layer: 5
   m_Name: Music Voulme Slider
   m_TagString: Untagged
@@ -310,7 +311,19 @@ MonoBehaviour:
   m_Value: 0.471
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 399260886404852387}
+        m_TargetAssemblyTypeName: VolumeControl, Assembly-CSharp
+        m_MethodName: OnSliderValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1034457107677071995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +331,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602371390080437005}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b01f8d9cfe91ec84fb7562fc963b66c4, type: 3}
   m_Name: 
@@ -399,6 +412,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &399260886404852387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602371390080437005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 1
 --- !u!1 &773004433961306895
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,6 +977,7 @@ GameObject:
   - component: {fileID: 8301877489163162679}
   - component: {fileID: 2508471856421577377}
   - component: {fileID: 3020381384971793851}
+  - component: {fileID: 6884168722499490840}
   m_Layer: 5
   m_Name: Master Voulme Slider
   m_TagString: Untagged
@@ -1033,7 +1060,19 @@ MonoBehaviour:
   m_Value: 0.471
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6884168722499490840}
+        m_TargetAssemblyTypeName: VolumeControl, Assembly-CSharp
+        m_MethodName: OnSliderValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2508471856421577377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,7 +1080,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2116437740076429775}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b01f8d9cfe91ec84fb7562fc963b66c4, type: 3}
   m_Name: 
@@ -1122,6 +1161,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6884168722499490840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116437740076429775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 0
 --- !u!1 &2350643279472044466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2266,7 @@ GameObject:
   - component: {fileID: 2586567256387636241}
   - component: {fileID: 3458395771899315041}
   - component: {fileID: 2125751953539343174}
+  - component: {fileID: 4509400276763625334}
   m_Layer: 5
   m_Name: SFX Voulme Slider
   m_TagString: Untagged
@@ -2296,7 +2349,19 @@ MonoBehaviour:
   m_Value: 0.471
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4509400276763625334}
+        m_TargetAssemblyTypeName: VolumeControl, Assembly-CSharp
+        m_MethodName: OnSliderValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3458395771899315041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2304,7 +2369,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5456838853622120205}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b01f8d9cfe91ec84fb7562fc963b66c4, type: 3}
   m_Name: 
@@ -2385,6 +2450,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4509400276763625334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5456838853622120205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 2
 --- !u!1 &5551952160313756825
 GameObject:
   m_ObjectHideFlags: 0

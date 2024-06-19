@@ -1043,6 +1043,7 @@ GameObject:
   - component: {fileID: 3434932345807149825}
   - component: {fileID: 6322301338525512449}
   - component: {fileID: 8120634476983769740}
+  - component: {fileID: 6164198902421888025}
   m_Layer: 5
   m_Name: SFX Voulme Slider
   m_TagString: Untagged
@@ -1214,6 +1215,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6164198902421888025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384231760294600912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 2
 --- !u!1 &1574473107496836459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1704,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2179924654434300573
@@ -5000,6 +5014,7 @@ GameObject:
   - component: {fileID: 2940549634204670900}
   - component: {fileID: 3558090214621087515}
   - component: {fileID: 444534803379356742}
+  - component: {fileID: 3759053638952181958}
   m_Layer: 5
   m_Name: Master Voulme Slider
   m_TagString: Untagged
@@ -5171,6 +5186,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &3759053638952181958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6480319488953920976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 0
 --- !u!1 &6533922061209379045
 GameObject:
   m_ObjectHideFlags: 0
@@ -5600,6 +5628,7 @@ GameObject:
   - component: {fileID: 2509555372166182981}
   - component: {fileID: 5249720674646925412}
   - component: {fileID: 1255527672482637052}
+  - component: {fileID: 8093261400840410024}
   m_Layer: 5
   m_Name: Music Voulme Slider
   m_TagString: Untagged
@@ -5771,6 +5800,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &8093261400840410024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7193509653536240476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7984e264d5660540ae593e096a65d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeType: 1
 --- !u!1 &7238438794711598670
 GameObject:
   m_ObjectHideFlags: 0
@@ -6638,7 +6680,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8682754320754705972
@@ -7480,12 +7522,12 @@ PrefabInstance:
     - target: {fileID: 5466096124459926260, guid: f22af1bf48c19a648bf10ade6ba149d8,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -400
+      value: -36.299988
       objectReference: {fileID: 0}
     - target: {fileID: 5466096124459926260, guid: f22af1bf48c19a648bf10ade6ba149d8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -410
+      value: -11.700012
       objectReference: {fileID: 0}
     - target: {fileID: 5954304640891514375, guid: f22af1bf48c19a648bf10ade6ba149d8,
         type: 3}
@@ -7696,6 +7738,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871802221782361542, guid: f22af1bf48c19a648bf10ade6ba149d8,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8879830109501557119, guid: f22af1bf48c19a648bf10ade6ba149d8,
         type: 3}
