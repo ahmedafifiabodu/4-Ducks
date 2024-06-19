@@ -268,6 +268,8 @@ public class CustomDoTweenAnimation : MonoBehaviour
             }
         }
 
+        Logging.Log("WW");
+
         // Add a callback to the sequence to deactivate the object when the animation is done
         sequence.OnComplete(() => targetObject.SetActive(false));
 

@@ -60,7 +60,8 @@ public class SaveSlotMenu : MonoBehaviour
                 },
                 () => ActivatedMenu(_isGameLoading));
 
-            eventSystem.firstSelectedGameObject = _gameObject;
+            if (eventSystem != null)
+                eventSystem.firstSelectedGameObject = _gameObject;
         }
         else
         {

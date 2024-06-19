@@ -33,9 +33,21 @@ public class UISystem : MonoBehaviour
         inputManager = _serviceLocator.GetService<InputManager>();
     }
 
-    private void OnEnable() => inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
+    private void OnEnable()
+    {
+        if (inputManager == null)
+            inputManager = _serviceLocator.GetService<InputManager>();
 
-    private void OnDisable() => inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
+        inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
+    }
+
+    private void OnDisable()
+    {
+        if (inputManager == null)
+            inputManager = _serviceLocator.GetService<InputManager>();
+
+        inputManager.PauseActions.MenuOpenClose.started -= _ => TogglePauseMenu();
+    }
 
     private void OnDestroy() => SceneManager.sceneLoaded -= OnSceneLoaded; // Clean up by ensuring we're unsubscribed from the SceneManager.sceneLoaded event
 

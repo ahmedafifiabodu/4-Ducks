@@ -41,7 +41,9 @@ public class DialogManager : MonoBehaviour
 
     private void Start()
     {
-        _dialogCanvas.gameObject.SetActive(false); // Initially hide the dialog canvas
+        // Initially hide the dialog canvas if it's not null
+        if (_dialogCanvas != null)
+            _dialogCanvas.gameObject.SetActive(false);
 
         _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Get the input manager instance
 
@@ -90,7 +92,8 @@ public class DialogManager : MonoBehaviour
 
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
-        if (!_dialogCanvas.gameObject.activeSelf)
+        // Check if _dialogCanvas is not null before trying to access its gameObject
+        if (_dialogCanvas != null && !_dialogCanvas.gameObject.activeSelf)
             _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue dialog lines
@@ -233,6 +236,9 @@ public class DialogManager : MonoBehaviour
         _dialogText.text = string.Empty; // Clear the dialog text
         _conversationEnded = false; // Reset the conversation ended flag
         _currentCharacterIndex = 0; // Reset the current character index
-        _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
+
+        // Check if _dialogCanvas is not null before trying to access its gameObject
+        if (_dialogCanvas != null)
+            _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
     }
 }

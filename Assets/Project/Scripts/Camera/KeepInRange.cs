@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class KeepInRange : MonoBehaviour
 {
     [SerializeField] private float _maxDistance;
-    [Range(0,1)][SerializeField] private float _dangerDistancePrecentage;
+    [Range(0, 1)][SerializeField] private float _dangerDistancePrecentage;
 
     private float _dangerDistance;
     private Transform _catTransform;
@@ -20,12 +20,14 @@ public class KeepInRange : MonoBehaviour
 
     internal UnityAction OnMaxDistanceReached
     { set { _onMaxDistanceReached = value; } get { return _onMaxDistanceReached; } }
-    internal UnityAction OnDanger { set { _onDanger = value; } get { return _onDanger; } }
+
+    internal UnityAction OnDanger
+    { set { _onDanger = value; } get { return _onDanger; } }
 
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
-        _serviceLocator.RegisterService<KeepInRange>(this, true);
+        _serviceLocator.RegisterService(this, true);
     }
 
     private void Start()
@@ -60,13 +62,21 @@ public class KeepInRange : MonoBehaviour
             }
         }
     }
+
     internal void ResetValues()
     {
         inDanger = false;
         maxDistanceReached = false;
     }
+
     private bool IsOutsideViewport()
     {
+        if (_catTransform == null)
+            _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
+
+        if (_ghostTransform == null)
+            _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
+
         Vector3 CatViewportPos = _camera.WorldToViewportPoint(_catTransform.position);
         Vector3 ghostViewportPos = _camera.WorldToViewportPoint(_ghostTransform.position);
 
@@ -77,6 +87,7 @@ public class KeepInRange : MonoBehaviour
                                    ghostViewportPos.y > 1 || ghostViewportPos.z < 0;
         return isOut;
     }
+
     public void ChangeMaxDistance(float distance)
     {
         _maxDistance = distance;
