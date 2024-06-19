@@ -5,8 +5,9 @@ using UnityEngine.Events;
 public class KeepInRange : MonoBehaviour
 {
     [SerializeField] private float _maxDistance;
-    [SerializeField] private float _dangerDistance;
+    [Range(0,1)][SerializeField] private float _dangerDistancePrecentage;
 
+    private float _dangerDistance;
     private Transform _catTransform;
     private Transform _ghostTransform;
     private ServiceLocator _serviceLocator;
@@ -16,10 +17,6 @@ public class KeepInRange : MonoBehaviour
 
     private UnityAction _onMaxDistanceReached;
     private UnityAction _onDanger;
-
-    internal void MaxDistance(float maxDistance) => _maxDistance = maxDistance;
-
-    internal void DangerDistance(float dangerDistance) => _dangerDistance = dangerDistance;
 
     internal UnityAction OnMaxDistanceReached
     { set { _onMaxDistanceReached = value; } get { return _onMaxDistanceReached; } }
@@ -36,6 +33,7 @@ public class KeepInRange : MonoBehaviour
         _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
         _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
         _camera = _serviceLocator.GetService<CameraInstance>().Camera;
+        _dangerDistance = _maxDistance * _dangerDistancePrecentage;
     }
 
     private void LateUpdate()
@@ -50,7 +48,7 @@ public class KeepInRange : MonoBehaviour
                     maxDistanceReached = true;
                     _onMaxDistanceReached?.Invoke();
                 }
-                else if (_currentDistance >= _dangerDistance)
+                else if (_currentDistance >= _dangerDistance && !inDanger)
                 {
                     inDanger = true;
                     _onDanger?.Invoke();
@@ -62,7 +60,6 @@ public class KeepInRange : MonoBehaviour
             }
         }
     }
-
     internal void ResetValues()
     {
         inDanger = false;
@@ -83,6 +80,7 @@ public class KeepInRange : MonoBehaviour
     public void ChangeMaxDistance(float distance)
     {
         _maxDistance = distance;
+        _dangerDistance = distance * _dangerDistancePrecentage;
         ResetValues();
     }
 }

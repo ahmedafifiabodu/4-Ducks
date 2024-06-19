@@ -16,6 +16,9 @@ public class CheckPointDrawer : InteractableEditor
         SerializedProperty _cameraKey = so.FindProperty("_camKey");
         EditorGUILayout.PropertyField(_cameraKey);
 
+        SerializedProperty _areaDistance = so.FindProperty("_areaMaxDistance");
+        EditorGUILayout.PropertyField(_areaDistance);
+
         so.ApplyModifiedProperties();
     }
 }

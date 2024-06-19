@@ -616,6 +616,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attenuationObject: {fileID: 353054138}
+--- !u!114 &353054156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353054138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945f749d000862e4a9e9ea4e22a9d261, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxDistance: 50
+  _dangerDistancePrecentage: 0.75
 --- !u!1 &354171343
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,22 +873,22 @@ PrefabInstance:
     - target: {fileID: 8507110348526808829, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.34210113
+      value: 0.7973511
       objectReference: {fileID: 0}
     - target: {fileID: 8507110348526808829, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.025217371
+      value: -0.058775324
       objectReference: {fileID: 0}
     - target: {fileID: 8507110348526808829, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9367831
+      value: -0.5990216
       objectReference: {fileID: 0}
     - target: {fileID: 8507110348526808829, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.069053285
+      value: -0.044155817
       objectReference: {fileID: 0}
     - target: {fileID: 8546490467941159259, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
         type: 3}
@@ -889,6 +903,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 353054147}
+    - targetCorrespondingSourceObject: {fileID: 4441700469383013933, guid: 92e72c9fcc4b07c4f86c51d8b21cf413,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 353054156}
   m_SourcePrefab: {fileID: 100100000, guid: 92e72c9fcc4b07c4f86c51d8b21cf413, type: 3}
 --- !u!1 &562899063
 GameObject:
@@ -1610,22 +1628,22 @@ PrefabInstance:
     - target: {fileID: 5237647319904439768, guid: 3002062dd519e084cb4024266b1dc753,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.34210113
+      value: 0.7973511
       objectReference: {fileID: 0}
     - target: {fileID: 5237647319904439768, guid: 3002062dd519e084cb4024266b1dc753,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.025217371
+      value: -0.058775324
       objectReference: {fileID: 0}
     - target: {fileID: 5237647319904439768, guid: 3002062dd519e084cb4024266b1dc753,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9367831
+      value: -0.5990216
       objectReference: {fileID: 0}
     - target: {fileID: 5237647319904439768, guid: 3002062dd519e084cb4024266b1dc753,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.069053285
+      value: -0.044155817
       objectReference: {fileID: 0}
     - target: {fileID: 5346250628742117306, guid: 3002062dd519e084cb4024266b1dc753,
         type: 3}

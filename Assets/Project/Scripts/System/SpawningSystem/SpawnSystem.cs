@@ -7,25 +7,33 @@ public class SpawnSystem : MonoBehaviour , IDataPersistence
     // List of all CheckPoints in the scene
     [SerializeField] private List<CheckPoint> _checkPoints;
     [SerializeField] CheckPoint _startcheckPoint;
-   // [SerializeField] GameObject _playersRoot;
     [SerializeField] int _playerOffset;
-
     [SerializeField] private UnityEvent _onLastCheckPointReached;
 
+    private ServiceLocator _serviceLocator;
+    private FadingEffect _fadingEffect;
+    private KeepInRange _keepInRange;
     private LevelVirtualCameras _levelVirtualCameras;
+
     private Dictionary<string, CheckPoint> _checkpointsDictionary = new();
     private CheckPoint _lastcheckPointReached;
     private Transform _catTransform;
     private Transform _ghostTransform;
+
     public UnityEvent OnLastCheckPointReached => _onLastCheckPointReached;
     internal List<CheckPoint> CheckPoints => _checkPoints;
     internal CheckPoint LastcheckPointReached { get { return _lastcheckPointReached; } set { _lastcheckPointReached = value; } }
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService<SpawnSystem>(this, false);
+        _serviceLocator = ServiceLocator.Instance;
+        _serviceLocator.RegisterService<SpawnSystem>(this, false);
     }
     private void Start() 
     {
+        _keepInRange = _serviceLocator.GetService<KeepInRange>();
+        _fadingEffect = _serviceLocator.GetService<FadingEffect>();
+
+        _keepInRange.OnMaxDistanceReached += Respawn;
         _startcheckPoint = _checkPoints[0]; 
         _catTransform = ServiceLocator.Instance.GetService<Cat>().GetTransform();
         _ghostTransform = ServiceLocator.Instance.GetService<Ghost>().GetTransform();
@@ -54,6 +62,7 @@ public class SpawnSystem : MonoBehaviour , IDataPersistence
             if (_lastcheckPointReached.gameObject == _checkPoints[_checkPoints.Count - 1].gameObject)
                 _onLastCheckPointReached?.Invoke();
             checkPoint.IsPassed = true;
+            _keepInRange.ChangeMaxDistance(checkPoint.AreaMaxDistance);
         }
     } 
     public void SpawnAtLastCheckPoint() => SpawnAtCheckPoint(_lastcheckPointReached);
@@ -66,33 +75,29 @@ public class SpawnSystem : MonoBehaviour , IDataPersistence
         _ghostTransform.rotation = _checkPoint.transform.rotation;
 
         _levelVirtualCameras.CloseAllCamera();
+        _keepInRange.ChangeMaxDistance(_checkPoint.AreaMaxDistance);
         _levelVirtualCameras.OpenCamera(_checkPoint.CamKey);
-
-        //Root based logic 
-
-        //foreach (Transform _player in _playersRoot.transform)
-        //{
-        //    _player.transform.rotation = Quaternion.identity;
-        //    _player.transform.position = new Vector3(_playerOffset, 0, 0);
-        //    _playerOffset *= -1;
-        //}
-        //_playerOffset *= -1;
-
-        //_playersRoot.transform.position = _checkPoint.position;
-        //_playersRoot.transform.rotation = _checkPoint.rotation;
     }
     public void SpawnAtCheckPoint(string _checkPointID)
     {
-        SpawnAtCheckPoint(_checkpointsDictionary[_checkPointID]);
+        if(_checkpointsDictionary.ContainsKey(_checkPointID))
+            SpawnAtCheckPoint(_checkpointsDictionary[_checkPointID]);
+    }
+    private void Respawn()
+    {
+        _fadingEffect.FadeIn();
+        SpawnAtLastCheckPoint();
+        _fadingEffect.FadeOut();
+        _keepInRange.ResetValues();
     }
     public void LoadGame(GameData _gameData)
     {
-        if (_gameData._lastCheckPoint != null)
-            SpawnAtCheckPoint(_gameData._lastCheckPoint);
+        if (_gameData._lastCheckPointId != null)
+            SpawnAtCheckPoint(_gameData._lastCheckPointId);
         else SpawnAtCheckPoint(_startcheckPoint);
     }
     public void SaveGame(GameData _gameData)
     {
-        _gameData._lastCheckPoint = _lastcheckPointReached;
+        _gameData._lastCheckPointId = _lastcheckPointReached.CheckPointId;
     }
 }
