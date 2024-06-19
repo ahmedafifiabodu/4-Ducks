@@ -1,4 +1,5 @@
 using DG.Tweening;
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +27,11 @@ public abstract class Interactable : MonoBehaviour
     private Renderer _renderer; // The renderer that will be used for applying the outline effect.
     private ObjectPool _objectPool; // Reference to an object pool for managing particle systems.
 
+    private AudioSystemFMOD _audioSystem;
+    [Header("Audio SFX")]
+    [SerializeField] private bool _AddSFX = false;
+    [SerializeField] private EventReference _sfx;
+
     // Public properties to expose private fields for interaction settings.
     public LayerMask LayersInteractedWith { get => _layersInteractedWith; set => _layersInteractedWith = value; }
 
@@ -36,6 +42,7 @@ public abstract class Interactable : MonoBehaviour
     public bool UseParticleEffect { get => _useParticleEffect; set => _useParticleEffect = value; }
     public ParticleSystem InteractionParticals { get => _interactionParticals; set => _interactionParticals = value; }
 
+    protected AudioSystemFMOD AudioSystem => _audioSystem;
     // Internal properties to manage the materials for the outline effect.
     internal Material[] OriginalMaterials { get; private set; }
 
@@ -139,5 +146,10 @@ public abstract class Interactable : MonoBehaviour
         if (_useEvents)
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
                 _events.onInteract.Invoke();
+
+        if (_AddSFX)
+        {
+            AudioSystem.PlayerShooting(_sfx, this.gameObject.transform.position);
+        }
     }
 }
