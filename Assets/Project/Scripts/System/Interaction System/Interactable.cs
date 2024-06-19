@@ -159,8 +159,12 @@ public abstract class Interactable : MonoBehaviour
         }
 
         if (_AddSFX)
-            AudioSystem.PlayerShooting(_sfx, gameObject.transform.position);
+        {
+            if (_audioSystem == null)
+                _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
 
+            AudioSystem.PlayerShooting(_sfx, gameObject.transform.position);
+        }
         if (_useEvents)
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
                 _events.onInteract.Invoke();

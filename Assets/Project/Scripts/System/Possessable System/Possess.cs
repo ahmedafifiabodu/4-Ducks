@@ -32,28 +32,18 @@ public class Possess : Interactable
 
             _playerType.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.2f).SetEase(Ease.InOutElastic).SetLoops(2, LoopType.Yoyo).SetDelay(0.5f).OnComplete(() =>
             {
-                Debug.Log("DOTween callback executed. Checking for null references.");
-                if (_playerType == null)
+                // Additional null checks to prevent null reference exceptions
+                if (_playerType == null || _possessableScript == null)
                 {
-                    Debug.LogError("_playerType is null in DOTween callback.");
-                    return;
-                }
-                if (_possessableScript == null)
-                {
-                    Debug.LogError("_possessableScript is null in DOTween callback.");
+                    Logging.LogError("One or more references (_playerType or _possessableScript) are null in DOTween callback.");
                     return;
                 }
 
-                if (_playerType != null) // Ensure _playerType is still valid
-                {
-                    _playerType.transform.localScale = _originalScale;
-                    base.Interact(_playerType);
+                _playerType.transform.localScale = _originalScale;
+                base.Interact(_playerType);
 
-                    // Explicitly check for null instead of using null propagation
-                    if (_possessableScript != null)
-                        if (_possessableScript.TryGetComponent<IPossessable>(out var possessable))
-                            possessable.Possess();
-                }
+                if (_possessableScript.TryGetComponent<IPossessable>(out var possessableAfter))
+                    possessableAfter.Possess();
             });
         }
     }

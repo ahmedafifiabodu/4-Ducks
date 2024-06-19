@@ -48,6 +48,7 @@ public class ServiceLocator
                 UnityEngine.Object.Destroy(existingComponent.gameObject);
             else if (service is UnityEngine.GameObject existingGameObject)
                 UnityEngine.Object.Destroy(existingGameObject);
+
             return;
         }
 
@@ -82,6 +83,16 @@ public class ServiceLocator
             if (!services[service].dontDestroyOnLoad)
                 services.Remove(service);
         }
+    }
+
+    public void UnregisterService<T>()
+    {
+        Type serviceType = typeof(T);
+
+        if (services.ContainsKey(serviceType))
+            services.Remove(serviceType);
+        else
+            Logging.LogWarning($"Attempted to unregister service of type {serviceType.Name}, but it was not registered.");
     }
 
     private ServiceLocator() => UnityEngine.SceneManagement.SceneManager.sceneUnloaded += scene => UnregisterNonPersistentServices();

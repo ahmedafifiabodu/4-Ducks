@@ -31,6 +31,8 @@ public class KeepInRange : MonoBehaviour
         _serviceLocator.RegisterService(this, false);
     }
 
+    private void OnDestroy() => _serviceLocator.UnregisterService<KeepInRange>();
+
     private void Start()
     {
         _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
