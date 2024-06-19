@@ -7,10 +7,12 @@ public class CheckPoint : Interactable, IDataPersistence
 {
     [SerializeField] private string _checkPointId;
     [SerializeField] private int _camKey;
+    [SerializeField] private float _areaMaxDistance;
     private bool _isPassed;
     public bool IsPassed { set { _isPassed = value; } get{return _isPassed;} }
     public int CamKey =>_camKey;
     internal string CheckPointId => _checkPointId;
+    internal float AreaMaxDistance => _areaMaxDistance;
 
     internal static UnityEvent<CheckPoint> _onCheckPointPassed = new();
     protected override void Interact(ObjectType _playerType)

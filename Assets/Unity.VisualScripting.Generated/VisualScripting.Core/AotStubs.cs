@@ -725,9 +725,9 @@ namespace Unity.VisualScripting.Generated.Aot
 	// InverseGameObjectActiviity.op_Implicit
 	// InverseGameObjectActiviity.op_Equality
 	// InverseGameObjectActiviity.op_Inequality
-	// Room1Manager.op_Implicit
-	// Room1Manager.op_Equality
-	// Room1Manager.op_Inequality
+	// RoomManager.op_Implicit
+	// RoomManager.op_Equality
+	// RoomManager.op_Inequality
 	// CatAttack.op_Implicit
 	// CatAttack.op_Equality
 	// CatAttack.op_Inequality
@@ -9561,7 +9561,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// Room1Manager.op_Implicit
+		// RoomManager.op_Implicit
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void Room1Manager_op_Implicit()
 		{
@@ -9572,7 +9572,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// Room1Manager.op_Equality
+		// RoomManager.op_Equality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void Room1Manager_op_Equality()
 		{
@@ -9584,7 +9584,7 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
-		// Room1Manager.op_Inequality
+		// RoomManager.op_Inequality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void Room1Manager_op_Inequality()
 		{
