@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SaveSlotMenu : MonoBehaviour
 {
     [SerializeField] private ConfirmationPopupMenu _confirmationPopupMenu;
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject _gameObject;
 
     private SaveSlot[] _saveSlot;
     private ServiceLocator _serviceLocator;
@@ -56,6 +59,8 @@ public class SaveSlotMenu : MonoBehaviour
                     SaveGameAndLoadScene();
                 },
                 () => ActivatedMenu(_isGameLoading));
+
+            eventSystem.firstSelectedGameObject = _gameObject;
         }
         else
         {
@@ -78,6 +83,8 @@ public class SaveSlotMenu : MonoBehaviour
             },
             () => ActivatedMenu(_isGameLoading)
             );
+
+        eventSystem.firstSelectedGameObject = _gameObject;
     }
 
     private void SaveGameAndLoadScene()

@@ -115,5 +115,11 @@ public class UISystem : MonoBehaviour
         }
     }
 
+    public void SetTime(float _time) => Time.timeScale = _time;
+
+    public void Mainmenu() => ServiceLocator.Instance.GetService<SceneManagement>().StartFirstLevel();
+
+    public void QuitGame() => Application.Quit();
+
     #endregion Pause
 }
