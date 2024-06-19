@@ -65,7 +65,7 @@ public class AudioSystemFMOD : MonoBehaviour
         // Get the FMODEvents service from the ServiceLocator
         fmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
         // Initialize the music
-        //InitializeMusic(FmodSystem.Music);
+        InitializeMusic(FmodSystem.MainMenu);
     }
 
     // Called every frame

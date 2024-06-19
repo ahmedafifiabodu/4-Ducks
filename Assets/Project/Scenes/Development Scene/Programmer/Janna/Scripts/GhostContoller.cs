@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -59,11 +60,17 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
     #endregion Parameters
 
+    [SerializeField] private EventReference _ghostDash;
+    private AudioSystemFMOD _audioSystem;
+
+    public AudioSystemFMOD AudioSystem => _audioSystem;
+
     protected override void Awake() => base.Awake();
 
     protected override void Start()
     {
         base.Start();
+        _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
     }
 
     private void Update()
@@ -229,6 +236,8 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
             return;
 
         GhostState = PlayerState.Dashing;
+
+        AudioSystem.PlayerShooting(_ghostDash, this.gameObject.transform.position);
 
         if (canDash && !isDashing)
             StartCoroutine(PerformDash());

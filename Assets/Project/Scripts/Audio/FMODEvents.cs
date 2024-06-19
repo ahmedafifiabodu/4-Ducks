@@ -12,6 +12,9 @@ public class FMODEvents : MonoBehaviour
     [Header("Turret Shoot")]
     [field: SerializeField] public EventReference TurretShoot { get; private set; }
 
+    [Header("MainMenu")]
+    [field: SerializeField] public EventReference MainMenu { get; private set; }
+    
     [Header("Puzzle")]
     [field: SerializeField] public EventReference Puzzle { get; private set; }
 
