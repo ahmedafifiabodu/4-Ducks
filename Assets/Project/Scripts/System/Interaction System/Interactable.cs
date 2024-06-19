@@ -16,21 +16,25 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private bool _interact; // Flag to enable or disable interaction with this object.
 
     [SerializeField] private bool _autoInteract; // If true, the object will interact automatically without player input.
-    [SerializeField] private bool _useEvents; // Determines if Unity Events are used to handle interaction.
     [SerializeField] private string _promptMessage; // Message to display as a prompt when the object can be interacted with.
+
+    [Header("Events")]
+    [SerializeField] private bool _useEvents; // Determines if Unity Events are used to handle interaction.
 
     [Header("Particle Effects")]
     [SerializeField] private bool _useParticleEffect = false; // Flag to enable or disable particle effects upon interaction.
 
     [SerializeField] private ParticleSystem _interactionParticals; // Particle system to play when the object is interacted with.
 
+    [Header("Audio SFX")]
+    [SerializeField] private bool _AddSFX = false;
+
+    [SerializeField] private EventReference _sfx;
+
     private Renderer _renderer; // The renderer that will be used for applying the outline effect.
     private ObjectPool _objectPool; // Reference to an object pool for managing particle systems.
 
     private AudioSystemFMOD _audioSystem;
-    [Header("Audio SFX")]
-    [SerializeField] private bool _AddSFX = false;
-    [SerializeField] private EventReference _sfx;
 
     // Public properties to expose private fields for interaction settings.
     public LayerMask LayersInteractedWith { get => _layersInteractedWith; set => _layersInteractedWith = value; }
@@ -43,6 +47,7 @@ public abstract class Interactable : MonoBehaviour
     public ParticleSystem InteractionParticals { get => _interactionParticals; set => _interactionParticals = value; }
 
     protected AudioSystemFMOD AudioSystem => _audioSystem;
+
     // Internal properties to manage the materials for the outline effect.
     internal Material[] OriginalMaterials { get; private set; }
 
@@ -143,13 +148,11 @@ public abstract class Interactable : MonoBehaviour
             }
         }
 
+        if (_AddSFX)
+            AudioSystem.PlayerShooting(_sfx, gameObject.transform.position);
+
         if (_useEvents)
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
                 _events.onInteract.Invoke();
-
-        if (_AddSFX)
-        {
-            AudioSystem.PlayerShooting(_sfx, this.gameObject.transform.position);
-        }
     }
 }
