@@ -10,6 +10,8 @@ public class RoomManager : MonoBehaviour
     private SceneManagement _sceneManagement;
     private InputManager _inputManager;
 
+    private AudioSystemFMOD _audioSystem;
+
     private void Start()
     {
         _serviceLocator = ServiceLocator.Instance;
@@ -34,16 +36,20 @@ public class RoomManager : MonoBehaviour
                 case 2:
                     _inputManager.GhostActions.Ascend.Disable();
                     _inputManager.CatActions.Throw.Disable();
+                    _audioSystem.SetMusicArea(MusicArea.Puzzle);
                     break;
 
                 case 3:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
+                    _audioSystem.SetMusicArea(MusicArea.Arena);
+
                     break;
 
                 case 4:
                     _inputManager.GhostActions.Ascend.Enable();
                     _inputManager.CatActions.Throw.Enable();
+                    _audioSystem.SetMusicArea(MusicArea.Puzzle);
                     break;
             }
         }

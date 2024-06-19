@@ -57,7 +57,12 @@ public abstract class Interactable : MonoBehaviour
     private void Awake() => Initialize(_outlineMaterial);
 
     // Retrieves the object pool service on start.
-    private void Start() => _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+    private void Start() 
+    {
+        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+        _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+    } 
+    
 
     // Ensures the outline effect is initialized correctly when values are changed in the editor.
     private void OnValidate()
