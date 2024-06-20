@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 
 // The CatThrowing class is responsible for handling the throwing mechanism specific to the cat character.
@@ -8,6 +9,8 @@ public class CatThrowing : ThrowingMechanism
 
     private int AttackAnimationId; // Hash ID for the attack animation, used for performance optimization
     private float animationPlayTransition = 0.001f; // Transition time for starting the attack animation, set to a very short duration for a quick transition
+
+    [SerializeField] private EventReference _catShoot;
 
     // Called when the object becomes enabled and active
     protected override void OnEnable()
@@ -44,7 +47,8 @@ public class CatThrowing : ThrowingMechanism
         base.Throw(); // Call the base class Throw method to perform the throw
 
         // Play the shooting sound using the audio system
-        AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
+        //AudioSystem.PlayerShooting(AudioSystem.FmodSystem.CatShoot, this.gameObject.transform.position);
+        AudioSystem.PlayerShooting(_catShoot, this.gameObject.transform.position);
 
         // Play the attack animation with a quick transition
         _animator.CrossFade(AttackAnimationId, animationPlayTransition);

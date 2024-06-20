@@ -16,19 +16,24 @@ public class AudioSystemFMOD : MonoBehaviour
     [Header("Volume")]
     // Music volume, can be set in the Unity editor
     [Range(0, 1)]
-    [SerializeField] private float musicVolume = 1;
+    [SerializeField] private float masterVolume = 1;
 
+    [Range(0, 1)]
+    [SerializeField] private float musicVolume = 1;
+    
     // Sound effects volume, can be set in the Unity editor
     [Range(0, 1)]
     [SerializeField] private float sfxVolume = 1;
 
     // FMOD bus for the music
+    private Bus masterBus;
     private Bus musicBus;
 
     // FMOD bus for the sound effects
     private Bus sfxBus;
 
     // Property for the music volume
+    public float MasterVolume { get => masterVolume; set => masterVolume = value; }
     public float MusicVolume { get => musicVolume; set => musicVolume = value; }
 
     // Property for the sound effects volume
@@ -36,6 +41,9 @@ public class AudioSystemFMOD : MonoBehaviour
 
     // Property for the FMOD system
     public FMODEvents FmodSystem => fmodSystem;
+
+    public Bus MasterBus { get => masterBus; set => masterBus = value; }
+
 
     #endregion Volume Control
 
@@ -46,6 +54,7 @@ public class AudioSystemFMOD : MonoBehaviour
         ServiceLocator.Instance.RegisterService(this, true);
 
         // Get the FMOD buses
+        MasterBus = RuntimeManager.GetBus("bus:/");
         musicBus = RuntimeManager.GetBus("bus:/Music");
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
     }
@@ -56,13 +65,14 @@ public class AudioSystemFMOD : MonoBehaviour
         // Get the FMODEvents service from the ServiceLocator
         fmodSystem = ServiceLocator.Instance.GetService<FMODEvents>();
         // Initialize the music
-        InitializeMusic(FmodSystem.Music);
+        InitializeMusic(FmodSystem.MainMenu);
     }
 
     // Called every frame
     private void Update()
     {
         // Set the volume of the music and sound effects
+        MasterBus.setVolume(MasterVolume);
         musicBus.setVolume(MusicVolume);
         sfxBus.setVolume(SfxVolume);
     }
@@ -71,6 +81,7 @@ public class AudioSystemFMOD : MonoBehaviour
     internal EventInstance CreateEventInstance(EventReference eventReference)
     {
         EventInstance PlayereventInstance = RuntimeManager.CreateInstance(eventReference);
+        PlayereventInstance.set3DAttributes(transform.position.To3DAttributes()); // Set 3D attributes
         return PlayereventInstance;
     }
 
@@ -82,7 +93,7 @@ public class AudioSystemFMOD : MonoBehaviour
     }
 
     // Initialize the environment music
-    private void InitializeMusic(EventReference musicEventReference)
+    internal void InitializeMusic(EventReference musicEventReference)
     {
         musicEventInstance = RuntimeManager.CreateInstance(musicEventReference);
         musicEventInstance.start();

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum MusicArea
 {
-    Room1 = 0,
-    enemyArea = 1,
+    Puzzle = 0,
+    Arena = 1,
 }
 public class MusicChangeTrigger : MonoBehaviour
 {

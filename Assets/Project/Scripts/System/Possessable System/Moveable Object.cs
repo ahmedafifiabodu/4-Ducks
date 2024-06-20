@@ -97,7 +97,7 @@ public class MoveableObject : MonoBehaviour, IPossessable
         _collider.enabled = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Move the object based on input if it is possessed and the move action is active
         if (_isPossessed && _isMoving)

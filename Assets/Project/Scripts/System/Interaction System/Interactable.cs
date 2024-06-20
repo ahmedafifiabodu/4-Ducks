@@ -1,4 +1,5 @@
 using DG.Tweening;
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,16 +16,25 @@ public abstract class Interactable : MonoBehaviour
     [SerializeField] private bool _interact; // Flag to enable or disable interaction with this object.
 
     [SerializeField] private bool _autoInteract; // If true, the object will interact automatically without player input.
-    [SerializeField] private bool _useEvents; // Determines if Unity Events are used to handle interaction.
     [SerializeField] private string _promptMessage; // Message to display as a prompt when the object can be interacted with.
+
+    [Header("Events")]
+    [SerializeField] private bool _useEvents; // Determines if Unity Events are used to handle interaction.
 
     [Header("Particle Effects")]
     [SerializeField] private bool _useParticleEffect = false; // Flag to enable or disable particle effects upon interaction.
 
     [SerializeField] private ParticleSystem _interactionParticals; // Particle system to play when the object is interacted with.
 
+    [Header("Audio SFX")]
+    [SerializeField] private bool _AddSFX = false;
+
+    [SerializeField] private EventReference _sfx;
+
     private Renderer _renderer; // The renderer that will be used for applying the outline effect.
     private ObjectPool _objectPool; // Reference to an object pool for managing particle systems.
+
+    private AudioSystemFMOD _audioSystem;
 
     // Public properties to expose private fields for interaction settings.
     public LayerMask LayersInteractedWith { get => _layersInteractedWith; set => _layersInteractedWith = value; }
@@ -36,6 +46,8 @@ public abstract class Interactable : MonoBehaviour
     public bool UseParticleEffect { get => _useParticleEffect; set => _useParticleEffect = value; }
     public ParticleSystem InteractionParticals { get => _interactionParticals; set => _interactionParticals = value; }
 
+    protected AudioSystemFMOD AudioSystem => _audioSystem;
+
     // Internal properties to manage the materials for the outline effect.
     internal Material[] OriginalMaterials { get; private set; }
 
@@ -45,7 +57,11 @@ public abstract class Interactable : MonoBehaviour
     private void Awake() => Initialize(_outlineMaterial);
 
     // Retrieves the object pool service on start.
-    private void Start() => _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+    private void Start()
+    {
+        _objectPool = ServiceLocator.Instance.GetService<ObjectPool>();
+        _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+    }
 
     // Ensures the outline effect is initialized correctly when values are changed in the editor.
     private void OnValidate()
@@ -110,6 +126,12 @@ public abstract class Interactable : MonoBehaviour
     // Base method for handling interaction, checking layer compatibility and invoking the specific interaction logic.
     internal void BaseInteract(ObjectType _objectType)
     {
+        if (_objectType == null)
+        {
+            Logging.LogWarning("ObjectType is null in Interact method.");
+            return;
+        }
+
         if (((1 << _objectType.gameObject.layer) & _layersInteractedWith) != 0)
             Interact(_objectType);
         else
@@ -136,6 +158,13 @@ public abstract class Interactable : MonoBehaviour
             }
         }
 
+        if (_AddSFX)
+        {
+            if (_audioSystem == null)
+                _audioSystem = ServiceLocator.Instance.GetService<AudioSystemFMOD>();
+
+            AudioSystem.PlayerShooting(_sfx, gameObject.transform.position);
+        }
         if (_useEvents)
             if (gameObject.TryGetComponent<InteractableEvents>(out var _events))
                 _events.onInteract.Invoke();

@@ -15,10 +15,21 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText; // Text field for the speaker's name
     [SerializeField] private TextMeshProUGUI _dialogText; // Text field for the dialog content
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource; // Add this line
+
     [Header("Typewriter")]
     [SerializeField] private TypewriterCore _typewriter; // Typewriter effect for dialog text
 
+    [Header("Dialogs")]
     [SerializeField] private List<DialogText> _dialogs; // List of dialogs to be displayed
+
+    // Event for starting and ending dialog
+    internal delegate void DialogEvent(DialogText dialogText);
+
+    internal static event DialogEvent OnDialogStart;
+
+    internal static event DialogEvent OnDialogEnd;
 
     private InputManager _inputManager; // Manager for handling input actions
 
@@ -28,11 +39,27 @@ public class DialogManager : MonoBehaviour
     private int _currentDialogIndex = 0; // Index of the current dialog
     private int _currentCharacterIndex = 0; // Index of the current character in the dialog
 
+    private void OnEnable()
+    {
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Ensure _inputManager is initialized
+
+        _inputManager.DialogActions.NextDialog.started += HandleNextDialog;
+    }
+
+    private void OnDisable()
+    {
+        if (_inputManager == null)
+            _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Ensure _inputManager is initialized
+
+        _inputManager.DialogActions.NextDialog.started -= HandleNextDialog;
+    }
+
     private void Start()
     {
-        _dialogCanvas.gameObject.SetActive(false); // Initially hide the dialog canvas
-
-        _inputManager = ServiceLocator.Instance.GetService<InputManager>(); // Get the input manager instance
+        // Initially hide the dialog canvas if it's not null
+        if (_dialogCanvas != null)
+            _dialogCanvas.gameObject.SetActive(false);
 
         _inputManager.DialogActions.Disable(); // Disable dialog actions at start
 
@@ -44,7 +71,6 @@ public class DialogManager : MonoBehaviour
     {
         // Enable dialog actions and subscribe to the NextDialog event
         _inputManager.DialogActions.Enable();
-        _inputManager.DialogActions.NextDialog.started += _ => NextDialog();
 
         if (_dialog.Count == 0)
         {
@@ -75,9 +101,12 @@ public class DialogManager : MonoBehaviour
 
     private void StartConversation(int _dialogIndex)
     {
+        OnDialogStart?.Invoke(_dialogs[_dialogIndex]); // Broadcast the start event
+
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
-        if (!_dialogCanvas.gameObject.activeSelf)
+        // Check if _dialogCanvas is not null before trying to access its gameObject
+        if (_dialogCanvas != null && !_dialogCanvas.gameObject.activeSelf)
             _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue dialog lines
@@ -127,10 +156,18 @@ public class DialogManager : MonoBehaviour
         NextDialog(); // Display the first after dialog
     }
 
+    private void HandleNextDialog(UnityEngine.InputSystem.InputAction.CallbackContext context)=>NextDialog();
+    
+
     private void NextDialog()
     {
         if (_typewriter.isShowingText)
+        {
             _typewriter.SkipTypewriter(); // Skip the typewriter effect if it's currently showing text
+
+            if (_audioSource != null)
+                _audioSource.Stop(); // Stop the audio if skipping dialog
+        }
         else if (_dialog.Count > 0) // Check if there are more dialog lines in the queue
         {
             string nextDialogText = _dialog.Dequeue(); // Dequeue the next dialog line
@@ -177,6 +214,13 @@ public class DialogManager : MonoBehaviour
         foreach (string dialog in currentCharacterDialog._text)
             _dialog.Enqueue(dialog);
 
+        // Play the audio clip
+        if (currentCharacterDialog._audioClip != null)
+        {
+            _audioSource.clip = currentCharacterDialog._audioClip;
+            _audioSource.Play();
+        }
+
         NextDialog(); // Display the next dialog
     }
 
@@ -189,12 +233,11 @@ public class DialogManager : MonoBehaviour
 
     private void EndConversation()
     {
-        Logging.Log("EndConversation called: Disabling dialog actions and enabling cat and ghost actions.");
+        OnDialogEnd?.Invoke(_dialogs[_currentDialogIndex]); // Broadcast the end event
 
         _inputManager.CatActions.Enable(); // Enable cat actions
         _inputManager.GhostActions.Enable(); // Enable ghost actions
 
-        _inputManager.DialogActions.NextDialog.started -= _ => NextDialog(); // Unsubscribe from the NextDialog event
         _inputManager.DialogActions.Disable(); // Disable dialog actions
 
         ResetConversationState(); // Reset the conversation state
@@ -208,6 +251,9 @@ public class DialogManager : MonoBehaviour
         _dialogText.text = string.Empty; // Clear the dialog text
         _conversationEnded = false; // Reset the conversation ended flag
         _currentCharacterIndex = 0; // Reset the current character index
-        _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
+
+        // Check if _dialogCanvas is not null before trying to access its gameObject
+        if (_dialogCanvas != null)
+            _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
     }
 }

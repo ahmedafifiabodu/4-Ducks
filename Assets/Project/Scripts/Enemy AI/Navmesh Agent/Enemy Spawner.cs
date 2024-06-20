@@ -1,16 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 // The EnemySpawner class is responsible for spawning enemies at runtime using predefined configurations and an object pooling system.
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<EnemySpawnerList> _enemySpawnerLists; // List of configurations for spawning different enemy types
 
-    public event Action AllEnemiesDestroyed; // Event triggered when all enemies have been destroyed
+    [SerializeField] private UnityEvent AllEnemiesDestroyed; // Event triggered when all enemies have been destroyed
 
     private ObjectPool _objectPool; // Reference to the ObjectPool for reusing enemy game objects
     private readonly List<GameObject> activeEnemies = new();

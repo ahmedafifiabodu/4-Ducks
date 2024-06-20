@@ -8,6 +8,8 @@ public class InteractableEditor : Editor
     private SerializedProperty autoInteractProperty;
     private SerializedProperty interactProperty;
     private SerializedProperty useEventsProperty;
+    private SerializedProperty addSFXProperty;
+    private SerializedProperty sfxProperty;
 
     public override void OnInspectorGUI()
     {
@@ -24,6 +26,8 @@ public class InteractableEditor : Editor
         autoInteractProperty = so.FindProperty("_autoInteract");
         interactProperty = so.FindProperty("_interact");
         useEventsProperty = so.FindProperty("_useEvents");
+        addSFXProperty = so.FindProperty("_AddSFX"); // Initialize this property
+        sfxProperty = so.FindProperty("_sfx"); // Initialize this property
 
         if (!autoInteractProperty.boolValue)
             EditorGUILayout.PropertyField(interactProperty);
@@ -37,6 +41,13 @@ public class InteractableEditor : Editor
         // If _useParticleEffect is true, draw the _interactionParticals field
         if (_interactable.UseParticleEffect)
             EditorGUILayout.PropertyField(so.FindProperty("_interactionParticals"));
+
+        // Add SFX toggle and conditional EventReference field
+        EditorGUILayout.PropertyField(addSFXProperty);
+        if (addSFXProperty.boolValue) // Only show the EventReference field if _AddSFX is true
+        {
+            EditorGUILayout.PropertyField(sfxProperty);
+        }
 
         if (autoInteractProperty.boolValue || interactProperty.boolValue)
         {

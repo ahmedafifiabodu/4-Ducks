@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(EventTrigger))] // Ensure there's an EventTrigger component
-public class UIButtonsAnimationAndHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIButtonsAnimationAndHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     [SerializeField] private RectTransform buttonRectTransform; // Assign in inspector
     [SerializeField] private float animationDuration = 0.3f; // Duration of the animation
@@ -15,7 +15,17 @@ public class UIButtonsAnimationAndHoverEffect : MonoBehaviour, IPointerEnterHand
             buttonRectTransform = GetComponent<RectTransform>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData) => buttonRectTransform.DOScale(expandedScale, animationDuration).SetEase(Ease.InElastic);
+    public void OnPointerEnter(PointerEventData eventData) => AnimateToExpandedScale();
 
-    public void OnPointerExit(PointerEventData eventData) => buttonRectTransform.DOScale(Vector3.one, animationDuration).SetEase(Ease.OutElastic);
+    public void OnPointerExit(PointerEventData eventData) => AnimateToOriginalScale();
+
+    // Implement ISelectHandler
+    public void OnSelect(BaseEventData eventData) => AnimateToExpandedScale();
+
+    // Implement IDeselectHandler
+    public void OnDeselect(BaseEventData eventData) => AnimateToOriginalScale();
+
+    private void AnimateToExpandedScale() => buttonRectTransform.DOScale(expandedScale, animationDuration).SetEase(Ease.InElastic);
+
+    private void AnimateToOriginalScale() => buttonRectTransform.DOScale(Vector3.one, animationDuration).SetEase(Ease.OutElastic);
 }

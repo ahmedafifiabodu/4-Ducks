@@ -24,6 +24,13 @@ public class CatAttack : MonoBehaviour
 
     private bool _isAttacking = false; // Flag to check if the cat is currently attacking
 
+    private void OnDisable()
+    {
+        // Unsubscribe to prevent access to destroyed objects
+        if (_inputManager != null)
+            _inputManager.CatActions.Attack.started -= Attack;
+    }
+
     private void Start()
     {
         // Initialize components and subscribe to input actions
@@ -47,8 +54,8 @@ public class CatAttack : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
-        // Prevents attack action if already attacking
-        if (_isAttacking) return;
+        // Check if this component is still enabled and not destroyed
+        if (this == null || !enabled || _isAttacking) return;
 
         // Store the current position as the original position
         _originalPosition = transform.position;
@@ -59,6 +66,9 @@ public class CatAttack : MonoBehaviour
 
     private System.Collections.IEnumerator AttackRoutine()
     {
+        // Early exit if the component or GameObject has been destroyed
+        if (this == null) yield break;
+
         _isAttacking = true;
         _animator.CrossFade(AttackAnimationId, animationPlayTransition); // Play attack animation
 

@@ -10,7 +10,7 @@ public class GameData
     public SerializableDictionary<string, bool> _coinsCollected;
     public SerializableDictionary<string, bool> _crystalsCollected;
     public SerializableDictionary<string, bool> _checkPointPassed;
-    public CheckPoint _lastCheckPoint;
+    public string _lastCheckPointId;
 
     public GameData()
     {
@@ -30,7 +30,7 @@ public class GameData
                 _totalcoinsCollected++;
         }
 
-        int _precentageComplete = -1;
+        int _precentageComplete = 0;
 
         if (_coinsCollected.Count > 0)
         {
