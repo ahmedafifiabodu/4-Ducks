@@ -75,7 +75,7 @@ public class UISystem : MonoBehaviour
         progressBar.value = 0; // Reset the progress bar
 
         // Animate the progress bar to full over 2 seconds
-        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadNextScene);
+        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).SetDelay(1).OnComplete(LoadNextScene);
     }
 
     internal void StartMainMenuLoadingProcess()
@@ -84,7 +84,8 @@ public class UISystem : MonoBehaviour
         progressBar.value = 0; // Reset the progress bar
 
         // Animate the progress bar to full over 2 seconds
-        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).OnComplete(LoadMainMenuScene);
+        DOTween.To(() => progressBar.value, x => progressBar.value = x, 1, 2).SetDelay(1).OnComplete(LoadMainMenuScene);
+
     }
 
     private void LoadNextScene()
@@ -96,7 +97,7 @@ public class UISystem : MonoBehaviour
     private void LoadMainMenuScene()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        _serviceLocator.GetService<SceneManagement>().StartLevel(0);
+        _serviceLocator.GetService<SceneManagement>().StartLevel(1);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -110,15 +111,23 @@ public class UISystem : MonoBehaviour
 
     private void PerformPostLoadAnimation()
     {
-        // Ensure loadingScreen has a CanvasGroup component attached
-        if (!loadingScreen.TryGetComponent<CanvasGroup>(out var canvasGroup))
+        // Check if loadingScreen is not null and it has a CanvasGroup component attached
+        if (loadingScreen != null && loadingScreen.TryGetComponent<CanvasGroup>(out var canvasGroup))
         {
-            Logging.LogError("loadingScreen does not have a CanvasGroup component.");
-            return;
+            // Add a 1-second delay before starting the fade-out animation over 3 seconds
+            canvasGroup.DOFade(0, 3).SetDelay(1).OnComplete(() =>
+            {
+                // Ensure loadingScreen is still not null before setting it inactive
+                if (loadingScreen != null)
+                {
+                    loadingScreen.GetComponent<Canvas>().enabled = false;
+                }
+            });
         }
-
-        // Add a 1-second delay before starting the fade-out animation over 5 seconds
-        canvasGroup.DOFade(0, 3).SetDelay(1).OnComplete(() => loadingScreen.SetActive(false));
+        else
+        {
+            Logging.LogError("loadingScreen is null or does not have a CanvasGroup component.");
+        }
     }
 
     #endregion Loading UI
@@ -155,7 +164,7 @@ public class UISystem : MonoBehaviour
         _settingsCanvas.enabled = false;
         _musicCanvas.enabled = false;
 
-        ServiceLocator.Instance.GetService<SceneManagement>().StartFirstLevel();
+        ServiceLocator.Instance.GetService<SceneManagement>().StartLevel(1);
     }
 
     public void QuitGame() => Application.Quit();
