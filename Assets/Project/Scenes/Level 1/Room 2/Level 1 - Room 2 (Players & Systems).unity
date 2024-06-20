@@ -4880,13 +4880,13 @@ PrefabInstance:
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 18016086}
+      objectReference: {fileID: 634580681}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: _enemySpawnerLists.Array.data[0]._enemiesPrefabs.Array.data[0]._size
@@ -4915,7 +4915,7 @@ PrefabInstance:
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: StartAppearAnimation
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
@@ -4944,7 +4944,7 @@ PrefabInstance:
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
       propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: CustomDoTweenAnimation, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
@@ -4953,8 +4953,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}
+      propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 18016086}
+    - target: {fileID: 1254700077564020913, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
+        type: 3}
       propertyPath: AllEnemiesDestroyed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4887514376003123270, guid: 0c33a9faf806e2b45827aa6ffbb1af19,
         type: 3}

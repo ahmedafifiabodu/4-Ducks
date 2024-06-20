@@ -30,7 +30,7 @@ public class GameData
                 _totalcoinsCollected++;
         }
 
-        int _precentageComplete = -1;
+        int _precentageComplete = 0;
 
         if (_coinsCollected.Count > 0)
         {
