@@ -47,8 +47,8 @@ public class RoomManager : MonoBehaviour
                     break;
 
                 case 3:
-                    _inputManager.GhostActions.Ascend.Enable();
-                    _inputManager.CatActions.Throw.Enable();
+                    _inputManager.GhostActions.Ascend.Disable();
+                    _inputManager.CatActions.Throw.Disable();
                     _audioSystem.InitializeMusic(_audioSystem.FmodSystem.Arena);
                     _targetGroup.SetTargetGroup();
                     break;

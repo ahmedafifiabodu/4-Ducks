@@ -1,21 +1,27 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManagement : MonoBehaviour
+public class SceneManagement : MonoBehaviour, IDataPersistence
 {
     [SerializeField] private List<Level> levels = new();
 
     private int currentLevel = 1;
-
     private List<string> levelScenes;
+
     private InputManager inputManager;
+    private DataPersistenceManager dataPersistenceManager;
 
     internal int CurrentLevel => currentLevel;
 
     private void Awake() => ServiceLocator.Instance.RegisterService(this, true);
 
-    private void Start() => inputManager = ServiceLocator.Instance.GetService<InputManager>();
+    private void Start()
+    {
+        inputManager = ServiceLocator.Instance.GetService<InputManager>();
+        dataPersistenceManager = ServiceLocator.Instance.GetService<DataPersistenceManager>();
+    }
 
     public void StartLevel(int _targetLevel = -1)
     {
@@ -54,5 +60,41 @@ public class SceneManagement : MonoBehaviour
                 return level.scenes;
 
         return null;
+    }
+
+    public void LoadGame(GameData _gameData)
+    {
+        if (_gameData._levelsCompleted.Count > 0)
+        {
+            Logging.Log("_gameData._levelsCompleted.Count: " + _gameData._levelsCompleted.Count);
+
+            // Find the highest completed level
+            int lastCompletedLevel = _gameData._levelsCompleted.Max();
+
+            // Set the current level to the next level after the last completed level
+            // Ensure that it does not exceed the total number of levels
+            currentLevel = Mathf.Min(lastCompletedLevel + 1, levels.Count);
+        }
+        else
+        {
+            // If no levels have been completed, start from the first level
+            currentLevel = 1;
+        }
+
+        // Optionally, start the level automatically
+        StartLevel(currentLevel);
+    }
+
+    public void SaveGame(GameData _gameData)
+    {
+        _gameData.SetTotalLevels(levels.Count);
+
+        // Adjusted to add currentLevel - 1 to _levelsCompleted
+        int levelToMarkAsCompleted = currentLevel - 1;
+        if (levelToMarkAsCompleted > 1 && !_gameData._levelsCompleted.Contains(levelToMarkAsCompleted))
+        {
+            _gameData._levelsCompleted.Add(levelToMarkAsCompleted);
+            dataPersistenceManager.SaveGame();
+        }
     }
 }

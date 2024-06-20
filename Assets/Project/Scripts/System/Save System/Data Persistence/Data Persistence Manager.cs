@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,17 +27,39 @@ public class DataPersistenceManager : MonoBehaviour
     private FileDataHandler _fileDataHandler;
 
     private string _selectedProfileID = string.Empty;
-
     private Coroutine _autoSaveCoroutine;
 
     public bool OverwriteSelectedProfile { get => _overwriteSelectedProfile; set => _overwriteSelectedProfile = value; }
     public string OverwriteSelectedProfileID { get => _overwriteSelectedProfileID; set => _overwriteSelectedProfileID = value; }
 
+    #region Unity Functions
+
+    private void Awake()
+    {
+        ServiceLocator.Instance.RegisterService(this, true);
+        _dataPersistenceObjects = new();
+
+        if (_disableDataPersistence)
+            Logging.LogWarning("Data Persistence is disabled.");
+
+        _fileDataHandler = new FileDataHandler(Application.persistentDataPath, _fileName, _useEncryption);
+
+        InitializeSelectedProfileID();
+    }
+
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    private void OnApplicationQuit() => SaveGame();
+
+    #endregion Unity Functions
+
     #region Save and Load System
 
     public void NewGame() => _gameData = new GameData();
 
-    public void LoadGame()
+    private void LoadGame()
     {
         if (_disableDataPersistence)
             return;
@@ -79,11 +102,11 @@ public class DataPersistenceManager : MonoBehaviour
 
     #region Functions
 
-    public bool HasGameStarted() => _gameData != null;
+    internal bool HasGameStarted() => _gameData != null;
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        List<IDataPersistence> dataPersistenceObjects = new List<IDataPersistence>();
+        List<IDataPersistence> dataPersistenceObjects = new();
 
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -98,15 +121,15 @@ public class DataPersistenceManager : MonoBehaviour
         return dataPersistenceObjects;
     }
 
-    public Dictionary<string, GameData> GetAllProfilesGameData() => _fileDataHandler.LoadAllProfile();
+    internal Dictionary<string, GameData> GetAllProfilesGameData() => _fileDataHandler.LoadAllProfile();
 
-    public void ChangeSelectedProfile(string _newProfileID)
+    internal void ChangeSelectedProfile(string _newProfileID)
     {
         _selectedProfileID = _newProfileID;
         LoadGame();
     }
 
-    public void DeleteProfileData(string _profileID)
+    internal void DeleteProfileData(string _profileID)
     {
         _fileDataHandler.Delete(_profileID);
         InitializeSelectedProfileID();
@@ -138,7 +161,27 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene _scene, LoadSceneMode _loadSceneMode)
     {
-        _dataPersistenceObjects = FindAllDataPersistenceObjects();
+        // Find all IDataPersistence objects in the new scene
+        List<IDataPersistence> newDataPersistenceObjects = FindAllDataPersistenceObjects();
+
+        // Merge with existing _dataPersistenceObjects to ensure persistent objects are not lost
+        foreach (var obj in newDataPersistenceObjects)
+        {
+            if (!_dataPersistenceObjects.Contains(obj))
+            {
+                _dataPersistenceObjects.Add(obj);
+            }
+        }
+
+        // Register IDataPersistence services marked as DontDestroyOnLoad
+        foreach (var service in ServiceLocator.Instance.GetDontDestroyOnLoadServices())
+        {
+            if (service is IDataPersistence dataPersistenceService)
+            {
+                if (!_dataPersistenceObjects.Contains(service))
+                    _dataPersistenceObjects.Add(dataPersistenceService);
+            }
+        }
 
         LoadGame();
 
@@ -151,26 +194,4 @@ public class DataPersistenceManager : MonoBehaviour
     #endregion Scene Management
 
     #endregion Functions
-
-    #region Unity Functions
-
-    private void Awake()
-    {
-        ServiceLocator.Instance.RegisterService(this, true);
-
-        if (_disableDataPersistence)
-            Logging.LogWarning("Data Persistence is disabled.");
-
-        _fileDataHandler = new FileDataHandler(Application.persistentDataPath, _fileName, _useEncryption);
-
-        InitializeSelectedProfileID();
-    }
-
-    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
-
-    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
-
-    private void OnApplicationQuit() => SaveGame();
-
-    #endregion Unity Functions
 }
