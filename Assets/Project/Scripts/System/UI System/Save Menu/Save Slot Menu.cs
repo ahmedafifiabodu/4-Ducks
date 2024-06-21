@@ -34,9 +34,35 @@ public class SaveSlotMenu : MonoBehaviour
             saveSlot.SetData(_profileData);
 
             if (_profileData == null && _isGameLoading)
-                saveSlot.SetButtonInteractable(false);
+            {
+                saveSlot.SetSaveSlotButtonInteractable(false);
+                saveSlot.SetClearButtonInteractable(false);
+            }
             else
-                saveSlot.SetButtonInteractable(true);
+            {
+                saveSlot.SetSaveSlotButtonInteractable(true);
+                saveSlot.SetClearButtonInteractable(true);
+            }
+        }
+    }
+
+    public void UpdateClearButtonInteractability()
+    {
+        Dictionary<string, GameData> _profilesGameData = _dataPersistenceManager.GetAllProfilesGameData();
+
+        foreach (SaveSlot saveSlot in _saveSlot)
+        {
+            _profilesGameData.TryGetValue(saveSlot.GetProfileID(), out GameData _profileData);
+            saveSlot.SetData(_profileData);
+
+            if (_profileData == null)
+            {
+                saveSlot.SetClearButtonInteractable(false);
+            }
+            else
+            {
+                saveSlot.SetClearButtonInteractable(true);
+            }
         }
     }
 
@@ -56,8 +82,6 @@ public class SaveSlotMenu : MonoBehaviour
             {
                 // Set the currentLevel to the next level after the last completed one
                 int nextLevel = gameData._levelsCompleted.Count > 0 ? gameData._levelsCompleted.Max() + 1 : 1;
-
-                Logging.Log("nextLevel: " + nextLevel);
 
                 sceneManagement.SetCurrentLevel(nextLevel);
             }
@@ -113,6 +137,9 @@ public class SaveSlotMenu : MonoBehaviour
     private void DisableMenuButtons()
     {
         foreach (SaveSlot saveSlot in _saveSlot)
-            saveSlot.SetButtonInteractable(false);
+        {
+            saveSlot.SetSaveSlotButtonInteractable(false);
+            saveSlot.SetClearButtonInteractable(false);
+        }
     }
 }
