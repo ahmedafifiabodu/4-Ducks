@@ -12,16 +12,17 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] private GameObject _hasDataContent;
 
     [SerializeField] private TMPro.TextMeshProUGUI _percentageComplete;
+
     [Header("Clear Button")]
     [SerializeField] private Button _clearButton;
 
     private Button _saveSlotbutton;
 
-    public bool HasData { get; private set; } = false;
+    internal bool HasData { get; private set; } = false;
 
     private void Awake() => _saveSlotbutton = GetComponent<Button>();
 
-    public void SetData(GameData gameData)
+    internal void SetData(GameData gameData)
     {
         if (gameData == null)
         {
@@ -41,14 +42,23 @@ public class SaveSlot : MonoBehaviour
         _clearButton.interactable = true;
 
         _percentageComplete.text = gameData.PercentageComplete() + "% Complete";
-    
     }
 
-    public string GetProfileID() => _profileID;
+    internal string GetProfileID() => _profileID;
 
-    public void SetButtonInteractable(bool _interactable)
+    internal void SetSaveSlotButtonInteractable(bool _interactable)
     {
         _saveSlotbutton.interactable = _interactable;
+
+        if (_saveSlotbutton.TryGetComponent<UIButtonsAnimationAndHoverEffect>(out var interactable))
+            interactable.enabled = _interactable;
+    }
+
+    internal void SetClearButtonInteractable(bool _interactable)
+    {
         _clearButton.interactable = _interactable;
+
+        if (_saveSlotbutton.TryGetComponent<UIButtonsAnimationAndHoverEffect>(out var interactable))
+            interactable.enabled = _interactable;
     }
 }

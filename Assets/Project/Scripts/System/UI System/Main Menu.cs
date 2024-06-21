@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour
     public void OnContiuneGameClicked()
     {
         _serviceLocator.GetService<DataPersistenceManager>().SaveGame();
-        _serviceLocator.GetService<UISystem>().StartLoadingProcess();
+        _serviceLocator.GetService<SceneManagement>().StartLevel();
     }
 
     public void OnExitClicked() => Application.Quit();

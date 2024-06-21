@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 // Manages spawning and checkpoint logic within the game
 public class SpawnSystem : MonoBehaviour, IDataPersistence
@@ -97,10 +98,10 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Spawns the player at a specific checkpoint
     public void SpawnAtCheckPoint(CheckPoint _checkPoint)
     {
-        if(_catTransform == null)
+        if (_catTransform == null)
             _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
 
-        if(_ghostTransform == null)
+        if (_ghostTransform == null)
             _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
 
         // Set player and ghost positions and rotations based on checkpoint
@@ -136,9 +137,14 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Loads game state from saved data
     public void LoadGame(GameData _gameData)
     {
-        if (_gameData._lastCheckPointId != null)
-            SpawnAtCheckPoint(_gameData._lastCheckPointId);
-        else SpawnAtCheckPoint(_startcheckPoint);
+        // Example condition, replace with your actual check
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            if (_gameData._lastCheckPointId != null)
+                SpawnAtCheckPoint(_gameData._lastCheckPointId);
+            else
+                SpawnAtCheckPoint(_startcheckPoint);
+        }
     }
 
     // Saves game state to data
