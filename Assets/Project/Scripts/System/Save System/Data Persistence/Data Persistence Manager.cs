@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +23,7 @@ public class DataPersistenceManager : MonoBehaviour
     private GameData _gameData;
     private List<IDataPersistence> _dataPersistenceObjects;
     private FileDataHandler _fileDataHandler;
+    private ServiceLocator _serviceLocator;
 
     private string _selectedProfileID = string.Empty;
     private Coroutine _autoSaveCoroutine;
@@ -36,7 +35,9 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Awake()
     {
-        ServiceLocator.Instance.RegisterService(this, true);
+        _serviceLocator = ServiceLocator.Instance;
+
+        _serviceLocator.RegisterService(this, true);
         _dataPersistenceObjects = new();
 
         if (_disableDataPersistence)
@@ -102,19 +103,32 @@ public class DataPersistenceManager : MonoBehaviour
 
     #region Functions
 
+    public GameData GetCurrentGameData() => _gameData;
+
     internal bool HasGameStarted() => _gameData != null;
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         List<IDataPersistence> dataPersistenceObjects = new();
 
+        // Check regular scenes
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             Scene scene = SceneManager.GetSceneAt(i);
+
             foreach (GameObject rootObject in scene.GetRootGameObjects())
             {
                 IDataPersistence[] sceneDataPersistenceObjects = rootObject.GetComponentsInChildren<IDataPersistence>();
                 dataPersistenceObjects.AddRange(sceneDataPersistenceObjects);
+            }
+        }
+
+        var services = _serviceLocator.GetDontDestroyOnLoadServices();
+        foreach (var service in services)
+        {
+            if (service is IDataPersistence dataPersistenceService)
+            {
+                dataPersistenceObjects.Add(dataPersistenceService);
             }
         }
 
@@ -170,16 +184,6 @@ public class DataPersistenceManager : MonoBehaviour
             if (!_dataPersistenceObjects.Contains(obj))
             {
                 _dataPersistenceObjects.Add(obj);
-            }
-        }
-
-        // Register IDataPersistence services marked as DontDestroyOnLoad
-        foreach (var service in ServiceLocator.Instance.GetDontDestroyOnLoadServices())
-        {
-            if (service is IDataPersistence dataPersistenceService)
-            {
-                if (!_dataPersistenceObjects.Contains(service))
-                    _dataPersistenceObjects.Add(dataPersistenceService);
             }
         }
 

@@ -97,10 +97,10 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Spawns the player at a specific checkpoint
     public void SpawnAtCheckPoint(CheckPoint _checkPoint)
     {
-        if(_catTransform == null)
+        if (_catTransform == null)
             _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
 
-        if(_ghostTransform == null)
+        if (_ghostTransform == null)
             _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
 
         // Set player and ghost positions and rotations based on checkpoint

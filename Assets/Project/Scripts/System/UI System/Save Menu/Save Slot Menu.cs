@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -46,6 +47,20 @@ public class SaveSlotMenu : MonoBehaviour
         if (_isGameLoading)
         {
             _dataPersistenceManager.ChangeSelectedProfile(_saveslot.GetProfileID());
+
+            // Retrieve the GameData for the selected profile
+            GameData gameData = _dataPersistenceManager.GetCurrentGameData();
+            // Find the SceneManagement instance
+            SceneManagement sceneManagement = _serviceLocator.GetService<SceneManagement>();
+            if (gameData != null && sceneManagement != null)
+            {
+                // Set the currentLevel to the next level after the last completed one
+                int nextLevel = gameData._levelsCompleted.Count > 0 ? gameData._levelsCompleted.Max() + 1 : 1;
+
+                Logging.Log("nextLevel: " + nextLevel);
+
+                sceneManagement.SetCurrentLevel(nextLevel);
+            }
             SaveGameAndLoadScene();
         }
         else if (_saveslot.HasData)

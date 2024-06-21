@@ -95,15 +95,17 @@ public class ServiceLocator
             Logging.LogWarning($"Attempted to unregister service of type {serviceType.Name}, but it was not registered.");
     }
 
-    public IEnumerable<object> GetDontDestroyOnLoadServices()
+    public List<object> GetDontDestroyOnLoadServices()
     {
+        List<object> dontDestroyOnLoadServices = new();
+
         foreach (var (service, dontDestroyOnLoad) in services.Values)
         {
             if (dontDestroyOnLoad)
-            {
-                yield return service;
-            }
+                dontDestroyOnLoadServices.Add(service);
         }
+
+        return dontDestroyOnLoadServices;
     }
 
     private ServiceLocator() => UnityEngine.SceneManagement.SceneManager.sceneUnloaded += scene => UnregisterNonPersistentServices();

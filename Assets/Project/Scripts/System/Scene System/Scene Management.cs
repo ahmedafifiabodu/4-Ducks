@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -62,27 +61,10 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
         return null;
     }
 
+    internal void SetCurrentLevel(int level) => currentLevel = level - 1;
+
     public void LoadGame(GameData _gameData)
     {
-        if (_gameData._levelsCompleted.Count > 0)
-        {
-            Logging.Log("_gameData._levelsCompleted.Count: " + _gameData._levelsCompleted.Count);
-
-            // Find the highest completed level
-            int lastCompletedLevel = _gameData._levelsCompleted.Max();
-
-            // Set the current level to the next level after the last completed level
-            // Ensure that it does not exceed the total number of levels
-            currentLevel = Mathf.Min(lastCompletedLevel + 1, levels.Count);
-        }
-        else
-        {
-            // If no levels have been completed, start from the first level
-            currentLevel = 1;
-        }
-
-        // Optionally, start the level automatically
-        StartLevel(currentLevel);
     }
 
     public void SaveGame(GameData _gameData)

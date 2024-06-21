@@ -33,6 +33,6 @@ public class CheckPoint : Interactable, IDataPersistence
         if (_gameData._checkPointPassed.ContainsKey(_checkPointId))
             _gameData._checkPointPassed[_checkPointId] = _isPassed;
         else
-            _gameData._checkPointPassed.Add(_checkPointId, this);
+            _gameData._checkPointPassed.Add(_checkPointId, _isPassed);
     }
 }
