@@ -331,11 +331,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3110905751663241994, guid: 7b0852039c4c46c438f98415a25dc37a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -6.199951
-      objectReference: {fileID: 0}
     - target: {fileID: 4140385966053273508, guid: 7b0852039c4c46c438f98415a25dc37a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
@@ -435,16 +430,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997232606845542127, guid: 7b0852039c4c46c438f98415a25dc37a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 73.30005
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997232606845542127, guid: 7b0852039c4c46c438f98415a25dc37a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 43.19995
       objectReference: {fileID: 0}
     - target: {fileID: 6671773757893556981, guid: 7b0852039c4c46c438f98415a25dc37a,
         type: 3}
@@ -7419,11 +7404,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 275144054968721831, guid: 3cdb7fceb4391364a868ae884c92b319,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2881019659217890097, guid: 3cdb7fceb4391364a868ae884c92b319,
         type: 3}
       propertyPath: m_Name
@@ -10025,7 +10005,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2625788259791301421}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -11362,7 +11342,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6687329916740415932}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4088004672502241607}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: OnContiuneGameClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8292359494412607381
 GameObject:
   m_ObjectHideFlags: 0

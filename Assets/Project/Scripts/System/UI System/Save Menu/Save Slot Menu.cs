@@ -10,8 +10,10 @@ public class SaveSlotMenu : MonoBehaviour
     [SerializeField] private GameObject _gameObject;
 
     private SaveSlot[] _saveSlot;
+
     private ServiceLocator _serviceLocator;
     private DataPersistenceManager _dataPersistenceManager;
+    private SceneManagement _sceneManagement;
 
     private bool _isGameLoading = false;
 
@@ -19,7 +21,9 @@ public class SaveSlotMenu : MonoBehaviour
     {
         _saveSlot = GetComponentsInChildren<SaveSlot>();
         _serviceLocator = ServiceLocator.Instance;
+
         _dataPersistenceManager = _serviceLocator.GetService<DataPersistenceManager>();
+        _sceneManagement = _serviceLocator.GetService<SceneManagement>();
     }
 
     public void ActivatedMenu(bool _isGameLoading)
@@ -76,15 +80,15 @@ public class SaveSlotMenu : MonoBehaviour
 
             // Retrieve the GameData for the selected profile
             GameData gameData = _dataPersistenceManager.GetCurrentGameData();
-            // Find the SceneManagement instance
-            SceneManagement sceneManagement = _serviceLocator.GetService<SceneManagement>();
-            if (gameData != null && sceneManagement != null)
+
+            if (gameData != null && _sceneManagement != null)
             {
                 // Set the currentLevel to the next level after the last completed one
                 int nextLevel = gameData._levelsCompleted.Count > 0 ? gameData._levelsCompleted.Max() + 1 : 1;
 
-                sceneManagement.SetCurrentLevel(nextLevel);
+                _sceneManagement.SetCurrentLevel(nextLevel);
             }
+
             SaveGameAndLoadScene();
         }
         else if (_saveslot.HasData)
@@ -131,7 +135,7 @@ public class SaveSlotMenu : MonoBehaviour
     private void SaveGameAndLoadScene()
     {
         _dataPersistenceManager.SaveGame();
-        _serviceLocator.GetService<UISystem>().StartLoadingProcess();
+        _sceneManagement.StartLevel();
     }
 
     private void DisableMenuButtons()

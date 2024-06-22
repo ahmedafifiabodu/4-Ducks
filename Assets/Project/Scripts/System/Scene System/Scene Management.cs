@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,13 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
 
     private InputManager inputManager;
     private DataPersistenceManager dataPersistenceManager;
+
+    public delegate void LevelLoadingDelegate(bool isLoading);
+
+    public event LevelLoadingDelegate OnLevelLoading;
+
+    private AsyncOperation loadOperation = null;
+    public float LoadProgress => (loadOperation != null) ? loadOperation.progress : 1f;
 
     internal int CurrentLevel => currentLevel;
 
@@ -29,27 +37,31 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
         else
             currentLevel++;
 
-        // Get all scenes in the current level
         levelScenes = GetLevelScenes(currentLevel);
 
         if (levelScenes == null || levelScenes.Count == 0)
         {
             Logging.LogError("No scenes found for level " + currentLevel);
-            currentLevel--;
 
+            currentLevel--;
+            OnLevelLoading?.Invoke(false);
             return;
         }
 
-        // Check if the current level is the first one and disable PauseActions if so
         if (currentLevel == 1 && inputManager != null)
             inputManager.PauseActions.Disable();
 
-        // Load the first scene in Single mode
-        SceneManager.LoadScene(levelScenes[0], LoadSceneMode.Single);
+        OnLevelLoading?.Invoke(true);
 
-        // Load the rest of the scenes in Additive mode
-        for (int i = 1; i < levelScenes.Count; i++)
-            SceneManager.LoadScene(levelScenes[i], LoadSceneMode.Additive);
+        // Assuming UISystem is accessible via a reference or ServiceLocator
+        UISystem uiSystem = ServiceLocator.Instance.GetService<UISystem>();
+        if (uiSystem != null)
+        {
+            uiSystem.SimulateLoadingProgress(0.9f, 5f); // Simulate progress to 0.9 over 5 seconds
+        }
+
+        // Start the actual scene loading after a delay
+        StartCoroutine(StartActualLoading(levelScenes));
     }
 
     private List<string> GetLevelScenes(int levelNumber)
@@ -62,6 +74,34 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
     }
 
     internal void SetCurrentLevel(int level) => currentLevel = level - 1;
+
+    private IEnumerator StartActualLoading(List<string> scenes)
+    {
+        yield return new WaitForSeconds(5f); // Wait for the simulated loading to complete
+
+        if (scenes.Count > 0)
+        {
+            loadOperation = SceneManager.LoadSceneAsync(scenes[0], LoadSceneMode.Single);
+            loadOperation.allowSceneActivation = false;
+
+            for (int i = 1; i < scenes.Count; i++)
+            {
+                SceneManager.LoadScene(scenes[i], LoadSceneMode.Additive);
+            }
+
+            // Wait until the load progress reaches 0.9
+            while (loadOperation.progress < 0.9f)
+            {
+                yield return null;
+            }
+
+            // Notify UISystem that loading ends before allowing scene activation
+            OnLevelLoading?.Invoke(false); // This line should already be in place
+
+            // Allow the scene to activate
+            loadOperation.allowSceneActivation = true;
+        }
+    }
 
     public void LoadGame(GameData _gameData)
     {
