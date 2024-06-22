@@ -49,12 +49,16 @@ public class SaveSlot : MonoBehaviour
     internal void SetSaveSlotButtonInteractable(bool _interactable)
     {
         _saveSlotbutton.interactable = _interactable;
-        _saveSlotbutton.GetComponent<UIButtonsAnimationAndHoverEffect>().enabled = _interactable;
+
+        if (_saveSlotbutton.TryGetComponent<UIButtonsAnimationAndHoverEffect>(out var interactable))
+            interactable.enabled = _interactable;
     }
 
     internal void SetClearButtonInteractable(bool _interactable)
     {
         _clearButton.interactable = _interactable;
-        _clearButton.GetComponent<UIButtonsAnimationAndHoverEffect>().enabled = _interactable;
+
+        if (_saveSlotbutton.TryGetComponent<UIButtonsAnimationAndHoverEffect>(out var interactable))
+            interactable.enabled = _interactable;
     }
 }
