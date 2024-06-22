@@ -3,7 +3,5 @@ using UnityEngine;
 public class NextLevel : MonoBehaviour
 {
     // Load the next level
-    public void LoadNextLevel() => ServiceLocator.Instance.GetService<SceneManagement>().StartLevel();
-
-    public void LoadMainMenuLevel() => ServiceLocator.Instance.GetService<SceneManagement>().StartLevel(1);
+    public void LoadLevel(int _level = -1) => ServiceLocator.Instance.GetService<UISystem>().StartLevel(_level);
 }

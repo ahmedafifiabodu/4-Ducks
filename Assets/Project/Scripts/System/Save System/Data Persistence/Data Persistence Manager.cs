@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class DataPersistenceManager : MonoBehaviour
     [SerializeField] private bool _useEncryption;
 
     [Header("Auto Save Config")]
+    [SerializeField] private Canvas _autosaveCanvas;
+
+    [SerializeField] private Image _autoSaveImage;
     [SerializeField] private float _autoSaveTimeInSeconds = 60f;
 
     [Header("For Debugging")]
@@ -161,15 +165,43 @@ public class DataPersistenceManager : MonoBehaviour
         }
     }
 
+    #region Auto Save
+
     private IEnumerator AutoSave()
     {
         while (true)
         {
             yield return new WaitForSeconds(_autoSaveTimeInSeconds);
+
+            // Start autosave visual feedback
+            StartCoroutine(AutoSaveFeedback());
+
             SaveGame();
             Logging.Log("Auto Save The Game");
         }
     }
+
+    private IEnumerator AutoSaveFeedback()
+    {
+        _autosaveCanvas.enabled = true;
+
+        float duration = 5.0f; // Duration of one cycle (fade in and fade out)
+        float time = 0;
+
+        while (time < duration)
+        {
+            // Oscillate alpha between 150/255 and 200/255
+            float alpha = Mathf.Lerp(150f / 255f, 200f / 255f, Mathf.PingPong(time * 10 / duration, 1));
+            _autoSaveImage.color = new Color(_autoSaveImage.color.r, _autoSaveImage.color.g, _autoSaveImage.color.b, alpha);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        _autosaveCanvas.enabled = false;
+    }
+
+    #endregion Auto Save
 
     #region Scene Management
 
