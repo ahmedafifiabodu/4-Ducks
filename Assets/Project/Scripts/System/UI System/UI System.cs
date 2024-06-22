@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UISystem : MonoBehaviour
@@ -36,14 +37,7 @@ public class UISystem : MonoBehaviour
         _serviceLocator.RegisterService(this, true);
 
         inputManager = _serviceLocator.GetService<InputManager>();
-    }
-
-    private void Start()
-    {
-        sceneManagement = ServiceLocator.Instance.GetService<SceneManagement>();
-
-        if (sceneManagement != null)
-            sceneManagement.OnLevelLoading += HandleLevelLoading;
+        sceneManagement = _serviceLocator.GetService<SceneManagement>();
     }
 
     private void OnEnable()
@@ -52,6 +46,7 @@ public class UISystem : MonoBehaviour
             inputManager = _serviceLocator.GetService<InputManager>();
 
         inputManager.PauseActions.MenuOpenClose.started += _ => TogglePauseMenu();
+        sceneManagement.OnLevelLoading += HandleLevelLoading;
     }
 
     private void OnDisable()
@@ -59,13 +54,23 @@ public class UISystem : MonoBehaviour
         if (inputManager == null)
             inputManager = _serviceLocator.GetService<InputManager>();
 
+        if (sceneManagement == null)
+            sceneManagement = _serviceLocator.GetService<SceneManagement>();
+
         inputManager.PauseActions.MenuOpenClose.started -= _ => TogglePauseMenu();
+        sceneManagement.OnLevelLoading -= HandleLevelLoading;
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (loadingScreen.activeSelf)
-            progressBar.value = sceneManagement.LoadProgress;  // Update the progress bar based on the loading progress
+        if (inputManager == null)
+            inputManager = _serviceLocator.GetService<InputManager>();
+
+        if (sceneManagement == null)
+            sceneManagement = _serviceLocator.GetService<SceneManagement>();
+
+        inputManager.PauseActions.MenuOpenClose.started -= _ => TogglePauseMenu();
+        sceneManagement.OnLevelLoading -= HandleLevelLoading;
     }
 
     #region Interaction UI
@@ -82,21 +87,27 @@ public class UISystem : MonoBehaviour
 
     #region Loading UI
 
-    private void HandleLevelLoading(bool isLoading)
+    private void HandleLevelLoading(bool isLoading, float targetProgress, float duration)
     {
         if (isLoading)
         {
             // Enable the loading screen
             loadingScreen.SetActive(true);
             progressBar.value = 0; // Assuming you want to reset the progress bar
+
+            inputManager.DisableAllInputsExceptPause();
+            StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
         }
         else
+        {
             StartCoroutine(FadeOutLoadingScreen()); // Start fading out the loading screen
+        }
     }
 
     private IEnumerator FadeOutLoadingScreen()
     {
         float delayBeforeFadeStarts = 2.0f; // Delay in seconds before fade starts
+
         yield return new WaitForSeconds(delayBeforeFadeStarts); // Wait for the specified delay
 
         float duration = 1.0f; // Duration in seconds for the fade-out effect
@@ -112,9 +123,10 @@ public class UISystem : MonoBehaviour
         }
 
         loadingScreen.SetActive(false);
-    }
 
-    public void SimulateLoadingProgress(float targetProgress, float duration) => StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
+        _canvasGroup.alpha = 1.0f;
+        inputManager.EnableAllInputs();
+    }
 
     private IEnumerator SimulateProgressCoroutine(float targetProgress, float duration)
     {
@@ -126,6 +138,7 @@ public class UISystem : MonoBehaviour
         {
             float elapsed = Time.time - startTime;
             progressBar.value = Mathf.Lerp(startProgress, targetProgress, elapsed / duration);
+
             yield return null;
         }
 
@@ -138,6 +151,9 @@ public class UISystem : MonoBehaviour
 
     internal void TogglePauseMenu()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            return; // Do nothing if it's the main menu
+
         _pauseCanvas.enabled = !_pauseCanvas.enabled;
 
         if (inputManager != null)
@@ -146,27 +162,23 @@ public class UISystem : MonoBehaviour
             {
                 // Pause menu is now active, disable all inputs except for PauseActions
                 inputManager.DisableAllInputsExceptPause();
-                Time.timeScale = 0;
             }
             else
             {
                 // Pause menu is now inactive, re-enable all inputs
                 inputManager.EnableAllInputs();
-                Time.timeScale = 1;
             }
         }
     }
 
-    public void SetTime(float _time) => Time.timeScale = _time;
-
-    public void Mainmenu()
+    internal void StartLevel(int level = -1)
     {
         _pauseCanvas.enabled = false;
         _controlCanvas.enabled = false;
         _settingsCanvas.enabled = false;
         _musicCanvas.enabled = false;
 
-        ServiceLocator.Instance.GetService<SceneManagement>().StartLevel(1);
+        ServiceLocator.Instance.GetService<SceneManagement>().StartLevel(level);
     }
 
     public void QuitGame() => Application.Quit();

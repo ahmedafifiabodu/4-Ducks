@@ -84,9 +84,9 @@ public class SaveSlotMenu : MonoBehaviour
             if (gameData != null && _sceneManagement != null)
             {
                 // Set the currentLevel to the next level after the last completed one
-                int nextLevel = gameData._levelsCompleted.Count > 0 ? gameData._levelsCompleted.Max() + 1 : 1;
+                int nextLevel = gameData._levelsCompleted.Count > 0 ? gameData._levelsCompleted.Max() : 1;
 
-                _sceneManagement.SetCurrentLevel(nextLevel);
+                _sceneManagement.CurrentLevel = nextLevel;
             }
 
             SaveGameAndLoadScene();

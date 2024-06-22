@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 // Manages spawning and checkpoint logic within the game
 public class SpawnSystem : MonoBehaviour, IDataPersistence
@@ -136,9 +137,14 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Loads game state from saved data
     public void LoadGame(GameData _gameData)
     {
-        if (_gameData._lastCheckPointId != null)
-            SpawnAtCheckPoint(_gameData._lastCheckPointId);
-        else SpawnAtCheckPoint(_startcheckPoint);
+        // Example condition, replace with your actual check
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            if (_gameData._lastCheckPointId != null)
+                SpawnAtCheckPoint(_gameData._lastCheckPointId);
+            else
+                SpawnAtCheckPoint(_startcheckPoint);
+        }
     }
 
     // Saves game state to data
