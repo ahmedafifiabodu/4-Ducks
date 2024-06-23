@@ -1,120 +1,50 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Cutscene : MonoBehaviour
 {
-    [SerializeField] private Button skipButton;
-    [SerializeField] private GameObject cutsceneParent;
-    [SerializeField] private Image cutsceneBackground;
-    [SerializeField] private Image cutsceneImage;
-    [SerializeField] private List<Sprite> cutsceneFrames;
-    [SerializeField] private float transitionTime = 1f;
-    [SerializeField] private AudioClip audioClip;
-    [SerializeField] private bool isFinalCutscene = false;
+    [SerializeField] private Image _image;
+    [SerializeField] private List<Sprite> _images;
+    [SerializeField] private float fadeDuration = 1.5f; // Duration of the fade effect
 
-    private InputManager _inputManager;
-    private bool _skipToNextImage = false;
-
-    internal bool IsCutscenePlaying { get; private set; }
+    // Define a UnityEvent to be fired after the last photo fades out
+    public UnityEvent onCutsceneComplete;
 
     private void Start()
     {
-        //_inputManager = InputManager.Instance;
-    }
+        // Initialize DOTween (if not already done in another part of your project)
+        DOTween.Init();
 
-    public void StartCutscene()
-    {
-        IsCutscenePlaying = true;
-
-        cutsceneParent.SetActive(true);
-        //_inputManager._playerInput.Disable();
-
-        skipButton.onClick.AddListener(SkipToNextImage);
-
+        // Start the cutscene
         StartCoroutine(PlayCutscene());
     }
 
     private IEnumerator PlayCutscene()
     {
-        for (int i = 0; i < cutsceneFrames.Count; i++)
+        // Ensure the image is transparent at the start
+        _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0);
+
+        for (int i = 0; i < _images.Count; i++)
         {
-            if (_skipToNextImage)
+            _image.sprite = _images[i]; // Set the current sprite
+
+            // Fade in
+            _image.DOFade(1, fadeDuration).SetEase(Ease.InOutQuad);
+            yield return new WaitForSeconds(fadeDuration); // Wait for the fade in to complete
+
+            // Fade out
+            _image.DOFade(0, fadeDuration).SetEase(Ease.InOutQuad);
+            yield return new WaitForSeconds(fadeDuration); // Wait for the fade out to complete
+
+            // If this is the last image, invoke the UnityEvent
+            if (i == _images.Count - 1)
             {
-                _skipToNextImage = false;
-                continue;
+                onCutsceneComplete?.Invoke();
             }
-
-            cutsceneImage.sprite = cutsceneFrames[i];
-
-            yield return FadeIn();
-            if (_skipToNextImage)
-            {
-                _skipToNextImage = false;
-                continue;
-            }
-            yield return WaitForSecondsOrSkip(2);
-            if (_skipToNextImage)
-            {
-                _skipToNextImage = false;
-                continue;
-            }
-            yield return FadeOut();
-
-            _skipToNextImage = false;
-        }
-
-        cutsceneParent.SetActive(false);
-        cutsceneParent.SetActive(false);
-
-        if (isFinalCutscene)
-            ReturnToMainMenu();
-
-        IsCutscenePlaying = false;
-    }
-
-    public void SkipToNextImage() => _skipToNextImage = true;
-
-    private IEnumerator FadeIn()
-    {
-        float t = 0;
-        while (t < transitionTime)
-        {
-            if (_skipToNextImage) yield break;
-            t += Time.deltaTime;
-            Color color = cutsceneImage.color;
-            color.a = Mathf.Lerp(0, 1, t / transitionTime);
-            cutsceneImage.color = color;
-            yield return null;
         }
     }
-
-    private IEnumerator FadeOut()
-    {
-        float t = 0;
-        while (t < transitionTime)
-        {
-            if (_skipToNextImage) yield break;
-            t += Time.deltaTime;
-            Color color = cutsceneImage.color;
-            color.a = Mathf.Lerp(1, 0, t / transitionTime);
-            cutsceneImage.color = color;
-            yield return null;
-        }
-    }
-
-    private IEnumerator WaitForSecondsOrSkip(float seconds)
-    {
-        float t = 0;
-        while (t < seconds)
-        {
-            if (_skipToNextImage) yield break;
-            t += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private void ReturnToMainMenu() => SceneManager.LoadScene(0);
 }
