@@ -212,6 +212,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1490842105}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &13473562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +629,91 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &118832028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118832029}
+  - component: {fileID: 118832032}
+  - component: {fileID: 118832031}
+  m_Layer: 6
+  m_Name: Collider (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &118832029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118832028}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.15157685, z: -0, w: 0.9884455}
+  m_LocalPosition: {x: 100.5, y: 117.26, z: -97.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 393827739}
+  m_LocalEulerAnglesHint: {x: 0, y: 17.437, z: 0}
+--- !u!114 &118832031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118832028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 1
+  _autoInteract: 0
+  _promptMessage: Collect Gem
+  _useEvents: 0
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!65 &118832032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118832028}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.1, y: 10.55, z: 11.56}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &136357004
 GameObject:
   m_ObjectHideFlags: 0
@@ -10671,6 +10768,91 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186578963}
   m_CullTransparentMesh: 1
+--- !u!1 &188263837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 188263838}
+  - component: {fileID: 188263839}
+  - component: {fileID: 188263840}
+  m_Layer: 6
+  m_Name: Collider (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &188263838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188263837}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3002981, z: -0, w: 0.9538454}
+  m_LocalPosition: {x: 107.89, y: 114.31, z: -241.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 930841809}
+  m_LocalEulerAnglesHint: {x: 0, y: 34.951, z: 0}
+--- !u!65 &188263839
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188263837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.27, y: 10.55, z: 30.25}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &188263840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188263837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 1
+  _autoInteract: 0
+  _promptMessage: Talk to the NPC.
+  _useEvents: 0
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &208239957
 GameObject:
   m_ObjectHideFlags: 0
@@ -10983,6 +11165,7 @@ Transform:
   m_Children:
   - {fileID: 1250074824}
   - {fileID: 13473560}
+  - {fileID: 1490842106}
   m_Father: {fileID: 905278268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &367787162
@@ -11237,6 +11420,7 @@ Transform:
   - {fileID: 1413491898}
   - {fileID: 1468194294}
   - {fileID: 2045038578}
+  - {fileID: 118832029}
   m_Father: {fileID: 905278268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410971663 stripped
@@ -11788,6 +11972,93 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &512880722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 512880723}
+  - component: {fileID: 512880725}
+  - component: {fileID: 512880724}
+  m_Layer: 6
+  m_Name: Collider (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &512880723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512880722}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.50861984, z: -0, w: 0.86099124}
+  m_LocalPosition: {x: 142.33, y: 114.31001, z: -169.41}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1559667807}
+  m_LocalEulerAnglesHint: {x: 0, y: 61.144, z: 0}
+--- !u!114 &512880724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512880722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 1
+  _autoInteract: 0
+  _promptMessage: 'Cat: Collect Gems
+
+    Ghost: Possess Turret'
+  _useEvents: 0
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!65 &512880725
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 512880722}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.09, y: 10.55, z: 5.97}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &525682837
 GameObject:
   m_ObjectHideFlags: 0
@@ -12480,7 +12751,7 @@ Transform:
   m_GameObject: {fileID: 857681941}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.3002981, z: -0, w: 0.9538454}
-  m_LocalPosition: {x: 103.31, y: 114.31, z: -237.83}
+  m_LocalPosition: {x: 99.44, y: 114.31, z: -235.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12727,6 +12998,8 @@ Transform:
   m_Children:
   - {fileID: 857681943}
   - {fileID: 1826353465}
+  - {fileID: 188263838}
+  - {fileID: 1059810614}
   m_Father: {fileID: 905278268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &969246631
@@ -12915,6 +13188,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 118832028}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1017964077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12928,6 +13213,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 1
+--- !u!1 &1059810613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1059810614}
+  - component: {fileID: 1059810616}
+  - component: {fileID: 1059810615}
+  m_Layer: 6
+  m_Name: Collider (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1059810614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059810613}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.3002981, z: -0, w: 0.9538454}
+  m_LocalPosition: {x: 80.28, y: 114.31, z: -221.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 930841809}
+  m_LocalEulerAnglesHint: {x: 0, y: 34.951, z: 0}
+--- !u!114 &1059810615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059810613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 1
+  _autoInteract: 0
+  _promptMessage: 'Cat: Jump
+
+    Ghost: Dash'
+  _useEvents: 0
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!65 &1059810616
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059810613}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 10.55, z: 30.25}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1073177316
 GameObject:
   m_ObjectHideFlags: 0
@@ -13855,6 +14227,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1295139251}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1405237241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13979,6 +14363,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82903421a6b7f994597867fc8902d687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1490842105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490842106}
+  - component: {fileID: 1490842108}
+  - component: {fileID: 1490842107}
+  m_Layer: 6
+  m_Name: Collider (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1490842106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490842105}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.15460435, z: -0, w: 0.9879765}
+  m_LocalPosition: {x: 55.72, y: 114.31001, z: -192.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 365769573}
+  m_LocalEulerAnglesHint: {x: 0, y: -17.788, z: 0}
+--- !u!114 &1490842107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490842105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f375f3216a43a2442a9a24c17df92944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layersInteractedWith:
+    serializedVersion: 2
+    m_Bits: 8388608
+  _outlineMaterial: {fileID: 0}
+  renderers: []
+  _interact: 1
+  _autoInteract: 0
+  _promptMessage: 'Ghost: Possess Boxes
+
+    Cat: Jump To Pass'
+  _useEvents: 0
+  _useParticleEffect: 0
+  _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+--- !u!65 &1490842108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490842105}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.29, y: 10.55, z: 12.26}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1499360923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14272,6 +14743,7 @@ Transform:
   - {fileID: 2503262873880327565}
   - {fileID: 412479841}
   - {fileID: 1073177317}
+  - {fileID: 512880723}
   m_Father: {fileID: 905278268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1601633573
@@ -14735,6 +15207,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 512880722}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1710365004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14876,7 +15360,7 @@ Transform:
   m_GameObject: {fileID: 1826353464}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.3002981, z: -0, w: 0.9538454}
-  m_LocalPosition: {x: 83.47, y: 114.31, z: -223.96}
+  m_LocalPosition: {x: 71.01, y: 114.31, z: -215.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14922,6 +15406,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1826353464}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1059810613}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -25528,7 +26024,7 @@ PrefabInstance:
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 103.75154
+      value: 104.38
       objectReference: {fileID: 0}
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
@@ -25538,7 +26034,7 @@ PrefabInstance:
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -244.75249
+      value: -246.14
       objectReference: {fileID: 0}
     - target: {fileID: 8050593232181567340, guid: f35d3db493d3e8a4391bf8e662614f24,
         type: 3}
@@ -25639,7 +26135,19 @@ MonoBehaviour:
   associatedDialog: {fileID: 11400000, guid: e286036cbb7ebee4b8f6777b6e83740a, type: 2}
   onDialogStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 188263837}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDialogEnd:
     m_PersistentCalls:
       m_Calls:
