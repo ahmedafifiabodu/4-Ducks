@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,8 @@ public class UISystem : MonoBehaviour
 
     [SerializeField] private Slider progressBar;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private Image _loadingMap;
+    [SerializeField] private List<Sprite> _loadingMaps;
 
     [Header("Pause")]
     [SerializeField] private Canvas _pauseCanvas;
@@ -83,14 +86,19 @@ public class UISystem : MonoBehaviour
 
     internal void DisablePromptText() => _prompt.enabled = false;
 
-    #endregion Interaction UI
-
-    #region Loading UI
-
     private void HandleLevelLoading(bool isLoading, float targetProgress, float duration)
     {
         if (isLoading)
         {
+            // Determine the current level index
+            int currentLevelIndex = sceneManagement.CurrentLevel;
+
+            // Update the _loadingMap sprite based on the current level index
+            if (currentLevelIndex >= 0 && currentLevelIndex < _loadingMaps.Count)
+            {
+                _loadingMap.sprite = _loadingMaps[currentLevelIndex - 1];
+            }
+
             // Enable the loading screen
             loadingScreen.SetActive(true);
             progressBar.value = 0; // Assuming you want to reset the progress bar
@@ -145,7 +153,7 @@ public class UISystem : MonoBehaviour
         progressBar.value = targetProgress;
     }
 
-    #endregion Loading UI
+    #endregion Interaction UI
 
     #region Pause
 

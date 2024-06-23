@@ -4,6 +4,7 @@ using UnityEngine;
 public class GhostEnergySystem : EnergySystem
 {
     private Coroutine _energyDecreaseCoroutine;
+
     private void OnEnable()
     {
         EnergyCrystal._onEnergyCrystalCollected.AddListener(GainEnergy);
@@ -15,18 +16,15 @@ public class GhostEnergySystem : EnergySystem
         EnergyCrystal._onEnergyCrystalCollected.RemoveListener(GainEnergy);
         _onNoEnergy.RemoveListener(SpawnToLastCheckPoint);
     }
+
     private void SpawnToLastCheckPoint()
     {
         ServiceLocator.Instance.GetService<SpawnSystem>().SpawnAtLastCheckPoint();
         _energy = 0.5f * _maxEnergy;
     }
-    public void StartEnergyDecrease(float _energyDecreaseRate)
-    {
-        if (_energyDecreaseCoroutine == null)
-        {
-            _energyDecreaseCoroutine = StartCoroutine(DecreaseEnergyOverTime(_energyDecreaseRate));
-        }
-    }
+
+    public void StartEnergyDecrease(float _energyDecreaseRate) => _energyDecreaseCoroutine ??= StartCoroutine(DecreaseEnergyOverTime(_energyDecreaseRate));
+
     public void StopEnergyDecrease()
     {
         if (_energyDecreaseCoroutine != null)
@@ -35,6 +33,7 @@ public class GhostEnergySystem : EnergySystem
             _energyDecreaseCoroutine = null;
         }
     }
+
     private IEnumerator DecreaseEnergyOverTime(float _energyDecreaseRate)
     {
         while (_energy > 0)
