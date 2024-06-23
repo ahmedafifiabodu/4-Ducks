@@ -106,8 +106,8 @@ public class DialogManager : MonoBehaviour
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
         // Check if _dialogCanvas is not null before trying to access its gameObject
-        if (_dialogCanvas != null && !_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.enabled = true    ; // Activate the dialog canvas if inactive
+        if (_dialogCanvas != null)
+            _dialogCanvas.enabled = true; // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue dialog lines
         if (_dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image != null)
@@ -136,7 +136,7 @@ public class DialogManager : MonoBehaviour
 
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
-        if (!_dialogCanvas.gameObject.activeSelf)
+        if (_dialogCanvas != null)
             _dialogCanvas.enabled = true; // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue after dialog lines
@@ -156,8 +156,7 @@ public class DialogManager : MonoBehaviour
         NextDialog(); // Display the first after dialog
     }
 
-    private void HandleNextDialog(UnityEngine.InputSystem.InputAction.CallbackContext context)=>NextDialog();
-    
+    private void HandleNextDialog(UnityEngine.InputSystem.InputAction.CallbackContext context) => NextDialog();
 
     private void NextDialog()
     {
