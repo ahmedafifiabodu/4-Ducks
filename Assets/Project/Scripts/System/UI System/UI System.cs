@@ -18,6 +18,7 @@ public class UISystem : MonoBehaviour
     [SerializeField] private Slider progressBar;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Image _loadingMap;
+    [SerializeField] private TextMeshProUGUI _loadingText;
     [SerializeField] private List<Sprite> _loadingMaps;
 
     [Header("Pause")]
@@ -86,6 +87,10 @@ public class UISystem : MonoBehaviour
 
     internal void DisablePromptText() => _prompt.enabled = false;
 
+    #endregion Interaction UI
+
+    #region Loading UI
+
     private void HandleLevelLoading(bool isLoading, float targetProgress, float duration)
     {
         if (isLoading)
@@ -105,10 +110,26 @@ public class UISystem : MonoBehaviour
 
             inputManager.DisableAllInputsExceptPause();
             StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
+
+            StartCoroutine(AnimateLoadingText());
         }
         else
         {
+            StopCoroutine(AnimateLoadingText()); // Stop the loading text animation
             StartCoroutine(FadeOutLoadingScreen()); // Start fading out the loading screen
+        }
+    }
+
+    private IEnumerator AnimateLoadingText()
+    {
+        string baseText = "Loading";
+        int dotCount = 0;
+
+        while (true) // Infinite loop to keep the animation running
+        {
+            _loadingText.text = baseText + new string('.', dotCount);
+            dotCount = (dotCount + 1) % 4; // Cycle dotCount between 0 and 3
+            yield return new WaitForSeconds(0.5f); // Wait for half a second before updating the text again
         }
     }
 
@@ -131,7 +152,7 @@ public class UISystem : MonoBehaviour
         }
 
         loadingScreen.SetActive(false);
-
+        StopCoroutine(AnimateLoadingText()); // Ensure the coroutine is stopped when loading screen is hidden
         _canvasGroup.alpha = 1.0f;
         inputManager.EnableAllInputs();
     }
@@ -153,7 +174,7 @@ public class UISystem : MonoBehaviour
         progressBar.value = targetProgress;
     }
 
-    #endregion Interaction UI
+    #endregion Loading UI
 
     #region Pause
 

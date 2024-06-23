@@ -743,6 +743,9 @@ namespace Unity.VisualScripting.Generated.Aot
 	// CheckCatAttackAnimation.op_Implicit
 	// CheckCatAttackAnimation.op_Equality
 	// CheckCatAttackAnimation.op_Inequality
+	// GhostFireEffect.op_Implicit
+	// GhostFireEffect.op_Equality
+	// GhostFireEffect.op_Inequality
 	// PlayerJump.op_Implicit
 	// PlayerJump.op_Equality
 	// PlayerJump.op_Inequality
@@ -893,12 +896,18 @@ namespace Unity.VisualScripting.Generated.Aot
 	// SaveSlot.op_Implicit
 	// SaveSlot.op_Equality
 	// SaveSlot.op_Inequality
+	// UIBackground.op_Implicit
+	// UIBackground.op_Equality
+	// UIBackground.op_Inequality
 	// UIButtonsAnimationAndHoverEffect.op_Implicit
 	// UIButtonsAnimationAndHoverEffect.op_Equality
 	// UIButtonsAnimationAndHoverEffect.op_Inequality
 	// FadingEffect.op_Implicit
 	// FadingEffect.op_Equality
 	// FadingEffect.op_Inequality
+	// UIPawnAnimation.op_Implicit
+	// UIPawnAnimation.op_Equality
+	// UIPawnAnimation.op_Inequality
 	// UISilder.op_Implicit
 	// UISilder.op_Equality
 	// UISilder.op_Inequality
@@ -1291,6 +1300,15 @@ namespace Unity.VisualScripting.Generated.Aot
 	// UnityEngine.EventSystems.UIBehaviour.op_Inequality
 	// --------------- Plugin Stubs
 	// --------------- Asset Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
+	// --------------- Scene Stubs
 	// --------------- Scene Stubs
 	// --------------- Scene Stubs
 	// --------------- Scene Stubs
@@ -9815,6 +9833,41 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
+		// GhostFireEffect.op_Implicit
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void GhostFireEffect_op_Implicit()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			bool conversion = ((bool)(arg0));
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// GhostFireEffect.op_Equality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void GhostFireEffect_op_Equality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 == arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// GhostFireEffect.op_Inequality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void GhostFireEffect_op_Inequality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 != arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
 		// PlayerJump.op_Implicit
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void PlayerJump_op_Implicit()
@@ -11565,6 +11618,41 @@ namespace Unity.VisualScripting.Generated.Aot
 			optimized.Invoke(default(object[]));
 		}
 		
+		// UIBackground.op_Implicit
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIBackground_op_Implicit()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			bool conversion = ((bool)(arg0));
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// UIBackground.op_Equality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIBackground_op_Equality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 == arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// UIBackground.op_Inequality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIBackground_op_Inequality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 != arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
 		// UIButtonsAnimationAndHoverEffect.op_Implicit
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void UIButtonsAnimationAndHoverEffect_op_Implicit()
@@ -11626,6 +11714,41 @@ namespace Unity.VisualScripting.Generated.Aot
 		// FadingEffect.op_Inequality
 		[global::UnityEngine.Scripting.PreserveAttribute()]
 		public static void FadingEffect_op_Inequality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 != arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// UIPawnAnimation.op_Implicit
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIPawnAnimation_op_Implicit()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			bool conversion = ((bool)(arg0));
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// UIPawnAnimation.op_Equality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIPawnAnimation_op_Equality()
+		{
+			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
+			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);
+			bool @operator = (arg0 == arg1);
+			global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool> optimized = new global::Unity.VisualScripting.StaticFunctionInvoker<UnityEngine.Object, UnityEngine.Object, bool>(default(global::System.Reflection.MethodInfo));
+			optimized.Invoke(null, arg0, arg1);
+			optimized.Invoke(default(object[]));
+		}
+		
+		// UIPawnAnimation.op_Inequality
+		[global::UnityEngine.Scripting.PreserveAttribute()]
+		public static void UIPawnAnimation_op_Inequality()
 		{
 			global::UnityEngine.Object arg0 = default(global::UnityEngine.Object);
 			global::UnityEngine.Object arg1 = default(global::UnityEngine.Object);

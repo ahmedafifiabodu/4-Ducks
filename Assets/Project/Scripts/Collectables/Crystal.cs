@@ -29,9 +29,11 @@ public class Crystal : Interactable, IDataPersistence
         // Try to get the collected status of the crystal from the game data.
         _gameData._crystalsCollected.TryGetValue(_crystalId, out isCollected);
 
-        // If the crystal has been collected, deactivate the crystal game object.
-        if (isCollected)
+        // Check if the gameObject reference is still valid before accessing it.
+        if (this != null && gameObject != null && isCollected)
+        {
             gameObject.SetActive(false);
+        }
     }
 
     // Method to save the game data.
