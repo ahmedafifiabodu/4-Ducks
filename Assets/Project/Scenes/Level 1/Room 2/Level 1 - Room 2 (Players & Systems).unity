@@ -328,23 +328,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 735506100}
     m_Modifications:
-    - target: {fileID: 3302513035769730007, guid: 203288e80d5bbbb48b900d571fb2ac9d,
-        type: 3}
-      propertyPath: _dialogs.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3302513035769730007, guid: 203288e80d5bbbb48b900d571fb2ac9d,
-        type: 3}
-      propertyPath: '_dialogs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 82082e3ba429c9a48970bb08a13e5fb8,
-        type: 2}
-    - target: {fileID: 3302513035769730007, guid: 203288e80d5bbbb48b900d571fb2ac9d,
-        type: 3}
-      propertyPath: '_dialogs.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: bd3418615cc12b54cb838941c8265526,
-        type: 2}
     - target: {fileID: 4983710230196323889, guid: 203288e80d5bbbb48b900d571fb2ac9d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1430,12 +1413,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 634580679}
         m_TargetAssemblyTypeName: NextLevel, Assembly-CSharp
-        m_MethodName: LoadMainMenuLevel
-        m_Mode: 1
+        m_MethodName: LoadLevel
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
