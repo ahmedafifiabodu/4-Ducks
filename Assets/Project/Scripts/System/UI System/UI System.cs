@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class UISystem : MonoBehaviour
 {
     [Header("Interaction UI Elements")]
-    [SerializeField] private GameObject _prompt;
+    [SerializeField] private Canvas _prompt;
 
     [SerializeField] private TextMeshProUGUI _promptText;
 
@@ -77,11 +77,11 @@ public class UISystem : MonoBehaviour
 
     internal void UpdatePromptText(string _promptMessage)
     {
-        _prompt.SetActive(true);
+        _prompt.enabled = true;
         _promptText.text = _promptMessage;
     }
 
-    internal void DisablePromptText() => _prompt.SetActive(false);
+    internal void DisablePromptText() => _prompt.enabled = false;
 
     #endregion Interaction UI
 
