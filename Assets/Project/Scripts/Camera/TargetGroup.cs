@@ -16,10 +16,10 @@ public class TargetGroup : MonoBehaviour
         _serviceLocator.RegisterService(this, false);
     }
 
-    /*private void Start()
+    private void Start()
     {
         SetTargetGroup();
-    }*/
+    }
 
     // Sets up the target group by adding specific targets to it.
     internal void SetTargetGroup()
