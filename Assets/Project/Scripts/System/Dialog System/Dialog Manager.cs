@@ -59,7 +59,7 @@ public class DialogManager : MonoBehaviour
     {
         // Initially hide the dialog canvas if it's not null
         if (_dialogCanvas != null)
-            _dialogCanvas.gameObject.SetActive(false);
+            _dialogCanvas.enabled = false;
 
         _inputManager.DialogActions.Disable(); // Disable dialog actions at start
 
@@ -107,7 +107,7 @@ public class DialogManager : MonoBehaviour
 
         // Check if _dialogCanvas is not null before trying to access its gameObject
         if (_dialogCanvas != null && !_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
+            _dialogCanvas.enabled = true    ; // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue dialog lines
         if (_dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image != null)
@@ -137,7 +137,7 @@ public class DialogManager : MonoBehaviour
         _currentDialogIndex = _dialogIndex; // Set the current dialog index
 
         if (!_dialogCanvas.gameObject.activeSelf)
-            _dialogCanvas.gameObject.SetActive(true); // Activate the dialog canvas if inactive
+            _dialogCanvas.enabled = true; // Activate the dialog canvas if inactive
 
         // Set the speaker's icon and name, and enqueue after dialog lines
         if (_dialogs[_currentDialogIndex].Dialog[_currentCharacterIndex]._image != null)
@@ -254,6 +254,6 @@ public class DialogManager : MonoBehaviour
 
         // Check if _dialogCanvas is not null before trying to access its gameObject
         if (_dialogCanvas != null)
-            _dialogCanvas.gameObject.SetActive(false); // Hide the dialog canvas
+            _dialogCanvas.enabled = false; // Hide the dialog canvas
     }
 }
