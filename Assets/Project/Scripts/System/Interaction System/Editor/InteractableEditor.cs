@@ -45,9 +45,7 @@ public class InteractableEditor : Editor
         // Add SFX toggle and conditional EventReference field
         EditorGUILayout.PropertyField(addSFXProperty);
         if (addSFXProperty.boolValue) // Only show the EventReference field if _AddSFX is true
-        {
             EditorGUILayout.PropertyField(sfxProperty);
-        }
 
         if (autoInteractProperty.boolValue || interactProperty.boolValue)
         {
@@ -66,9 +64,7 @@ public class InteractableEditor : Editor
             EditorGUILayout.PropertyField(useEventsProperty);
         }
         else if (!autoInteractProperty.boolValue && !interactProperty.boolValue)
-        {
             useEventsProperty.boolValue = false;
-        }
 
         if (_interactable.gameObject.TryGetComponent<Collider>(out var collider))
             collider.isTrigger = true;
@@ -79,7 +75,10 @@ public class InteractableEditor : Editor
         }
 
         if (interactProperty.boolValue)
-            _interactable.PromptMessage = EditorGUILayout.TextField("Prompt Message", _interactable.PromptMessage);
+        {
+            EditorGUILayout.LabelField("Prompt Message");
+            _interactable.PromptMessage = EditorGUILayout.TextArea(_interactable.PromptMessage, GUILayout.MaxHeight(75));
+        }
 
         if (_interactable.UseEvents)
         {
