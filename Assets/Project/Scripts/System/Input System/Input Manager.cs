@@ -3,8 +3,9 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     private InputSystem _input;
+    private GhostInputSystem _ghostInput;
     internal InputSystem.CatActions CatActions { get; private set; }
-    internal InputSystem.GhostActions GhostActions { get; private set; }
+    internal GhostInputSystem.GhostActions GhostActions { get; private set; }
     internal InputSystem.PossessTurretActions PossessTurretActions { get; private set; }
     internal InputSystem.PossessMovableObjectActions PossessMovableObjectActions { get; private set; }
     internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
@@ -19,9 +20,10 @@ public class InputManager : MonoBehaviour
         _serviceLocator.RegisterService(this, true);
 
         _input = new InputSystem();
+        _ghostInput = new GhostInputSystem();
 
         CatActions = _input.Cat;
-        GhostActions = _input.Ghost;
+        GhostActions = _ghostInput.Ghost;
         PossessTurretActions = _input.PossessTurret;
         PossessMovableObjectActions = _input.PossessMovableObject;
         PossessCatActions = _input.PossessCat;
