@@ -26,7 +26,7 @@ public class SaveSlotMenu : MonoBehaviour
         _sceneManagement = _serviceLocator.GetService<SceneManagement>();
     }
 
-    public void ActivatedMenu(bool _isGameLoading)
+    private void ActivatedMenu(bool _isGameLoading)
     {
         this._isGameLoading = _isGameLoading;
 

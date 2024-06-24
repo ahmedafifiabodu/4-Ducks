@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UISystem : MonoBehaviour
@@ -87,10 +86,6 @@ public class UISystem : MonoBehaviour
 
     internal void DisablePromptText() => _prompt.enabled = false;
 
-    #endregion Interaction UI
-
-    #region Loading UI
-
     private void HandleLevelLoading(bool isLoading, float targetProgress, float duration)
     {
         if (isLoading)
@@ -101,7 +96,11 @@ public class UISystem : MonoBehaviour
             // Update the _loadingMap sprite based on the current level index
             if (currentLevelIndex >= 0 && currentLevelIndex < _loadingMaps.Count)
             {
-                _loadingMap.sprite = _loadingMaps[currentLevelIndex - 1];
+                if (_loadingMap != null) // Check if _loadingMap is not null
+                {
+                    _loadingMap.sprite = _loadingMaps[currentLevelIndex - 1];
+                    // If you have any DOTween animations on _loadingMap, start them here
+                }
             }
 
             // Enable the loading screen
@@ -174,13 +173,13 @@ public class UISystem : MonoBehaviour
         progressBar.value = targetProgress;
     }
 
-    #endregion Loading UI
+    #endregion Interaction UI
 
     #region Pause
 
     internal void TogglePauseMenu()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (ServiceLocator.Instance.GetService<SceneManagement>().CurrentLevel == 1)
             return; // Do nothing if it's the main menu
 
         _pauseCanvas.enabled = !_pauseCanvas.enabled;
