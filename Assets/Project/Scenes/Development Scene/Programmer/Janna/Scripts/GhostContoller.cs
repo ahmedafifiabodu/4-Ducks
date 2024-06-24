@@ -237,7 +237,8 @@ public class GhostController : PlayerController, IMove, IDash, IStep, IAscend
 
         GhostState = PlayerState.Dashing;
 
-        AudioSystem.PlayerShooting(_ghostDash, this.gameObject.transform.position);
+        if (AudioSystem != null)
+            AudioSystem.PlayerShooting(_ghostDash, this.gameObject.transform.position);
 
         if (canDash && !isDashing)
             StartCoroutine(PerformDash());
