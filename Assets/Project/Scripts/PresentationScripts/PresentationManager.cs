@@ -30,6 +30,10 @@ public class PresentationManager : MonoBehaviour
                     OpenCamera();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _cameras[_currentCam].CamEvent.Invoke();
+            }
         }
     }
     private void CloseAllCamera()
@@ -42,6 +46,5 @@ public class PresentationManager : MonoBehaviour
     private void OpenCamera() 
     { 
         _cameras[_currentCam].gameObject.SetActive(true);
-        _cameras[_currentCam].CamEvent.Invoke();
     }
 }

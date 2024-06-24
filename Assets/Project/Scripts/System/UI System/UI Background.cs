@@ -25,6 +25,8 @@ public class UIBackground : MonoBehaviour
     {
         while (true)
         {
+            if (_background == null) yield break; // Stop the coroutine if _background is null
+
             // Select a random image from the list
             Sprite nextImage = _backgroundImages[Random.Range(0, _backgroundImages.Count)];
 
@@ -33,6 +35,8 @@ public class UIBackground : MonoBehaviour
 
             // Fade out
             yield return _background.DOFade(0f, transitionDuration).SetEase(Ease.InOutQuad).WaitForCompletion();
+
+            if (_background == null) yield break; // Check again after the fade out
 
             // Change the image when fully faded out
             _background.sprite = nextImage;
@@ -67,7 +71,7 @@ public class UIBackground : MonoBehaviour
             yield return waitForSeconds;
 
             // Ensure to kill the movement sequence to stop it before starting the next cycle
-            movementSequence.Kill();
+            if (_background != null) movementSequence.Kill();
         }
     }
 }
