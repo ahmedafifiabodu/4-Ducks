@@ -159,6 +159,12 @@ MonoBehaviour:
   _onHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  _onHeal:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
   _onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -187,12 +193,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _onHeal:
-    m_PersistentCalls:
-      m_Calls: []
-  _onDamageTaken:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!135 &706166250709843994
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1767,10 +1767,18 @@ MonoBehaviour:
   renderers: []
   _interact: 0
   _autoInteract: 1
-  _useEvents: 1
   _promptMessage: 
+  _useEvents: 1
   _useParticleEffect: 0
   _interactionParticals: {fileID: 0}
+  _AddSFX: 0
+  _sfx:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &4453481052885398038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4056,7 +4064,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 227ae373a73ed83469b75f8726d3b81f, type: 2}
+  - {fileID: 2100000, guid: 8c9ee3a84580abc4a9785bfecda9cb24, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
