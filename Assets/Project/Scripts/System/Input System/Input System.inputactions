@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "ef8e48a3-fac2-4d00-9814-36f2a80f1b3a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "667e770f-b38a-4368-912a-c6224f493ec4",
@@ -96,34 +87,12 @@
                 },
                 {
                     "name": "",
-                    "id": "fa9d60f2-65ea-42eb-a233-cc6fe9111fe6",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ae9dd779-65c8-4058-a69f-e3d2c17478ba",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "20f8c1d1-d177-4808-aec3-d4021b4595fc",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -140,7 +109,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "473b18dd-775f-4b37-b1d6-f1d0f20a1097",
+                    "id": "c46f13e8-b5e1-4629-bdc9-5487f4cc59f5",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
@@ -151,7 +120,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "d4349467-869a-4065-8105-620e4ba56f82",
+                    "id": "3ba6a001-298c-4fd2-b8da-747c57798863",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
@@ -162,7 +131,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "ce622f76-2407-4821-9504-0f981b4263e4",
+                    "id": "415448a1-61aa-48ca-9bba-d5606c768e7b",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
@@ -173,7 +142,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "1e5f7c58-7c16-4784-bb58-7e4d1005212b",
+                    "id": "ebe56831-978b-4f7c-aca8-dd088a1e5c88",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
@@ -184,23 +153,199 @@
                 },
                 {
                     "name": "",
-                    "id": "5d5a7115-3155-4771-b861-1da9cf09ff2b",
-                    "path": "<Mouse>/leftButton",
+                    "id": "3d2aa40a-f887-4f63-a454-1a84eae6c8e4",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Mouse",
-                    "action": "Attack",
+                    "groups": "Keyboard",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "aa675d71-7bd2-45bf-bcf6-04ae76c672e3",
-                    "path": "<Mouse>/rightButton",
+                    "id": "1be4878b-b9c6-4a28-aea8-48cd94950763",
+                    "path": "<Keyboard>/n",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Mouse",
+                    "groups": "Keyboard",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "346320bf-4d17-4edd-ba05-2d65f3a13094",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Ghost",
+            "id": "f963b394-8752-4484-8235-24955c3fc3a4",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "589da031-a681-413a-8c54-8e3d4d1bb8a2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "8b7565ad-e9d1-4fad-86f0-742d7f7a7675",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "b1844753-58d9-463e-a0c0-082d21612ebe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ascend",
+                    "type": "Button",
+                    "id": "4e6731ef-9f59-4324-b665-b56dd5cd8ea5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "WASD",
+                    "id": "315f9e26-3a31-493c-8ed2-4115db966b8a",
+                    "path": "Dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e8c5eca5-2e2a-4c1c-87f9-cfa48df11076",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "420aa967-5ec3-4f4b-8eaf-734bfca25c22",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "ee214e96-a4c6-4006-acb3-577cfa2c260c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "cae15c14-04ab-4bcd-a83b-0cfd23ae6159",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0cac1da4-a9cb-419c-8d7e-006578b6d84a",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "711db596-ee38-4a44-a0f1-1a1ead0d41d4",
+                    "path": "<XRController>/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d347bb51-c8d9-42db-b6ad-1224a5c8675a",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "428fa415-047f-459e-b8bd-43dd18faefd7",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20c15dd8-6b7a-4807-8323-fdd2ce5b42d6",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c011fe13-7502-4743-8746-d61c67b92a48",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Ascend",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -214,15 +359,6 @@
                     "name": "Fire",
                     "type": "Button",
                     "id": "251810e2-dfc2-46d4-8ea9-8cb3008cfef6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Fire And Hold",
-                    "type": "Button",
-                    "id": "e4bbeca3-5259-4f3b-8e8d-af1d4939959d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -251,7 +387,7 @@
                 {
                     "name": "",
                     "id": "fc6d5124-abde-4de5-ac7e-1fa20f048737",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -344,17 +480,6 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6df4a030-29a0-45f6-9a95-b5baf42121c7",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Fire And Hold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -475,7 +600,7 @@
                 {
                     "name": "",
                     "id": "430f6346-29bc-433e-91e8-c28c95ec0251",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -523,7 +648,7 @@
                 {
                     "name": "",
                     "id": "eba18ae4-0179-4296-bac5-abaf46d57fdb",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
