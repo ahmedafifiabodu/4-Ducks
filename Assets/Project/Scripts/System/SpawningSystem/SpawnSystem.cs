@@ -98,11 +98,19 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Spawns the player at a specific checkpoint
     public void SpawnAtCheckPoint(CheckPoint _checkPoint)
     {
-        if (_catTransform == null)
-            _catTransform = _serviceLocator.GetService<Cat>().GetTransform();
+        // Check if the checkpoint is null before proceeding
+        if (_checkPoint == null)
+        {
+            Logging.LogWarning("Attempted to spawn at a null CheckPoint. Defaulting to start checkpoint.");
+            _checkPoint = _startcheckPoint;
+        }
 
-        if (_ghostTransform == null)
-            _ghostTransform = _serviceLocator.GetService<Ghost>().GetTransform();
+        // Ensure that service references are not null
+        if (_catTransform == null || _ghostTransform == null || _levelVirtualCameras == null)
+        {
+            Logging.LogError("One or more required services are not initialized.");
+            return; // Early return to prevent accessing null references
+        }
 
         // Set player and ghost positions and rotations based on checkpoint
         _catTransform.SetPositionAndRotation(_checkPoint.transform.position + new Vector3(_playerOffset, 0f, 0f), _checkPoint.transform.rotation);
@@ -121,6 +129,11 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     {
         if (_checkpointsDictionary.ContainsKey(_checkPointID))
             SpawnAtCheckPoint(_checkpointsDictionary[_checkPointID]);
+        else
+        {
+            Logging.LogWarning($"CheckPoint with ID {_checkPointID} not found. Defaulting to start checkpoint.");
+            SpawnAtCheckPoint(_startcheckPoint);
+        }
     }
 
     // Handles player respawn logic

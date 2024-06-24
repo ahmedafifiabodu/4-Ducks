@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,9 @@ public class UISystem : MonoBehaviour
 
     [SerializeField] private Slider progressBar;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private Image _loadingMap;
+    [SerializeField] private TextMeshProUGUI _loadingText;
+    [SerializeField] private List<Sprite> _loadingMaps;
 
     [Header("Pause")]
     [SerializeField] private Canvas _pauseCanvas;
@@ -91,16 +95,41 @@ public class UISystem : MonoBehaviour
     {
         if (isLoading)
         {
+            // Determine the current level index
+            int currentLevelIndex = sceneManagement.CurrentLevel;
+
+            // Update the _loadingMap sprite based on the current level index
+            if (currentLevelIndex >= 0 && currentLevelIndex < _loadingMaps.Count)
+            {
+                _loadingMap.sprite = _loadingMaps[currentLevelIndex - 1];
+            }
+
             // Enable the loading screen
             loadingScreen.SetActive(true);
             progressBar.value = 0; // Assuming you want to reset the progress bar
 
             inputManager.DisableAllInputsExceptPause();
             StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
+
+            StartCoroutine(AnimateLoadingText());
         }
         else
         {
+            StopCoroutine(AnimateLoadingText()); // Stop the loading text animation
             StartCoroutine(FadeOutLoadingScreen()); // Start fading out the loading screen
+        }
+    }
+
+    private IEnumerator AnimateLoadingText()
+    {
+        string baseText = "Loading";
+        int dotCount = 0;
+
+        while (true) // Infinite loop to keep the animation running
+        {
+            _loadingText.text = baseText + new string('.', dotCount);
+            dotCount = (dotCount + 1) % 4; // Cycle dotCount between 0 and 3
+            yield return new WaitForSeconds(0.5f); // Wait for half a second before updating the text again
         }
     }
 
@@ -123,7 +152,7 @@ public class UISystem : MonoBehaviour
         }
 
         loadingScreen.SetActive(false);
-
+        StopCoroutine(AnimateLoadingText()); // Ensure the coroutine is stopped when loading screen is hidden
         _canvasGroup.alpha = 1.0f;
         inputManager.EnableAllInputs();
     }
