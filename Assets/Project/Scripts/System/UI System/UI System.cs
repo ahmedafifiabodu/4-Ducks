@@ -34,6 +34,8 @@ public class UISystem : MonoBehaviour
     private InputManager inputManager;
     private SceneManagement sceneManagement;
 
+    private Coroutine animateLoadingTextCoroutine;
+
     private void Awake()
     {
         _serviceLocator = ServiceLocator.Instance;
@@ -86,36 +88,54 @@ public class UISystem : MonoBehaviour
 
     internal void DisablePromptText() => _prompt.enabled = false;
 
+    #endregion Interaction UI
+
+    #region Loading UI
+
     private void HandleLevelLoading(bool isLoading, float targetProgress, float duration)
     {
         if (isLoading)
         {
-            // Determine the current level index
+            // Correctly determine the current level index
             int currentLevelIndex = sceneManagement.CurrentLevel;
 
             // Update the _loadingMap sprite based on the current level index
-            if (currentLevelIndex >= 0 && currentLevelIndex < _loadingMaps.Count)
+            // Ensure the index is within the bounds of the _loadingMaps list
+            if (currentLevelIndex > 0 && currentLevelIndex <= _loadingMaps.Count)
             {
                 if (_loadingMap != null) // Check if _loadingMap is not null
                 {
                     _loadingMap.sprite = _loadingMaps[currentLevelIndex - 1];
-                    // If you have any DOTween animations on _loadingMap, start them here
+                    // If you have any DOTween animations on _loadingMap, restart them here
                 }
             }
 
             // Enable the loading screen
             loadingScreen.SetActive(true);
-            progressBar.value = 0; // Assuming you want to reset the progress bar
+            progressBar.value = 0; // Reset the progress bar
 
             inputManager.DisableAllInputsExceptPause();
-            StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
 
-            StartCoroutine(AnimateLoadingText());
+            // Ensure any previous loading text animation is stopped before starting a new one
+            StopLoadingAnimation();
+
+            StartCoroutine(SimulateProgressCoroutine(targetProgress, duration));
         }
         else
         {
-            StopCoroutine(AnimateLoadingText()); // Stop the loading text animation
+            StopLoadingAnimation(); // Stop the loading text animation
             StartCoroutine(FadeOutLoadingScreen()); // Start fading out the loading screen
+        }
+    }
+
+    private void StartLoadingAnimation() => animateLoadingTextCoroutine = StartCoroutine(AnimateLoadingText());
+
+    private void StopLoadingAnimation()
+    {
+        if (animateLoadingTextCoroutine != null)
+        {
+            StopCoroutine(animateLoadingTextCoroutine);
+            animateLoadingTextCoroutine = null; // Clear the reference
         }
     }
 
@@ -150,8 +170,10 @@ public class UISystem : MonoBehaviour
             yield return null;
         }
 
+        // Ensure the coroutine is stopped when loading screen is about to be hidden
+        StopLoadingAnimation();
+
         loadingScreen.SetActive(false);
-        StopCoroutine(AnimateLoadingText()); // Ensure the coroutine is stopped when loading screen is hidden
         _canvasGroup.alpha = 1.0f;
         inputManager.EnableAllInputs();
     }
@@ -161,19 +183,32 @@ public class UISystem : MonoBehaviour
         float startTime = Time.time;
         float startProgress = progressBar.value;
         float endTime = startTime + duration;
+        bool loadingComplete = false;
 
-        while (Time.time < endTime)
+        // Start the loading animation in parallel
+        StartLoadingAnimation();
+
+        while (Time.time < endTime || !loadingComplete)
         {
             float elapsed = Time.time - startTime;
             progressBar.value = Mathf.Lerp(startProgress, targetProgress, elapsed / duration);
+
+            // Check if the progress bar has reached the target progress
+            if (progressBar.value >= targetProgress)
+            {
+                loadingComplete = true;
+            }
 
             yield return null;
         }
 
         progressBar.value = targetProgress;
+
+        // Ensure the loading animation coroutine is stopped once loading is complete
+        StopLoadingAnimation();
     }
 
-    #endregion Interaction UI
+    #endregion Loading UI
 
     #region Pause
 

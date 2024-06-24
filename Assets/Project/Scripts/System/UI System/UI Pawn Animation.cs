@@ -22,7 +22,10 @@ public class UIPawnAnimation : MonoBehaviour
     private void SetFootprintsInvisible()
     {
         foreach (var footprint in footprints)
-            footprint.color = new Color(footprint.color.r, footprint.color.g, footprint.color.b, 0);
+        {
+            if (footprint != null) // Check if the footprint is not null
+                footprint.color = new Color(footprint.color.r, footprint.color.g, footprint.color.b, 0);
+        }
     }
 
     private IEnumerator AnimateFootprints()
@@ -57,7 +60,6 @@ public class UIPawnAnimation : MonoBehaviour
                     if (footprints[0] != null)
                     {
                         // Ensure the first footprint starts fading in before the last one fades out completely
-                        // This prevents snapping
                         footprints[0].DOFade(1f, fadeDuration).SetEase(Ease.Linear);
                     }
 
@@ -65,6 +67,15 @@ public class UIPawnAnimation : MonoBehaviour
                     yield return waitForSeconds;
                 }
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Ensure to kill all DOTween animations to stop them before destroying the object
+        foreach (var footprint in footprints)
+        {
+            if (footprint != null) footprint.DOKill();
         }
     }
 }

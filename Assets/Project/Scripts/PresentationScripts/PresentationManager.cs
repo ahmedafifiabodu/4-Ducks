@@ -12,7 +12,7 @@ public class PresentationManager : MonoBehaviour
     {
         if (_cameras != null)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.M))
             {
                 if (_currentCam < _cameras.Count - 1)
                 {
@@ -21,7 +21,7 @@ public class PresentationManager : MonoBehaviour
                     OpenCamera();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetKeyDown(KeyCode.N))
             {
                 if (_currentCam > 0 && _currentCam <= _cameras.Count)
                 {
@@ -30,7 +30,7 @@ public class PresentationManager : MonoBehaviour
                     OpenCamera();
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.J))
             {
                 _cameras[_currentCam].CamEvent.Invoke();
             }
