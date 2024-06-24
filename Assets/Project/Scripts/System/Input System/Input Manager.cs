@@ -1,16 +1,22 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
     private InputSystem _input;
-    private GhostInputSystem _ghostInput;
     internal InputSystem.CatActions CatActions { get; private set; }
-    internal GhostInputSystem.GhostActions GhostActions { get; private set; }
+    internal InputSystem.GhostActions GhostActions { get; private set; }
     internal InputSystem.PossessTurretActions PossessTurretActions { get; private set; }
     internal InputSystem.PossessMovableObjectActions PossessMovableObjectActions { get; private set; }
     internal InputSystem.PossessCatActions PossessCatActions { get; private set; }
     internal InputSystem.DialogActions DialogActions { get; private set; }
     internal InputSystem.PauseActions PauseActions { get; private set; }
+
+    internal CatController CatController { get; private set; }
+    internal GhostController GhostController { get; private set; }
+
+    private Gamepad catGamepad;
+    private Gamepad ghostGamepad;
 
     private ServiceLocator _serviceLocator;
 
@@ -20,25 +26,36 @@ public class InputManager : MonoBehaviour
         _serviceLocator.RegisterService(this, true);
 
         _input = new InputSystem();
-        _ghostInput = new GhostInputSystem();
 
-        CatActions = _input.Cat;
-        GhostActions = _ghostInput.Ghost;
-        PossessTurretActions = _input.PossessTurret;
-        PossessMovableObjectActions = _input.PossessMovableObject;
-        PossessCatActions = _input.PossessCat;
-        DialogActions = _input.Dialog;
-        PauseActions = _input.Pause;
+        // Initialize actions
+        InitializeActions();
 
-        PossessTurretActions.Disable();
-        PossessMovableObjectActions.Disable();
-        PossessCatActions.Disable();
-        DialogActions.Disable();
+        // Disable some actions initially
+        DisableSomeActions();
     }
 
     private void OnEnable() => _input.Enable();
 
     private void OnDisable() => _input?.Disable();
+
+    private void InitializeActions()
+    {
+        CatActions = _input.Cat;
+        GhostActions = _input.Ghost;
+        PossessTurretActions = _input.PossessTurret;
+        PossessMovableObjectActions = _input.PossessMovableObject;
+        PossessCatActions = _input.PossessCat;
+        DialogActions = _input.Dialog;
+        PauseActions = _input.Pause;
+    }
+
+    private void DisableSomeActions()
+    {
+        PossessTurretActions.Disable();
+        PossessMovableObjectActions.Disable();
+        PossessCatActions.Disable();
+        DialogActions.Disable();
+    }
 
     // Disable all inputs except Pause
     internal void DisableAllInputsExceptPause()

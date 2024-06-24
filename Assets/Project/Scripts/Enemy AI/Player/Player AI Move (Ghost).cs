@@ -100,8 +100,8 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
 
         _inputManager.GhostActions.Move.started += _startMoveAction;
         _inputManager.GhostActions.Move.canceled += _stopMoveAction;
-        _inputManager.GhostActions.Fly.started += _startFlyAction;
-        _inputManager.GhostActions.Fly.canceled += _stopFlyAction;
+        _inputManager.GhostActions.Ascend.started += _startFlyAction;
+        _inputManager.GhostActions.Ascend.canceled += _stopFlyAction;
         _inputManager.GhostActions.Dash.started += _dashAction;
     }
 
@@ -111,8 +111,8 @@ public class PlayerNewMovmentSystemGhost : MonoBehaviour, ICharacterController
     {
         _inputManager.GhostActions.Move.started -= _startMoveAction;
         _inputManager.GhostActions.Move.canceled -= _stopMoveAction;
-        _inputManager.GhostActions.Fly.started -= _startFlyAction;
-        _inputManager.GhostActions.Fly.canceled -= _stopFlyAction;
+        _inputManager.GhostActions.Ascend.started -= _startFlyAction;
+        _inputManager.GhostActions.Ascend.canceled -= _stopFlyAction;
     }
 
     private void Update()
