@@ -14,8 +14,15 @@ public class UIPawnAnimation : MonoBehaviour
 
     private void Start()
     {
+        SetFootprintsInvisible(); // Make all footprints invisible at the start
         waitForSeconds = new WaitForSeconds(fadeDuration + delayBetweenFootprints);
         StartCoroutine(AnimateFootprints());
+    }
+
+    private void SetFootprintsInvisible()
+    {
+        foreach (var footprint in footprints)
+            footprint.color = new Color(footprint.color.r, footprint.color.g, footprint.color.b, 0);
     }
 
     private IEnumerator AnimateFootprints()

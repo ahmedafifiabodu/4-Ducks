@@ -17,13 +17,18 @@ public class RoomManager : MonoBehaviour
     {
         _serviceLocator = ServiceLocator.Instance;
 
-        _cameraInstance = _serviceLocator.GetService<CameraInstance>();
+        if (_serviceLocator.TryGetService<CameraInstance>(out var cameraInstance))
+            _cameraInstance = cameraInstance;
+
+        if (_serviceLocator.TryGetService<TargetGroup>(out var targetGroup))
+            _targetGroup = targetGroup;
+
         _sceneManagement = _serviceLocator.GetService<SceneManagement>();
         _inputManager = _serviceLocator.GetService<InputManager>();
         _audioSystem = _serviceLocator.GetService<AudioSystemFMOD>();
-        _targetGroup = _serviceLocator.GetService<TargetGroup>();
 
-        _cameraInstance.ChangeCustomBlend(_cameraBlendSettings);
+        if (_cameraBlendSettings != null)
+            _cameraInstance.ChangeCustomBlend(_cameraBlendSettings);
 
         if (_sceneManagement != null)
         {
