@@ -22,7 +22,10 @@ public class UIPawnAnimation : MonoBehaviour
     private void SetFootprintsInvisible()
     {
         foreach (var footprint in footprints)
-            footprint.color = new Color(footprint.color.r, footprint.color.g, footprint.color.b, 0);
+        {
+            if (footprint != null) // Check if the footprint is not null
+                footprint.color = new Color(footprint.color.r, footprint.color.g, footprint.color.b, 0);
+        }
     }
 
     private IEnumerator AnimateFootprints()
@@ -31,13 +34,15 @@ public class UIPawnAnimation : MonoBehaviour
         {
             for (int i = 0; i < footprints.Count; i++)
             {
+                if (footprints[i] == null) continue; // Skip if the current footprint is null
+
                 // Fade in the current footprint
-                footprints[i].DOFade(1f, fadeDuration);
+                footprints[i].DOFade(1f, fadeDuration).SetEase(Ease.Linear);
 
                 // If not the first footprint, start fading out the previous footprint
-                if (i > 0)
+                if (i > 0 && footprints[i - 1] != null)
                 {
-                    footprints[i - 1].DOFade(0f, fadeDuration);
+                    footprints[i - 1].DOFade(0f, fadeDuration).SetEase(Ease.Linear);
                 }
 
                 // Wait for the fade in to complete plus the delay
@@ -46,17 +51,31 @@ public class UIPawnAnimation : MonoBehaviour
                 // Special handling for the last footprint to ensure smooth looping
                 if (i == footprints.Count - 1)
                 {
-                    // Start fading out the last footprint
-                    footprints[i].DOFade(0f, fadeDuration);
+                    if (footprints[i] != null)
+                    {
+                        // Start fading out the last footprint
+                        footprints[i].DOFade(0f, fadeDuration).SetEase(Ease.Linear);
+                    }
 
-                    // Ensure the first footprint starts fading in before the last one fades out completely
-                    // This prevents snapping
-                    footprints[0].DOFade(1f, fadeDuration);
+                    if (footprints[0] != null)
+                    {
+                        // Ensure the first footprint starts fading in before the last one fades out completely
+                        footprints[0].DOFade(1f, fadeDuration).SetEase(Ease.Linear);
+                    }
 
                     // Wait for the last fade out and the first fade in to complete before restarting the loop
                     yield return waitForSeconds;
                 }
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Ensure to kill all DOTween animations to stop them before destroying the object
+        foreach (var footprint in footprints)
+        {
+            if (footprint != null) footprint.DOKill();
         }
     }
 }

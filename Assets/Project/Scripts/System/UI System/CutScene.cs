@@ -26,17 +26,26 @@ public class Cutscene : MonoBehaviour
     private IEnumerator PlayCutscene()
     {
         // Ensure the image is transparent at the start
-        _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0);
+        if (_image != null)
+        {
+            _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0);
+        }
 
         for (int i = 0; i < _images.Count; i++)
         {
+            if (_image == null) yield break; // Stop the coroutine if _image is null
+
             _image.sprite = _images[i]; // Set the current sprite
 
             // Fade in
+            DOTween.Kill(_image); // Kill any previous DOTween animations on _image
             _image.DOFade(1, fadeDuration).SetEase(Ease.InOutQuad);
             yield return new WaitForSeconds(fadeDuration); // Wait for the fade in to complete
 
+            if (_image == null) yield break; // Check again after the fade in
+
             // Fade out
+            DOTween.Kill(_image); // Kill any previous DOTween animations on _image
             _image.DOFade(0, fadeDuration).SetEase(Ease.InOutQuad);
             yield return new WaitForSeconds(fadeDuration); // Wait for the fade out to complete
 

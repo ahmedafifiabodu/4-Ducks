@@ -63,8 +63,18 @@ public class SpawnSystem : MonoBehaviour, IDataPersistence
     // Populates the _checkpointsDictionary for efficient checkpoint lookup
     private void AddCheckPointsToDictionary()
     {
-        foreach (CheckPoint _cp in CheckPoints)
-            _checkpointsDictionary.Add(_cp.CheckPointId, _cp);
+        foreach (CheckPoint cp in CheckPoints)
+        {
+            if (!_checkpointsDictionary.ContainsKey(cp.CheckPointId))
+            {
+                _checkpointsDictionary.Add(cp.CheckPointId, cp);
+            }
+            else
+            {
+                // Log a warning or handle the duplicate key as needed
+                Logging.LogWarning($"Duplicate CheckPointId detected: {cp.CheckPointId}. CheckPoint '{cp.name}' was not added to the dictionary.");
+            }
+        }
     }
 
     private void OnEnable()
