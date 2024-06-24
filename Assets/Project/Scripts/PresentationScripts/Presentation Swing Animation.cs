@@ -28,13 +28,21 @@ public class PresentationSwingAnimation : MonoBehaviour
             _ => new Vector3(0, 0, swingAngle),
         };
 
+        // Get the current rotation of the object
+        Vector3 currentRotation = transform.eulerAngles;
+
+        // Calculate the target rotations based on the current rotation
+        Vector3 targetRotationLeft = currentRotation - rotationAxis;
+        Vector3 targetRotationRight = currentRotation + rotationAxis;
+
         // Create a sequence for the swinging animation
         Sequence swingSequence = DOTween.Sequence();
 
         // Add a rotation to the left (negative angle) and then to the right (positive angle) to the sequence
-        swingSequence.Append(transform.DORotate(-rotationAxis, swingDuration).SetEase(Ease.InOutQuad));
-        swingSequence.Append(transform.DORotate(rotationAxis * 2, swingDuration * 2).SetEase(Ease.InOutQuad));
-        swingSequence.Append(transform.DORotate(Vector3.zero, swingDuration).SetEase(Ease.InOutQuad));
+        // Adjusted to start from the current rotation
+        swingSequence.Append(transform.DORotate(targetRotationLeft, swingDuration).SetEase(Ease.InOutQuad));
+        swingSequence.Append(transform.DORotate(targetRotationRight, swingDuration * 2).SetEase(Ease.InOutQuad));
+        swingSequence.Append(transform.DORotate(currentRotation, swingDuration).SetEase(Ease.InOutQuad));
 
         // Set the sequence to loop indefinitely
         swingSequence.SetLoops(-1, LoopType.Restart);
