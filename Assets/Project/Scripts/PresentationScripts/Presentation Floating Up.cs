@@ -8,11 +8,11 @@ public class PresentationFloatingUp : MonoBehaviour
     public float hoverDistance = 0.5f; // Distance to hover up and down after reaching the target
     public float hoverDuration = 1f; // Duration for each hover cycle
 
-    private void Start()
-    {
-        // Start the floating up movement when the GameObject is enabled
-        StartMovement();
-    }
+    //private void Start()
+    //{
+    //    // Start the floating up movement when the GameObject is enabled
+    //    StartMovement();
+    //}
 
     public void StartMovement()
     {
