@@ -1,13 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PresentationManager : MonoBehaviour
 {
     [SerializeField] private List<PresentationCamera> _cameras;
+
     private int _currentCam = 0;
+
     private void Update()
     {
         if (_cameras != null)
@@ -36,6 +35,7 @@ public class PresentationManager : MonoBehaviour
             }
         }
     }
+
     private void CloseAllCamera()
     {
         foreach (PresentationCamera cam in _cameras)
@@ -43,8 +43,9 @@ public class PresentationManager : MonoBehaviour
             cam.gameObject.SetActive(false);
         }
     }
-    private void OpenCamera() 
-    { 
+
+    private void OpenCamera()
+    {
         _cameras[_currentCam].gameObject.SetActive(true);
         _cameras[_currentCam].CamEvent?.Invoke();
     }
