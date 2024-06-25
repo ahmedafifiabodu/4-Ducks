@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PresentationSwingAnimation : MonoBehaviour
 {
-    [SerializeField] private float swingDuration = 1.0f; // Duration of one swing
+    [SerializeField] private float rotationSpeed = 1.0f; // Speed of the rotation
     [SerializeField] private float swingAngle = 30.0f; // Angle of the swing
     [SerializeField] private Axis swingAxis = Axis.Z; // Default swing axis
 
@@ -35,19 +35,31 @@ public class PresentationSwingAnimation : MonoBehaviour
         Vector3 targetRotationLeft = currentRotation - rotationAxis;
         Vector3 targetRotationRight = currentRotation + rotationAxis;
 
+        // Adjust the swing duration based on the rotation speed
+        float adjustedDuration = rotationSpeed;
+
         // Create a sequence for the swinging animation
         Sequence swingSequence = DOTween.Sequence();
 
-        // Add a rotation to the left (negative angle) and then to the right (positive angle) to the sequence
-        // Adjusted to start from the current rotation
-        swingSequence.Append(transform.DORotate(targetRotationLeft, swingDuration).SetEase(Ease.InOutQuad));
-        swingSequence.Append(transform.DORotate(targetRotationRight, swingDuration * 2).SetEase(Ease.InOutQuad));
-        swingSequence.Append(transform.DORotate(currentRotation, swingDuration).SetEase(Ease.InOutQuad));
+        // Decide randomly whether to start swinging to the left or to the right
+        bool startLeft = Random.value > 0.5f;
 
-        // Set the sequence to loop indefinitely
-        swingSequence.SetLoops(-1, LoopType.Restart);
+        if (startLeft)
+        {
+            // Start swinging to the left first
+            swingSequence.Append(transform.DORotate(targetRotationLeft, adjustedDuration).SetEase(Ease.InOutQuad));
+            swingSequence.Append(transform.DORotate(targetRotationRight, adjustedDuration * 2).SetEase(Ease.InOutQuad));
+            swingSequence.Append(transform.DORotate(currentRotation, adjustedDuration).SetEase(Ease.InOutQuad));
+        }
+        else
+        {
+            // Start swinging to the right first
+            swingSequence.Append(transform.DORotate(targetRotationRight, adjustedDuration).SetEase(Ease.InOutQuad));
+            swingSequence.Append(transform.DORotate(targetRotationLeft, adjustedDuration * 2).SetEase(Ease.InOutQuad));
+            swingSequence.Append(transform.DORotate(currentRotation, adjustedDuration).SetEase(Ease.InOutQuad));
+        }
 
-        // Optional: Add a slight delay between loops to simulate the natural pause at the peak of each swing
-        swingSequence.AppendInterval(0.2f);
+        // Set the sequence to loop indefinitely using Yoyo to ensure smooth transition back and forth
+        swingSequence.SetLoops(-1, LoopType.Yoyo);
     }
 }
