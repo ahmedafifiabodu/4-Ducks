@@ -12,12 +12,6 @@ public class InputManager : MonoBehaviour
     internal InputSystem.DialogActions DialogActions { get; private set; }
     internal InputSystem.PauseActions PauseActions { get; private set; }
 
-    internal CatController CatController { get; private set; }
-    internal GhostController GhostController { get; private set; }
-
-    private Gamepad catGamepad;
-    private Gamepad ghostGamepad;
-
     private ServiceLocator _serviceLocator;
 
     private void Awake()
