@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -20,6 +21,19 @@ public class InputManager : MonoBehaviour
 
         _input = new InputSystem();
 
+        // Initialize actions
+        InitializeActions();
+
+        // Disable some actions initially
+        DisableSomeActions();
+    }
+
+    private void OnEnable() => _input.Enable();
+
+    private void OnDisable() => _input?.Disable();
+
+    private void InitializeActions()
+    {
         CatActions = _input.Cat;
         GhostActions = _input.Ghost;
         PossessTurretActions = _input.PossessTurret;
@@ -27,16 +41,15 @@ public class InputManager : MonoBehaviour
         PossessCatActions = _input.PossessCat;
         DialogActions = _input.Dialog;
         PauseActions = _input.Pause;
+    }
 
+    private void DisableSomeActions()
+    {
         PossessTurretActions.Disable();
         PossessMovableObjectActions.Disable();
         PossessCatActions.Disable();
         DialogActions.Disable();
     }
-
-    private void OnEnable() => _input.Enable();
-
-    private void OnDisable() => _input?.Disable();
 
     // Disable all inputs except Pause
     internal void DisableAllInputsExceptPause()

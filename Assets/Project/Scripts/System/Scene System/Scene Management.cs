@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour, IDataPersistence
 {
+    [SerializeField] internal bool autoStartLevel = false;
     [SerializeField] private List<Level> levels = new();
 
     private int currentLevel = 1;
@@ -24,8 +25,15 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        inputManager = ServiceLocator.Instance.GetService<InputManager>();
-        dataPersistenceManager = ServiceLocator.Instance.GetService<DataPersistenceManager>();
+        if (ServiceLocator.Instance.TryGetService<InputManager>(out var _inputManager))
+            inputManager = _inputManager;
+
+        if (ServiceLocator.Instance.TryGetService<DataPersistenceManager>(out var _dataPersistenceManager))
+            dataPersistenceManager = _dataPersistenceManager;
+
+        // Check if autoStartLevel is true, then call StartLevel
+        if (autoStartLevel)
+            StartLevel(1);
     }
 
     public void StartLevel(int _targetLevel = -1)
@@ -51,8 +59,10 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
 
         OnLevelLoading?.Invoke(true, 1f, 5f);
 
-        // Start the actual scene loading after a delay
-        StartCoroutine(StartActualLoading(levelScenes));
+        if (autoStartLevel)
+            StartActualLoadingImmediate(levelScenes);
+        else
+            StartCoroutine(StartActualLoading(levelScenes));            // Start the actual scene loading after a delay
     }
 
     private List<string> GetLevelScenes(int levelNumber)
@@ -62,6 +72,20 @@ public class SceneManagement : MonoBehaviour, IDataPersistence
                 return level.scenes;
 
         return null;
+    }
+
+    private void StartActualLoadingImmediate(List<string> scenes)
+    {
+        if (scenes.Count > 0)
+        {
+            SceneManager.LoadSceneAsync(scenes[0], LoadSceneMode.Single);
+
+            for (int i = 1; i < scenes.Count; i++)
+                SceneManager.LoadScene(scenes[i], LoadSceneMode.Additive);
+
+            // Notify UISystem that loading ends before allowing scene activation
+            OnLevelLoading?.Invoke(false, 1f, 5f); // This line should already be in place
+        }
     }
 
     private IEnumerator StartActualLoading(List<string> scenes)
